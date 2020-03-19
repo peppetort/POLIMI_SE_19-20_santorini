@@ -9,7 +9,9 @@ public class Game {
     private Player player3;
     private Board board;
 
-    public Game(String player1,String player2){
+
+
+    public Game(String player1, String player2){
         board = new Board();
         this.player1 = new Player();
         this.player2 = new Player();
@@ -69,5 +71,12 @@ public class Game {
 
     public void setPlayer3(Player player3) {
         this.player3 = player3;
+    }
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }
