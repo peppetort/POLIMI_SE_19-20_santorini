@@ -13,8 +13,8 @@ public class Board {
             }
     }
 
-    public void move(Worker w,int x,int y)
+    public void placePawn(Worker worker,int x,int y)
     {
-        board[x][y].setPawn(w);
+        board[x][y].setPawn(worker);
     }
 }

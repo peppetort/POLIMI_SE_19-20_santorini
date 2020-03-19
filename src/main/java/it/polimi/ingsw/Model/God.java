@@ -9,5 +9,5 @@ public enum God {
     HEPHASTUS,
     MINOTAUR,
     PAN,
-    PROMETEUS
+    PROMETHEUS
 }

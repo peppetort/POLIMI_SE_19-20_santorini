@@ -1,7 +1,10 @@
 package it.polimi.ingsw.Model;
 
 public class Game {
+    //TODO: public static long matchID
     private long matchID;
+    //TODO: perchè non usare delle liste per le carte e per i giocatori? Vantaggi: unico getter e ordine per gestione dei turni
+    //TODO: manca una carta
     private Card card1;
     private Card card2;
     private Player player1;
@@ -13,15 +16,15 @@ public class Game {
 
     public Game(String player1, String player2){
         board = new Board();
-        this.player1 = new Player();
-        this.player2 = new Player();
+        this.player1 = new Player(player1, this);
+        this.player2 = new Player(player2, this);
 
     }
     public Game(String player1,String player2,String player3){
         board = new Board();
-        this.player1 = new Player();
-        this.player2 = new Player();
-        this.player3 = new Player();
+        this.player1 = new Player(player1, this);
+        this.player2 = new Player(player2, this);
+        this.player3 = new Player(player3, this);
 
     }
 
@@ -29,6 +32,7 @@ public class Game {
         return matchID;
     }
 
+    //TODO: settare matchID nel costruttore?
     public void setMatchID(long matchID) {
         this.matchID = matchID;
     }
@@ -76,6 +80,7 @@ public class Game {
         return board;
     }
 
+    //TODO: settare board nel costruttore?
     public void setBoard(Board board) {
         this.board = board;
     }

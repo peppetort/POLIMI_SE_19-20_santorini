@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model;
 
-public class PrometheusMyTurn implements MyTurn {
+public class AthenaOthersTurn implements OthersTurn {
     @Override
     public void setCondition(Game game) {
 
