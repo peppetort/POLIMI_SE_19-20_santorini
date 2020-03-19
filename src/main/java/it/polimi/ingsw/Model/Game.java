@@ -7,6 +7,21 @@ public class Game {
     private Player player1;
     private Player player2;
     private Player player3;
+    private Board board;
+
+    public Game(String player1,String player2){
+        board = new Board();
+        this.player1 = new Player();
+        this.player2 = new Player();
+
+    }
+    public Game(String player1,String player2,String player3){
+        board = new Board();
+        this.player1 = new Player();
+        this.player2 = new Player();
+        this.player3 = new Player();
+
+    }
 
     public long getMatchID() {
         return matchID;
