@@ -42,4 +42,15 @@ public class Box {
     }
 
     //TODO: manca il metodo compare -> this.compare(nextBox) = true se nextBox: stesso livello || nextBox livello  + 1 || nextBox livello <
+    public boolean compare(Box other){
+        try{
+            if(this.typeOfBuilding.getValue() >= other.typeOfBuilding.getValue() || (this.typeOfBuilding.getValue() - 1) == other.typeOfBuilding.getValue()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(IllegalArgumentException e){return false;}
+    }
 }
