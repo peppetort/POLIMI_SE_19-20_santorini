@@ -1,12 +1,11 @@
 package it.polimi.ingsw.Model;
 
 public class Game {
-    //TODO: public static long matchID
+    public static long matchID
     private long matchID;
-    //TODO: perchè non usare delle liste per le carte e per i giocatori? Vantaggi: unico getter e ordine per gestione dei turni
-    //TODO: manca una carta
     private Card card1;
     private Card card2;
+    private Card card3;
     private Player player1;
     private Player player2;
     private Player player3;
@@ -14,14 +13,14 @@ public class Game {
 
 
 
-    public Game(String player1, String player2){
-        board = new Board();
+    public Game(String player1, String player2,Board board){
+        this.board = board;
         this.player1 = new Player(player1, this);
         this.player2 = new Player(player2, this);
 
     }
-    public Game(String player1,String player2,String player3){
-        board = new Board();
+    public Game(String player1,String player2,String player3,Board board){
+        this.board = board;
         this.player1 = new Player(player1, this);
         this.player2 = new Player(player2, this);
         this.player3 = new Player(player3, this);
@@ -76,12 +75,5 @@ public class Game {
     public void setPlayer3(Player player3) {
         this.player3 = player3;
     }
-    public Board getBoard() {
-        return board;
-    }
 
-    //TODO: settare board nel costruttore?
-    public void setBoard(Board board) {
-        this.board = board;
-    }
 }
