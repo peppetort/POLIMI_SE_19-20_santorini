@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model;
 
 public class Game {
-    public static long matchID
     private long matchID;
     private Card card1;
     private Card card2;
@@ -10,21 +9,21 @@ public class Game {
     private Player player2;
     private Player player3;
     private Board board;
+    private boolean simpleGame;
 
 
-
-    public Game(String player1, String player2,Board board){
+    public Game(String player1, String player2,Board board,boolean simpleGame){
         this.board = board;
+        this.simpleGame = simpleGame;
         this.player1 = new Player(player1, this);
         this.player2 = new Player(player2, this);
-
     }
-    public Game(String player1,String player2,String player3,Board board){
+    public Game(String player1,String player2,String player3,Board board,boolean simpleGame){
         this.board = board;
+        this.simpleGame = simpleGame;
         this.player1 = new Player(player1, this);
         this.player2 = new Player(player2, this);
         this.player3 = new Player(player3, this);
-
     }
 
     public long getMatchID() {
@@ -41,7 +40,12 @@ public class Game {
     }
 
     public void setCard1(Card card1) {
-        this.card1 = card1;
+        if(!simpleGame){
+            this.card1 = card1;
+        }
+        else{
+            throw new RuntimeException("Gioco senza carte");
+        }
     }
 
     public Card getCard2() {
@@ -49,7 +53,25 @@ public class Game {
     }
 
     public void setCard2(Card card2) {
-        this.card2 = card2;
+
+        if(!simpleGame){
+            this.card1 = card2;
+        }
+        else{
+            throw new RuntimeException("Gioco senza carte");
+        }
+    }
+    public Card getCard3() {
+        return card2;
+    }
+
+    public void setCard3(Card card3) {
+        if(!simpleGame){
+            this.card1 = card3;
+        }
+        else{
+            throw new RuntimeException("Gioco senza carte");
+        }
     }
 
     public Player getPlayer1() {
@@ -75,5 +97,7 @@ public class Game {
     public void setPlayer3(Player player3) {
         this.player3 = player3;
     }
+
+    public boolean isSimple(){return this.simpleGame;}
 
 }
