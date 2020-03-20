@@ -12,7 +12,7 @@ public class Board {
                 board[x][y]=new Box();
             }
     }
-
+//TODO: FARE OVERLOAD CON ANCHE LE COORDINATE PRECEDENTI IN MODO DA LIBERARE LA CASELLA PRECEDENTE
     public void placePawn(Worker worker,int x,int y)
     {
         board[x][y].setPawn(worker);

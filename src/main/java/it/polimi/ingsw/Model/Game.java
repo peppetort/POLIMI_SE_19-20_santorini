@@ -30,7 +30,7 @@ public class Game {
         return matchID;
     }
 
-    //TODO: settare matchID nel costruttore?
+
     public void setMatchID(long matchID) {
         this.matchID = matchID;
     }
@@ -100,4 +100,7 @@ public class Game {
 
     public boolean isSimple(){return this.simpleGame;}
 
+    public Board getBoard() {
+        return board;
+    }
 }

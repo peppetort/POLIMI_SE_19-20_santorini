@@ -40,4 +40,6 @@ public class Box {
     {
         return true;
     }
+
+    //TODO: manca il metodo compare -> this.compare(nextBox) = true se nextBox: stesso livello || nextBox livello  + 1 || nextBox livello <
 }
