@@ -2,9 +2,12 @@ package it.polimi.ingsw.Model;
 
 public class Game {
     private long matchID;
+    //TODO: ArrayList<Card> Deck
+    //TODO: ArrayList<Card> istanze
     private Card card1;
     private Card card2;
     private Card card3;
+    //TODO: ArrayList<Player>
     private Player player1;
     private Player player2;
     private Player player3;
@@ -48,6 +51,9 @@ public class Game {
         }
     }
 
+    //TODO: sostituire i setter delle cards con addCard(card:Card):void
+
+    //TODO: unico getter per Card
     public Card getCard2() {
         return card2;
     }
@@ -74,6 +80,7 @@ public class Game {
         }
     }
 
+    //TODO: unico getter per Player
     public Player getPlayer1() {
         return player1;
     }

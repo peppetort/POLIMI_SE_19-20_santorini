@@ -12,9 +12,12 @@ public class Board {
                 board[x][y]=new Box();
             }
     }
-//TODO: FARE OVERLOAD CON ANCHE LE COORDINATE PRECEDENTI IN MODO DA LIBERARE LA CASELLA PRECEDENTE
-    public void placePawn(Worker worker,int x,int y)
+
+    //TODO: fare metodo getBox(x:int, y:int):Box
+
+    public void placePawn(Worker worker,int x,int y) throws IndexOutOfBoundsException
     {
         board[x][y].setPawn(worker);
+        //TODO: controllare che x e y non siano fuori dai limiti della board
     }
 }
