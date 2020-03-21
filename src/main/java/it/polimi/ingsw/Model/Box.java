@@ -18,29 +18,34 @@ public class Box {
         this.pawn=pawn;
     }
 
-    //TODO: fare metodo removePawn():void
+    //TODO: fare metodo removePawn():void   FATTO
+    public void removePawn()
+    {
+        pawn=null;
+    }
 
     public Block getBlock(){return typeOfBuilding;}
 
-    //TODO: setTypeOfBuilding fa quello che dovrebbe fare build
-    public void setTypeOfBuilding(Block typeOfBuilding) {
-        this.typeOfBuilding = typeOfBuilding;
-    }
-    public boolean build(Block b)
-    {
-        return true;
+    //TODO: setTypeOfBuilding fa quello che dovrebbe fare build FATTO
+    public void build(Block b) {
+        this.typeOfBuilding = b;
     }
 
-    //TODO: isFree controlla che pawn!=null
+
+    //TODO: isFree controlla che pawn!=null    FATTO
     public boolean isFree()
     {
-        return true;
+        if(pawn==null)
+            return true;
+        return false;
     }
 
-    //TODO: canBuild controlla che typeOfBuilding!=DOME
+    //TODO: canBuild controlla che typeOfBuilding!=DOME  FATTO
     public boolean canBuild(Block block)
     {
-        return true;
+        if(typeOfBuilding!=DOME)
+            return true;
+        return false;
     }
 
     public boolean compare(Box other){
