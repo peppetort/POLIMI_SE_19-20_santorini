@@ -1,16 +1,12 @@
 package it.polimi.ingsw.Model;
 
+import java.util.ArrayList;
+
 public class Game {
     private long matchID;
-    //TODO: ArrayList<Card> Deck
-    //TODO: ArrayList<Card> istanze
-    private Card card1;
-    private Card card2;
-    private Card card3;
-    //TODO: ArrayList<Player>
-    private Player player1;
-    private Player player2;
-    private Player player3;
+    private ArrayList<Player> players = new ArrayList<Player>();    //lista dei player
+    private ArrayList<Card> deck = new ArrayList<Card>();           //lista di tutte le carte divinità disponibili
+    private ArrayList<Card> cards = new ArrayList<Card>();          //list delle carte selezionate dai player
     private Board board;
     private boolean simpleGame;
 
@@ -18,15 +14,21 @@ public class Game {
     public Game(String player1, String player2,Board board,boolean simpleGame){
         this.board = board;
         this.simpleGame = simpleGame;
-        this.player1 = new Player(player1, this);
-        this.player2 = new Player(player2, this);
+        players.add(new Player(player1,this));
+        players.add(new Player(player2,this));
+        for(God g: God.values()){
+            deck.add(new Card(g));
+        }
     }
     public Game(String player1,String player2,String player3,Board board,boolean simpleGame){
         this.board = board;
         this.simpleGame = simpleGame;
-        this.player1 = new Player(player1, this);
-        this.player2 = new Player(player2, this);
-        this.player3 = new Player(player3, this);
+        players.add(new Player(player1,this));
+        players.add(new Player(player2,this));
+        players.add(new Player(player3,this));
+        for(God g: God.values()){
+            deck.add(new Card(g));
+        }
     }
 
     public long getMatchID() {
@@ -38,72 +40,25 @@ public class Game {
         this.matchID = matchID;
     }
 
-    public Card getCard1() {
-        return card1;
+
+    public void addCard(Card card){
+        if(deck.contains(card) && !simpleGame) {
+            cards.add(card);
+        }else{throw new RuntimeException("Carta inesistente / Gioco senza Carte");}
     }
 
-    public void setCard1(Card card1) {
-        if(!simpleGame){
-            this.card1 = card1;
-        }
-        else{
-            throw new RuntimeException("Gioco senza carte");
-        }
+
+    public ArrayList<Card> getCards(){
+        ArrayList<Card> clonedCards = new ArrayList<>(cards.size());
+        clonedCards.addAll(cards);
+        return clonedCards;
+    }
+    public ArrayList<Player> getPlayers(){
+        ArrayList<Player> clonedPlayers = new ArrayList<>(players.size());
+        clonedPlayers.addAll(players);
+        return clonedPlayers;
     }
 
-    //TODO: sostituire i setter delle cards con addCard(card:Card):void
-
-    //TODO: unico getter per Card
-    public Card getCard2() {
-        return card2;
-    }
-
-    public void setCard2(Card card2) {
-
-        if(!simpleGame){
-            this.card1 = card2;
-        }
-        else{
-            throw new RuntimeException("Gioco senza carte");
-        }
-    }
-    public Card getCard3() {
-        return card2;
-    }
-
-    public void setCard3(Card card3) {
-        if(!simpleGame){
-            this.card1 = card3;
-        }
-        else{
-            throw new RuntimeException("Gioco senza carte");
-        }
-    }
-
-    //TODO: unico getter per Player
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
-    }
-
-    public Player getPlayer2() {
-        return player2;
-    }
-
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
-    }
-
-    public Player getPlayer3() {
-        return player3;
-    }
-
-    public void setPlayer3(Player player3) {
-        this.player3 = player3;
-    }
 
     public boolean isSimple(){return this.simpleGame;}
 
