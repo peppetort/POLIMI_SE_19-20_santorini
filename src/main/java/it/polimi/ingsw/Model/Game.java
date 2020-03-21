@@ -42,9 +42,19 @@ public class Game {
 
 
     public void addCard(Card card){
-        if(deck.contains(card) && !simpleGame) {
-            cards.add(card);
-        }else{throw new RuntimeException("Carta inesistente / Gioco senza Carte");}
+        if(cards.size() < players.size()) {
+            if(!simpleGame) {
+                for(Card c: cards){
+                    if(c.getName()==card.getName()){
+                        throw new RuntimeException("Carta già inserita");
+                    }
+                }
+                cards.add(card);
+            }else{throw new RuntimeException("Gioco senza Carte");}
+        }
+        else{
+            throw new RuntimeException("non si possono aggiungere ulteriori carte");
+        }
     }
 
 
