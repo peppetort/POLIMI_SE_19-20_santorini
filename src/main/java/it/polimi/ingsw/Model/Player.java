@@ -62,7 +62,7 @@ public class Player {
                 break;
             case ARTEMIS:
                 winAction = new DefaultWin(this);
-                moveAction = new ArtemisMove();
+                //moveAction = new ArtemisMove();
                 buildAction = new DefaultBuild(this);
                 break;
             case ATHENA:
