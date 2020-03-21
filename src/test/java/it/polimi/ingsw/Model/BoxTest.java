@@ -115,8 +115,11 @@ public class BoxTest {
     public void compareFalse2() {
         Box b1 =new Box();
         Box b2 =new Box();
+       // Box b3;//=new Box();
+       // b3=null;
         b1.build(Block.DOME);
         b2.build(Block.LTHREE);
         assertEquals(false,b2.compare(b1));
+       // assertEquals(false,b2.compare(b3));
     }
 }
