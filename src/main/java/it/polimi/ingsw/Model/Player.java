@@ -91,7 +91,7 @@ public class Player {
                 buildAction = new DefaultBuild(this);
                 break;
             case PAN:
-                winAction = new PanWin();
+                winAction = new PanWin(this);
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
                 break;
