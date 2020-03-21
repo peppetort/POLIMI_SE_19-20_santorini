@@ -32,19 +32,22 @@ public class ApolloMove implements Move {
             }else{
                 if(!nextBox.isFree()){
                     Worker other = nextBox.getPawn();
-                    // Controllo che l'altra pedina è una pedina avversaria
+                    // Controllo se l'altra pedina è una pedina avversaria
                     if(other.getId() != player.getWorker1().getId() && other.getId() != player.getWorker2().getId()){
-                        board.placePawn(other, wX, wY); //posiziono la pedina avversaria nella mia posizione
-                        other.setPos(wX, wY); //aggiorno coordinate pedina avversaria
-                        board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
-                        worker.setPos(x, y); //aggiorno coordinate pedona
+                        board.placePawn(other, wX, wY);         //posiziono la pedina avversaria nella mia posizione
+                        other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
+                        other.setPos(wX, wY);                   // aggiorno coordinate pedina avversaria
+                        board.placePawn(worker, x, y);          // posiziono la mia pedina nella nuova posizione
+                        worker.updateLastBox(workerBox);        // aggiorno l'ultima box della mia pedina
+                        worker.setPos(x, y);                    //aggiorno coordinate pedona
                     }else {
                         throw new RuntimeException("Can't place pawn here!");
                     }
                 }else {
                     board.placePawn(worker, x, y);
-                    workerBox.removePawn(); //rimuovo pedina dalla vecchia pos
-                    worker.setPos(x, y);   //aggiorno cordinate pedina
+                    workerBox.removePawn();                     // rimuovo pedina dalla vecchia pos
+                    worker.updateLastBox(workerBox);            // aggiorno l'ultima box nel worker
+                    worker.setPos(x, y);                        // aggiorno cordinate pedina
                 }
             }
         }catch (IndexOutOfBoundsException e){

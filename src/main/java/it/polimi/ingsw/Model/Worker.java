@@ -6,6 +6,7 @@ public class Worker {
     //da recuperarla più velocemente all'occorrenza
     private int x;
     private int y;
+    private Box lastBox;
 
     public Worker(int id){
         this.id = id;
@@ -26,5 +27,13 @@ public class Worker {
 
     public int getYPos(){
         return this.y;
+    }
+
+    public Box getLastBox(){ return this.lastBox; }
+
+    public void updateLastBox(Box box){
+        lastBox = new Box();
+        lastBox.setPawn(box.getPawn());
+        lastBox.build(box.getBlock());
     }
 }

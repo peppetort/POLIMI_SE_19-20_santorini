@@ -78,12 +78,12 @@ public class Player {
             case DEMETER:
                 winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
-                buildAction = new DemeterBuild();
+                //buildAction = new DemeterBuild();
                 break;
             case HEPHASTUS:
                 winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
-                buildAction = new HephaestusBuild();
+                //buildAction = new HephaestusBuild();
                 break;
             case MINOTAUR:
                 winAction = new DefaultWin(this);
