@@ -16,8 +16,8 @@ public class Player {
 
     public Player(String username, Game session){
         this.username = username;
-        this.worker1 = new Worker(1);
-        this.worker2 = new Worker(2);
+        this.worker1 = new Worker(username+"1");
+        this.worker2 = new Worker(username+"2");
         this.session = session;
 
         //Modalità di gioco senza carte

@@ -10,14 +10,14 @@ public class BoxTest {
 
     @Test
     public void getPawn() {
-        Worker w=new Worker(1);
+        Worker w=new Worker("1");
         b.setPawn(w);
         assertEquals(b.getPawn(),w);
     }
 
     @Test
     public void removePawn() {
-        Worker w=new Worker(1);
+        Worker w=new Worker("1");
         b.setPawn(w);
         b.removePawn();
         assertEquals(null,b.getPawn());
@@ -39,7 +39,7 @@ public class BoxTest {
         assertEquals(true,b.isFree());
     }
     public void isFreeNo() {
-        Worker w=new Worker(1);
+        Worker w=new Worker("1");
         b.setPawn(w);
         assertEquals(false,b.isFree());
     }

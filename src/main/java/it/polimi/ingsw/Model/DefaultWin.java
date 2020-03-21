@@ -14,11 +14,17 @@ public class DefaultWin implements Win{
 
     @Override
     public boolean winChecker() {
-        int w1X = worker1.getXPos();
-        int w1Y = worker1.getYPos();
-        int w2X = worker2.getXPos();
-        int w2Y = worker2.getYPos();
 
-        return board.getBox(w1X, w1Y).getBlock() == Block.LTHREE || board.getBox(w2X, w2Y).getBlock() == Block.LTHREE;
+        try{
+            int w1X = worker1.getXPos();
+            int w1Y = worker1.getYPos();
+            int w2X = worker2.getXPos();
+            int w2Y = worker2.getYPos();
+
+            return board.getBox(w1X, w1Y).getBlock() == Block.LTHREE || board.getBox(w2X, w2Y).getBlock() == Block.LTHREE;
+
+        }catch (NullPointerException e){
+            return false;
+        }
     }
 }
