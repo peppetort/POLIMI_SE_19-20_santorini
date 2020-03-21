@@ -19,12 +19,24 @@ public class PanWin extends DefaultWin {
         if(super.winChecker()){
             return true;
         }else {
-            Box w1LastBox = worker1.getLastBox();
-            Box w1ActualBox = board.getBox(worker1.getXPos(), worker1.getYPos());
-            Box w2LastBox = worker2.getLastBox();
-            Box w2ActualBox = board.getBox(worker2.getXPos(), worker2.getYPos());
+            try {
+                Box w1LastBox = worker1.getLastBox();
+                Box w1ActualBox = board.getBox(worker1.getXPos(), worker1.getYPos());
+                Box w2LastBox = worker2.getLastBox();
+                Box w2ActualBox = board.getBox(worker2.getXPos(), worker2.getYPos());
 
-            return w1LastBox.getDifference(w1ActualBox) == 2 || w2LastBox.getDifference(w2ActualBox) == 2;
+                if(w1LastBox == null && w2LastBox != null){
+                    return w2LastBox.getDifference(w2ActualBox) == 2;
+                }else if(w1LastBox != null && w2LastBox == null){
+                    return w1LastBox.getDifference(w1ActualBox) == 2;
+                }else if(w1LastBox != null){
+                    return w1LastBox.getDifference(w1ActualBox) == 2 || w2LastBox.getDifference(w2ActualBox) == 2;
+                }else {
+                    throw new NullPointerException("No Last Box!");
+                }
+            }catch (NullPointerException e){
+                return false;
+            }
         }
     }
 }

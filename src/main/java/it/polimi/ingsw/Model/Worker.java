@@ -1,35 +1,52 @@
 package it.polimi.ingsw.Model;
 
 public class Worker {
-    private int id;
+    private String id;
     //Memorizzo la posizone della pedina in modo
     //da recuperarla più velocemente all'occorrenza
-    private int x;
-    private int y;
+    private Integer x;
+    private Integer y;
     private Box lastBox;
 
-    public Worker(int id){
+    public Worker(String id){
         this.id = id;
+        this.x = null;
+        this.y = null;
+        this.lastBox = null;
     }
 
-    public int getId(){
+    public String getId(){
         return this.id;
     }
 
     public void setPos(int x, int y){
-        this.x = x;
-        this.y = y;
+        if(x>=0 && x<5 && y>=0 && y<5) {
+            this.x = x;
+            this.y = y;
+        }else {
+            throw new IndexOutOfBoundsException("Invalid index!");
+        }
     }
 
     public int getXPos(){
-        return this.x;
+        if(this.x == null){
+            throw new NullPointerException("Position not Initialized!");
+        }else {
+            return this.x;
+        }
     }
 
     public int getYPos(){
-        return this.y;
+        if(this.y == null){
+            throw new NullPointerException("Position not Initialized!");
+        }else {
+            return this.y;
+        }
     }
 
-    public Box getLastBox(){ return this.lastBox; }
+    public Box getLastBox(){
+        return this.lastBox;
+    }
 
     public void updateLastBox(Box box){
         lastBox = new Box();

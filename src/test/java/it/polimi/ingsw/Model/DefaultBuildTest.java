@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 public class DefaultBuildTest {
 
+<<<<<<< HEAD
     @Test (expected = RuntimeException.class)
     public void build() {
         Board board = new Board();

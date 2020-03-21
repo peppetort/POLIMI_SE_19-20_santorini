@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 public class DefaultMoveTest {
 
+<<<<<<< HEAD
     @Test(expected = RuntimeException.class)
     public void move() {
         Board board = new Board();
@@ -187,6 +188,7 @@ public class DefaultMoveTest {
         assertEquals(4,worker.getXPos());
         assertEquals(4,worker.getYPos());
         assertEquals(worker,board.getBox(4,4).getPawn());
+
 
     }
 }

@@ -11,10 +11,13 @@ public class GameTest {
     @Test(expected = RuntimeException.class)
     public void getCards() {
             Board board = new Board();
+            Card c;
             Card c1 = new Card(God.PAN);
             Card c2 = new Card(God.APOLLO);
             Card c3 = new Card(God.ARTEMIS);
             ArrayList<Card> cards;
+        ArrayList<Card> cards1;
+            cards.add(c);
             Game game = new Game("Marco","Giuseppe",board,false);
             game.addCard(c1);
             game.addCard(c2);

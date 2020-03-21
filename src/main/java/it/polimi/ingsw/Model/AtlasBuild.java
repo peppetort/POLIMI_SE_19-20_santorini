@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model;
 
 //TODO: ho esteso la classe di Default (discutere)
-public class AtlasBuild extends DefaultBuild {
+public class AtlasBuild extends DefaultBuild{
 
     private Board board;
 
@@ -11,9 +11,9 @@ public class AtlasBuild extends DefaultBuild {
     }
 
     public void buildDome(int x, int y){
-        Box box = board.getBox(x, y);
-
         try {
+            Box box = board.getBox(x, y);
+
             switch (box.getBlock()){
                 case TERRAIN:
                 case LONE:

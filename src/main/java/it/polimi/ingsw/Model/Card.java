@@ -9,8 +9,4 @@ public class Card {
     public God getName() {
         return name;
     }
-
-    public void setName(God name) {
-        this.name = name;
-    }
 }
