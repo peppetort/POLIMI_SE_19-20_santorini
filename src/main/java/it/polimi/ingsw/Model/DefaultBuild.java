@@ -15,20 +15,19 @@ public class DefaultBuild implements Build {
         try {
                 switch (box.getBlock()){
                     case TERRAIN:
-                        box.setTypeOfBuilding(Block.LONE);
+                        box.build(Block.LONE);
                         break;
                     case LONE:
-                        box.setTypeOfBuilding(Block.LTWO);
+                        box.build(Block.LTWO);
                         break;
                     case LTWO:
-                        box.setTypeOfBuilding(Block.LTHREE);
+                        box.build(Block.LTHREE);
                         break;
                     case LTHREE:
-                        box.setTypeOfBuilding(Block.DOME);
+                        box.build(Block.DOME);
                         break;
                     case DOME:
                         throw new RuntimeException("Can't build here! There is a DOME");
-                        break;
                     default:
                         throw new RuntimeException("Unexpected case!");
                 }

@@ -13,7 +13,6 @@ public class Board {
             }
     }
 
-    //TODO: fare metodo getBox(x:int, y:int):Box     FATTO
     public Box getBox(int x,int y)
     {
         return board[x][y];
@@ -25,6 +24,5 @@ public class Board {
             throw new IndexOutOfBoundsException("Wrong coordinates");
         else
             board[x][y].setPawn(worker);
-        //TODO: controllare che x e y non siano fuori dai limiti della board FATTO
     }
 }

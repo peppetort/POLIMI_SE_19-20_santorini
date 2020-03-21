@@ -26,10 +26,8 @@ public class DefaultMove implements Move {
                 throw new RuntimeException("Level not compatible!");
             }else{
                 board.placePawn(worker, x, y);
-                //rimuovo pedina dalla vecchia pos
-                workerBox.removePawn();
-                //aggiorno cordinate pedina
-                worker.setPos(x, y);
+                workerBox.removePawn();  //rimuovo pedina dalla vecchia pos
+                worker.setPos(x, y);    //aggiorno cordinate pedina
             }
         }catch (IndexOutOfBoundsException e){
             System.out.println("Out of board limits");

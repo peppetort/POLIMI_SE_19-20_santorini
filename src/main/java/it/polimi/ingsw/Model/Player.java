@@ -57,7 +57,7 @@ public class Player {
         switch (card.getName()){
             case APOLLO:
                 winAction = new DefaultWin(this);
-                moveAction = new ApolloMove();
+                moveAction = new ApolloMove(this);
                 buildAction = new DefaultBuild(this);
                 break;
             case ARTEMIS:
@@ -73,7 +73,7 @@ public class Player {
             case ATLAS:
                 winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
-                buildAction = new AtlasBuild();
+                buildAction = new AtlasBuild(this);
                 break;
             case DEMETER:
                 winAction = new DefaultWin(this);
@@ -87,7 +87,7 @@ public class Player {
                 break;
             case MINOTAUR:
                 winAction = new DefaultWin(this);
-                moveAction = new MinotaurMove();
+                moveAction = new MinotaurMove(this);
                 buildAction = new DefaultBuild(this);
                 break;
             case PAN:

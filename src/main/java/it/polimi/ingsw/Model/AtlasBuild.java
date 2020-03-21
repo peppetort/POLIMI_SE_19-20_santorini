@@ -7,7 +7,7 @@ public class AtlasBuild extends DefaultBuild {
 
     public AtlasBuild(Player player) {
         super(player);
-        player.getSession().getBoard();
+        board = player.getSession().getBoard();
     }
 
     public void buildDome(int x, int y){
@@ -16,20 +16,13 @@ public class AtlasBuild extends DefaultBuild {
         try {
             switch (box.getBlock()){
                 case TERRAIN:
-                    box.setTypeOfBuilding(Block.DOME);
-                    break;
                 case LONE:
-                    box.setTypeOfBuilding(Block.DOME);
-                    break;
                 case LTWO:
-                    box.setTypeOfBuilding(Block.DOME);
-                    break;
                 case LTHREE:
-                    box.setTypeOfBuilding(Block.DOME);
+                    box.build(Block.DOME);
                     break;
                 case DOME:
                     throw new RuntimeException("Can't build here! There is a DOME");
-                    break;
                 default:
                     throw new RuntimeException("Unexpected case!");
             }
