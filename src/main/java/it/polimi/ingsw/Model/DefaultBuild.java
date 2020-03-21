@@ -12,7 +12,7 @@ public class DefaultBuild implements Build {
     public void build(int x, int y) {
         try {
             Box box = board.getBox(x, y);
-            
+
                 switch (box.getBlock()){
                     case TERRAIN:
                         box.build(Block.LONE);

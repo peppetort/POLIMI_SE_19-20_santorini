@@ -61,11 +61,10 @@ public class Player {
                 buildAction = new DefaultBuild(this);
                 break;
             case ARTEMIS:
-                winAction = new DefaultWin(this);
-                //moveAction = new ArtemisMove();
-                buildAction = new DefaultBuild(this);
-                break;
             case ATHENA:
+            case DEMETER:
+            case HEPHASTUS:
+            case PROMETHEUS:
                 winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
@@ -75,16 +74,6 @@ public class Player {
                 moveAction = new DefaultMove(this);
                 buildAction = new AtlasBuild(this);
                 break;
-            case DEMETER:
-                winAction = new DefaultWin(this);
-                moveAction = new DefaultMove(this);
-                //buildAction = new DemeterBuild();
-                break;
-            case HEPHASTUS:
-                winAction = new DefaultWin(this);
-                moveAction = new DefaultMove(this);
-                //buildAction = new HephaestusBuild();
-                break;
             case MINOTAUR:
                 winAction = new DefaultWin(this);
                 moveAction = new MinotaurMove(this);
@@ -92,11 +81,6 @@ public class Player {
                 break;
             case PAN:
                 winAction = new PanWin(this);
-                moveAction = new DefaultMove(this);
-                buildAction = new DefaultBuild(this);
-                break;
-            case PROMETHEUS:
-                winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
                 break;
