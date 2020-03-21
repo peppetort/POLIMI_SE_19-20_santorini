@@ -11,8 +11,6 @@ public class Player {
 
     //Classi delle azioni
     private Win winAction;
-    private MyTurn myTurnAction;
-    private OthersTurn othersTurnAction;
     private Move moveAction;
     private Build buildAction;
 
@@ -26,8 +24,6 @@ public class Player {
         if(!session.isSimple()){
             card = null;
             winAction = new DefaultWin(this);
-            myTurnAction = new DefaultMyTurn();
-            othersTurnAction = new DefaultOthersTurn();
             moveAction = new DefaultMove(this);
             buildAction = new DefaultBuild(this);
         }
@@ -61,64 +57,46 @@ public class Player {
         switch (card.getName()){
             case APOLLO:
                 winAction = new DefaultWin(this);
-                myTurnAction = new DefaultMyTurn();
-                othersTurnAction = new DefaultOthersTurn();
                 moveAction = new ApolloMove();
                 buildAction = new DefaultBuild(this);
                 break;
             case ARTEMIS:
                 winAction = new DefaultWin(this);
-                myTurnAction = new DefaultMyTurn();
-                othersTurnAction = new DefaultOthersTurn();
                 moveAction = new ArtemisMove();
                 buildAction = new DefaultBuild(this);
                 break;
             case ATHENA:
                 winAction = new DefaultWin(this);
-                myTurnAction = new DefaultMyTurn();
-                othersTurnAction = new AthenaOthersTurn();
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
                 break;
             case ATLAS:
                 winAction = new DefaultWin(this);
-                myTurnAction = new DefaultMyTurn();
-                othersTurnAction = new DefaultOthersTurn();
                 moveAction = new DefaultMove(this);
                 buildAction = new AtlasBuild();
                 break;
             case DEMETER:
                 winAction = new DefaultWin(this);
-                myTurnAction = new DefaultMyTurn();
-                othersTurnAction = new DefaultOthersTurn();
                 moveAction = new DefaultMove(this);
                 buildAction = new DemeterBuild();
                 break;
             case HEPHASTUS:
                 winAction = new DefaultWin(this);
-                myTurnAction = new DefaultMyTurn();
-                othersTurnAction = new DefaultOthersTurn();
                 moveAction = new DefaultMove(this);
                 buildAction = new HephaestusBuild();
                 break;
             case MINOTAUR:
                 winAction = new DefaultWin(this);
-                myTurnAction = new DefaultMyTurn();
-                othersTurnAction = new DefaultOthersTurn();
                 moveAction = new MinotaurMove();
                 buildAction = new DefaultBuild(this);
                 break;
             case PAN:
                 winAction = new PanWin();
-                myTurnAction = new DefaultMyTurn();
-                othersTurnAction = new DefaultOthersTurn();
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
                 break;
             case PROMETHEUS:
                 winAction = new DefaultWin(this);
-                myTurnAction = new PrometheusMyTurn();
-                othersTurnAction = new DefaultOthersTurn();
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
                 break;
