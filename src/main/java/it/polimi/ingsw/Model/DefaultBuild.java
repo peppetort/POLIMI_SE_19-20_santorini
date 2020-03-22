@@ -9,11 +9,20 @@ public class DefaultBuild implements Build {
     }
 
     @Override
-    public void build(int x, int y) {
+    public void build(Worker worker,int x, int y) {
         try {
             Box box = board.getBox(x, y);
-
-                switch (box.getBlock()){
+            int wX,wY;
+            wX = worker.getXPos();
+            wY= worker.getXPos();
+            if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 ) {
+                throw new RuntimeException("Impossibile costruire a due celle di distanza");
+            }
+            if(x == wX && y == wY) {
+                throw new RuntimeException("Impossibile costruire sulla stessa cella della pedina");
+            }
+            else {
+                switch (box.getBlock()) {
                     case TERRAIN:
                         box.build(Block.LONE);
                         break;
@@ -31,6 +40,7 @@ public class DefaultBuild implements Build {
                     default:
                         throw new RuntimeException("Unexpected case!");
                 }
+            }
         }catch (IndexOutOfBoundsException e){
             System.out.println("Out of board limits");
         }
