@@ -14,10 +14,8 @@ public class DefaultMoveTest {
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
-        worker.setPos(4,4);
+        board.placePawn(worker,4,4);
         mover.move(worker,4,5);
-        assertEquals(4,worker.getXPos());
-        assertEquals(4,worker.getYPos());
     }
     @Test (expected = RuntimeException.class)
     public void noMoveZero() {
@@ -27,10 +25,8 @@ public class DefaultMoveTest {
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
-        worker.setPos(4,4);
-        mover.move(worker,4,4);
-        assertEquals(4,worker.getXPos());
-        assertEquals(4,worker.getYPos());
+        board.placePawn(worker,4,4);
+        mover.move(worker,4,4);;
     }
 
     @Test
@@ -40,16 +36,26 @@ public class DefaultMoveTest {
         Player player = new Player("Marco", game);
         DefaultMove mover = new DefaultMove(player);
         Worker worker = player.getWorker1();
-        worker.setPos(0, 0);
+
+        board.placePawn(worker,0,0);
         mover.move(worker, 0, 1);
         assertEquals(0, worker.getXPos());
         assertEquals(1, worker.getYPos());
+        assertTrue(board.getBox(0,0).isFree());
+        assertEquals(worker,board.getBox(0,1).getPawn());
+
         mover.move(worker, 1, 1);
         assertEquals(1, worker.getXPos());
         assertEquals(1, worker.getYPos());
+        assertTrue(board.getBox(0,1).isFree());
+        assertEquals(worker,board.getBox(1,1).getPawn());
+
+
         mover.move(worker, 0, 0);
         assertEquals(0, worker.getXPos());
         assertEquals(0, worker.getYPos());
+        assertTrue(board.getBox(1,1).isFree());
+        assertEquals(worker,board.getBox(0,0).getPawn());
     }
 
     @Test (expected = RuntimeException.class)
@@ -70,7 +76,7 @@ public class DefaultMoveTest {
         builder.build(0,1);
         builder.build(0,1);
 
-        worker.setPos(0,0);
+        board.placePawn(worker,0,0);
         mover.move(worker,0,1);
     }
     @Test (expected = RuntimeException.class)
@@ -85,7 +91,7 @@ public class DefaultMoveTest {
         builder.build(0,1);
         builder.build(0,1);
 
-        worker.setPos(0,0);
+        board.placePawn(worker,0,0);
         mover.move(worker,0,1);
     }
     @Test
@@ -100,8 +106,10 @@ public class DefaultMoveTest {
         builder.build(0,0);
         builder.build(0,1);
 
-        worker.setPos(0,0);
+        board.placePawn(worker,0,0);
         mover.move(worker,0,1);
+        assertEquals(worker,board.getBox(0,1).getPawn());
+        assertTrue(board.getBox(0,0).isFree());
         assertEquals(0, worker.getXPos());
         assertEquals(1, worker.getYPos());
 
@@ -109,6 +117,8 @@ public class DefaultMoveTest {
         builder.build(0,2);
 
         mover.move(worker,0,2);
+        assertEquals(worker,board.getBox(0,2).getPawn());
+        assertTrue(board.getBox(0,1).isFree());
         assertEquals(0, worker.getXPos());
         assertEquals(2, worker.getYPos());
 
@@ -116,6 +126,8 @@ public class DefaultMoveTest {
         builder.build(0,3);
 
         mover.move(worker,0,3);
+        assertEquals(worker,board.getBox(0,3).getPawn());
+        assertTrue(board.getBox(0,2).isFree());
         assertEquals(0, worker.getXPos());
         assertEquals(3, worker.getYPos());
 
@@ -124,6 +136,8 @@ public class DefaultMoveTest {
         builder.build(0,4);
 
         mover.move(worker,0,4);
+        assertEquals(worker,board.getBox(0,4).getPawn());
+        assertTrue(board.getBox(0,3).isFree());
         assertEquals(0, worker.getXPos());
         assertEquals(4, worker.getYPos());
 
@@ -132,6 +146,8 @@ public class DefaultMoveTest {
         builder.build(1,4);
 
         mover.move(worker,1,4);
+        assertEquals(worker,board.getBox(1,4).getPawn());
+        assertTrue(board.getBox(0,3).isFree());
         assertEquals(1, worker.getXPos());
         assertEquals(4, worker.getYPos());
     }
@@ -154,22 +170,28 @@ public class DefaultMoveTest {
         builder.build(1,0);
         builder.build(1,0);
 
-        worker.setPos(0,0);
+        board.placePawn(worker,0,0);
         mover.move(worker,1,1);
         assertEquals(1, worker.getXPos());
         assertEquals(1, worker.getYPos());
+        assertEquals(worker,board.getBox(1,1).getPawn());
+        assertTrue(board.getBox(0,0).isFree());
         board.getBox(1,1).removePawn();
 
-        worker.setPos(0,1);
+        board.placePawn(worker,0,1);
         mover.move(worker,1,1);
         assertEquals(1, worker.getXPos());
         assertEquals(1, worker.getYPos());
+        assertEquals(worker,board.getBox(1,1).getPawn());
+        assertTrue(board.getBox(0,1).isFree());
         board.getBox(1,1).removePawn();
 
-        worker.setPos(1,0);
+        board.placePawn(worker,1,0);
         mover.move(worker,1,1);
         assertEquals(1, worker.getXPos());
         assertEquals(1, worker.getYPos());
+        assertEquals(worker,board.getBox(1,1).getPawn());
+        assertTrue(board.getBox(1,0).isFree());
     }
 
     @Test (expected = RuntimeException.class)
@@ -181,7 +203,7 @@ public class DefaultMoveTest {
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker1 = player.getWorker1();
         Worker worker2 = player.getWorker2();
-        worker1.setPos(0,0);
+        board.placePawn(worker1,0,0);
         board.placePawn(worker2,0,1);
         mover.move(worker1,0,1);
     }
