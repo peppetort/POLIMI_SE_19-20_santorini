@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Model;
 
-//TODO: ho esteso la classe di default
 public class PanWin extends DefaultWin {
 
     private Board board;
