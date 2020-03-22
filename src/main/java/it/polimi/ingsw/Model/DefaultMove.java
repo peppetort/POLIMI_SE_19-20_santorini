@@ -11,13 +11,13 @@ public class DefaultMove implements Move {
 
     @Override
     public void move(Worker worker, int x, int y) {
-        int wX = worker.getXPos();
-        int wY = worker.getYPos();
-
-        Box workerBox = board.getBox(wX, wY);
-        Box nextBox = board.getBox(x, y);
-
         try {
+            int wX = worker.getXPos();
+            int wY = worker.getYPos();
+
+            Box workerBox = board.getBox(wX, wY);
+            Box nextBox = board.getBox(x, y);
+
             if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY)){
                 throw new RuntimeException("Invalid move!");
             }else if(!nextBox.isFree()){
@@ -32,6 +32,8 @@ public class DefaultMove implements Move {
             }
         }catch (IndexOutOfBoundsException e){
             System.out.println("Out of board limits");
+        }catch (NullPointerException e){
+            System.out.println("Pawns not in board!");
         }
 
     }

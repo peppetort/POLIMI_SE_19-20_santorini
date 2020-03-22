@@ -18,13 +18,13 @@ public class MinotaurMove implements Move {
 
     @Override
     public void move(Worker worker, int x, int y) {
-        int wX = worker.getXPos();
-        int wY = worker.getYPos();
-
-        Box workerBox = board.getBox(wX, wY);
-        Box nextBox = board.getBox(x, y);
-
         try {
+            int wX = worker.getXPos();
+            int wY = worker.getYPos();
+
+            Box workerBox = board.getBox(wX, wY);
+            Box nextBox = board.getBox(x, y);
+
             if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY)){
                 throw new RuntimeException("Invalid move!");
             }else if(!workerBox.compare(nextBox)){
@@ -33,7 +33,7 @@ public class MinotaurMove implements Move {
                 if(!nextBox.isFree()) {
                     Worker other = nextBox.getPawn();
                     // Controllo se l'altra pedina è una pedina avversaria
-                    if (other.getId() != player.getWorker1().getId() && other.getId() != player.getWorker2().getId()) {
+                    if (!other.getId().equals(player.getWorker1().getId()) && !other.getId().equals(player.getWorker2().getId())) {
                         if(x == wX && y == wY+1){                       // Movimento Nord
                             if (board.getBox(x, y+1).isFree()) {
                                 board.placePawn(other, x, y+1);      //posiziono la pedina avversaria nella mia posizione
@@ -42,6 +42,7 @@ public class MinotaurMove implements Move {
                                 board.placePawn(worker, x, y);         //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
                                 worker.setPos(x, y);                    //aggiorno coordinate pedona
+                                workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
                             }
@@ -53,6 +54,7 @@ public class MinotaurMove implements Move {
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
                                 worker.setPos(x, y); //aggiorno coordinate pedona
+                                workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
                             }
@@ -64,6 +66,7 @@ public class MinotaurMove implements Move {
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
                                 worker.setPos(x, y); //aggiorno coordinate pedona
+                                workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
                             }
@@ -75,6 +78,7 @@ public class MinotaurMove implements Move {
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
                                 worker.setPos(x, y); //aggiorno coordinate pedona
+                                workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
                             }
@@ -86,6 +90,7 @@ public class MinotaurMove implements Move {
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
                                 worker.setPos(x, y); //aggiorno coordinate pedona
+                                workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
                             }
@@ -97,6 +102,7 @@ public class MinotaurMove implements Move {
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
                                 worker.setPos(x, y); //aggiorno coordinate pedona
+                                workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
                             }
@@ -108,6 +114,7 @@ public class MinotaurMove implements Move {
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
                                 worker.setPos(x, y); //aggiorno coordinate pedona
+                                workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
                             }
@@ -119,10 +126,13 @@ public class MinotaurMove implements Move {
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
                                 worker.setPos(x, y); //aggiorno coordinate pedona
+                                workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
                             }
                         }
+                    }else {
+                        throw new RuntimeException("Can't place pawn here");
                     }
                 }else {
                     board.placePawn(worker, x, y);
@@ -133,6 +143,8 @@ public class MinotaurMove implements Move {
             }
         }catch (IndexOutOfBoundsException e){
             System.out.println("Out of board limits");
+        }catch (NullPointerException e){
+            System.out.println("Pawns not in board!");
         }
     }
 }

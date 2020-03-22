@@ -10,9 +10,9 @@ public class DefaultBuild implements Build {
 
     @Override
     public void build(int x, int y) {
-        Box box = board.getBox(x, y);
-
         try {
+            Box box = board.getBox(x, y);
+
                 switch (box.getBlock()){
                     case TERRAIN:
                         box.build(Block.LONE);
@@ -35,4 +35,6 @@ public class DefaultBuild implements Build {
             System.out.println("Out of board limits");
         }
     }
+
+    void buildDome(int x, int y){};
 }

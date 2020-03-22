@@ -18,13 +18,13 @@ public class ApolloMove implements Move {
 
     @Override
     public void move(Worker worker, int x, int y) {
-        int wX = worker.getXPos();
-        int wY = worker.getYPos();
-
-        Box workerBox = board.getBox(wX, wY);
-        Box nextBox = board.getBox(x, y);
-
         try {
+            int wX = worker.getXPos();
+            int wY = worker.getYPos();
+
+            Box workerBox = board.getBox(wX, wY);
+            Box nextBox = board.getBox(x, y);
+
             if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY)){
                 throw new RuntimeException("Invalid move!");
             }else if(!workerBox.compare(nextBox)){
@@ -33,7 +33,7 @@ public class ApolloMove implements Move {
                 if(!nextBox.isFree()){
                     Worker other = nextBox.getPawn();
                     // Controllo se l'altra pedina è una pedina avversaria
-                    if(other.getId() != player.getWorker1().getId() && other.getId() != player.getWorker2().getId()){
+                    if(!other.getId().equals(player.getWorker1().getId()) && !other.getId().equals(player.getWorker2().getId())){
                         board.placePawn(other, wX, wY);         //posiziono la pedina avversaria nella mia posizione
                         other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
                         other.setPos(wX, wY);                   // aggiorno coordinate pedina avversaria
@@ -52,6 +52,8 @@ public class ApolloMove implements Move {
             }
         }catch (IndexOutOfBoundsException e){
             System.out.println("Out of board limits");
+        }catch (NullPointerException e){
+            System.out.println("Pawns not in board");
         }
     }
 }

@@ -13,18 +13,13 @@ public class Board {
             }
     }
 
-    public Box getBox(int x,int y)
+    public Box getBox(int x,int y) throws IndexOutOfBoundsException
     {
         return board[x][y];
     }
 
     public void placePawn(Worker worker,int x,int y) throws IndexOutOfBoundsException
     {
-       /* if(x<0 || x>4 || y<0 || y>4)
-            throw new IndexOutOfBoundsException("Wrong coordinates");
-        else*/
-                board[x][y].setPawn(worker);
-
-
+            board[x][y].setPawn(worker);
     }
 }
