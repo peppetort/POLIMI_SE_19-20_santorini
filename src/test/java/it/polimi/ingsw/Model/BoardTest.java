@@ -18,8 +18,10 @@ public class BoardTest {
     public void placePawn0() {
         Worker w=new Worker("1");
         Board b=new Board();
-        b.placePawn(w,2,2);
-        assertEquals(w,b.getBox(2,2).getPawn());
+        b.placePawn(w,2,3);
+        assertEquals(w,b.getBox(2,3).getPawn());
+        assertEquals(2,w.getXPos());
+        assertEquals(3,w.getYPos());
     }
     @Test (expected = IndexOutOfBoundsException.class)
     public void placePawn1() {
