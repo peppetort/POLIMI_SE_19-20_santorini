@@ -38,10 +38,8 @@ public class MinotaurMove implements Move {
                             if (board.getBox(x, y+1).isFree()) {
                                 board.placePawn(other, x, y+1);      //posiziono la pedina avversaria nella mia posizione
                                 other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                                other.setPos(x, y+1);               //aggiorno coordinate pedina avversaria
                                 board.placePawn(worker, x, y);         //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
-                                worker.setPos(x, y);                    //aggiorno coordinate pedona
                                 workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
@@ -50,10 +48,8 @@ public class MinotaurMove implements Move {
                             if (board.getBox(x, y-1).isFree()) {
                                 board.placePawn(other, x, y-1); //posiziono la pedina avversaria nella mia posizione
                                 other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                                other.setPos(x, y-1); //aggiorno coordinate pedina avversaria
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
-                                worker.setPos(x, y); //aggiorno coordinate pedona
                                 workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
@@ -62,10 +58,8 @@ public class MinotaurMove implements Move {
                             if (board.getBox(x+1, y).isFree()) {
                                 board.placePawn(other, x+1, y); //posiziono la pedina avversaria nella mia posizione
                                 other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                                other.setPos(x+1, y); //aggiorno coordinate pedina avversaria
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
-                                worker.setPos(x, y); //aggiorno coordinate pedona
                                 workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
@@ -74,10 +68,8 @@ public class MinotaurMove implements Move {
                             if (board.getBox(x-1, y).isFree()) {
                                 board.placePawn(other, x-1, y); //posiziono la pedina avversaria nella mia posizione
                                 other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                                other.setPos(x-1, y); //aggiorno coordinate pedina avversaria
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
-                                worker.setPos(x, y); //aggiorno coordinate pedona
                                 workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
@@ -86,10 +78,8 @@ public class MinotaurMove implements Move {
                             if (board.getBox(x+1, y+1).isFree()) {
                                 board.placePawn(other, x+1, y+1); //posiziono la pedina avversaria nella mia posizione
                                 other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                                other.setPos(x+1, y+1); //aggiorno coordinate pedina avversaria
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
-                                worker.setPos(x, y); //aggiorno coordinate pedona
                                 workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
@@ -98,10 +88,8 @@ public class MinotaurMove implements Move {
                             if (board.getBox(x+1, y-1).isFree()) {
                                 board.placePawn(other, x+1, y-1); //posiziono la pedina avversaria nella mia posizione
                                 other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                                other.setPos(x+1, y-1); //aggiorno coordinate pedina avversaria
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
-                                worker.setPos(x, y); //aggiorno coordinate pedona
                                 workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
@@ -110,10 +98,8 @@ public class MinotaurMove implements Move {
                             if (board.getBox(x-1, y+1).isFree()) {
                                 board.placePawn(other, x-1, y+1); //posiziono la pedina avversaria nella mia posizione
                                 other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                                other.setPos(x-1, y+1); //aggiorno coordinate pedina avversaria
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
-                                worker.setPos(x, y); //aggiorno coordinate pedona
                                 workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
@@ -122,10 +108,8 @@ public class MinotaurMove implements Move {
                             if (board.getBox(x-1, y-1).isFree()) {
                                 board.placePawn(other, x-1, y-1); //posiziono la pedina avversaria nella mia posizione
                                 other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                                other.setPos(x-1, y-1); //aggiorno coordinate pedina avversaria
                                 board.placePawn(worker, x, y); //posizione la mia pedina nella nuova posizione
                                 worker.updateLastBox(workerBox);       // aggiorno l'ultima box della mia pedina
-                                worker.setPos(x, y); //aggiorno coordinate pedona
                                 workerBox.removePawn();
                             } else {
                                 throw new RuntimeException("Opponent's worker can't back away!");
@@ -138,7 +122,6 @@ public class MinotaurMove implements Move {
                     board.placePawn(worker, x, y);
                     workerBox.removePawn(); //rimuovo pedina dalla vecchia pos
                     worker.updateLastBox(workerBox);            // aggiorno l'ultima box nel worker
-                    worker.setPos(x, y);   //aggiorno cordinate pedina
                 }
             }
         }catch (IndexOutOfBoundsException e){

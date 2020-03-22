@@ -36,10 +36,8 @@ public class ApolloMove implements Move {
                     if(!other.getId().equals(player.getWorker1().getId()) && !other.getId().equals(player.getWorker2().getId())){
                         board.placePawn(other, wX, wY);         //posiziono la pedina avversaria nella mia posizione
                         other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
-                        other.setPos(wX, wY);                   // aggiorno coordinate pedina avversaria
                         board.placePawn(worker, x, y);          // posiziono la mia pedina nella nuova posizione
                         worker.updateLastBox(workerBox);        // aggiorno l'ultima box della mia pedina
-                        worker.setPos(x, y);                    //aggiorno coordinate pedona
                     }else {
                         throw new RuntimeException("Can't place pawn here!");
                     }
@@ -47,7 +45,6 @@ public class ApolloMove implements Move {
                     board.placePawn(worker, x, y);
                     workerBox.removePawn();                     // rimuovo pedina dalla vecchia pos
                     worker.updateLastBox(workerBox);            // aggiorno l'ultima box nel worker
-                    worker.setPos(x, y);                        // aggiorno cordinate pedina
                 }
             }
         }catch (IndexOutOfBoundsException e){

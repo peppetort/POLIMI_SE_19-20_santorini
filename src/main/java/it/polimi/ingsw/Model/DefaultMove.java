@@ -28,7 +28,6 @@ public class DefaultMove implements Move {
                 board.placePawn(worker, x, y);
                 workerBox.removePawn();  //rimuovo pedina dalla vecchia pos
                 worker.updateLastBox(workerBox); // aggiorno l'ultima box nel worker
-                worker.setPos(x, y);    //aggiorno cordinate pedina
             }
         }catch (IndexOutOfBoundsException e){
             System.out.println("Out of board limits");

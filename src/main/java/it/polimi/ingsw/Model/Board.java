@@ -20,10 +20,6 @@ public class Board {
 
     public void placePawn(Worker worker,int x,int y) throws IndexOutOfBoundsException
     {
-
-       /* if(x<0 || x>4 || y<0 || y>4)
-            throw new IndexOutOfBoundsException("Wrong coordinates");
-        else*/
         board[x][y].setPawn(worker);
         worker.setPos(x,y);
     }
