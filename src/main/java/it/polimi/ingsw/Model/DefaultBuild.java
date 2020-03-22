@@ -46,6 +46,8 @@ public class DefaultBuild implements Build {
             }
         }catch (IndexOutOfBoundsException e){
             System.out.println("Out of board limits");
+        }catch (NullPointerException e){
+            System.out.println("Worker not placed!");
         }
     }
 

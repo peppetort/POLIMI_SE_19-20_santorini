@@ -14,12 +14,11 @@ public class AtlasBuild extends DefaultBuild{
             int wX = worker.getXPos();
             int wY = worker.getYPos();
 
-            if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY)) {
+            Box box = board.getBox(x, y);
+
+            if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY) || !box.isFree()) {
                 throw new RuntimeException("Invalid build!");
             }else {
-
-                Box box = board.getBox(x, y);
-
                 switch (box.getBlock()) {
                     case TERRAIN:
                     case LONE:

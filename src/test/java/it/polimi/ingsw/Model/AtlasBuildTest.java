@@ -13,7 +13,7 @@ public class AtlasBuildTest {
         Player player = game.getPlayers().get(0);
         Worker worker = player.getWorker1();
         Box box = board.getBox(0,0);
-        board.placePawn(worker, 0, 0);
+        board.placePawn(worker, 0, 1);
         Build buildAction = new AtlasBuild(player);
         ((AtlasBuild) buildAction).buildDome(worker, 0, 0);
         assertEquals(box.getBlock(), Block.DOME);
@@ -26,7 +26,7 @@ public class AtlasBuildTest {
         Player player = game.getPlayers().get(0);
         Worker worker = player.getWorker1();
         Box box = board.getBox(0,0);
-        board.placePawn(worker,0, 0);
+        board.placePawn(worker,0, 1);
         box.build(Block.DOME);
         Build buildAction = new AtlasBuild(player);
         ((AtlasBuild) buildAction).buildDome(worker, 0, 0);
@@ -39,7 +39,7 @@ public class AtlasBuildTest {
         Game game = new Game("Pippo", "Pluto", board, false);
         Player player = game.getPlayers().get(0);
         Worker worker = player.getWorker1();
-        board.placePawn(worker, 5, 0);
+        board.placePawn(worker, 4, 0);
         Build buildAction = new AtlasBuild(player);
         ((AtlasBuild) buildAction).buildDome(worker, 5, 0);
         for(int i=0; i<5; i++){
@@ -67,7 +67,6 @@ public class AtlasBuildTest {
         Game game = new Game("Pippo", "Pluto", board, false);
         Player player = game.getPlayers().get(0);
         Worker worker = player.getWorker1();
-        Box box = board.getBox(0,0);
         board.placePawn(worker, 0, 0);
         Build buildAction = new AtlasBuild(player);
         ((AtlasBuild) buildAction).buildDome(worker, 4, 4);

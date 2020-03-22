@@ -67,14 +67,14 @@ public class DefaultMoveTest {
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
 
-        builder.build(0,0);
-        builder.build(0,0);
-        builder.build(0,0);
+        builder.build(worker,0 ,0);
+        builder.build(worker,0,0);
+        builder.build(worker, 0,0);
 
-        builder.build(0,1);
-        builder.build(0,1);
-        builder.build(0,1);
-        builder.build(0,1);
+        builder.build(worker,0,1);
+        builder.build(worker,0,1);
+        builder.build(worker,0,1);
+        builder.build(worker,0,1);
 
         board.placePawn(worker,0,0);
         mover.move(worker,0,1);
@@ -88,8 +88,8 @@ public class DefaultMoveTest {
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
 
-        builder.build(0,1);
-        builder.build(0,1);
+        builder.build(worker,0,1);
+        builder.build(worker,0,1);
 
         board.placePawn(worker,0,0);
         mover.move(worker,0,1);
@@ -103,8 +103,8 @@ public class DefaultMoveTest {
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
 
-        builder.build(0,0);
-        builder.build(0,1);
+        builder.build(worker,0,0);
+        builder.build(worker,0,1);
 
         board.placePawn(worker,0,0);
         mover.move(worker,0,1);
@@ -113,8 +113,8 @@ public class DefaultMoveTest {
         assertEquals(0, worker.getXPos());
         assertEquals(1, worker.getYPos());
 
-        builder.build(0,2);
-        builder.build(0,2);
+        builder.build(worker,0,2);
+        builder.build(worker,0,2);
 
         mover.move(worker,0,2);
         assertEquals(worker,board.getBox(0,2).getPawn());
@@ -122,8 +122,8 @@ public class DefaultMoveTest {
         assertEquals(0, worker.getXPos());
         assertEquals(2, worker.getYPos());
 
-        builder.build(0,3);
-        builder.build(0,3);
+        builder.build(worker,0,3);
+        builder.build(worker,0,3);
 
         mover.move(worker,0,3);
         assertEquals(worker,board.getBox(0,3).getPawn());
@@ -131,9 +131,9 @@ public class DefaultMoveTest {
         assertEquals(0, worker.getXPos());
         assertEquals(3, worker.getYPos());
 
-        builder.build(0,4);
-        builder.build(0,4);
-        builder.build(0,4);
+        builder.build(worker,0,4);
+        builder.build(worker,0,4);
+        builder.build(worker,0,4);
 
         mover.move(worker,0,4);
         assertEquals(worker,board.getBox(0,4).getPawn());
@@ -141,9 +141,9 @@ public class DefaultMoveTest {
         assertEquals(0, worker.getXPos());
         assertEquals(4, worker.getYPos());
 
-        builder.build(1,4);
-        builder.build(1,4);
-        builder.build(1,4);
+        builder.build(worker,1,4);
+        builder.build(worker,1,4);
+        builder.build(worker,1,4);
 
         mover.move(worker,1,4);
         assertEquals(worker,board.getBox(1,4).getPawn());
@@ -161,14 +161,14 @@ public class DefaultMoveTest {
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
 
-        builder.build(0,0);
+        builder.build(worker,0,0);
 
-        builder.build(0,1);
-        builder.build(0,1);
+        builder.build(worker,0,1);
+        builder.build(worker,0,1);
 
-        builder.build(1,0);
-        builder.build(1,0);
-        builder.build(1,0);
+        builder.build(worker,1,0);
+        builder.build(worker,1,0);
+        builder.build(worker,1,0);
 
         board.placePawn(worker,0,0);
         mover.move(worker,1,1);
