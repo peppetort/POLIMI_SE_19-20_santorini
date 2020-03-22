@@ -14,8 +14,13 @@ public class Box {
 
     public Worker getPawn(){return pawn;}
 
-    public void setPawn(Worker pawn){
-        this.pawn=pawn;
+    public void setPawn(Worker pawn) //throws RuntimeException
+    {
+
+     //   if (this.pawn == null)
+            this.pawn=pawn;
+     //   else
+      //      throw new RuntimeException("This box is not empty");
     }
 
     public void removePawn()
@@ -44,9 +49,8 @@ public class Box {
     }
 
     public boolean compare(Box other){
-        try{
-            return this.getDifference(other) >= 0 || (this.getDifference(other) == -1 && other.typeOfBuilding.getValue() != 4);
-        }
-        catch(IllegalArgumentException e){return false;}
+
+        return this.getDifference(other) >= 0 || (this.getDifference(other) == -1 && other.typeOfBuilding.getValue() != 4);
+
     }
 }
