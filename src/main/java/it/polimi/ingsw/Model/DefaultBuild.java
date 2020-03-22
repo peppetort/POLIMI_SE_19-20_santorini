@@ -21,6 +21,9 @@ public class DefaultBuild implements Build {
             if(x == wX && y == wY) {
                 throw new RuntimeException("Impossibile costruire sulla stessa cella della pedina");
             }
+            if(!board.getBox(x,y).isFree()) {
+                throw new RuntimeException("Impossibile costruire sulla stessa cella di un'altra pedina");
+            }
             else {
                 switch (box.getBlock()) {
                     case TERRAIN:
