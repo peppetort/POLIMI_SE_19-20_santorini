@@ -4,7 +4,6 @@ public class DefaultMove implements Move {
 
     private Board board;
 
-
     public DefaultMove(Player player){
         this.board = player.getSession().getBoard();
     }

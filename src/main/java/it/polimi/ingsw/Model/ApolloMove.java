@@ -1,21 +1,37 @@
 package it.polimi.ingsw.Model;
 
-/*
-    worker può spostarsi nella casella di un lavoratore avversario
-    e costringendolo a occupare la casella appena liberata scambiando le posizioni
+/**
+ * Rappresenta la classe che modellizza la mossa del
+ * {@link Player} nel caso in cui abbia la carta APOLLO
  */
-
 public class ApolloMove implements Move {
 
     private Board board;
     private Player player;
 
-
+    /**
+     * Rappresenta il costruttore della classe {@link ApolloMove}
+     *
+     * @param player giocatore che ha istanziato la classe
+     */
     public ApolloMove(Player player){
         this.player = player;
         this.board = player.getSession().getBoard();
     }
 
+    /**
+     * Muove la pedina specificata nella posizione specificata, secondo le regole della
+     * classe {@link DefaultMove} con la condizione aggiuntiva di poter scambiare la propria
+     * posizione con quella di una pedina avversaria
+     *
+     * @param worker è la pedina da muovere
+     * @param x è la posizione X della {@link Board} sulla quale si vuole posizionare la pedina
+     * @param y è la posizione Y della {@link Board} sulla quale si vuole posizionare la pedina
+     * @throws RuntimeException se la posizione specificata eccede quelle che la pedina può assumere oppure
+     * se conincide con l'attuale posizione della pedina
+     * @throws RuntimeException se si cerca di muovere la pedina su un livello troppo altro
+     * @throws RuntimeException se si cerca di posizionare la pedina nella posizione dell'altra pedina dello stesso giocatore
+     */
     @Override
     public void move(Worker worker, int x, int y) {
         try {
