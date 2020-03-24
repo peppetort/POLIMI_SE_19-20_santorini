@@ -100,26 +100,20 @@ public class BoxTest {
     assertEquals(true,b1.compare(b));
     }
     @Test
-    public void compareTrue2() {
-        Box b1 =new Box();
-        b1.build(Block.LONE);
-        assertEquals(true,b.compare(b1));
-    }
-    @Test
     public void compareFalse1() {
         Box b1 =new Box();
-        b1.build(Block.LTWO);
-        assertEquals(false,b.compare(b1));
+        Box b2 =new Box();
+        b1.build(Block.LTHREE);
+        b2.build(Block.LONE);
+        assertEquals(false,b2.compare(b1));
     }
     @Test
     public void compareFalse2() {
         Box b1 =new Box();
         Box b2 =new Box();
-       // Box b3;//=new Box();
-       // b3=null;
-        b1.build(Block.DOME);
-        b2.build(Block.LTHREE);
-        assertEquals(false,b2.compare(b1));
-       // assertEquals(false,b2.compare(b3));
+        b1.build(Block.LTHREE);
+        b2.build(Block.DOME);
+        assertEquals(false,b1.compare(b2));
     }
+
 }
