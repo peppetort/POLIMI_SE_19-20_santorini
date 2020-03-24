@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model;
 
 /**
- * Rappresenta la classe utilizzata dal {@Link Player} nel caso in cui non possegga una carta in grado di modificare
+ * Rappresenta la classe utilizzata dal {@link Player} nel caso in cui non possegga una carta in grado di modificare
  * la sua mossa "costruzione".
  */
 public class DefaultBuild implements Build {
@@ -10,7 +10,7 @@ public class DefaultBuild implements Build {
 
     /**
      * Rappresenta il metodo costruttore.
-     * @param player rappresenta il {@Link Player} che costruirà gli edifici usando le regole base del gioco.
+     * @param player rappresenta il {@link Player} che costruirà gli edifici usando le regole base del gioco.
      */
     public DefaultBuild(Player player){
         this.board = player.getSession().getBoard();
@@ -21,13 +21,13 @@ public class DefaultBuild implements Build {
      * @param worker è la pedina che costruisce
      * @param x è la posizione X della {@link Board} sulla quale si vuole costruire
      * @param y è la posizione Y della {@link Board} sulla quale si vuole costruire
-     * @throws RuntimeException se provo a costruire a più di una cella di distanza dalla {@Link Worker}
-     * @throws RuntimeException se provo a costruire sulle stesse coordinate di {@Link Worker}
-     * @throws RuntimeException se provo a costruire sulle stesse coordinate di un altro {@Link Worker}
+     * @throws RuntimeException se provo a costruire a più di una cella di distanza dalla {@link Worker}
+     * @throws RuntimeException se provo a costruire sulle stesse coordinate di {@link Worker}
+     * @throws RuntimeException se provo a costruire sulle stesse coordinate di un altro {@link Worker}
      * @throws RuntimeException se provo a costruire sopra una cupola
      * @throws RuntimeException se incontro errori a RunTime
-     * @throws IndexOutOfBoundsException se provo a costruire fuori dai bordi di {@Link Board}
-     * @throws NullPointerException se il riferimento di {@Link Worker} è null
+     * @throws IndexOutOfBoundsException se provo a costruire fuori dai bordi di {@link Board}
+     * @throws NullPointerException se il riferimento di {@link Worker} è null
      */
     @Override
     public void build(Worker worker,int x, int y) {

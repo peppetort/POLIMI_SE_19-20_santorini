@@ -14,11 +14,11 @@ public class Game {
     private boolean simpleGame;
 
     /**
-     * Rappresenta il costruttore della classe {@Link Game} nel caso in cui la partita sia per due giocatori.
+     * Rappresenta il costruttore della classe {@link Game} nel caso in cui la partita sia per due giocatori.
      * @param player1 Giocatore1 (lo sfidante)
      * @param player2 Giocatore2
      * @param board La tavola su cui si svolge la partita
-     * @param simpleGame se true la partita è senza carte, altrimenti i {@Link Player} avranno la loro {@Link Card} ciascuno
+     * @param simpleGame se true la partita è senza carte, altrimenti i {@link Player} avranno la loro {@link Card} ciascuno
      */
 
     public Game(String player1, String player2,Board board,boolean simpleGame){
@@ -31,11 +31,11 @@ public class Game {
         }
     }
     /**
-     * Rappresenta il costruttore della classe {@Link Game} nel caso in cui la partita sia per tre giocatori.
+     * Rappresenta il costruttore della classe {@link Game} nel caso in cui la partita sia per tre giocatori.
      * @param player1 Giocatore1 (lo sfidante)
      * @param player2 Giocatore2
      * @param board La tavola su cui si svolge la partita
-     * @param simpleGame se true la partita è senza carte, altrimenti i {@Link Player} avranno la loro {@Link Card} ciascuno
+     * @param simpleGame se true la partita è senza carte, altrimenti i {@link Player} avranno la loro {@link Card} ciascuno
      */
     public Game(String player1,String player2,String player3,Board board,boolean simpleGame){
         this.board = board;
@@ -60,7 +60,7 @@ public class Game {
         this.matchID = matchID;
     }
     /**
-     * @param card rappresenta la {@Link Card} che {@Link player1} vuole aggiungere alle carte utilizzabili in gioco.
+     * @param card rappresenta la {@link Card} che player1 vuole aggiungere alle carte utilizzabili in gioco.
      * @throws RuntimeException se provo ad inserire una carta già presente
      * @throws RuntimeException se provo ad inserire più carte che numero di player
      * @throws RuntimeException se provo ad inserire una carta quando il gioco è semplice (senza l'utilizzo di carte)
@@ -81,7 +81,7 @@ public class Game {
         }
     }
     /**
-     * @return un ArrayList contenente tutte le {@Link Card} scelte dal giocatore sfidante
+     * @return un ArrayList contenente tutte le {@link Card} scelte dal giocatore sfidante
      */
     public ArrayList<Card> getCards(){
         ArrayList<Card> clonedCards = new ArrayList<>(cards.size());
@@ -90,7 +90,7 @@ public class Game {
     }
     /**
      *
-     * @return un ArrayList contenente i {@Link Player} della partita
+     * @return un ArrayList contenente i {@link Player} della partita
      */
     public ArrayList<Player> getPlayers(){
         ArrayList<Player> clonedPlayers = new ArrayList<>(players.size());
@@ -103,7 +103,7 @@ public class Game {
     public boolean isSimple(){return this.simpleGame;}
 
     /**
-     * @return la {@Link Board} su cui si svolge la partita
+     * @return la {@link Board} su cui si svolge la partita
      */
     public Board getBoard() {
         return board;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model;
 
 /**
- * Rappresenta la classe utilizzata dal {@Link Player} nel caso in cui non possegga una carta in grado di modificare
+ * Rappresenta la classe utilizzata dal {@link Player} nel caso in cui non possegga una carta in grado di modificare
  * la sua mossa di movimento.
  */
 public class DefaultMove implements Move {
@@ -9,7 +9,7 @@ public class DefaultMove implements Move {
     private Board board;
     /**
      * Rappresenta il metodo costruttore.
-     * @param player rappresenta il {@Link Player} che si muoverà secondo le regole base del gioco.
+     * @param player rappresenta il {@link Player} che si muoverà secondo le regole base del gioco.
      */
     public DefaultMove(Player player){
         this.board = player.getSession().getBoard();
@@ -21,11 +21,11 @@ public class DefaultMove implements Move {
      * @param x è la posizione X della {@link Board} sulla quale si vuole posizionare la pedina
      * @param y è la posizione Y della {@link Board} sulla quale si vuole posizionare la pedina
      * @throws RuntimeException se le coordinate non sono valide (non è una cella adiacente oppure è la stessa
-     * delle coordinate attuali del {@Link Worker})
-     * @throws RuntimeException se la cella su cui voglio muovermi è occupata da un altro {@Link Worker}
+     * delle coordinate attuali del {@link Worker})
+     * @throws RuntimeException se la cella su cui voglio muovermi è occupata da un altro {@link Worker}
      * @throws RuntimeException se per muovermi su quella cella devo compiere un salto di due o più livelli
-     * @throws IndexOutOfBoundsException se voglio muovermi fuori dai bordi di {@Link Board}
-     * @throws NullPointerException se il riferimento a {@Link Worker} è null
+     * @throws IndexOutOfBoundsException se voglio muovermi fuori dai bordi di {@link Board}
+     * @throws NullPointerException se il riferimento a {@link Worker} è null
      */
     @Override
     public void move(Worker worker, int x, int y) {
