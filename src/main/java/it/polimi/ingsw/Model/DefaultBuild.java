@@ -35,7 +35,7 @@ public class DefaultBuild implements Build {
             Box box = board.getBox(x, y);
             int wX,wY;
             wX = worker.getXPos();
-            wY= worker.getXPos();
+            wY= worker.getYPos();
             if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 ) {
                 throw new RuntimeException("Impossibile costruire a due celle di distanza");
             }
