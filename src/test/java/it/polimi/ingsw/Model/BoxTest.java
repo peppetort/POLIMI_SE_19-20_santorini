@@ -43,11 +43,11 @@ public class BoxTest {
         b.setPawn(w);
         assertEquals(false,b.isFree());
     }
-    @Test
+  /*  @Test
     public void canBuild() {
     b.build(Block.DOME);
     assertEquals(false,b.canBuild(Block.DOME));
-    }
+    }*/
 
     @Test
     public void getDifference() {
