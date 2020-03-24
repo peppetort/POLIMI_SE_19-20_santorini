@@ -29,12 +29,13 @@ public class Box {
     }
 
     /**
-     * @return il valore della pedina presente, null se non è presente nessuna pedina nella cella
+     * @return il valore della pedina presente {@link #pawn},
+     * null se non è presente nessuna pedina nella cella
      */
     public Worker getPawn(){return pawn;}
 
     /**
-     * @param pawn per mettere il valore della pedina nella cella
+     * @param pawn per mettere il valore della pedina {@link #pawn} nella cella
      */
     public void setPawn(Worker pawn)
     {
@@ -42,26 +43,26 @@ public class Box {
     }
 
     /**
-     * Rimuove la pedina dalla cella settandola a null
+     * Rimuove la pedina {@link #pawn} dalla cella settandola a null
      */
     public void removePawn()
     {
         pawn=null;
     }
     /**
-     * @return il valore la costruzione {@link Block} presente nel blocco
+     * @return il valore la costruzione {@link #typeOfBuilding} presente nel blocco
      */
     public Block getBlock(){return typeOfBuilding;}
 
     /**
-     * @param b setta il valore del tipo di costruzione al valore passato
+     * @param b setta il valore del tipo di costruzione al valore passato {@link #typeOfBuilding}
      */
     public void build(Block b) {
         this.typeOfBuilding = b;
     }
 
     /**
-     * @return la presenza o meno di una pedina nella cella
+     * @return la presenza o meno di una pedina {@link #pawn} nella cella
      */
     public boolean isFree()
     {
@@ -85,13 +86,13 @@ public class Box {
 
     /**
      *
-     * @param other
-     * @return se è possibile muovere la pedina nella cella passata controllando che non ci sia una cupola,
-     * che non si può salire di un livello
+     * @param other box nella quale ci si vuole spostare
+     * @return se è possibile muovere la pedina nella cella passata controllando che non ci sia una cupola e che
+     * che non si può salire di più di un livello
      */
     public boolean compare(Box other){
 
-        return this.getDifference(other) >= 0 || (this.getDifference(other) == -1 && other.typeOfBuilding.getValue() != 4);
-
+       // return this.getDifference(other) >= 0 || (this.getDifference(other) == -1 && other.typeOfBuilding.getValue() != 4);
+        return this.getDifference(other) >= -1  && other.typeOfBuilding.getValue() != 4;
     }
 }
