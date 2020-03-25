@@ -147,4 +147,8 @@ public class MinotaurMove implements Move {
             System.out.println("Pawns not in board!");
         }
     }
+
+    @Override
+    public void moveNoGoUp(Worker worker, int x, int y){}
+    //TODO: implementare -> muove il giocatore senza salire di livello
 }

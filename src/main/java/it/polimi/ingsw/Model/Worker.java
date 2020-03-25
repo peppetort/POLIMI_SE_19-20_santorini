@@ -127,4 +127,6 @@ public class Worker {
         lastBox.setPawn(box.getPawn());
         lastBox.build(box.getBlock());
     }
+
+    //TODO: canMove(board): boolean controlla se il worker può fare almeno una mossa
 }

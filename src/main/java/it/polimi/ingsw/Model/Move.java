@@ -19,4 +19,5 @@ public interface Move {
      * @param y è la posizione Y della {@link Board} sulla quale si vuole posizionare la pedina
      */
     void move(Worker worker, int x, int y);
+    void moveNoGoUp(Worker worker, int x, int y);
 }

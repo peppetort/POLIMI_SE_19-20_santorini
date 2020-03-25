@@ -71,6 +71,5 @@ public class DefaultBuild implements Build {
             System.out.println("Worker not placed!");
         }
     }
-
-    void buildDome(int x, int y){};
+    
 }

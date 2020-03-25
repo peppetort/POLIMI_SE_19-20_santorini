@@ -11,6 +11,7 @@ public class Player {
      * Se la carta non è assegnata assume valore null.
      */
     private Card card;
+    private Turn turn;
     private Worker worker1;
     private Worker worker2;
 
@@ -58,6 +59,7 @@ public class Player {
             winAction = new DefaultWin(this);
             moveAction = new DefaultMove(this);
             buildAction = new DefaultBuild(this);
+            turn = new DefaultTurn(this);
         }
     }
 
@@ -109,35 +111,64 @@ public class Player {
                 winAction = new DefaultWin(this);
                 moveAction = new ApolloMove(this);
                 buildAction = new DefaultBuild(this);
+                turn = new DefaultTurn(this);
                 break;
             case ARTEMIS:
+                winAction = new DefaultWin(this);
+                moveAction = new DefaultMove(this);
+                buildAction = new DefaultBuild(this);
+                turn = new ArtemisTurn(this);
+                break;
             case ATHENA:
+                winAction = new DefaultWin(this);
+                moveAction = new DefaultMove(this);
+                buildAction = new DefaultBuild(this);
+                turn = new AthenaTurn(this);
+                break;
             case DEMETER:
+                winAction = new DefaultWin(this);
+                moveAction = new DefaultMove(this);
+                buildAction = new DefaultBuild(this);
+                turn = new DemeterTurn(this);
+                break;
             case HEPHASTUS:
+                winAction = new DefaultWin(this);
+                moveAction = new DefaultMove(this);
+                buildAction = new DefaultBuild(this);
+                turn = new HaphestusTurn(this);
+                break;
             case PROMETHEUS:
                 winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
+                turn = new PrometheusTurn(this);
                 break;
             case ATLAS:
                 winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
                 buildAction = new AtlasBuild(this);
+                turn = new DemeterTurn(this);
                 break;
             case MINOTAUR:
                 winAction = new DefaultWin(this);
                 moveAction = new MinotaurMove(this);
                 buildAction = new DefaultBuild(this);
+                turn = new DemeterTurn(this);
                 break;
             case PAN:
                 winAction = new PanWin(this);
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
+                turn = new DefaultTurn(this);
                 break;
             default:
                 throw new RuntimeException("Unexpected case");
         }
     }
 
+    //TODO: getMoveAction(): Move
+    //TODO: getBuildAction(): Build
+    //TODO: getWinAction(): Win
+    //TODO: getTun(): Turn
 
 }
