@@ -48,7 +48,7 @@ public class Worker {
      *
      * @param id identificativo della pedina
      */
-    public Worker(String id, Player player){
+    public Worker(String id){
         this.id = id;
         this.x = null;
         this.y = null;
