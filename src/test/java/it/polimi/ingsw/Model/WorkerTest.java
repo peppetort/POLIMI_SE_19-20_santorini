@@ -54,11 +54,26 @@ public class WorkerTest {
         assertEquals(box.getPawn(), worker.getLastBox().getPawn());
     }
 
+
     @Test
-    public void updateLastBoxSameTypeOfBuilding() {
-        Worker worker = new Worker("1");
-        Box box = new Box();
-        worker.updateLastBox(box);
-        assertEquals(box.getBlock(), worker.getLastBox().getBlock());
+    public void canMoveFalse() {
+        Worker w1 = new Worker("1");
+        Worker w2 = new Worker("2");
+        Board b=new Board();
+        b.placePawn(w1,0,0);
+        b.placePawn(w2,1,1);
+        b.getBox(0,1).build(Block.LTWO);
+        b.getBox(1,0).build(Block.LTWO);
+        assertEquals(false,w1.canMove(b));
+    }
+
+    @Test
+    public void canMoveTrue() {
+        Worker w1 = new Worker("1");
+        Board b=new Board();
+        b.placePawn(w1,4,4);
+        b.getBox(4,3).build(Block.LTWO);
+        b.getBox(3,4).build(Block.LTWO);
+        assertEquals(true,w1.canMove(b));
     }
 }

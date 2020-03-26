@@ -129,4 +129,49 @@ public class Worker {
     }
 
     //TODO: canMove(board): boolean controlla se il worker può fare almeno una mossa
+    public boolean canMove(Board board)
+    {
+        try {
+            if (board.getBox(x, y).compare(board.getBox(x + 1, y)) && board.getBox(x + 1, y).getPawn() == null) {
+                return true;
+            }
+        }catch (IndexOutOfBoundsException e)
+        {}
+        try {
+            if (board.getBox(x, y).compare(board.getBox(x - 1, y)) && board.getBox(x - 1, y).getPawn() == null) {
+                return true;
+            }
+        }catch (IndexOutOfBoundsException e){}
+        try {
+            if (board.getBox(x, y).compare(board.getBox(x + 1, y+1)) && board.getBox(x + 1, y+1).getPawn() == null) {
+                return true;
+            }
+        }catch (IndexOutOfBoundsException e){}
+        try {
+            if (board.getBox(x, y).compare(board.getBox(x + 1, y-1)) && board.getBox(x + 1, y-1).getPawn() == null) {
+                return true;
+            }
+        }catch (IndexOutOfBoundsException e){}
+        try {
+            if (board.getBox(x, y).compare(board.getBox(x -1, y-1)) && board.getBox(x - 1, y-1).getPawn() == null) {
+                return true;
+            }
+        }catch (IndexOutOfBoundsException e){}
+        try {
+            if (board.getBox(x, y).compare(board.getBox(x - 1, y+1)) && board.getBox(x - 1, y+1).getPawn() == null) {
+                return true;
+            }
+        }catch (IndexOutOfBoundsException e){}
+        try {
+            if (board.getBox(x, y).compare(board.getBox(x , y+1)) && board.getBox(x , y+1).getPawn() == null) {
+                return true;
+            }
+        }catch (IndexOutOfBoundsException e){}
+        try {
+            if (board.getBox(x, y).compare(board.getBox(x , y-1)) && board.getBox(x , y-1).getPawn() == null) {
+                return true;
+            }
+        }catch (IndexOutOfBoundsException e){}
+        return false;
+    }
 }
