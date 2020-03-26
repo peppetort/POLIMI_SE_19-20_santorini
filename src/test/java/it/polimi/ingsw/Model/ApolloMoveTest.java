@@ -123,4 +123,77 @@ public class ApolloMoveTest {
         assertEquals(worker1.getXPos(), 2);
         assertEquals(worker1.getYPos(), 2);
     }
+
+    @Test (expected = RuntimeException.class)
+    public void moveNoGoUpDefault(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player = game.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        Box startBox = board.getBox(2,2);
+        startBox.setPawn(worker1);
+        worker1.setPos(2,2);
+        board.getBox(1,1).build(Block.LONE);
+        board.getBox(1,2).build(Block.LONE);
+        board.getBox(1,3).build(Block.LONE);
+        board.getBox(2,1).build(Block.LONE);
+        board.getBox(2,3).build(Block.LONE);
+        board.getBox(3,1).build(Block.LONE);
+        board.getBox(3,2).build(Block.LONE);
+        board.getBox(3,3).build(Block.LONE);
+        Move moveAction = new ApolloMove(player);
+        for(int i=-1; i<=1;i++){
+            for(int j=-1; j<=1; j++){
+                moveAction.moveNoGoUp(worker1, 2+i, 2+j);
+            }
+        }
+        assertEquals(startBox.getPawn(), worker1);
+        for(int i=-1; i<=1;i++){
+            for(int j=-1; j<=1; j++){
+                assertNull(board.getBox(2 + i, 2 + j).getPawn());
+            }
+        }
+    }
+
+
+    @Test(expected = RuntimeException.class)
+    public void moveNoGoUpApolloNo() {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box boxPlayer1 = board.getBox(2,2);
+        Box boxPlayer2 = board.getBox(2, 3);
+        boxPlayer1.setPawn(workerPlayer1);
+        workerPlayer1.setPos(2,2);
+        boxPlayer2.setPawn(workerPlayer2);
+        workerPlayer2.setPos(2,3);
+        boxPlayer2.build(Block.LONE);
+        Move moveAction = new ApolloMove(player1);
+        moveAction.moveNoGoUp(workerPlayer1, 2,3);
+        assertEquals(workerPlayer1, boxPlayer1.getPawn());
+        assertEquals(workerPlayer2, boxPlayer2.getPawn());
+    }
+
+    @Test
+    public void moveNoGoUpApolloYes() {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box boxPlayer1 = board.getBox(2,2);
+        Box boxPlayer2 = board.getBox(2, 3);
+        boxPlayer1.setPawn(workerPlayer1);
+        workerPlayer1.setPos(2,2);
+        boxPlayer2.setPawn(workerPlayer2);
+        workerPlayer2.setPos(2,3);
+        Move moveAction = new ApolloMove(player1);
+        moveAction.moveNoGoUp(workerPlayer1, 2,3);
+        assertEquals(workerPlayer2, boxPlayer1.getPawn());
+        assertEquals(workerPlayer1, boxPlayer2.getPawn());
+    }
 }

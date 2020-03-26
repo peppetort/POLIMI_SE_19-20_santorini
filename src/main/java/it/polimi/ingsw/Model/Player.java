@@ -170,10 +170,20 @@ public class Player {
         return username.equals(other.username) && card.getName() == other.card.getName();
     }
 
+    public Move getMoveAction(){
+        return this.moveAction;
+    }
 
-    //TODO: getMoveAction(): Move
-    //TODO: getBuildAction(): Build
-    //TODO: getWinAction(): Win
-    //TODO: getTun(): Turn
+    public Build getBuildAction(){
+        return this.buildAction;
+    }
+
+    public Win getWinAction(){
+        return this.winAction;
+    }
+
+    public Turn getTurn(){
+        return this.turn;
+    }
 
 }

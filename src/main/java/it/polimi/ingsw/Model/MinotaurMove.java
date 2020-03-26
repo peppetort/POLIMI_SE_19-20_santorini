@@ -149,6 +149,24 @@ public class MinotaurMove implements Move {
     }
 
     @Override
-    public void moveNoGoUp(Worker worker, int x, int y){}
-    //TODO: implementare -> muove il giocatore senza salire di livello
+    public void moveNoGoUp(Worker worker, int x, int y){
+        try {
+            int wX = worker.getXPos();
+            int wY = worker.getYPos();
+
+            Box workerBox = board.getBox(wX, wY);
+            Box nextBox = board.getBox(x, y);
+
+            if(workerBox.getDifference(nextBox)<0) {
+                throw new RuntimeException("Can't go up!");
+            }
+
+            move(worker, x, y);
+
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("Out of board limits");
+        }catch (NullPointerException e){
+            System.out.println("Pawns not in board!");
+        }
+    }
 }

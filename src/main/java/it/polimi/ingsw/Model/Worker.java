@@ -48,7 +48,7 @@ public class Worker {
      *
      * @param id identificativo della pedina
      */
-    public Worker(String id){
+    public Worker(String id, Player player){
         this.id = id;
         this.x = null;
         this.y = null;
@@ -128,50 +128,32 @@ public class Worker {
         lastBox.build(box.getBlock());
     }
 
-    //TODO: canMove(board): boolean controlla se il worker può fare almeno una mossa
+    /**
+     * Data la posizione del {@link Worker}, indica
+     * se questo può fare almeno una mossa
+     *
+     * @param board è il campo di gioco
+     * @return true se può muoversi, false altrimenti
+     */
     public boolean canMove(Board board)
     {
-        try {
-            if (board.getBox(x, y).compare(board.getBox(x + 1, y)) && board.getBox(x + 1, y).getPawn() == null) {
-                return true;
+        Box myBox = board.getBox(x, y);
+        Box otherBox;
+
+        for(int i=-1; i<=1; i++){
+            for (int j=-1; j<=1; j++){
+                try{
+                    if(i!=0 && j!=0){
+                        otherBox = board.getBox(x+i, y+j);
+                        if(myBox.compare(otherBox) && otherBox.getPawn()==null){
+                            return true;
+                        }
+                    }
+                }catch (IndexOutOfBoundsException e){
+                    System.out.println("Ops!");
+                }
             }
-        }catch (IndexOutOfBoundsException e)
-        {}
-        try {
-            if (board.getBox(x, y).compare(board.getBox(x - 1, y)) && board.getBox(x - 1, y).getPawn() == null) {
-                return true;
-            }
-        }catch (IndexOutOfBoundsException e){}
-        try {
-            if (board.getBox(x, y).compare(board.getBox(x + 1, y+1)) && board.getBox(x + 1, y+1).getPawn() == null) {
-                return true;
-            }
-        }catch (IndexOutOfBoundsException e){}
-        try {
-            if (board.getBox(x, y).compare(board.getBox(x + 1, y-1)) && board.getBox(x + 1, y-1).getPawn() == null) {
-                return true;
-            }
-        }catch (IndexOutOfBoundsException e){}
-        try {
-            if (board.getBox(x, y).compare(board.getBox(x -1, y-1)) && board.getBox(x - 1, y-1).getPawn() == null) {
-                return true;
-            }
-        }catch (IndexOutOfBoundsException e){}
-        try {
-            if (board.getBox(x, y).compare(board.getBox(x - 1, y+1)) && board.getBox(x - 1, y+1).getPawn() == null) {
-                return true;
-            }
-        }catch (IndexOutOfBoundsException e){}
-        try {
-            if (board.getBox(x, y).compare(board.getBox(x , y+1)) && board.getBox(x , y+1).getPawn() == null) {
-                return true;
-            }
-        }catch (IndexOutOfBoundsException e){}
-        try {
-            if (board.getBox(x, y).compare(board.getBox(x , y-1)) && board.getBox(x , y-1).getPawn() == null) {
-                return true;
-            }
-        }catch (IndexOutOfBoundsException e){}
+        }
         return false;
     }
 }

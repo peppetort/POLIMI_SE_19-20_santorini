@@ -188,4 +188,35 @@ public class DefaultMoveTest {
         mover.move(worker1,0,1);
     }
 
+    @Test (expected = RuntimeException.class)
+    public void moveNoGoUp(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player = game.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        Box startBox = board.getBox(2,2);
+        startBox.setPawn(worker1);
+        worker1.setPos(2,2);
+        board.getBox(1,1).build(Block.LONE);
+        board.getBox(1,2).build(Block.LONE);
+        board.getBox(1,3).build(Block.LONE);
+        board.getBox(2,1).build(Block.LONE);
+        board.getBox(2,3).build(Block.LONE);
+        board.getBox(3,1).build(Block.LONE);
+        board.getBox(3,2).build(Block.LONE);
+        board.getBox(3,3).build(Block.LONE);
+        Move moveAction = new DefaultMove(player);
+        for(int i=-1; i<=1;i++){
+            for(int j=-1; j<=1; j++){
+                moveAction.moveNoGoUp(worker1, 2+i, 2+j);
+            }
+        }
+        assertEquals(startBox.getPawn(), worker1);
+        for(int i=-1; i<=1;i++){
+            for(int j=-1; j<=1; j++){
+                assertNull(board.getBox(2 + i, 2 + j).getPawn());
+            }
+        }
+    }
+
 }

@@ -64,7 +64,7 @@ public class WorkerTest {
         b.placePawn(w2,1,1);
         b.getBox(0,1).build(Block.LTWO);
         b.getBox(1,0).build(Block.LTWO);
-        assertEquals(false,w1.canMove(b));
+        assertFalse(w1.canMove(b));
     }
 
     @Test
@@ -74,6 +74,6 @@ public class WorkerTest {
         b.placePawn(w1,4,4);
         b.getBox(4,3).build(Block.LTWO);
         b.getBox(3,4).build(Block.LTWO);
-        assertEquals(true,w1.canMove(b));
+        assertTrue(w1.canMove(b));
     }
 }
