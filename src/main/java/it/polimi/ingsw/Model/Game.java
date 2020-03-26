@@ -93,9 +93,7 @@ public class Game {
      * @return un ArrayList contenente i {@link Player} della partita
      */
     public ArrayList<Player> getPlayers(){
-        ArrayList<Player> clonedPlayers = new ArrayList<>(players.size());
-        clonedPlayers.addAll(players);
-        return clonedPlayers;
+        return players;
     }
     /**
      * @return True se il gioco è in modalità semplice (senza carte)
