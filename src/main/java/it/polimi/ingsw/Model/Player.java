@@ -166,7 +166,6 @@ public class Player {
         }
     }
 
-    @Override
     public boolean equals(Player other) {
         return username.equals(other.username) && card.getName() == other.card.getName();
     }
