@@ -13,7 +13,7 @@ public class Box {
      * Rappresenta la presenza la pedina presente nella cella
      * Se sulla cella non è presente la pedina viene assegnato valore null
      */
-    private Worker pawn;                //pedina
+    private Worker pawn;
 
     /**
      * Rappresenta il costruttore della classe {@link Box}.
@@ -69,12 +69,6 @@ public class Box {
         return pawn == null;
     }
 
-    /*
-    public boolean canBuild(Block block)
-    {
-        return typeOfBuilding != Block.DOME;
-    }*/
-
     /**
      *
      * @param other cella sulla quale è calcolata la differenza
@@ -91,8 +85,6 @@ public class Box {
      * che non si può salire di più di un livello
      */
     public boolean compare(Box other){
-
-       // return this.getDifference(other) >= 0 || (this.getDifference(other) == -1 && other.typeOfBuilding.getValue() != 4);
         return this.getDifference(other) >= -1  && other.typeOfBuilding.getValue() != 4;
     }
 }

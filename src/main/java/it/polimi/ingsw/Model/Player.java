@@ -49,8 +49,8 @@ public class Player {
      */
     public Player(String username, Game session) {
         this.username = username;
-        this.worker1 = new Worker(username + "1");
-        this.worker2 = new Worker(username + "2");
+        this.worker1 = new Worker(1, this);
+        this.worker2 = new Worker(2, this);
         this.session = session;
 
         //Modalità di gioco senza carte
@@ -67,7 +67,7 @@ public class Player {
         return this.username;
     }
 
-    public Card getCard() {
+    public Card getCard() throws NullPointerException{
         return this.card;
     }
 
@@ -98,7 +98,7 @@ public class Player {
      * @throws RuntimeException se il nome della carta assegnata è sconosciuto
      */
     public void setCard(Card card) {
-        if (!session.isSimple()) {
+        if (session.isSimple()) {
             throw new RuntimeException("Game mode: no cards!");
         } else if (this.card != null) {
             throw new RuntimeException("Player " + this.getUsername() + " already has a card!");

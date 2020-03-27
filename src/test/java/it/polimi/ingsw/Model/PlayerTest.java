@@ -44,7 +44,7 @@ public class PlayerTest {
     public void setCardSimpleGameTrue() {
         Board board = new Board();
         Card pan = new Card(God.PAN);
-        Game session = new Game("Pippo", "Pluto", board, true);
+        Game session = new Game("Pippo", "Pluto", board, false);
         Player player = session.getPlayers().get(0);
         player.setCard(pan);
         assertEquals(God.PAN, player.getCard().getName());
@@ -65,7 +65,7 @@ public class PlayerTest {
     public void setCardSimpleGameFalse() {
         Board board = new Board();
         Card pan = new Card(God.PAN);
-        Game session = new Game("Pippo", "Pluto", board, false);
+        Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         player.setCard(pan);
     }
