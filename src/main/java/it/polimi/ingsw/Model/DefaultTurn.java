@@ -1,5 +1,5 @@
 package it.polimi.ingsw.Model;
-
+import it.polimi.ingsw.Exceptions.PlayerLostException;
 public class DefaultTurn implements Turn {
 
     Move moveAction;
@@ -36,7 +36,7 @@ public class DefaultTurn implements Turn {
             }
         }else {
             if (!worker1.canMove(false) && !worker2.canMove(false)) { //controlla che il giocatore ha almeno una possibilità di muoversi
-                throw new RuntimeException("Your workers cannot make any moves!");
+                throw new PlayerLostException("The Player has lost");
             }
         }
         running = true;

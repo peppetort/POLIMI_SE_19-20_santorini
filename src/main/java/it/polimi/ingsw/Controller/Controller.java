@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Exceptions.PlayerLostException;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.Observer;
 
@@ -10,8 +11,8 @@ public class Controller implements Observer<Message>{
     private HashMap<Player,Boolean> outcome = new HashMap<>();
     private ArrayList<Card> cards = new ArrayList<>();
     private boolean firstTurn;
-
     private Game game;
+    private int loosingPlayers;
 
     public Controller(Game game) {
         this.game = game;
@@ -22,6 +23,7 @@ public class Controller implements Observer<Message>{
         }
         firstTurn = true;
         turn.replace(game.getPlayers().get(0),true);
+        loosingPlayers = 0;
     }
 
     /**
@@ -38,11 +40,6 @@ public class Controller implements Observer<Message>{
                     firstTurn = false;
                 }
                 turn.replace(game.getPlayers().get(index),true);
-                if(!firstTurn){
-                    //try
-                    //game.getPlayers().get(index).getTurn().start();
-                    // controllo se tutti i player hanno perso
-                }
                 break;
             }
         }
@@ -51,9 +48,20 @@ public class Controller implements Observer<Message>{
     private void performMove(PlayerMove message){
         Player p = message.getPlayer();
         int index = game.getPlayers().indexOf(p);
-        if(turn.get(p) && !firstTurn){
-            game.getPlayers().get(index).getTurn().move(message.getWorker(),message.getX(),message.getY());
-            //getTurn().won() --> controllo vittoria
+        if(turn.get(p) && !firstTurn && outcome.get(p) == null){
+            try {
+                game.getPlayers().get(index).getTurn().move(message.getWorker(), message.getX(), message.getY());
+                if(game.getPlayers().get(index).getTurn().won()){ //il player che ha fatto la mossa ha vinto !
+                    outcome.replace(p,true);
+                    for(Player c:game.getPlayers()){
+                        if(!c.equals(p)){
+                            outcome.replace(c,false);
+                        }
+                    }
+                }
+            }catch(RuntimeException e){
+                System.err.println(e.getMessage());
+            }
         }else{
             throw new RuntimeException("Not your turn buddy!");
         }
@@ -61,9 +69,12 @@ public class Controller implements Observer<Message>{
     private void performBuild(PlayerBuild message){
         Player p = message.getPlayer();
         int index = game.getPlayers().indexOf(p);
-        if(turn.get(p) && !firstTurn){
-            game.getPlayers().get(index).getTurn().build(message.getWorker(),message.getX(),message.getY());
-            updateTurn();
+        if(turn.get(p) && !firstTurn && outcome.get(p) == null){
+            try {
+                game.getPlayers().get(index).getTurn().build(message.getWorker(),message.getX(),message.getY());
+            }catch (RuntimeException e){
+                System.err.println(e.getMessage());
+            }
         }else{
             throw new RuntimeException("Not your turn buddy!");
         }
@@ -72,7 +83,7 @@ public class Controller implements Observer<Message>{
     private void performChoose(CardChoose message){
         Player p = message.getPlayer(); // da riferimento nullo
         Card card = message.getCard();
-        if(firstTurn && turn.get(p)){
+        if(firstTurn && turn.get(p) && outcome.get(p) == null){
             p.setCard(card);
             removeCard(card);
             if(p.equals(game.getPlayers().get(game.getPlayers().size()-1))){
@@ -87,7 +98,7 @@ public class Controller implements Observer<Message>{
 
     private void performDeckBuilding(DeckChoose message){
         Player p = message.getPlayer();
-        if(turn.get(p) && firstTurn ){
+        if(turn.get(p) && firstTurn  && outcome.get(p) == null){
             for(Card c: message.getCards()){
                 game.addCard(c);
             }
@@ -98,6 +109,45 @@ public class Controller implements Observer<Message>{
         }
     }
 
+    private void performStart(PlayerStart message){
+        Player p = message.getPlayer();
+        if(turn.get(p) && outcome.get(p) == null){
+            try{
+                game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().start();
+            }catch (RuntimeException e){
+                if(e instanceof PlayerLostException){
+                    outcome.replace(p,false);
+                    loosingPlayers ++;
+                    if(loosingPlayers == game.getPlayers().size()-1){
+                        for(Player c : game.getPlayers()){
+                            if(outcome.get(c) == null){
+                                outcome.replace(c,true);
+                            }
+                        }
+                    }
+                }
+                else {
+                    System.err.println(e.getMessage());
+                }
+            }
+        }else{
+            throw new RuntimeException("Non è il tuo turno");
+        }
+    }
+
+    private void performEnd(PlayerEnd message){
+        Player p = message.getPlayer();
+        if(turn.get(p) && outcome.get(p) == null){
+            try{
+                game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
+                updateTurn();
+            }catch (RuntimeException e){
+                System.err.println(e.getMessage());
+            }
+        }else{
+            throw new RuntimeException("Non è il tuo turno");
+        }
+    }
 
 
 
@@ -112,7 +162,6 @@ public class Controller implements Observer<Message>{
             }
         }
     }
-    
     //message è la mossa generica
     @Override
     public void update(Message message) {
@@ -128,10 +177,15 @@ public class Controller implements Observer<Message>{
         if(message instanceof DeckChoose){
             performDeckBuilding((DeckChoose) message);
         }
+        if(message instanceof PlayerStart){
+            performStart((PlayerStart) message);
+        }
+        if(message instanceof PlayerEnd){
+            performEnd((PlayerEnd) message);
+        }
     }
 
-    //TODO : performstart/performend
-    //TODO : getWin/getLoose
-    //TODO : controllare che ogni message.getPlayer() è ancora in gioco
-    //TODO : forall metodo getTurn try catch
+
+
+
 }
