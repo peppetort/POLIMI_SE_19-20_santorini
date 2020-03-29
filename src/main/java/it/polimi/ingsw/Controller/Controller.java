@@ -7,7 +7,7 @@ import it.polimi.ingsw.Observer.Observer;
 import java.util.*;
 
 public class Controller implements Observer<Message>{
-    public HashMap<Player,Boolean> turn = new HashMap<>();
+    private HashMap<Player,Boolean> turn = new HashMap<>();
     private HashMap<Player,Boolean> outcome = new HashMap<>();
     private ArrayList<Card> cards = new ArrayList<>();
     private boolean firstTurn;
@@ -29,7 +29,7 @@ public class Controller implements Observer<Message>{
     /**
      * Quando chiamato il turno passa al giocatore successivo
      */
-    public void updateTurn() {
+    private void updateTurn() {
         int index;
         for(Player p:game.getPlayers()) {
             if(turn.get(p)) {
@@ -80,7 +80,7 @@ public class Controller implements Observer<Message>{
         }
     }
 
-    private void performChoose(CardChoose message){
+    private void performChoice(CardChoice message){
         Player p = message.getPlayer(); // da riferimento nullo
         Card card = message.getCard();
         if(firstTurn && turn.get(p) && outcome.get(p) == null){
@@ -96,7 +96,7 @@ public class Controller implements Observer<Message>{
         }
     }
 
-    private void performDeckBuilding(DeckChoose message){
+    private void performDeckBuilding(DeckChoice message){
         Player p = message.getPlayer();
         if(turn.get(p) && firstTurn  && outcome.get(p) == null){
             for(Card c: message.getCards()){
@@ -171,11 +171,11 @@ public class Controller implements Observer<Message>{
         if(message instanceof PlayerBuild){
             performBuild((PlayerBuild) message);
         }
-        if(message instanceof CardChoose){
-            performChoose((CardChoose) message);
+        if(message instanceof CardChoice){
+            performChoice((CardChoice) message);
         }
-        if(message instanceof DeckChoose){
-            performDeckBuilding((DeckChoose) message);
+        if(message instanceof DeckChoice){
+            performDeckBuilding((DeckChoice) message);
         }
         if(message instanceof PlayerStart){
             performStart((PlayerStart) message);

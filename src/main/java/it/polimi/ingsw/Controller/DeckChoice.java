@@ -5,12 +5,12 @@ import it.polimi.ingsw.Model.Player;
 
 import java.util.ArrayList;
 
-public class DeckChoose implements Message{
+public class DeckChoice implements Message{
 
     Player player;
     ArrayList<Card> cards = new ArrayList<Card>();
 
-    public DeckChoose(Player player,ArrayList<Card> cards) {
+    public DeckChoice(Player player,ArrayList<Card> cards) {
         this.player = player;
         this.cards = cards;
     }
