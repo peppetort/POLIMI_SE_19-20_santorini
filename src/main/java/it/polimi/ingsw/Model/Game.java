@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Game {
     private long matchID;
     private ArrayList<Player> players = new ArrayList<Player>();    //lista dei player
-    private ArrayList<Card> deck = new ArrayList<Card>();           //lista di tutte le carte divinità disponibili
     private ArrayList<Card> cards = new ArrayList<Card>();          //list delle carte selezionate dai player
     private Board board;
     private boolean simpleGame;
@@ -26,9 +25,6 @@ public class Game {
         this.simpleGame = simpleGame;
         players.add(new Player(player1,this));
         players.add(new Player(player2,this));
-        for(God g: God.values()){
-            deck.add(new Card(g));
-        }
     }
     /**
      * Rappresenta il costruttore della classe {@link Game} nel caso in cui la partita sia per tre giocatori.
@@ -43,9 +39,6 @@ public class Game {
         players.add(new Player(player1,this));
         players.add(new Player(player2,this));
         players.add(new Player(player3,this));
-        for(God g: God.values()){
-            deck.add(new Card(g));
-        }
     }
     /**
      * @return l'ID del match

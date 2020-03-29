@@ -32,7 +32,7 @@ public class DefaultTurn implements Turn {
         }
         if (canGoUp) {
             if (!worker1.canMove(true) && !worker2.canMove(true)) { //controlla che il giocatore ha almeno una possibilità di muoversi
-                throw new RuntimeException("Your workers cannot make any moves!");
+                throw new PlayerLostException("Your workers cannot make any moves!");
             }
         }else {
             if (!worker1.canMove(false) && !worker2.canMove(false)) { //controlla che il giocatore ha almeno una possibilità di muoversi
