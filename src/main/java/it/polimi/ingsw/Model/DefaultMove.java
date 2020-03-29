@@ -1,5 +1,9 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.AthenaGoUpException;
+import it.polimi.ingsw.Exceptions.InvalidMoveException;
+import it.polimi.ingsw.Exceptions.LevelNotCompatibleException;
+
 /**
  * Rappresenta la classe utilizzata dal {@link Player} nel caso in cui non possegga una carta in grado di modificare
  * la sua mossa di movimento.
@@ -37,11 +41,11 @@ public class DefaultMove implements Move {
             Box nextBox = board.getBox(x, y);
 
             if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY)){
-                throw new RuntimeException("Invalid move!");
+                throw new InvalidMoveException("Move too far from the worker position!");
             }else if(!nextBox.isFree()){
-                throw new RuntimeException("Box already occupied!");
+                throw new InvalidMoveException("Box already occupied!");
             }else if(!workerBox.compare(nextBox)){
-                throw new RuntimeException("Level not compatible!");
+                throw new LevelNotCompatibleException("Level in box " + x + " "+ y + "is too high!");
             }else{
                 board.placePawn(worker, x, y);
                 workerBox.removePawn();  //rimuovo pedina dalla vecchia pos
@@ -64,7 +68,7 @@ public class DefaultMove implements Move {
             Box nextBox = board.getBox(x, y);
 
             if(workerBox.getDifference(nextBox)<0) {
-                throw new RuntimeException("Can't go up!");
+                throw new AthenaGoUpException("Can't go up! Opponent used Athena.");
             }
 
             move(worker, x, y);

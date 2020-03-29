@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.DuplicateCardException;
+import it.polimi.ingsw.Exceptions.SimpleGameException;
+
 import java.util.ArrayList;
 
 /**
@@ -52,6 +55,7 @@ public class Game {
     public void setMatchID(long matchID) {
         this.matchID = matchID;
     }
+
     /**
      * @param card rappresenta la {@link Card} che player1 vuole aggiungere alle carte utilizzabili in gioco.
      * @throws RuntimeException se provo ad inserire una carta già presente
@@ -63,11 +67,11 @@ public class Game {
             if(!simpleGame) {
                 for(Card c: cards){
                     if(c.getName()==card.getName()){
-                        throw new RuntimeException("Carta già inserita");
+                        throw new DuplicateCardException("Card already chosen!");
                     }
                 }
                 cards.add(card);
-            }else{throw new RuntimeException("Gioco senza Carte");}
+            }else{throw new SimpleGameException("Game mode: no cards!");}
         }
         else{
             throw new RuntimeException("non si possono aggiungere ulteriori carte");

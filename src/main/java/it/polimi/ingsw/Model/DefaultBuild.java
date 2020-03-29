@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.InvalidBuildException;
+
 /**
  * Rappresenta la classe utilizzata dal {@link Player} nel caso in cui non possegga una carta in grado di modificare
  * la sua mossa "costruzione".
@@ -36,14 +38,8 @@ public class DefaultBuild implements Build {
             int wX,wY;
             wX = worker.getXPos();
             wY= worker.getYPos();
-            if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 ) {
-                throw new RuntimeException("Impossibile costruire a due celle di distanza");
-            }
-            if(x == wX && y == wY) {
-                throw new RuntimeException("Impossibile costruire sulla stessa cella della pedina");
-            }
-            if(!board.getBox(x,y).isFree()) {
-                throw new RuntimeException("Impossibile costruire sulla stessa cella di un'altra pedina");
+            if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY) || !box.isFree()) {
+                throw new InvalidBuildException("Can't build in " + x +" "+ y);
             }
             else {
                 switch (box.getBlock()) {
@@ -60,7 +56,7 @@ public class DefaultBuild implements Build {
                         box.build(Block.DOME);
                         break;
                     case DOME:
-                        throw new RuntimeException("Can't build here! There is a DOME");
+                        throw new InvalidBuildException("Can't build here! There is a DOME");
                     default:
                         throw new RuntimeException("Unexpected case!");
                 }

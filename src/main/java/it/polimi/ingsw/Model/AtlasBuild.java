@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.InvalidBuildException;
+
 /**
  * Rappresenta la classe che modellizza l'azione di costruzione del
  * {@link Player} nel caso in cui abbia la carta ATLAS
@@ -38,7 +40,7 @@ public class AtlasBuild extends DefaultBuild{
             Box box = board.getBox(x, y);
 
             if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY) || !box.isFree()) {
-                throw new RuntimeException("Invalid build!");
+                throw new InvalidBuildException("Invalid build!");
             }else {
                 switch (box.getBlock()) {
                     case TERRAIN:
@@ -48,7 +50,7 @@ public class AtlasBuild extends DefaultBuild{
                         box.build(Block.DOME);
                         break;
                     case DOME:
-                        throw new RuntimeException("Can't build here! There is a DOME");
+                        throw new InvalidBuildException("Can't build here! There is a DOME");
                     default:
                         throw new RuntimeException("Unexpected case!");
                 }

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.InvalidBuildException;
+import it.polimi.ingsw.Exceptions.TurnNotStartedException;
+
 public class ArtemisTurn extends DefaultTurn {
 
     Integer startX;
@@ -21,7 +24,7 @@ public class ArtemisTurn extends DefaultTurn {
     @Override
     public void move(Worker worker, int x, int y) {
         if(!running){
-            throw new RuntimeException("Turn not started!");
+            throw new TurnNotStartedException("Turn not started!");
         }
         if(!canMove){
             throw new RuntimeException("You can't move!");
@@ -30,7 +33,7 @@ public class ArtemisTurn extends DefaultTurn {
         if(!canGoUp){
             try{
                 if (startX == x && startY == y) {
-                    throw new RuntimeException("Can't build here!");
+                    throw new InvalidBuildException("Can't build here!");
                 }
                 moveAction.moveNoGoUp(worker, x, y);
                 canMove = false;
@@ -43,7 +46,7 @@ public class ArtemisTurn extends DefaultTurn {
         }else {
             try{
                 if (startX == x && startY == y) {
-                    throw new RuntimeException("Can't build here!");
+                    throw new InvalidBuildException("Can't build here!");
                 }
                 moveAction.move(worker, x, y);
                 canMove = false;

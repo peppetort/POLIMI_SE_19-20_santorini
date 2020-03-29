@@ -10,14 +10,18 @@ public class PrometheusTurn extends DefaultTurn {
 
     @Override
     public void start(){
-        if(running){
-            throw new RuntimeException("Already start!");
+        super.start();
+        if(!worker1.moveGoUp() && !worker2.moveGoUp()){
+            canMove = true;
+            canBuild = true;
         }
-        running = true;
-        canMove = true;
         startBuild = false;
-        canBuild = true;
-        //TODO: bisogna controllare se il giocatore può salire di livello o no
+    }
+
+    @Override
+    public void move(Worker worker, int x, int y){
+        super.move(worker, x, y);
+        startBuild = true;
     }
 
 

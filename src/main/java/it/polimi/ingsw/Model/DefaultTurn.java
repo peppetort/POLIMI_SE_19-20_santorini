@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Exceptions.PlayerLostException;
+import it.polimi.ingsw.Exceptions.TurnNotStartedException;
+
 public class DefaultTurn implements Turn {
 
     Move moveAction;
@@ -47,7 +49,7 @@ public class DefaultTurn implements Turn {
     @Override
     public void move(Worker worker, int x, int y) {
         if (!running) {
-            throw new RuntimeException("Turn not started!");
+            throw new TurnNotStartedException("Turn not started!");
         }
         if (!canMove) {
             throw new RuntimeException("You can't move!");
@@ -65,7 +67,7 @@ public class DefaultTurn implements Turn {
     @Override
     public void build(Worker worker, int x, int y) {
         if (!running) {
-            throw new RuntimeException("Turn not started!");
+            throw new TurnNotStartedException("Turn not started!");
         }
         if (!canBuild) {
             throw new RuntimeException("You can't build!");

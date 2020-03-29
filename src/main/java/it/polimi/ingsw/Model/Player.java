@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.SimpleGameException;
+
 /**
  * Rappresenta il giocatore
  */
@@ -99,7 +101,7 @@ public class Player {
      */
     public void setCard(Card card) {
         if (session.isSimple()) {
-            throw new RuntimeException("Game mode: no cards!");
+            throw new SimpleGameException("Game mode: no cards!");
         } else if (this.card != null) {
             throw new RuntimeException("Player " + this.getUsername() + " already has a card!");
         }

@@ -1,10 +1,14 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.AthenaGoUpException;
+import it.polimi.ingsw.Exceptions.InvalidMoveException;
+import it.polimi.ingsw.Exceptions.LevelNotCompatibleException;
+
 /**
  * Rappresenta la classe che modellizza la mossa del
  * {@link Player} nel caso in cui abbia la carta APOLLO
  */
-public class ApolloMove implements Move {
+public class ApolloMove extends DefaultMove{
 
     private Board board;
     private Player player;
@@ -15,6 +19,7 @@ public class ApolloMove implements Move {
      * @param player giocatore che ha istanziato la classe
      */
     public ApolloMove(Player player){
+        super(player);
         this.player = player;
         this.board = player.getSession().getBoard();
     }
@@ -42,9 +47,9 @@ public class ApolloMove implements Move {
             Box nextBox = board.getBox(x, y);
 
             if( x > wX+1 || x < wX-1 || y > wY+1 || y < wY-1 || (x == wX && y == wY)){
-                throw new RuntimeException("Invalid move!");
+                throw new InvalidMoveException("Move too far from the worker position!");
             }else if(!workerBox.compare(nextBox)){
-                throw new RuntimeException("Level not compatible!");
+                throw new LevelNotCompatibleException("Level in box " + x + " "+ y + "is too high!");
             }else{
                 if(!nextBox.isFree()){
                     Worker other = nextBox.getPawn();
@@ -55,7 +60,7 @@ public class ApolloMove implements Move {
                         board.placePawn(worker, x, y);          // posiziono la mia pedina nella nuova posizione
                         worker.updateLastBox(workerBox);        // aggiorno l'ultima box della mia pedina
                     }else {
-                        throw new RuntimeException("Can't place pawn here!");
+                        throw new RuntimeException("Can't place pawn here! It's your worker!");
                     }
                 }else {
                     board.placePawn(worker, x, y);
@@ -67,28 +72,6 @@ public class ApolloMove implements Move {
             System.out.println("Out of board limits");
         }catch (NullPointerException e){
             System.out.println("Pawns not in board");
-        }
-    }
-
-    @Override
-    public void moveNoGoUp(Worker worker, int x, int y){
-        try {
-            int wX = worker.getXPos();
-            int wY = worker.getYPos();
-
-            Box workerBox = board.getBox(wX, wY);
-            Box nextBox = board.getBox(x, y);
-
-            if(workerBox.getDifference(nextBox)<0) {
-                throw new RuntimeException("Can't go up!");
-            }
-
-            move(worker, x, y);
-
-        }catch (IndexOutOfBoundsException e){
-            System.out.println("Out of board limits");
-        }catch (NullPointerException e){
-            System.out.println("Pawns not in board!");
         }
     }
 }

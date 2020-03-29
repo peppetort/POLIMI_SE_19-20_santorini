@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.InvalidBuildException;
+import it.polimi.ingsw.Exceptions.TurnNotStartedException;
+
 public class HaphestusTurn extends DefaultTurn {
 
     Integer lastX;
@@ -24,7 +27,7 @@ public class HaphestusTurn extends DefaultTurn {
     @Override
     public void build(Worker worker, int x, int y) throws NullPointerException {
         if(!running){
-            throw new RuntimeException("Turn not started!");
+            throw new TurnNotStartedException("Turn not started!");
         }
         if (!canBuild) {
             throw new RuntimeException("You can't build!");
@@ -33,7 +36,7 @@ public class HaphestusTurn extends DefaultTurn {
             //controllo che la seconda volta che costruisco, costruisco sulla stessa
             //box della prima
             if (lastX != x && lastY != y) {
-                throw new RuntimeException("Can't build here!");
+                throw new InvalidBuildException("Can't build here!");
             }
             buildAction.build(worker, x, y);
             canBuild = false;

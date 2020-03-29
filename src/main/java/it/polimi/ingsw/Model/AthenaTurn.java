@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.TurnNotStartedException;
+
 public class AthenaTurn extends DefaultTurn {
 
 
@@ -12,7 +14,7 @@ public class AthenaTurn extends DefaultTurn {
         canGoUp = true; //di default tutti possono salire
         Box workerBox = board.getBox(worker.getXPos(), worker.getYPos()); //box iniziale della pedina
         if(!running){
-            throw new RuntimeException("Turn not started!");
+            throw new TurnNotStartedException("Turn not started!");
         }
         if(!canMove){
             throw new RuntimeException("You can't move!");
