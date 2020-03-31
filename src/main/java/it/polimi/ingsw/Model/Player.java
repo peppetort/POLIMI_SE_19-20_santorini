@@ -56,7 +56,7 @@ public class Player {
         this.session = session;
 
         //Modalità di gioco senza carte
-        if (!session.isSimple()) {
+        if (session.isSimple()) {
             card = null;
             winAction = new DefaultWin(this);
             moveAction = new DefaultMove(this);

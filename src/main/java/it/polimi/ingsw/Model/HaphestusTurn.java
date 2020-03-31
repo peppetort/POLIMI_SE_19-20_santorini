@@ -16,8 +16,8 @@ public class HaphestusTurn extends DefaultTurn {
     }
 
     @Override
-    public void start(){
-        super.start();
+    public void start(Worker worker){
+        super.start(worker);
         lastX = null;
         lastY = null;
         oneBuild = false;
@@ -25,7 +25,7 @@ public class HaphestusTurn extends DefaultTurn {
 
 
     @Override
-    public void build(Worker worker, int x, int y) throws NullPointerException {
+    public void build(int x, int y) throws NullPointerException {
         if(!running){
             throw new TurnNotStartedException("Turn not started!");
         }

@@ -14,15 +14,15 @@ public class ArtemisTurn extends DefaultTurn {
     }
 
     @Override
-    public void start(){
-        super.start();
+    public void start(Worker worker){
+        super.start(worker);
         startX = null;
         startY = null;
         oneMove = false;
     }
 
     @Override
-    public void move(Worker worker, int x, int y) {
+    public void move(int x, int y) {
         if(!running){
             throw new TurnNotStartedException("Turn not started!");
         }
@@ -61,9 +61,9 @@ public class ArtemisTurn extends DefaultTurn {
     }
 
     @Override
-    public void build(Worker worker, int x, int y){
+    public void build(int x, int y){
         canMove = false; //una volta costruito non posso più muovere
-        super.build(worker, x, y);
+        super.build(x, y);
     }
 
     @Override

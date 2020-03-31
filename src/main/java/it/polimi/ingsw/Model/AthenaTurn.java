@@ -10,7 +10,7 @@ public class AthenaTurn extends DefaultTurn {
     }
 
     @Override
-    public void move(Worker worker, int x, int y){
+    public void move(int x, int y){
         canGoUp = true; //di default tutti possono salire
         Box workerBox = board.getBox(worker.getXPos(), worker.getYPos()); //box iniziale della pedina
         if(!running){

@@ -14,15 +14,15 @@ public class DemeterTurn extends DefaultTurn {
     }
 
     @Override
-    public void start(){
-        super.start();
+    public void start(Worker worker){
+        super.start(worker);
         lastX = null;
         lastY = null;
         oneBuild = false;
     }
 
     @Override
-    public void build(Worker worker, int x, int y) throws NullPointerException {
+    public void build( int x, int y) throws NullPointerException {
         if(!running){
             throw new RuntimeException("Turn not started!");
         }

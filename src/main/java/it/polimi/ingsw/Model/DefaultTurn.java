@@ -13,23 +13,20 @@ public class DefaultTurn implements Turn {
     boolean canBuild;
     boolean win;
     Board board;
-    Worker worker1;
-    Worker worker2;
+    Worker worker;
 
     public DefaultTurn(Player player) {
         this.running = false;
         this.win = false;
         this.board = player.getSession().getBoard();
-        this.worker1 = player.getWorker1();
-        this.worker2 = player.getWorker2();
         this.moveAction = player.getMoveAction();
         this.buildAction = player.getBuildAction();
         this.winAction = player.getWinAction();
     }
 
     @Override
-    public void start() {
-        if (running) { // controlla che il turno non è stato già iniziato
+    public void start(Worker worker) {
+/*        if (running) { // controlla che il turno non è stato già iniziato
             throw new RuntimeException("Already start!");
         }
         if (canGoUp) {
@@ -43,11 +40,28 @@ public class DefaultTurn implements Turn {
         }
         running = true;
         canMove = true; // abilita la mossa
+        canBuild = false;*/
+
+        if (running) { // controlla che il turno non è stato già iniziato
+            throw new RuntimeException("Already start!");
+        }
+        if (canGoUp) {
+            if (!worker.canMove(true)) { //controlla che il giocatore ha almeno una possibilità di muoversi
+                throw new PlayerLostException("Your workers cannot make any moves!");
+            }
+        }else {
+            if (!worker.canMove(false)) { //controlla che il giocatore ha almeno una possibilità di muoversi
+                throw new PlayerLostException("The Player has lost");
+            }
+        }
+        running = true;
+        this.worker = worker;
+        canMove = true; // abilita la mossa
         canBuild = false;
     }
 
     @Override
-    public void move(Worker worker, int x, int y) {
+    public void move(int x, int y) {
         if (!running) {
             throw new TurnNotStartedException("Turn not started!");
         }
@@ -65,7 +79,7 @@ public class DefaultTurn implements Turn {
     }
 
     @Override
-    public void build(Worker worker, int x, int y) {
+    public void build(int x, int y) {
         if (!running) {
             throw new TurnNotStartedException("Turn not started!");
         }
@@ -84,7 +98,9 @@ public class DefaultTurn implements Turn {
     @Override
     public void end() {
         //Controllo che tutte le azioni che dovevano essere fatte, sono state fatte
-        if (canMove) {
+        if(!running){
+            throw new TurnNotStartedException("Turn not started!");
+        }else if (canMove) {
             throw new RuntimeException("Can't end turn! You have to move!");
         } else if (canBuild) {
             throw new RuntimeException("Can't end turn! You have to build!");

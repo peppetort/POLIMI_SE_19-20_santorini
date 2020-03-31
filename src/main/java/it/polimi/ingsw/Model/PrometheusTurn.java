@@ -9,9 +9,9 @@ public class PrometheusTurn extends DefaultTurn {
     }
 
     @Override
-    public void start(){
-        super.start();
-        if(!worker1.moveGoUp() && !worker2.moveGoUp()){
+    public void start(Worker worker){
+        super.start(worker);
+        if(!worker.moveGoUp()){
             canMove = true;
             canBuild = true;
         }
@@ -19,15 +19,15 @@ public class PrometheusTurn extends DefaultTurn {
     }
 
     @Override
-    public void move(Worker worker, int x, int y){
-        super.move(worker, x, y);
+    public void move(int x, int y){
+        super.move( x, y);
         startBuild = true;
     }
 
 
     @Override
-    public void build(Worker worker, int x, int y){
-        super.build(worker, x, y);
+    public void build(int x, int y){
+        super.build( x, y);
         if(!startBuild){
             startBuild = true;
         }
