@@ -9,6 +9,7 @@ import java.util.*;
 public class Controller implements Observer<Message>{
     private HashMap<Player,Boolean> turn = new HashMap<>();
     private HashMap<Player,Boolean> outcome = new HashMap<>();
+    private HashMap<Player,Player> players = new HashMap<>(); //La chiave è il riferimento del "client",il value è il riferimento del model
     private ArrayList<Card> cards = new ArrayList<>();
     private boolean firstTurn;
     private Game game;
@@ -54,9 +55,6 @@ public class Controller implements Observer<Message>{
         for(Player p:game.getPlayers()) {
             if(turn.get(p)) {
                 turn.replace(p,false);
-                if(!firstTurn) {
-                    game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
-                }
                 index = (game.getPlayers().indexOf(p)+1)%(game.getPlayers().size());
                 if(index == 0 && firstTurn){
                     firstTurn = false;
