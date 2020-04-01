@@ -6,22 +6,16 @@ import it.polimi.ingsw.Model.Worker;
 public class PlayerMove implements Message{
 
     Player player;
-    Worker worker;
     int x,y;
 
-    public PlayerMove(Player player,Worker worker,int x,int y){
+    public PlayerMove(Player player,int x,int y){
         this.player = player;
-        this.worker = worker;
         this.x = x;
         this.y = y;
     }
 
     public Player getPlayer() {
         return player;
-    }
-
-    public Worker getWorker() {
-        return worker;
     }
 
     public int getX() {

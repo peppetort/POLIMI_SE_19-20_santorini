@@ -14,6 +14,26 @@ public class Controller implements Observer<Message>{
     private Game game;
     private int loosingPlayers;
 
+    public HashMap<Player, Boolean> getTurn() {
+        return turn;
+    }
+
+    public HashMap<Player, Boolean> getOutcome() {
+        return outcome;
+    }
+
+    public boolean isFirstTurn() {
+        return firstTurn;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public int getLoosingPlayers() {
+        return loosingPlayers;
+    }
+
     public Controller(Game game) {
         this.game = game;
         this.cards = game.getCards();
@@ -34,7 +54,9 @@ public class Controller implements Observer<Message>{
         for(Player p:game.getPlayers()) {
             if(turn.get(p)) {
                 turn.replace(p,false);
-                game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
+                if(!firstTurn) {
+                    game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
+                }
                 index = (game.getPlayers().indexOf(p)+1)%(game.getPlayers().size());
                 if(index == 0 && firstTurn){
                     firstTurn = false;
@@ -50,7 +72,7 @@ public class Controller implements Observer<Message>{
         int index = game.getPlayers().indexOf(p);
         if(turn.get(p) && !firstTurn && outcome.get(p) == null){
             try {
-                game.getPlayers().get(index).getTurn().move(message.getWorker(), message.getX(), message.getY());
+                game.getPlayers().get(index).getTurn().move( message.getX(), message.getY());
                 if(game.getPlayers().get(index).getTurn().won()){ //il player che ha fatto la mossa ha vinto !
                     outcome.replace(p,true);
                     for(Player c:game.getPlayers()){
@@ -71,7 +93,7 @@ public class Controller implements Observer<Message>{
         int index = game.getPlayers().indexOf(p);
         if(turn.get(p) && !firstTurn && outcome.get(p) == null){
             try {
-                game.getPlayers().get(index).getTurn().build(message.getWorker(),message.getX(),message.getY());
+                game.getPlayers().get(index).getTurn().build(message.getX(),message.getY());
             }catch (RuntimeException e){
                 System.err.println(e.getMessage());
             }
@@ -98,9 +120,10 @@ public class Controller implements Observer<Message>{
 
     private void performDeckBuilding(DeckChoice message){
         Player p = message.getPlayer();
-        if(turn.get(p) && firstTurn  && outcome.get(p) == null){
+        if(turn.get(p) && firstTurn &&  outcome.get(p)==null){
             for(Card c: message.getCards()){
                 game.addCard(c);
+                cards.add(c);
             }
             updateTurn();
         }
@@ -111,9 +134,10 @@ public class Controller implements Observer<Message>{
 
     private void performStart(PlayerStart message){
         Player p = message.getPlayer();
+        Worker w = message.getWorker();
         if(turn.get(p) && outcome.get(p) == null){
             try{
-                game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().start();
+                game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().start(w);
             }catch (RuntimeException e){
                 if(e instanceof PlayerLostException){
                     outcome.replace(p,false);
@@ -162,9 +186,16 @@ public class Controller implements Observer<Message>{
             }
         }
     }
+
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
     //message è la mossa generica
     @Override
     public void update(Message message) {
+        //TODO: il riferimento del player in messaggio è quello del client, devo sostituire per avere coerenza dato che
+        // il controller lavora col model che è sul server
         if(message instanceof PlayerMove){
             performMove((PlayerMove) message);
         }
