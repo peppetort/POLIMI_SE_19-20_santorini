@@ -66,12 +66,11 @@ public class Controller implements Observer<Message>{
     }
 
     private void performMove(PlayerMove message){
-        Player p = message.getPlayer();
-        int index = game.getPlayers().indexOf(p);
+        Player p = players.get(message.getPlayer());
         if(turn.get(p) && !firstTurn && outcome.get(p) == null){
             try {
-                game.getPlayers().get(index).getTurn().move( message.getX(), message.getY());
-                if(game.getPlayers().get(index).getTurn().won()){ //il player che ha fatto la mossa ha vinto !
+                p.getTurn().move( message.getX(), message.getY());
+                if(p.getTurn().won()){
                     outcome.replace(p,true);
                     for(Player c:game.getPlayers()){
                         if(!c.equals(p)){
@@ -87,11 +86,11 @@ public class Controller implements Observer<Message>{
         }
     }
     private void performBuild(PlayerBuild message){
-        Player p = message.getPlayer();
+        Player p = players.get(message.getPlayer());
         int index = game.getPlayers().indexOf(p);
         if(turn.get(p) && !firstTurn && outcome.get(p) == null){
             try {
-                game.getPlayers().get(index).getTurn().build(message.getX(),message.getY());
+                p.getTurn().build(message.getX(),message.getY());
             }catch (RuntimeException e){
                 System.err.println(e.getMessage());
             }
@@ -101,8 +100,8 @@ public class Controller implements Observer<Message>{
     }
 
     private void performChoice(CardChoice message){
-        Player p = message.getPlayer(); // da riferimento nullo
-        Card card = message.getCard();
+        Player p = players.get(message.getPlayer()); // da riferimento nullo
+        Card card = new Card(message.getCard().getName());
         if(firstTurn && turn.get(p) && outcome.get(p) == null){
             p.setCard(card);
             removeCard(card);
@@ -117,7 +116,7 @@ public class Controller implements Observer<Message>{
     }
 
     private void performDeckBuilding(DeckChoice message){
-        Player p = message.getPlayer();
+        Player p = players.get(message.getPlayer());
         if(turn.get(p) && firstTurn &&  outcome.get(p)==null){
             for(Card c: message.getCards()){
                 game.addCard(c);
@@ -129,10 +128,17 @@ public class Controller implements Observer<Message>{
             throw new RuntimeException("Non è il tuo turno");
         }
     }
-
+    //TODO: risolvere problema del worker
     private void performStart(PlayerStart message){
-        Player p = message.getPlayer();
-        Worker w = message.getWorker();
+        Player p = players.get(message.getPlayer());
+        Worker w;
+        if(message.getWorker().equals(message.getPlayer().getWorker1())) {
+            w = p.getWorker1();
+        }
+        else{
+            w = p.getWorker2();
+        }
+
         if(turn.get(p) && outcome.get(p) == null){
             try{
                 game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().start(w);
@@ -158,10 +164,11 @@ public class Controller implements Observer<Message>{
     }
 
     private void performEnd(PlayerEnd message){
-        Player p = message.getPlayer();
+        Player p = players.get(message.getPlayer());
         if(turn.get(p) && outcome.get(p) == null){
             try{
-                game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
+                //game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
+                p.getTurn().end();
                 updateTurn();
             }catch (RuntimeException e){
                 System.err.println(e.getMessage());
@@ -192,8 +199,7 @@ public class Controller implements Observer<Message>{
     //message è la mossa generica
     @Override
     public void update(Message message) {
-        //TODO: il riferimento del player in messaggio è quello del client, devo sostituire per avere coerenza dato che
-        // il controller lavora col model che è sul server
+
         if(message instanceof PlayerMove){
             performMove((PlayerMove) message);
         }
@@ -214,6 +220,15 @@ public class Controller implements Observer<Message>{
         }
     }
 
+    public void initializePlayers(InitializePlayersMessage message) {
+        try{
+            for(Player p: message.getPlayers()){
+                players.put(p,game.getPlayers().get(message.getPlayers().indexOf(p)));
+            }
+        }catch(NullPointerException e){
+            System.err.println(e.getMessage());
+        }
+    }
 
 
 
