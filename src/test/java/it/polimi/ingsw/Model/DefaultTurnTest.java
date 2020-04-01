@@ -27,7 +27,6 @@ public class DefaultTurnTest {
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
-        board.placePawn(worker, 0, 0);
         board.getBox(0,1).build(Block.LTWO);
         board.getBox(1,0).build(Block.LTWO);
         board.getBox(1,1).build(Block.LTWO);
@@ -159,9 +158,15 @@ public class DefaultTurnTest {
         board.getBox(0,1).build(Block.LTHREE);
         board.placePawn(worker1, 0, 0);
         board.placePawn(worker2,4,4);
+
         Turn turn = new DefaultTurn(player);
+        TurnUtils util = new TurnUtils(player);
+        boolean tmp = util.getCanGoUp();
+        util.setCanGoUp(true);
+
         turn.start(worker1);
         turn.move( 0,1);
+        util.setCanGoUp(tmp);
         assertTrue(turn.won());
     }
 
@@ -179,6 +184,30 @@ public class DefaultTurnTest {
         turn.move(0, 1);
         turn.build(0,0);
         turn.end();
+    }
+
+    @Test
+    public void doubleTurnDifferentWorker(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        turn.start(worker1);
+        turn.move(0, 1);
+        turn.build(0,0);
+        turn.end();
+        turn.start(worker2);
+        turn.move(4,3);
+        turn.build(4,4);
+        turn.end();
+        assertEquals(board.getBox(0,1).getPawn(), worker1);
+        assertEquals(board.getBox(4,3).getPawn(), worker2);
+        assertEquals(board.getBox(0,0).getBlock(), Block.LONE);
+        assertEquals(board.getBox(4,4).getBlock(), Block.LONE);
     }
 
 }

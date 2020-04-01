@@ -26,33 +26,11 @@ public class DefaultTurn implements Turn {
 
     @Override
     public void start(Worker worker) {
-/*        if (running) { // controlla che il turno non è stato già iniziato
-            throw new RuntimeException("Already start!");
-        }
-        if (canGoUp) {
-            if (!worker1.canMove(true) && !worker2.canMove(true)) { //controlla che il giocatore ha almeno una possibilità di muoversi
-                throw new PlayerLostException("Your workers cannot make any moves!");
-            }
-        }else {
-            if (!worker1.canMove(false) && !worker2.canMove(false)) { //controlla che il giocatore ha almeno una possibilità di muoversi
-                throw new PlayerLostException("The Player has lost");
-            }
-        }
-        running = true;
-        canMove = true; // abilita la mossa
-        canBuild = false;*/
-
         if (running) { // controlla che il turno non è stato già iniziato
             throw new RuntimeException("Already start!");
         }
-        if (canGoUp) {
-            if (!worker.canMove(true)) { //controlla che il giocatore ha almeno una possibilità di muoversi
-                throw new PlayerLostException("Your workers cannot make any moves!");
-            }
-        }else {
-            if (!worker.canMove(false)) { //controlla che il giocatore ha almeno una possibilità di muoversi
-                throw new PlayerLostException("The Player has lost");
-            }
+        if (!worker.canMove(canGoUp)) { //controlla che il giocatore ha almeno una possibilità di muoversi
+            throw new PlayerLostException("Your workers cannot make any moves!");
         }
         running = true;
         this.worker = worker;
@@ -107,4 +85,5 @@ public class DefaultTurn implements Turn {
         }
         running = false; // finisco il turno
     }
+
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Exceptions.InvalidBuildException;
+import it.polimi.ingsw.Exceptions.InvalidMoveException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
 
 public class ArtemisTurn extends DefaultTurn {
@@ -33,27 +33,27 @@ public class ArtemisTurn extends DefaultTurn {
         if(!canGoUp){
             try{
                 if (startX == x && startY == y) {
-                    throw new InvalidBuildException("Can't build here!");
+                    throw new InvalidMoveException("Can't move worker on this box!");
                 }
                 moveAction.moveNoGoUp(worker, x, y);
                 canMove = false;
             }catch (NullPointerException e){
+                startX = worker.getXPos();
+                startY = worker.getYPos();
                 moveAction.moveNoGoUp(worker, x, y);
-                startX = x;
-                startY = y;
                 oneMove = true;
             }
         }else {
             try{
                 if (startX == x && startY == y) {
-                    throw new InvalidBuildException("Can't build here!");
+                    throw new InvalidMoveException("Can't move worker on this box!");
                 }
                 moveAction.move(worker, x, y);
                 canMove = false;
             }catch (NullPointerException e){
+                startX = worker.getXPos();
+                startY = worker.getYPos();
                 moveAction.move(worker, x, y);
-                startX = x;
-                startY = y;
                 oneMove = true;
             }
         }
@@ -68,7 +68,9 @@ public class ArtemisTurn extends DefaultTurn {
 
     @Override
     public void end(){
-        if(!oneMove){
+        if(!running){
+            throw new TurnNotStartedException("Turn not started!");
+        }else if(!oneMove){
             throw new RuntimeException("Can't end turn! You have to move!");
         }else if(canBuild){
             throw new RuntimeException("Can't end turn! You have to build!");

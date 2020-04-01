@@ -35,7 +35,7 @@ public class HaphestusTurn extends DefaultTurn {
         try {
             //controllo che la seconda volta che costruisco, costruisco sulla stessa
             //box della prima
-            if (lastX != x && lastY != y) {
+            if (lastX != x || lastY != y) {
                 throw new InvalidBuildException("Can't build here!");
             }
             buildAction.build(worker, x, y);
@@ -57,7 +57,9 @@ public class HaphestusTurn extends DefaultTurn {
 
     @Override
     public void end(){
-        if(canMove){
+        if(!running){
+            throw new TurnNotStartedException("Turn not started!");
+        }else if(canMove){
             throw new RuntimeException("Can't end turn! You have to move!");
         }else if(!oneBuild){
             throw new RuntimeException("Can't end turn! You have to build!");

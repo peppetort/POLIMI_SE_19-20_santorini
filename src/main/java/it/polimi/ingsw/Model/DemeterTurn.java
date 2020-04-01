@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.InvalidBuildException;
+import it.polimi.ingsw.Exceptions.TurnNotStartedException;
+
 public class DemeterTurn extends DefaultTurn {
 
     Integer lastX;
@@ -33,7 +36,7 @@ public class DemeterTurn extends DefaultTurn {
             // controllo che quando voglio costruire la seconda volta
             // non costruisco sulla stessa posizione della prima
             if (lastX == x && lastY == y) {
-                throw new RuntimeException("Can't build here!");
+                throw new InvalidBuildException("Can't build here!");
             }
             buildAction.build(worker, x, y);
             canBuild = false; //non posso più costruire
@@ -48,7 +51,9 @@ public class DemeterTurn extends DefaultTurn {
 
     @Override
     public void end(){
-        if(canMove){
+        if(!running){
+            throw new TurnNotStartedException("Turn not started!");
+        }else if(canMove){
             throw new RuntimeException("Can't end turn! You have to move!");
         }else if(!oneBuild){ //controllo di aver costruito almeno una volta
             throw new RuntimeException("Can't end turn! You have to build!");

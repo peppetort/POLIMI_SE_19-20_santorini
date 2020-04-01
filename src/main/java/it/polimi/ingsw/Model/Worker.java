@@ -154,7 +154,7 @@ public class Worker {
                                         return true;
                                     }
                                 }else {
-                                    if(myBox.getDifference(otherBox)==0 && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canBuild()))){
+                                    if(myBox.getDifference(otherBox)>=0 && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canBuild()))){
                                         return true;
                                     }
                                 }
@@ -176,7 +176,7 @@ public class Worker {
                                         return true;
                                     }
                                 }else {
-                                    if(myBox.getDifference(otherBox)==0 && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canMove(false, false)))){
+                                    if(myBox.getDifference(otherBox)>=0 && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canMove(false, false)))){
                                         return true;
                                     }                                }
                             }
@@ -208,7 +208,7 @@ public class Worker {
                                         return true;
                                     }
                                 } else {
-                                    if (myBox.getDifference(otherBox) == 0 && otherBox.isFree()) {
+                                    if (myBox.getDifference(otherBox) >= 0 && otherBox.isFree()) {
                                         return true;
                                     }
                                 }
@@ -229,7 +229,7 @@ public class Worker {
                                     return true;
                                 }
                             } else {
-                                if (myBox.getDifference(otherBox) == 0 && otherBox.isFree()) {
+                                if (myBox.getDifference(otherBox) >= 0 && otherBox.isFree()) {
                                     return true;
                                 }
                             }
