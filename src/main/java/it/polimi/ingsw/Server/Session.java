@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Session {
-    public int partecipant;
+    public int participant;
     public boolean simple;
     public Server server;
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
@@ -16,16 +16,16 @@ public class Session {
 
 
     Session(ClientConnection creatorConnection,String username,int p,boolean simple,Server server){
-        partecipant=p;
+        participant=p;
         this.simple=simple;
         waitingConnection.put(username,creatorConnection);
         this.server=server;
-        creatorConnection.asyncSend("Wait parteciapants");
+        creatorConnection.asyncSend("Wait participants");
     }
-    public void addPartecipant(ClientConnection Connection,String username,String game)
+    public void addParticipant(ClientConnection Connection,String username,String game)
     {
         waitingConnection.put(username,Connection);
-        if(waitingConnection.size()==partecipant)
+        if(waitingConnection.size()==participant)
         {
             server.disponibleSession.remove(game);
             this.lobby();
