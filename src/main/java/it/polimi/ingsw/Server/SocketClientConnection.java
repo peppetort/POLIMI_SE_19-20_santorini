@@ -98,7 +98,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                         send(server.disponibleSession.keySet().toString());
                         send("select");
                         read = in.nextLine();
-                        server.disponibleSession.get(read).addPartecipant(this, name, read);
+                        server.disponibleSession.get(read).addParticipant(this, name, read);
                     }
 
                 while(isActive()){
