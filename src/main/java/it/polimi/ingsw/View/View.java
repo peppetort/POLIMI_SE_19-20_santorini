@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.View;
 
 
 import it.polimi.ingsw.Controller.Message;

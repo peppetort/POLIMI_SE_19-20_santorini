@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server;
 
+import it.polimi.ingsw.Exceptions.FullSessionException;
 import it.polimi.ingsw.Observer.Observable;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ public class SocketClientConnection extends Observable<String> implements Client
     private Socket socket;
     private ObjectOutputStream out;
     private Server server;
+    private Session session;
 
     private boolean active = true;
 
@@ -21,7 +23,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         this.server = server;
     }
 
-    private synchronized boolean isActive(){
+    private synchronized boolean isActive() {
         return active;
     }
 
@@ -30,7 +32,7 @@ public class SocketClientConnection extends Observable<String> implements Client
             out.reset();
             out.writeObject(message);
             out.flush();
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println(e.getMessage());
         }
 
@@ -50,66 +52,128 @@ public class SocketClientConnection extends Observable<String> implements Client
     private void close() {
         closeConnection();
         System.out.println("Deregistering client...");
-        server.deregisterConnection(this);
+        session.deregisterConnection(this);
         System.out.println("Done!");
     }
 
     @Override
-
-        public void asyncSend(final Object message){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    send(message);
-                }
-            }).start();
-        }
-
-        @Override
-        public void run() {
-            Scanner in;
-            String name;
-            String choice;
-            try{
-                in = new Scanner(socket.getInputStream());
-                out = new ObjectOutputStream(socket.getOutputStream());
-                send("Welcome!\nWhat is your name?");
-                String read = in.nextLine();
-                name = read;
-                if(server.disponibleSession.isEmpty())
-                {
-                    choice="create";
-                    send("No disponible session, you have to create a new session");
-                }else {
-                    do {
-                        send("create/take part?");
-                        read = in.nextLine();
-                        choice = read;
-                    } while (choice.compareTo("create") != 0 && choice.compareTo("take part") != 0);
-                }
-                    if (choice.compareTo("create") == 0) {
-                        send("create, name of session:");
-                        read = in.nextLine();
-                        Session session = new Session(this, name, 2, false, server);
-                        //server.disponibleSession.add(session);
-                        server.disponibleSession.put(read, session);
-                    } else if (choice.compareTo("take part") == 0) {
-
-                        send(server.disponibleSession.keySet().toString());
-                        send("select");
-                        read = in.nextLine();
-                        server.disponibleSession.get(read).addParticipant(this, name, read);
-                    }
-
-                while(isActive()){
-                    read = in.nextLine();
-                    notify(read);
-                }
-            } catch (IOException | NoSuchElementException e) {
-                System.err.println("Error!" + e.getMessage());
-            }finally{
-                close();
+    public void asyncSend(final Object message) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                send(message);
             }
+        }).start();
+    }
+
+    @Override
+    public void run() {
+        Scanner in;
+        String playerName;
+        String read;
+        int status = 0;
+
+        try {
+            in = new Scanner(socket.getInputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
+            playerName = in.nextLine();
+
+            while (status == 0) {
+                send("create/take part?");
+                read = in.nextLine();
+
+                if (read.compareTo("create") == 0) {
+                    status = 1;
+                } else if (read.compareTo("take part") != 0) {
+                    if (server.disponibleSession.isEmpty()) {
+                        send("No disponible session");
+                    } else {
+                        status = 2;
+                    }
+                } else {
+                    send("Invalid choice! Please try again");
+                }
+            }
+
+
+            if (status == 1) {
+                String sessionName;
+                int participantsNumb;
+                boolean simple = true;
+                boolean valid;
+
+                do {
+                    valid = true;
+                    send("Name of Session:");
+                    sessionName = in.nextLine();
+                    if (server.disponibleSession.containsKey(sessionName)) {
+                        valid = false;
+                        send("Session named " + sessionName + " already exists! Please insert another name.");
+                    }
+                } while (!valid);
+
+                do {
+                    valid = true;
+                    send("Number of competitors (2-3):");
+                    participantsNumb = Integer.parseInt(in.nextLine());
+                    if (participantsNumb != 2 && participantsNumb != 3) {
+                        valid = false;
+                        send("Invalid! Try again!");
+                    }
+                } while (!valid);
+
+                do {
+                    valid = true;
+                    send("Do you want to use cards? (y/n):");
+                    read = in.nextLine();
+                    if (read.compareTo("y") == 0) {
+                        simple = false;
+                    } else if (read.compareTo("n") == 0) {
+                        simple = true;
+                    } else {
+                        valid = false;
+                        send("Invalid! Try again!");
+                    }
+                } while (!valid);
+
+                session = new Session(this, playerName, participantsNumb, simple, server);
+                server.disponibleSession.put(sessionName, session);
+            }
+
+            if (status == 2) {
+                String selected;
+                boolean valid;
+
+                do {
+                    valid = true;
+                    send("Select session to join:");
+                    send(server.disponibleSession.keySet().toString());
+                    selected = in.nextLine();
+                    session = server.disponibleSession.get(selected);
+                    if (session == null) {
+                        valid = false;
+                        send("Invalid! Try again!");
+                    } else {
+                        try {
+                            session.addParticipant(this, playerName, selected);
+                        } catch (FullSessionException e) {
+                            valid = false;
+                            send(e.getMessage());
+                        }
+                    }
+                } while (!valid);
+            }
+
+            while (isActive()) {
+                read = in.nextLine();
+                notify(read);
+            }
+
+        } catch (IOException | NoSuchElementException e) {
+            System.err.println("Error!" + e.getMessage());
+        } finally {
+            close();
         }
     }
+}
 
