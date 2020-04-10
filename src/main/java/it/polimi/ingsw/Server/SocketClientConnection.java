@@ -90,7 +90,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                     if (choice.compareTo("create") == 0) {
                         send("create, name of session:");
                         read = in.nextLine();
-                        Session session = new Session(this, name, 2, true, server);
+                        Session session = new Session(this, name, 2, false, server);
                         //server.disponibleSession.add(session);
                         server.disponibleSession.put(read, session);
                     } else if (choice.compareTo("take part") == 0) {

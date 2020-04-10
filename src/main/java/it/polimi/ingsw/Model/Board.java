@@ -52,4 +52,16 @@ public class Board {
         board[x][y].setPawn(worker);
         worker.setPos(x,y);
     }
+    public String stamp() {
+        int x;
+        int y;
+        String rapp = "";
+        for (y = 0; y < 5; y++){
+            for (x = 0; x < 5; x++) {
+                rapp += board[x][y].getBlock().getValue() + " ";
+            }
+        rapp += "\n";
+    }
+        return rapp;
+    }
 }
