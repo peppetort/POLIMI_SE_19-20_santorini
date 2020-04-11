@@ -104,5 +104,9 @@ public class Game {
         return board;
     }
 
-    //TODO: removePlayer() rimuove giocatore dalla lista e pedine dalla board
+    public void removePlayer(Player player){
+        board.getBox(player.getWorker1().getXPos(),player.getWorker1().getYPos()).removePawn();
+        board.getBox(player.getWorker2().getXPos(),player.getWorker2().getYPos()).removePawn();
+        players.remove(player);
+    }
 }
