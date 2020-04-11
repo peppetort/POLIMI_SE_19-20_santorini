@@ -192,6 +192,21 @@ public class Controller implements Observer<Message>{
         }
     }
 
+    private void performRemoval(PlayerRemove message){
+        Player p = players.get(message.getPlayer());
+        outcome.replace(p,false);
+        loosingPlayers++;
+        if(turn.get(p)){
+            updateTurn();
+            turn.remove(p);
+        }
+        else {
+            turn.remove(p);
+        }
+        players.remove(message.getPlayer());
+        game.removePlayer(p);
+    }
+
     public ArrayList<Card> getCards() {
         return cards;
     }
@@ -217,6 +232,9 @@ public class Controller implements Observer<Message>{
         }
         if(message instanceof PlayerEnd){
             performEnd((PlayerEnd) message);
+        }
+        if(message instanceof PlayerRemove){
+            performRemoval((PlayerRemove) message);
         }
     }
 
