@@ -72,7 +72,6 @@ public class ControllerTest {
         controller.update(p1e);
         assertEquals(false,controller.getTurn().get(game.getPlayers().get(0)));
         assertEquals(true,controller.getTurn().get(game.getPlayers().get(1)));
-
     }
     @Test
     public void testTurnInterrupt() {
