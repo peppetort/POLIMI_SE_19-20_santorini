@@ -11,9 +11,8 @@ public class RemoteView extends View {
 
        @Override
         public void update(String message) {
-
+           //TODO:
         }
-
     }
 
     private ClientConnection clientConnection;

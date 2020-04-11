@@ -103,4 +103,6 @@ public class Game {
     public Board getBoard() {
         return board;
     }
+
+    //TODO: removePlayer() rimuove giocatore dalla lista e pedine dalla board
 }

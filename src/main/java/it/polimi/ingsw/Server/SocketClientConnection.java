@@ -15,6 +15,7 @@ public class SocketClientConnection extends Observable<String> implements Client
     private ObjectOutputStream out;
     private Server server;
     private Session session;
+    private String username;
 
     private boolean active = true;
 
@@ -52,8 +53,13 @@ public class SocketClientConnection extends Observable<String> implements Client
     private void close() {
         closeConnection();
         System.out.println("Deregistering client...");
-        session.deregisterConnection(this);
+        session.deregisterConnection(username);
         System.out.println("Done!");
+    }
+
+    @Override
+    public String getUsername(){
+        return this.username;
     }
 
     @Override
@@ -69,14 +75,14 @@ public class SocketClientConnection extends Observable<String> implements Client
     @Override
     public void run() {
         Scanner in;
-        String playerName;
         String read;
         int status = 0;
 
         try {
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            playerName = in.nextLine();
+            send("Welcome!\nInsert your name:");
+            username = in.nextLine();
 
             while (status == 0) {
                 send("create/take part?");
@@ -136,7 +142,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                     }
                 } while (!valid);
 
-                session = new Session(this, playerName, participantsNumb, simple, server);
+                session = new Session(this, participantsNumb, simple, server, sessionName);
                 server.disponibleSession.put(sessionName, session);
             }
 
@@ -155,7 +161,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                         send("Invalid! Try again!");
                     } else {
                         try {
-                            session.addParticipant(this, playerName, selected);
+                            session.addParticipant(this);
                         } catch (FullSessionException e) {
                             valid = false;
                             send(e.getMessage());
