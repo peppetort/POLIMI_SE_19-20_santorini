@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Controller;
+package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Card;
 import it.polimi.ingsw.Model.Player;
@@ -17,7 +17,7 @@ public class CardChoice implements Message {
         return card;
     }
 
-    @Override
+
     public Player getPlayer() {
         return player;
     }

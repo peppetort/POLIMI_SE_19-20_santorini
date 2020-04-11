@@ -1,14 +1,13 @@
-package it.polimi.ingsw.Controller;
+package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
-import it.polimi.ingsw.Model.Worker;
 
-public class PlayerMove implements Message{
+public class PlayerBuild implements Message{
 
     Player player;
     int x,y;
 
-    public PlayerMove(Player player,int x,int y){
+    public PlayerBuild(Player player,int x,int y){
         this.player = player;
         this.x = x;
         this.y = y;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Controller;
+package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.Worker;
@@ -10,7 +10,7 @@ public class PlayerStart implements Message {
         this.player = player;
         this.worker = worker;
     }
-    @Override
+
     public Player getPlayer() {
         return player;
     }

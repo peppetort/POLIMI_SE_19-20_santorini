@@ -1,14 +1,17 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Exceptions.DuplicateCardException;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
+import it.polimi.ingsw.Observer.Observable;
 
 import java.util.ArrayList;
 
 /**
  * Classe che rappresenta la partita stessa.
  */
-public class Game {
+public class Game extends Observable<Message> {
     private long matchID;
     private ArrayList<Player> players = new ArrayList<Player>();    //lista dei player
     private ArrayList<Card> cards = new ArrayList<Card>();          //list delle carte selezionate dai player

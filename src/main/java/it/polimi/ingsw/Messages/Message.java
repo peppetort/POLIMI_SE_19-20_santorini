@@ -1,8 +1,9 @@
-package it.polimi.ingsw.Controller;
+package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
 
+import java.io.Serializable;
+
 public interface Message {
 
-    public Player getPlayer();
 }

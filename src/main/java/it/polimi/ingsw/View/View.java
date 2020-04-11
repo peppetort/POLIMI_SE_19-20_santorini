@@ -1,10 +1,15 @@
 package it.polimi.ingsw.View;
 
 
-import it.polimi.ingsw.Controller.*;
+import it.polimi.ingsw.Messages.InitializePlayersMessage;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.PlayerBuild;
+import it.polimi.ingsw.Messages.PlayerMove;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
+
+import java.util.ArrayList;
 
 public abstract class View extends Observable<Message> implements Observer<Message> {
 
@@ -28,6 +33,13 @@ public abstract class View extends Observable<Message> implements Observer<Messa
     public void handleSelection(int row,int column)
     {
        // notify(new PlayerStart());
+    }
+    public void handleInitialization(Player player,Player opponent) {
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        players.add(opponent);
+        notify(new InitializePlayersMessage(players));
+
     }
     public void handleMove(int row,int column)
     {

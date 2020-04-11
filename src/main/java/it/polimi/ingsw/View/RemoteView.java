@@ -1,11 +1,18 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Controller.Message;
+import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.InitializePlayersMessage;
+import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Server.ClientConnection;
 
+import java.util.ArrayList;
+
 public class RemoteView extends View {
+
+    private Player player;
+    private Player opponent;
 
     private class MessageReceiver implements Observer<String> {
 
@@ -41,30 +48,37 @@ public class RemoteView extends View {
                {
                    coordinate=inputs[1].split(",");
                    handleBuild(Integer.parseInt(coordinate[0]), Integer.parseInt(coordinate[1]));
-               } else
-                   throw new IllegalArgumentException();
+               }else
+               if(inputs[0].compareTo("START")==0){
+                   handleInitialization(player,opponent);
+               }
 
            }catch(IllegalArgumentException e){
                clientConnection.asyncSend("Error!");
-
            }
         }
     }
 
     private ClientConnection clientConnection;
 
-    public RemoteView(Player player, String opponent, ClientConnection c) {
+    public RemoteView(Player player, Player opponent, ClientConnection c) {
         super(player);
+        this.player = player;
+        this.opponent = opponent;
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());
         c.asyncSend("Your opponent is: " + opponent);
-
+        c.asyncSend("Waiting.....");
     }
 
     @Override
-    public void update(Message message)
-    {
-            showMessage("tocca a te");
+    public void update(Message message) {
+        if(message instanceof BoardUpdate){
+            clientConnection.asyncSend(((BoardUpdate) message).getBoardData());
+        }else {
+            System.out.println("Malformed message");
+        }
+
     }
     @Override
     protected void showMessage(Object message) {

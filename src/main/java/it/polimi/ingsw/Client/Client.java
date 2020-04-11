@@ -2,6 +2,12 @@ package it.polimi.ingsw.Client;
 
 
 
+
+
+
+import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.Message;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
@@ -38,7 +44,8 @@ public class Client {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){
                             System.out.println((String)inputObject);
-                        }  else {
+                        }
+                        else {
                             throw new IllegalArgumentException();
                         }
                     }
@@ -90,6 +97,10 @@ public class Client {
             socketOut.close();
             socket.close();
         }
+    }
+
+    private void printBoard(String boardData){
+        System.out.println("Aggiorno la board...");
     }
 
 }

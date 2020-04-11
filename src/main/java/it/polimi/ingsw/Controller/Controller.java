@@ -1,12 +1,17 @@
 package it.polimi.ingsw.Controller;
 
+
 import it.polimi.ingsw.Exceptions.PlayerLostException;
+import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.Observer;
+import it.polimi.ingsw.Observer.Observable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Controller implements Observer<Message>{
+
+public class Controller extends Observable<Message> implements Observer<Message> {
     private HashMap<Player,Boolean> turn = new HashMap<>();
     private HashMap<Player,Boolean> outcome = new HashMap<>();
     private HashMap<Player,Player> players = new HashMap<>(); //La chiave è il riferimento del "client",il value è il riferimento del model
@@ -45,6 +50,9 @@ public class Controller implements Observer<Message>{
         firstTurn = true;
         turn.replace(game.getPlayers().get(0),true);
         loosingPlayers = 0;
+
+
+
     }
 
     /**
@@ -169,6 +177,7 @@ public class Controller implements Observer<Message>{
             try{
                 //game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
                 p.getTurn().end();
+                //game.notify(new BoardUpdate(game.getBoard().stamp()));
                 updateTurn();
             }catch (RuntimeException e){
                 System.err.println(e.getMessage());
@@ -236,10 +245,15 @@ public class Controller implements Observer<Message>{
         if(message instanceof PlayerRemove){
             performRemoval((PlayerRemove) message);
         }
+        if(message instanceof InitializePlayersMessage){
+            initializePlayers((InitializePlayersMessage)message);
+        }
     }
 
     public void initializePlayers(InitializePlayersMessage message) {
         try{
+            System.out.println("Inizializing players");
+            game.notify(new BoardUpdate(game.getBoard().stamp()));
             for(Player p: message.getPlayers()){
                 players.put(p,game.getPlayers().get(message.getPlayers().indexOf(p)));
             }
