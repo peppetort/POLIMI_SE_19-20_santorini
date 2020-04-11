@@ -58,7 +58,11 @@ public class Board {
         String rapp = "";
         for (y = 0; y < 5; y++){
             for (x = 0; x < 5; x++) {
-                rapp += board[x][y].getBlock().getValue() + " ";
+                rapp += board[x][y].getBlock().getValue();
+                if(board[x][y].getPawn() != null){
+                    rapp += "pawn";
+                }
+                rapp += " ";
             }
         rapp += "\n";
     }

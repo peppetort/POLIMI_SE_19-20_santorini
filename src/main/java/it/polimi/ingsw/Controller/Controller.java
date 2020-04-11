@@ -248,6 +248,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
         if(message instanceof InitializePlayersMessage){
             initializePlayers((InitializePlayersMessage)message);
         }
+        if(message instanceof PlacePawn){
+            performPlacePawn((PlacePawn)message);
+        }
     }
 
     public void initializePlayers(InitializePlayersMessage message) {
@@ -260,6 +263,21 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }catch(NullPointerException e){
             System.err.println(e.getMessage());
         }
+    }
+
+    public void performPlacePawn(PlacePawn message){
+        Player p = players.get(message.getPlayer());
+        System.out.println("ciao");
+        try{
+            game.getBoard().placePawn(p.getWorker1(),message.getX1(),message.getY1());
+            game.getBoard().placePawn(p.getWorker2(),message.getX2(),message.getY2());
+        }
+        catch (NullPointerException e){
+            System.out.println(p + "" + message.getPlayer());
+            System.out.println(message.getX1()+message.getY1()+message.getX2()+message.getY2());
+            System.err.println(e.getMessage());
+        }
+        game.notify(new BoardUpdate(game.getBoard().stamp()));
     }
 
 

@@ -11,8 +11,7 @@ import java.util.ArrayList;
 
 public class RemoteView extends View {
 
-    private Player player;
-    private Player opponent;
+
 
     private class MessageReceiver implements Observer<String> {
 
@@ -50,7 +49,10 @@ public class RemoteView extends View {
                    handleBuild(Integer.parseInt(coordinate[0]), Integer.parseInt(coordinate[1]));
                }else
                if(inputs[0].compareTo("START")==0){
-                   handleInitialization(player,opponent);
+                   handleInitialization();
+               }
+               if(inputs[0].compareTo("PLACE")==0){
+                   handlePlacing(player,Integer.valueOf(inputs[1]),Integer.valueOf(inputs[2]),Integer.valueOf(inputs[3]),Integer.valueOf(inputs[4]));
                }
 
            }catch(IllegalArgumentException e){
@@ -62,9 +64,7 @@ public class RemoteView extends View {
     private ClientConnection clientConnection;
 
     public RemoteView(Player player, Player opponent, ClientConnection c) {
-        super(player);
-        this.player = player;
-        this.opponent = opponent;
+        super(player,opponent);
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());
         c.asyncSend("Your opponent is: " + opponent);
