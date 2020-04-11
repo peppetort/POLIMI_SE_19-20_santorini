@@ -2,7 +2,7 @@ package it.polimi.ingsw.Server;
 
 
 import it.polimi.ingsw.Controller.Controller;
-import it.polimi.ingsw.Controller.Message;
+import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Exceptions.FullSessionException;
 import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Game;
@@ -76,11 +76,16 @@ public class Session extends Observable<Message> {
             Player player1 = model.getPlayers().get(0);
             Player player2 = model.getPlayers().get(1);
 
-            View player1View = new RemoteView(player1, player2.getUsername(), player1Connection);
-            View player2View = new RemoteView(player2, player1.getUsername(), player2Connection);
+            View player1View = new RemoteView(player1, player2, player1Connection);
+            View player2View = new RemoteView(player2, player1, player2Connection);
 
             player1View.addObserver(controller);
             player2View.addObserver(controller);
+
+            model.addObserver(player1View);
+            model.addObserver(player2View);
+
+
 
             this.addObserver(controller);
 
@@ -96,13 +101,17 @@ public class Session extends Observable<Message> {
             Player player2 = model.getPlayers().get(1);
             Player player3 = model.getPlayers().get(2);
 
-            View player1View = new RemoteView(player1, player1.getUsername(), player1Connection);
-            View player2View = new RemoteView(player2, player2.getUsername(), player2Connection);
-            View player3View = new RemoteView(player3, player3.getUsername(), player3Connection);
+            View player1View = new RemoteView(player1, player1, player1Connection);
+            View player2View = new RemoteView(player2, player2, player2Connection);
+            View player3View = new RemoteView(player3, player3, player3Connection);
 
             player1View.addObserver(controller);
             player2View.addObserver(controller);
             player3View.addObserver(controller);
+
+            model.addObserver(player1View);
+            model.addObserver(player2View);
+            model.addObserver(player3View);
 
             this.addObserver(controller);
         }
