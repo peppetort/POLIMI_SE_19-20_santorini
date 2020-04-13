@@ -14,7 +14,6 @@ import java.util.HashMap;
 public class Controller extends Observable<Message> implements Observer<Message> {
     private HashMap<Player,Boolean> turn = new HashMap<>();
     private HashMap<Player,Boolean> outcome = new HashMap<>();
-    private HashMap<Player,Player> players = new HashMap<>(); //La chiave è il riferimento del "client",il value è il riferimento del model
     private ArrayList<Card> cards = new ArrayList<>();
     private boolean firstTurn;
     private Game game;
@@ -50,9 +49,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
         firstTurn = true;
         turn.replace(game.getPlayers().get(0),true);
         loosingPlayers = 0;
-
-
-
     }
 
     /**
@@ -74,8 +70,8 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     private void performMove(PlayerMove message){
-        Player p = players.get(message.getPlayer());
-        if(turn.get(p) && !firstTurn && outcome.get(p) == null){
+        Player p = message.getPlayer();
+        if(turn.get(p) && (game.isSimple() || !firstTurn) && outcome.get(p) == null){
             try {
                 p.getTurn().move( message.getX(), message.getY());
                 if(p.getTurn().won()){
@@ -94,9 +90,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
     }
     private void performBuild(PlayerBuild message){
-        Player p = players.get(message.getPlayer());
+        Player p = message.getPlayer();
         int index = game.getPlayers().indexOf(p);
-        if(turn.get(p) && !firstTurn && outcome.get(p) == null){
+        if(turn.get(p) && outcome.get(p) == null){
             try {
                 p.getTurn().build(message.getX(),message.getY());
             }catch (RuntimeException e){
@@ -108,7 +104,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     private void performChoice(CardChoice message){
-        Player p = players.get(message.getPlayer()); // da riferimento nullo
+        Player p = message.getPlayer(); // da riferimento nullo
         Card card = new Card(message.getCard().getName());
         if(firstTurn && turn.get(p) && outcome.get(p) == null){
             p.setCard(card);
@@ -124,7 +120,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     private void performDeckBuilding(DeckChoice message){
-        Player p = players.get(message.getPlayer());
+        Player p = message.getPlayer();
         if(turn.get(p) && firstTurn &&  outcome.get(p)==null){
             for(Card c: message.getCards()){
                 game.addCard(c);
@@ -138,19 +134,18 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
     //TODO: risolvere problema del worker
     private void performStart(PlayerStart message){
-        Player p = players.get(message.getPlayer());
-        Worker w;
-        if(message.getWorker().equals(message.getPlayer().getWorker1())) {
-            w = p.getWorker1();
-        }
-        else{
-            w = p.getWorker2();
+        Player p = message.getPlayer();
+        Worker w = message.getWorker();
+
+        if(outcome.get(p) == null && loosingPlayers == (outcome.size()-1)){
+            outcome.replace(p,true);
         }
 
-        if(turn.get(p) && outcome.get(p) == null){
+        if(turn.get(p)){
             try{
-                game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().start(w);
+                p.getTurn().start(w);
             }catch (RuntimeException e){
+                System.out.println(e.toString());
                 if(e instanceof PlayerLostException){
                     outcome.replace(p,false);
                     loosingPlayers ++;
@@ -172,7 +167,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     private void performEnd(PlayerEnd message){
-        Player p = players.get(message.getPlayer());
+        Player p = message.getPlayer();
         if(turn.get(p) && outcome.get(p) == null){
             try{
                 //game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
@@ -202,7 +197,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     private void performRemoval(PlayerRemove message){
-        Player p = players.get(message.getPlayer());
+        Player p = message.getPlayer();
         outcome.replace(p,false);
         loosingPlayers++;
         if(turn.get(p)){
@@ -212,7 +207,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
         else {
             turn.remove(p);
         }
-        players.remove(message.getPlayer());
         game.removePlayer(p);
     }
 
@@ -245,29 +239,28 @@ public class Controller extends Observable<Message> implements Observer<Message>
         if(message instanceof PlayerRemove){
             performRemoval((PlayerRemove) message);
         }
-        if(message instanceof InitializePlayersMessage){
-            initializePlayers((InitializePlayersMessage)message);
-        }
+//        if(message instanceof InitializePlayersMessage){
+//            initializePlayers((InitializePlayersMessage)message);
+//        }
         if(message instanceof PlacePawn){
             performPlacePawn((PlacePawn)message);
         }
     }
 
-    public void initializePlayers(InitializePlayersMessage message) {
-        try{
-            System.out.println("Inizializing players");
-            game.notify(new BoardUpdate(game.getBoard().stamp()));
-            for(Player p: message.getPlayers()){
-                players.put(p,game.getPlayers().get(message.getPlayers().indexOf(p)));
-            }
-        }catch(NullPointerException e){
-            System.err.println(e.getMessage());
-        }
-    }
+//    public void initializePlayers(InitializePlayersMessage message) {
+//        try{
+//            System.out.println("Inizializing players");
+//            game.notify(new BoardUpdate(game.getBoard().stamp()));
+//            for(Player p: message.getPlayers()){
+//                //players.put(p,game.getPlayers().get(message.getPlayers().indexOf(p)));
+//            }
+//        }catch(NullPointerException e){
+//            System.err.println(e.getMessage());
+//        }
+//    }
 
     public void performPlacePawn(PlacePawn message){
-        Player p = players.get(message.getPlayer());
-        System.out.println("ciao");
+        Player p = message.getPlayer();
         try{
             game.getBoard().placePawn(p.getWorker1(),message.getX1(),message.getY1());
             game.getBoard().placePawn(p.getWorker2(),message.getX2(),message.getY2());
