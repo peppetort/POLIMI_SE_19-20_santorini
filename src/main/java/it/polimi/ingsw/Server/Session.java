@@ -121,10 +121,10 @@ public class Session extends Observable<Message> {
 
 /*        if (model.isSimple()) {
             c1.asyncSend("starting\n");
-            c1.asyncSend(board.stamp());
+            c1.asyncSend(board.data());
             c1.asyncSend("put your worker\n");
             c2.asyncSend("starting\n");
-            c2.asyncSend(board.stamp());
+            c2.asyncSend(board.data());
         } else {
             String god = "";
             for (God g : God.values())

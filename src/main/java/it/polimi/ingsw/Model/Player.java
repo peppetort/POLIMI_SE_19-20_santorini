@@ -16,6 +16,11 @@ public class Player {
     private Turn turn;
     private Worker worker1;
     private Worker worker2;
+    private Color color;
+
+    public Color getColor() {
+        return color;
+    }
 
     /**
      * Rappresenta la sessione di gioco a cui il giocatore sta partecipando
@@ -49,6 +54,23 @@ public class Player {
      * @param username setta il nome del giocatore
      * @param session  assegna la sessione di gioco
      */
+    public Player(String username, Game session,Color color) {
+        this.username = username;
+        this.worker1 = new Worker(1, this);
+        this.worker2 = new Worker(2, this);
+        this.session = session;
+        this.color = color;
+
+        //Modalità di gioco senza carte
+        if (session.isSimple()) {
+            card = null;
+            winAction = new DefaultWin(this);
+            moveAction = new DefaultMove(this);
+            buildAction = new DefaultBuild(this);
+            turn = new DefaultTurn(this);
+        }
+    }
+
     public Player(String username, Game session) {
         this.username = username;
         this.worker1 = new Worker(1, this);

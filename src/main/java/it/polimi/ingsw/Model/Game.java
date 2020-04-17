@@ -29,8 +29,8 @@ public class Game extends Observable<Message> {
     public Game(String player1, String player2,Board board,boolean simpleGame){
         this.board = board;
         this.simpleGame = simpleGame;
-        players.add(new Player(player1,this));
-        players.add(new Player(player2,this));
+        players.add(new Player(player1,this,Color.BLUE));
+        players.add(new Player(player2,this,Color.RED));
     }
     /**
      * Rappresenta il costruttore della classe {@link Game} nel caso in cui la partita sia per tre giocatori.
@@ -42,9 +42,9 @@ public class Game extends Observable<Message> {
     public Game(String player1,String player2,String player3,Board board,boolean simpleGame){
         this.board = board;
         this.simpleGame = simpleGame;
-        players.add(new Player(player1,this));
-        players.add(new Player(player2,this));
-        players.add(new Player(player3,this));
+        players.add(new Player(player1,this,Color.BLUE));
+        players.add(new Player(player2,this,Color.RED));
+        players.add(new Player(player3,this,Color.GREEN));
     }
     /**
      * @return l'ID del match

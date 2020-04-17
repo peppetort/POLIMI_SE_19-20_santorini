@@ -40,19 +40,21 @@ public class RemoteView extends View {
                }else
                if(inputs[0].compareTo("MOVE")==0)
                {
-                   coordinate=inputs[1].split(",");
-                   handleMove(Integer.parseInt(coordinate[0]), Integer.parseInt(coordinate[1]));
+                   handleMove(Integer.valueOf(inputs[1]), Integer.valueOf(inputs[2]));
                }else
-               if(inputs[0].compareTo("BUILD")==0)
-               {
-                   coordinate=inputs[1].split(",");
-                   handleBuild(Integer.parseInt(coordinate[0]), Integer.parseInt(coordinate[1]));
+               if(inputs[0].compareTo("BUILD")==0) {
+
+                   handleBuild(Integer.valueOf(inputs[1]),Integer.valueOf(inputs[2]));
+               }else
+               if(inputs[0].compareTo("END")==0) {
+
+                   handleEnd();
                }else
                if(inputs[0].compareTo("START")==0){
-                   handleInitialization();
+                   handleStart(Integer.valueOf(inputs[1]));
                }
                if(inputs[0].compareTo("PLACE")==0){
-                   handlePlacing(player,Integer.valueOf(inputs[1]),Integer.valueOf(inputs[2]),Integer.valueOf(inputs[3]),Integer.valueOf(inputs[4]));
+                   handlePlacing(Integer.valueOf(inputs[1]),Integer.valueOf(inputs[2]),Integer.valueOf(inputs[3]),Integer.valueOf(inputs[4]));
                }
 
            }catch(IllegalArgumentException e){
@@ -74,7 +76,7 @@ public class RemoteView extends View {
     @Override
     public void update(Message message) {
         if(message instanceof BoardUpdate){
-            clientConnection.asyncSend(((BoardUpdate) message).getBoardData());
+            clientConnection.asyncSend(message);
         }else {
             System.out.println("Malformed message");
         }

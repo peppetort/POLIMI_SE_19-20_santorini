@@ -5,8 +5,6 @@ package it.polimi.ingsw.Client;
 
 
 
-import it.polimi.ingsw.Messages.BoardUpdate;
-import it.polimi.ingsw.Messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,6 +12,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Model.Color;
 
 public class Client {
 
@@ -44,12 +45,16 @@ public class Client {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){
                             System.out.println((String)inputObject);
+                        }else
+                        if(inputObject instanceof BoardUpdate){
+                            printBoard((BoardUpdate)inputObject);
                         }
                         else {
                             throw new IllegalArgumentException();
                         }
                     }
                 } catch (Exception e){
+                    e.printStackTrace();
                     setActive(false);
                 }
             }
@@ -99,8 +104,67 @@ public class Client {
         }
     }
 
-    private void printBoard(String boardData){
-        System.out.println("Aggiorno la board...");
+    private void printBoard(BoardUpdate message){
+
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_GREEN = "\u001B[32m";
+        final String ANSI_BLUE = "\u001B[34m";
+        boolean pawnThere;
+
+
+        System.out.println("BOARD");
+        int c = 0;
+        try{
+            for(int i = 0; i < 5; i++){
+                for(int j = 0; j < 5; j++){
+                    pawnThere = false;
+                    System.out.print((message.getBoardData())[c]+"-");
+                    for(String s: message.getWorkers().keySet()){
+                        if(message.getWorkers().get(s)[0] == i && message.getWorkers().get(s)[1] == j){
+                            pawnThere = true;
+                            switch(message.getColors().get(s).getValue()){
+                                case 1:
+                                    System.out.print(ANSI_BLUE+"1 "+ANSI_RESET);
+                                    break;
+                                case 2:
+                                    System.out.print(ANSI_RED+"1 "+ANSI_RESET);
+                                    break;
+                                case 3:
+                                    System.out.print(ANSI_GREEN+"1 "+ANSI_RESET);
+                                    break;
+                            }
+                        }
+                        if(message.getWorkers().get(s)[2] == i && message.getWorkers().get(s)[3] == j){
+                            pawnThere = true;
+                            switch(message.getColors().get(s).getValue()){
+                                case 1:
+                                    System.out.print(ANSI_BLUE+"2 "+ANSI_RESET);
+                                    break;
+                                case 2:
+                                    System.out.print(ANSI_RED+"2 "+ANSI_RESET);
+                                    break;
+                                case 3:
+                                    System.out.print(ANSI_GREEN+"2 "+ANSI_RESET);
+                                    break;
+                            }
+                        }
+
+                    }
+                    if(!pawnThere){
+                        System.out.print("x ");
+                    }
+                }
+                System.out.println("");
+            }
+        }catch(NullPointerException e){
+            for(int i = 0; i < 5; i++){
+                for(int j = 0; i < 5; j++){
+                    System.out.print((message.getBoardData())[c] + " ");
+                }
+                System.out.println(" ");
+            }
+        }
     }
 
 }

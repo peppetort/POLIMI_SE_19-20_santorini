@@ -48,6 +48,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
         firstTurn = true;
         turn.replace(game.getPlayers().get(0),true);
+        System.out.println("è il turno di "+ game.getPlayers().get(0).getUsername());
         loosingPlayers = 0;
     }
 
@@ -74,6 +75,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         if(turn.get(p) && (game.isSimple() || !firstTurn) && outcome.get(p) == null){
             try {
                 p.getTurn().move( message.getX(), message.getY());
+                game.notify(new BoardUpdate(game.getBoard().data(),game.getPlayers()));
                 if(p.getTurn().won()){
                     outcome.replace(p,true);
                     for(Player c:game.getPlayers()){
@@ -95,6 +97,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         if(turn.get(p) && outcome.get(p) == null){
             try {
                 p.getTurn().build(message.getX(),message.getY());
+                game.notify(new BoardUpdate(game.getBoard().data(),game.getPlayers()));
             }catch (RuntimeException e){
                 System.err.println(e.getMessage());
             }
@@ -106,6 +109,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     private void performChoice(CardChoice message){
         Player p = message.getPlayer(); // da riferimento nullo
         Card card = new Card(message.getCard().getName());
+        //todo: controllare che la carta sia effettivamente nell'array card
         if(firstTurn && turn.get(p) && outcome.get(p) == null){
             p.setCard(card);
             removeCard(card);
@@ -132,7 +136,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
             throw new RuntimeException("Non è il tuo turno");
         }
     }
-    //TODO: risolvere problema del worker
+
     private void performStart(PlayerStart message){
         Player p = message.getPlayer();
         Worker w = message.getWorker();
@@ -172,8 +176,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
             try{
                 //game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
                 p.getTurn().end();
-                //game.notify(new BoardUpdate(game.getBoard().stamp()));
+                //game.notify(new BoardUpdate(game.getBoard().data()));
                 updateTurn();
+                game.notify(new BoardUpdate(game.getBoard().data(),game.getPlayers()));
             }catch (RuntimeException e){
                 System.err.println(e.getMessage());
             }
@@ -250,7 +255,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 //    public void initializePlayers(InitializePlayersMessage message) {
 //        try{
 //            System.out.println("Inizializing players");
-//            game.notify(new BoardUpdate(game.getBoard().stamp()));
+//            game.notify(new BoardUpdate(game.getBoard().data()));
 //            for(Player p: message.getPlayers()){
 //                //players.put(p,game.getPlayers().get(message.getPlayers().indexOf(p)));
 //            }
@@ -270,9 +275,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
             System.out.println(message.getX1()+message.getY1()+message.getX2()+message.getY2());
             System.err.println(e.getMessage());
         }
-        game.notify(new BoardUpdate(game.getBoard().stamp()));
+        game.notify(new BoardUpdate(game.getBoard().data(),game.getPlayers()));
     }
-
-
 
 }

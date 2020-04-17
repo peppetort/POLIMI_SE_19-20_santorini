@@ -52,20 +52,15 @@ public class Board {
         board[x][y].setPawn(worker);
         worker.setPos(x,y);
     }
-    public String stamp() {
-        int x;
-        int y;
-        String rapp = "";
-        for (y = 0; y < 5; y++){
-            for (x = 0; x < 5; x++) {
-                rapp += board[x][y].getBlock().getValue();
-                if(board[x][y].getPawn() != null){
-                    rapp += "pawn";
-                }
-                rapp += " ";
+    public Integer[] data() {
+        Integer[] coordinates = new Integer[25];
+        int c = 0;
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 5;j++){
+                coordinates[c] = board[i][j].getBlock().getValue();
+                c++;
             }
-        rapp += "\n";
-    }
-        return rapp;
+        }
+        return coordinates;
     }
 }

@@ -33,20 +33,27 @@ public abstract class View extends Observable<Message> implements Observer<Messa
     {
        // notify(new PlayerStart());
     }
-    public void handleInitialization() {
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player);
-        players.add(opponent);
-        notify(new InitializePlayersMessage(players));
-
+    public void handleStart(int w) {
+        if(w == 1) {
+            notify(new PlayerStart(player,player.getWorker1()));
+        }else if(w == 2){
+            notify(new PlayerStart(player,player.getWorker2()));
+        }
     }
     public void handleMove(int row,int column)
     {
+        System.out.println(row);
+        System.out.println(column);
         notify(new PlayerMove(player,row,column));
     }
     public void handleBuild(int row,int column)
     {
         notify(new PlayerBuild(player,row,column));
     }
-    public void handlePlacing(Player player,int x1,int y1,int x2,int y2){ notify(new PlacePawn(player, x1, y1, x2, y2)); }
+    public void handlePlacing(int x1,int y1,int x2,int y2){ notify(new PlacePawn(player, x1, y1, x2, y2)); }
+
+    public void handleEnd(){
+        notify(new PlayerEnd(player));
+    }
+
 }

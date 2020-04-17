@@ -4,6 +4,6 @@ import it.polimi.ingsw.Model.Player;
 
 import java.io.Serializable;
 
-public interface Message {
+public interface Message extends Serializable {
 
 }
