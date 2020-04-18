@@ -18,8 +18,8 @@ public class ApolloMoveTest {
         Move moveAction = new ApolloMove(player);
         moveAction.move(worker1, 2, 3);
         assertEquals(board.getBox(2,3).getPawn(), worker1);
-        assertEquals(worker1.getXPos(), 2);
-        assertEquals(worker1.getYPos(), 3);
+        assertEquals((int)worker1.getXPos(), 2);
+        assertEquals((int)worker1.getYPos(), 3);
         assertTrue(startBox.isFree());
     }
 
@@ -41,10 +41,10 @@ public class ApolloMoveTest {
         moveAction.move(workerPlayer1, 2, 3);
         assertEquals(boxPlayer1.getPawn(), workerPlayer2);
         assertEquals(boxPlayer2.getPawn(), workerPlayer1);
-        assertEquals(workerPlayer1.getXPos(), 2);
-        assertEquals(workerPlayer1.getYPos(),3);
-        assertEquals(workerPlayer2.getXPos(), 2);
-        assertEquals(workerPlayer2.getYPos(),2);
+        assertEquals((int)workerPlayer1.getXPos(), 2);
+        assertEquals((int)workerPlayer1.getYPos(),3);
+        assertEquals((int)workerPlayer2.getXPos(), 2);
+        assertEquals((int)workerPlayer2.getYPos(),2);
     }
 
     @Test(expected = RuntimeException.class)
@@ -91,8 +91,8 @@ public class ApolloMoveTest {
         moveAction.move(worker1, 2, 3);
         assertEquals(boxWorker1.getPawn(), worker1);
         assertEquals(boxWorker2.getPawn(), worker2);
-        assertEquals(worker1.getYPos(), 2);
-        assertEquals(worker2.getYPos(), 3);
+        assertEquals((int)worker1.getYPos(), 2);
+        assertEquals((int)worker2.getYPos(), 3);
     }
 
     @Test
@@ -120,8 +120,8 @@ public class ApolloMoveTest {
         Move moveAction = new ApolloMove(player);
         moveAction.move(worker1, 2, 5);
         assertEquals(startBox.getPawn(), worker1);
-        assertEquals(worker1.getXPos(), 2);
-        assertEquals(worker1.getYPos(), 2);
+        assertEquals((int)worker1.getXPos(), 2);
+        assertEquals((int)worker1.getYPos(), 2);
     }
 
     @Test (expected = RuntimeException.class)

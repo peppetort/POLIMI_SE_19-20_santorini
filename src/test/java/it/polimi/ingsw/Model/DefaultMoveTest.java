@@ -39,21 +39,21 @@ public class DefaultMoveTest {
 
         board.placePawn(worker,0,0);
         mover.move(worker, 0, 1);
-        assertEquals(0, worker.getXPos());
-        assertEquals(1, worker.getYPos());
+        assertEquals(0, (int)worker.getXPos());
+        assertEquals(1, (int)worker.getYPos());
         assertTrue(board.getBox(0,0).isFree());
         assertEquals(worker,board.getBox(0,1).getPawn());
 
         mover.move(worker, 1, 1);
-        assertEquals(1, worker.getXPos());
-        assertEquals(1, worker.getYPos());
+        assertEquals(1, (int)worker.getXPos());
+        assertEquals(1, (int)worker.getYPos());
         assertTrue(board.getBox(0,1).isFree());
         assertEquals(worker,board.getBox(1,1).getPawn());
 
 
         mover.move(worker, 0, 0);
-        assertEquals(0, worker.getXPos());
-        assertEquals(0, worker.getYPos());
+        assertEquals(0,(int) worker.getXPos());
+        assertEquals(0, (int)worker.getYPos());
         assertTrue(board.getBox(1,1).isFree());
         assertEquals(worker,board.getBox(0,0).getPawn());
     }
@@ -101,40 +101,40 @@ public class DefaultMoveTest {
         mover.move(worker,0,1);
         assertEquals(worker,board.getBox(0,1).getPawn());
         assertTrue(board.getBox(0,0).isFree());
-        assertEquals(0, worker.getXPos());
-        assertEquals(1, worker.getYPos());
+        assertEquals(0, (int)worker.getXPos());
+        assertEquals(1,(int) worker.getYPos());
 
         board.getBox(0,2).build(Block.LTWO);
 
         mover.move(worker,0,2);
         assertEquals(worker,board.getBox(0,2).getPawn());
         assertTrue(board.getBox(0,1).isFree());
-        assertEquals(0, worker.getXPos());
-        assertEquals(2, worker.getYPos());
+        assertEquals(0, (int)worker.getXPos());
+        assertEquals(2,(int) worker.getYPos());
 
         board.getBox(0,3).build(Block.LTWO);
 
         mover.move(worker,0,3);
         assertEquals(worker,board.getBox(0,3).getPawn());
         assertTrue(board.getBox(0,2).isFree());
-        assertEquals(0, worker.getXPos());
-        assertEquals(3, worker.getYPos());
+        assertEquals(0,(int) worker.getXPos());
+        assertEquals(3, (int)worker.getYPos());
 
         board.getBox(0,4).build(Block.LTHREE);
 
         mover.move(worker,0,4);
         assertEquals(worker,board.getBox(0,4).getPawn());
         assertTrue(board.getBox(0,3).isFree());
-        assertEquals(0, worker.getXPos());
-        assertEquals(4, worker.getYPos());
+        assertEquals(0, (int)worker.getXPos());
+        assertEquals(4,(int) worker.getYPos());
 
         board.getBox(1,4).build(Block.LTHREE);
 
         mover.move(worker,1,4);
         assertEquals(worker,board.getBox(1,4).getPawn());
         assertTrue(board.getBox(0,3).isFree());
-        assertEquals(1, worker.getXPos());
-        assertEquals(4, worker.getYPos());
+        assertEquals(1,(int) worker.getXPos());
+        assertEquals(4,(int) worker.getYPos());
     }
 
     @Test
@@ -152,24 +152,24 @@ public class DefaultMoveTest {
 
         board.placePawn(worker,0,0);
         mover.move(worker,1,1);
-        assertEquals(1, worker.getXPos());
-        assertEquals(1, worker.getYPos());
+        assertEquals(1, (int)worker.getXPos());
+        assertEquals(1,(int) worker.getYPos());
         assertEquals(worker,board.getBox(1,1).getPawn());
         assertTrue(board.getBox(0,0).isFree());
         board.getBox(1,1).removePawn();
 
         board.placePawn(worker,0,1);
         mover.move(worker,1,1);
-        assertEquals(1, worker.getXPos());
-        assertEquals(1, worker.getYPos());
+        assertEquals(1, (int)worker.getXPos());
+        assertEquals(1, (int)worker.getYPos());
         assertEquals(worker,board.getBox(1,1).getPawn());
         assertTrue(board.getBox(0,1).isFree());
         board.getBox(1,1).removePawn();
 
         board.placePawn(worker,1,0);
         mover.move(worker,1,1);
-        assertEquals(1, worker.getXPos());
-        assertEquals(1, worker.getYPos());
+        assertEquals(1,(int) worker.getXPos());
+        assertEquals(1,(int) worker.getYPos());
         assertEquals(worker,board.getBox(1,1).getPawn());
         assertTrue(board.getBox(1,0).isFree());
     }

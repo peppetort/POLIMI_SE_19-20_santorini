@@ -13,8 +13,8 @@ public class WorkerTest {
         Player player = session.getPlayers().get(0);
         Worker worker=new Worker(1, player);
         worker.setPos(0, 0);
-        assertEquals(0, worker.getXPos());
-        assertEquals(0, worker.getYPos());
+        assertEquals(0, (int)worker.getXPos());
+        assertEquals(0, (int)worker.getYPos());
     }
 
     @Test (expected = RuntimeException.class)

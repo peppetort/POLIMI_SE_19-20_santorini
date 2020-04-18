@@ -22,8 +22,8 @@ public class BoardTest {
         Worker w=new Worker(1, player);
         board.placePawn(w,2,3);
         assertEquals(w,board.getBox(2,3).getPawn());
-        assertEquals(2,w.getXPos());
-        assertEquals(3,w.getYPos());
+        assertEquals(2,(int)w.getXPos());
+        assertEquals(3,(int)w.getYPos());
     }
     @Test (expected = IndexOutOfBoundsException.class)
     public void placePawn1() {

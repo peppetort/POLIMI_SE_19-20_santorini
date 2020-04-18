@@ -18,8 +18,8 @@ public class MinotaurMoveTest {
         Move moveAction = new MinotaurMove(player);
         moveAction.move(worker1, 2, 3);
         assertEquals(board.getBox(2,3).getPawn(), worker1);
-        assertEquals(worker1.getXPos(), 2);
-        assertEquals(worker1.getYPos(), 3);
+        assertEquals((int)worker1.getXPos(), 2);
+        assertEquals((int)worker1.getYPos(), 3);
         assertTrue(startBox.isFree());
     }
 
@@ -42,8 +42,8 @@ public class MinotaurMoveTest {
         assertEquals(otherBox.getPawn(), workerPlayer1);
         assertEquals(board.getBox(2,4).getPawn(), workerPlayer2);
         assertTrue(myBox.isFree());
-        assertEquals(workerPlayer1.getYPos(), 3);
-        assertEquals(workerPlayer2.getYPos(), 4);
+        assertEquals((int)workerPlayer1.getYPos(), 3);
+        assertEquals((int)workerPlayer2.getYPos(), 4);
     }
 
     @Test
@@ -64,8 +64,8 @@ public class MinotaurMoveTest {
         moveAction.move(workerPlayer1, 2,4);
         assertEquals(myBox.getPawn(), workerPlayer1);
         assertEquals(otherBox.getPawn(), workerPlayer2);
-        assertEquals(workerPlayer1.getYPos(), 3);
-        assertEquals(workerPlayer2.getYPos(), 4);
+        assertEquals((int)workerPlayer1.getYPos(), 3);
+        assertEquals((int)workerPlayer2.getYPos(), 4);
     }
 
     @Test(expected = RuntimeException.class)
@@ -90,8 +90,8 @@ public class MinotaurMoveTest {
         moveAction.move(workerPlayer1, 2,4);
         assertEquals(myBox.getPawn(), workerPlayer1);
         assertEquals(otherBox.getPawn(), workerPlayer2);
-        assertEquals(workerPlayer1.getYPos(), 3);
-        assertEquals(workerPlayer2.getYPos(), 4);
+        assertEquals((int)workerPlayer1.getYPos(), 3);
+        assertEquals((int)workerPlayer2.getYPos(), 4);
         assertEquals(myOtherBox.getPawn(), workerPlayer12);
     }
 
@@ -139,8 +139,8 @@ public class MinotaurMoveTest {
         moveAction.move(worker1, 2, 3);
         assertEquals(boxWorker1.getPawn(), worker1);
         assertEquals(boxWorker2.getPawn(), worker2);
-        assertEquals(worker1.getYPos(), 2);
-        assertEquals(worker2.getYPos(), 3);
+        assertEquals((int)worker1.getYPos(), 2);
+        assertEquals((int)worker2.getYPos(), 3);
         assertTrue(board.getBox(2,4).isFree());
     }
 
@@ -169,8 +169,8 @@ public class MinotaurMoveTest {
         Move moveAction = new MinotaurMove(player);
         moveAction.move(worker1, 2, 5);
         assertEquals(startBox.getPawn(), worker1);
-        assertEquals(worker1.getXPos(), 2);
-        assertEquals(worker1.getYPos(), 2);
+        assertEquals((int)worker1.getXPos(), 2);
+        assertEquals((int)worker1.getYPos(), 2);
     }
 
     @Test (expected = RuntimeException.class)
