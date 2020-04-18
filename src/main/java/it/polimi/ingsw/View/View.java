@@ -29,10 +29,6 @@ public abstract class View extends Observable<Message> implements Observer<Messa
 
        // notify(new CardChoice(player,));
     }
-    public void handleSelection(int row,int column)
-    {
-       // notify(new PlayerStart());
-    }
     public void handleStart(int w) {
         if(w == 1) {
             notify(new PlayerStart(player,player.getWorker1()));

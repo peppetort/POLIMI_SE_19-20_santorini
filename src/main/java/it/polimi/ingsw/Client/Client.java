@@ -114,12 +114,15 @@ public class Client {
 
 
         System.out.println("BOARD");
+        System.out.println("    0   1   2   3   4");
         int c = 0;
         try{
             for(int i = 0; i < 5; i++){
+                System.out.print(i+"  ");
                 for(int j = 0; j < 5; j++){
                     pawnThere = false;
                     System.out.print((message.getBoardData())[c]+"-");
+                    c++;
                     for(String s: message.getWorkers().keySet()){
                         if(message.getWorkers().get(s)[0] == i && message.getWorkers().get(s)[1] == j){
                             pawnThere = true;
@@ -161,6 +164,7 @@ public class Client {
             for(int i = 0; i < 5; i++){
                 for(int j = 0; i < 5; j++){
                     System.out.print((message.getBoardData())[c] + " ");
+                    c++;
                 }
                 System.out.println(" ");
             }

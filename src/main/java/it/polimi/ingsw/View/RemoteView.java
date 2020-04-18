@@ -33,11 +33,6 @@ public class RemoteView extends View {
                {
                    handleCard(inputs[1]);
                }else
-               if(inputs[0].compareTo("SELECT")==0)
-               {
-                   coordinate=inputs[1].split(",");
-                   handleSelection(Integer.parseInt(coordinate[0]), Integer.parseInt(coordinate[1]));
-               }else
                if(inputs[0].compareTo("MOVE")==0)
                {
                    handleMove(Integer.valueOf(inputs[1]), Integer.valueOf(inputs[2]));
@@ -52,13 +47,18 @@ public class RemoteView extends View {
                }else
                if(inputs[0].compareTo("START")==0){
                    handleStart(Integer.valueOf(inputs[1]));
-               }
+               }else
                if(inputs[0].compareTo("PLACE")==0){
                    handlePlacing(Integer.valueOf(inputs[1]),Integer.valueOf(inputs[2]),Integer.valueOf(inputs[3]),Integer.valueOf(inputs[4]));
+               }else
+               {
+                   throw new IllegalArgumentException();
                }
 
-           }catch(IllegalArgumentException e){
-               clientConnection.asyncSend("Error!");
+           }catch(IllegalArgumentException e) {
+               clientConnection.asyncSend("Input Error!");
+           }catch(Exception e){
+               clientConnection.asyncSend(e.getMessage());
            }
         }
     }
