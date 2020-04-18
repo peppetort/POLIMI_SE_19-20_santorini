@@ -15,6 +15,7 @@ public class DemeterTurnTest {
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         Turn turn = new DemeterTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);
@@ -30,6 +31,7 @@ public class DemeterTurnTest {
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         Turn turn = new DemeterTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);
@@ -44,6 +46,7 @@ public class DemeterTurnTest {
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         Turn turn = new DemeterTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);

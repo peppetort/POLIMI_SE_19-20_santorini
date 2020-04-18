@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.InvalidMoveException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
 
 public class AthenaTurn extends DefaultTurn {
@@ -10,24 +11,26 @@ public class AthenaTurn extends DefaultTurn {
     }
 
     @Override
-    public void move(int x, int y){
+    public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidMoveException {
         canGoUp = true; //di default tutti possono salire
         Box workerBox = board.getBox(worker.getXPos(), worker.getYPos()); //box iniziale della pedina
-        if(!running){
+        if (!running) {
             throw new TurnNotStartedException("Turn not started!");
         }
-        if(!canMove){
+        if (!canMove) {
             throw new RuntimeException("You can't move!");
         }
         moveAction.move(worker, x, y);
         canMove = false;
         canBuild = true;
+        playerMenu.replace("move", false);
+        playerMenu.replace("build", true);
         win = winAction.winChecker();
 
         //se la box su cui mi sono mosso ha una costruzione > di
         //quella da cui sono partito, la differenza è > 0.
         //Quindi vuol dire che sono salito di livello
-        if(board.getBox(x, y).getDifference(workerBox) > 0){
+        if (board.getBox(x, y).getDifference(workerBox) > 0) {
             canGoUp = false;
         }
     }

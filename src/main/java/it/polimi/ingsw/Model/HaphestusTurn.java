@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Exceptions.InvalidBuildException;
-import it.polimi.ingsw.Exceptions.TurnNotStartedException;
+import it.polimi.ingsw.Exceptions.*;
 
 public class HaphestusTurn extends DefaultTurn {
 
@@ -16,7 +15,7 @@ public class HaphestusTurn extends DefaultTurn {
     }
 
     @Override
-    public void start(Worker worker){
+    public void start(Worker worker) throws IndexOutOfBoundsException, NullPointerException, AthenaGoUpException, InvalidMoveException {
         super.start(worker);
         lastX = null;
         lastY = null;
@@ -25,8 +24,8 @@ public class HaphestusTurn extends DefaultTurn {
 
 
     @Override
-    public void build(int x, int y) throws NullPointerException {
-        if(!running){
+    public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
+        if (!running) {
             throw new TurnNotStartedException("Turn not started!");
         }
         if (!canBuild) {
@@ -40,30 +39,33 @@ public class HaphestusTurn extends DefaultTurn {
             }
             buildAction.build(worker, x, y);
             canBuild = false;
+            playerMenu.replace("build", false);
         } catch (NullPointerException e) {
             buildAction.build(worker, x, y);
             oneBuild = true;
 
             //se la prima volta che costruisco, costruisco un livello
             //tre, allora non posso usare il potere della carta => disabilito la costruzione
-            if(board.getBox(x, y).getBlock() == Block.LTHREE){
+            if (board.getBox(x, y).getBlock() == Block.LTHREE) {
                 canBuild = false;
-            }else {
+            } else {
                 lastX = x;
                 lastY = y;
             }
         }
+        playerMenu.replace("end", true);
     }
 
     @Override
-    public void end(){
-        if(!running){
+    public void end() {
+        if (!running) {
             throw new TurnNotStartedException("Turn not started!");
-        }else if(canMove){
+        } else if (canMove) {
             throw new RuntimeException("Can't end turn! You have to move!");
-        }else if(!oneBuild){
+        } else if (!oneBuild) {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
+        playerMenu.replace("end", false);
     }
 }

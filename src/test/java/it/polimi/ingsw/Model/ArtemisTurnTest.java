@@ -15,6 +15,7 @@ public class ArtemisTurnTest {
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         Turn turn = new ArtemisTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.move(1,1);
@@ -34,6 +35,7 @@ public class ArtemisTurnTest {
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         Turn turn = new ArtemisTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);
@@ -66,6 +68,7 @@ public class ArtemisTurnTest {
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         Turn turn = new ArtemisTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.move(0,0);

@@ -11,7 +11,7 @@ public class DefaultBuildTest {
     public void rightBuild() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
         board.placePawn(worker,0,0);
@@ -31,7 +31,7 @@ public class DefaultBuildTest {
     public void noBuildOverDome() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
         board.placePawn(worker,0,0);
@@ -45,7 +45,7 @@ public class DefaultBuildTest {
     public void noBuildDistanceOver() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
         board.placePawn(worker,0,0);
@@ -55,7 +55,7 @@ public class DefaultBuildTest {
     public void noBuildSameBox() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
         board.placePawn(worker,0,0);
@@ -66,7 +66,7 @@ public class DefaultBuildTest {
     public void noBuildOverPawn() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker1 = player.getWorker1();
         Worker worker2 = player.getWorker1();

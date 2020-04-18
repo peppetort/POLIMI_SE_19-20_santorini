@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Exceptions.InvalidMoveException;
-import it.polimi.ingsw.Exceptions.TurnNotStartedException;
+import it.polimi.ingsw.Exceptions.*;
 
 public class ArtemisTurn extends DefaultTurn {
 
@@ -14,7 +13,7 @@ public class ArtemisTurn extends DefaultTurn {
     }
 
     @Override
-    public void start(Worker worker){
+    public void start(Worker worker) {
         super.start(worker);
         startX = null;
         startY = null;
@@ -22,35 +21,36 @@ public class ArtemisTurn extends DefaultTurn {
     }
 
     @Override
-    public void move(int x, int y) {
-        if(!running){
+    public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, AthenaGoUpException, InvalidMoveException {
+        if (!running) {
             throw new TurnNotStartedException("Turn not started!");
         }
-        if(!canMove){
+        if (!canMove) {
             throw new RuntimeException("You can't move!");
         }
 
-        if(!canGoUp){
-            try{
+        if (!canGoUp) {
+            try {
                 if (startX == x && startY == y) {
                     throw new InvalidMoveException("Can't move worker on this box!");
                 }
                 moveAction.moveNoGoUp(worker, x, y);
                 canMove = false;
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 startX = worker.getXPos();
                 startY = worker.getYPos();
                 moveAction.moveNoGoUp(worker, x, y);
                 oneMove = true;
             }
-        }else {
-            try{
+        } else {
+            try {
                 if (startX == x && startY == y) {
                     throw new InvalidMoveException("Can't move worker on this box!");
                 }
                 moveAction.move(worker, x, y);
                 canMove = false;
-            }catch (NullPointerException e){
+                playerMenu.replace("move", false);
+            } catch (NullPointerException e) {
                 startX = worker.getXPos();
                 startY = worker.getYPos();
                 moveAction.move(worker, x, y);
@@ -58,23 +58,26 @@ public class ArtemisTurn extends DefaultTurn {
             }
         }
         canBuild = true;
+        playerMenu.replace("build", true);
     }
 
     @Override
-    public void build(int x, int y){
+    public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         canMove = false; //una volta costruito non posso più muovere
+        playerMenu.replace("move", false);
         super.build(x, y);
     }
 
     @Override
-    public void end(){
-        if(!running){
+    public void end() {
+        if (!running) {
             throw new TurnNotStartedException("Turn not started!");
-        }else if(!oneMove){
+        } else if (!oneMove) {
             throw new RuntimeException("Can't end turn! You have to move!");
-        }else if(canBuild){
+        } else if (canBuild) {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
+        playerMenu.replace("end", false);
     }
 }

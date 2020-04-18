@@ -17,7 +17,6 @@ public class RemoteView extends View {
 
        @Override
         public void update(String message) {
-           //TODO:
            try{
                message= message.toUpperCase();
 

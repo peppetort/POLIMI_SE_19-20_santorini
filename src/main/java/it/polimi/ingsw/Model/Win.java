@@ -4,7 +4,7 @@ package it.polimi.ingsw.Model;
  * Rappresenta l'interfaccai che specifica la
  * condizinoe di vittoria del {@link Player}.
  * <p>
- *     Fa parte dello Strategy Pattern
+ * Fa parte dello Strategy Pattern
  * </p>
  */
 public interface Win {

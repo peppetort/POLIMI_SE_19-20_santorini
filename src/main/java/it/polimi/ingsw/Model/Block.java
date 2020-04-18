@@ -1,21 +1,23 @@
 package it.polimi.ingsw.Model;
 
 /**
- *Rappresenta i vari blocchi che si possono costruire in una cella del campo di gioco.
- *  Viene utilizzata nella classe contenitore {@link Box}
+ * Rappresenta i vari blocchi che si possono costruire in una cella del campo di gioco.
+ * Viene utilizzata nella classe contenitore {@link Box}
  */
 
 public enum Block {
 
-    TERRAIN(0),LONE(1),LTWO(2),LTHREE(3),DOME(4);
+    TERRAIN(0), LONE(1), LTWO(2), LTHREE(3), DOME(4);
 
-    private int value;
+    private final int value;
+
     /**
      * @param value corrispondente alla costruzione
      */
-    private Block(int value){
+    Block(int value) {
         this.value = value;
     }
+
     /**
      * @return il valore intero corrispondente alla costruzione
      */

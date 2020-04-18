@@ -4,7 +4,7 @@ package it.polimi.ingsw.Model;
  * Rappresenta l'interfaccai che specifica la
  * l'azione di costruzione del {@link Player}.
  * <p>
- *     Fa parte dello Strategy Pattern
+ * Fa parte dello Strategy Pattern
  * </p>
  */
 public interface Build {
@@ -15,8 +15,8 @@ public interface Build {
      * controlla le condizioni apposite.
      *
      * @param worker è la pedina che costruisce
-     * @param x è la posizione X della {@link Board} sulla quale si vuole costruire
-     * @param y è la posizione Y della {@link Board} sulla quale si vuole costruire
+     * @param x      è la posizione X della {@link Board} sulla quale si vuole costruire
+     * @param y      è la posizione Y della {@link Board} sulla quale si vuole costruire
      */
     void build(Worker worker, int x, int y);
 }

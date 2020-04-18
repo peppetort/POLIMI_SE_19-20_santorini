@@ -1,10 +1,11 @@
 package it.polimi.ingsw.Model;
 
+
 /**
  * Rappresenta una pedina del {@link Player}
  */
 public class Worker {
-    private String id;
+    private final String id;
     /**
      * Rappresenta la posizone X del giocatore sul {@link Board}
      * <p>
@@ -16,7 +17,7 @@ public class Worker {
      * </p>
      */
 
-    private Player player;
+    private final Player player;
 
     private Integer x;
     /**
@@ -53,10 +54,10 @@ public class Worker {
      */
     public Worker(int id, Player player) {
         this.id = player.getUsername() + id;
+        this.player = player;
         this.x = null;
         this.y = null;
         this.lastBox = null;
-        this.player = player;
     }
 
     public String getId() {
@@ -132,7 +133,7 @@ public class Worker {
         Box otherBox;
         Worker otherWorker;
 
-        switch (card){
+        switch (card) {
             case APOLLO:
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
@@ -141,17 +142,18 @@ public class Worker {
                                 otherBox = board.getBox(x + i, y + j);
                                 otherWorker = otherBox.getPawn();
 
-                                if(canGoUp){
-                                    if(myBox.compare(otherBox) && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canBuild()))){
+                                if (canGoUp) {
+                                    if (myBox.compare(otherBox) && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canBuild()))) {
                                         return true;
                                     }
-                                }else {
-                                    if(myBox.getDifference(otherBox)>=0 && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canBuild()))){
+                                } else {
+                                    if (myBox.getDifference(otherBox) >= 0 && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canBuild()))) {
                                         return true;
                                     }
                                 }
                             }
-                        } catch (IndexOutOfBoundsException ignored) {}
+                        } catch (IndexOutOfBoundsException ignored) {
+                        }
                     }
                 }
                 return false;
@@ -163,16 +165,18 @@ public class Worker {
                                 otherBox = board.getBox(x + i, y + j);
                                 otherWorker = otherBox.getPawn();
 
-                                if(canGoUp){
-                                    if(myBox.compare(otherBox) && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canMove(true, false)))){
+                                if (canGoUp) {
+                                    if (myBox.compare(otherBox) && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canMove(true, false)))) {
                                         return true;
                                     }
-                                }else {
-                                    if(myBox.getDifference(otherBox)>=0 && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canMove(false, false)))){
+                                } else {
+                                    if (myBox.getDifference(otherBox) >= 0 && (otherBox.isFree() || (otherWorker.player != player && otherWorker.canMove(false, false)))) {
                                         return true;
-                                    }                                }
+                                    }
+                                }
                             }
-                        } catch (IndexOutOfBoundsException ignored) {}
+                        } catch (IndexOutOfBoundsException ignored) {
+                        }
                     }
                 }
                 return false;
@@ -181,12 +185,13 @@ public class Worker {
         }
     }
 
+    //TODO: rivedere (getCard() lancia simpleGameException)
     private boolean canMove(boolean canGoUp, boolean card) {
         Board board = player.getSession().getBoard();
         Box myBox = board.getBox(x, y);
         Box otherBox;
 
-        if(card) {
+        if (card) {
             try {
                 return canMove(player.getCard().getName(), canGoUp);
             } catch (RuntimeException e) {
@@ -210,7 +215,7 @@ public class Worker {
                     }
                 }
             }
-        }else {
+        } else {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     try {
@@ -235,7 +240,7 @@ public class Worker {
         return false;
     }
 
-    public boolean canMove(boolean canGoUp){
+    public boolean canMove(boolean canGoUp) {
         return canMove(canGoUp, true);
     }
 
@@ -252,7 +257,8 @@ public class Worker {
                             return true;
                         }
                     }
-                } catch (IndexOutOfBoundsException ignored) {}
+                } catch (IndexOutOfBoundsException ignored) {
+                }
             }
         }
         return false;
@@ -261,18 +267,19 @@ public class Worker {
     public boolean moveGoUp() {
         Board board = player.getSession().getBoard();
         Box otherBox;
-        Box box = board.getBox(x,y);
+        Box box = board.getBox(x, y);
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
                     if (i != 0 || j != 0) {
                         otherBox = board.getBox(x + i, y + j);
-                        if (otherBox.getBlock() != Block.DOME && otherBox.isFree() && otherBox.getDifference(box)==1) {
+                        if (otherBox.getBlock() != Block.DOME && otherBox.isFree() && otherBox.getDifference(box) == 1) {
                             return true;
                         }
                     }
-                } catch (IndexOutOfBoundsException ignored) {}
+                } catch (IndexOutOfBoundsException ignored) {
+                }
             }
         }
         return false;

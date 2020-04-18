@@ -1,23 +1,78 @@
 package it.polimi.ingsw.Controller;
 
 
-import it.polimi.ingsw.Exceptions.PlayerLostException;
+import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.*;
-import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.Observable;
+import it.polimi.ingsw.Observer.Observer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 
 public class Controller extends Observable<Message> implements Observer<Message> {
-    private HashMap<Player,Boolean> turn = new HashMap<>();
-    private HashMap<Player,Boolean> outcome = new HashMap<>();
-    private ArrayList<Card> cards = new ArrayList<>();
+
+    private final Game game;
+    private final ArrayList<Player> playersList;
+    private final ArrayList<Card> cards = new ArrayList<>();
+    private final HashMap<Player, Boolean> turn = new HashMap<>();
+    private final HashMap<Player, Boolean> outcome = new HashMap<>();
+    private boolean cardChoiceTurn;
     private boolean firstTurn;
-    private Game game;
     private int loosingPlayers;
+
+    public Controller(Game game) {
+        this.game = game;
+        playersList = game.getPlayers();
+        loosingPlayers = 0;
+
+        if (game.isSimple()) {
+            cardChoiceTurn = false;
+            firstTurn = true;
+        } else {
+            cardChoiceTurn = true;
+            firstTurn = false;
+        }
+
+        for (Player p : game.getPlayers()) {
+            turn.put(p, false);
+            outcome.put(p, null);
+        }
+        turn.replace(game.getPlayers().get(1), true);
+    }
+
+    private void updateTurn() {
+        int index;
+
+        for (Player p : playersList) {
+            if (turn.get(p)) {
+                turn.replace(p, false);
+                index = (playersList.indexOf(p) + 1) % (playersList.size());
+                if (index == 1 && cardChoiceTurn) {
+                    cardChoiceTurn = false;
+                    firstTurn = true;
+                } else if (index == 1 && firstTurn) {
+                    firstTurn = false;
+                    playersList.get(index).getPlayerMenu().replace("start", true);
+                }else {
+                    playersList.get(index).getPlayerMenu().replace("start", true);
+                }
+                if(playersList.size() == loosingPlayers+1){
+                    if(outcome.get(playersList.get(index))==null){
+                        outcome.replace(playersList.get(index), true);
+                    }
+                }
+                turn.replace(playersList.get(index), true);
+                break;
+            }
+        }
+
+        if(outcome.size() == 1){
+            outcome.replaceAll((key, value) -> true);
+        }
+    }
 
     public HashMap<Player, Boolean> getTurn() {
         return turn;
@@ -27,255 +82,214 @@ public class Controller extends Observable<Message> implements Observer<Message>
         return outcome;
     }
 
-    public boolean isFirstTurn() {
-        return firstTurn;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public int getLoosingPlayers() {
-        return loosingPlayers;
-    }
-
-    public Controller(Game game) {
-        this.game = game;
-        this.cards = game.getCards();
-        for(Player p: game.getPlayers()) {
-            turn.put(p,false);
-            outcome.put(p,null);
-        }
-        firstTurn = true;
-        turn.replace(game.getPlayers().get(0),true);
-        System.out.println("è il turno di "+ game.getPlayers().get(0).getUsername());
-        loosingPlayers = 0;
-    }
-
-    /**
-     * Quando chiamato il turno passa al giocatore successivo
-     */
-    private void updateTurn() {
-        int index;
-        for(Player p:game.getPlayers()) {
-            if(turn.get(p)) {
-                turn.replace(p,false);
-                index = (game.getPlayers().indexOf(p)+1)%(game.getPlayers().size());
-                if(index == 0 && firstTurn){
-                    firstTurn = false;
-                }
-                turn.replace(game.getPlayers().get(index),true);
-                break;
-            }
-        }
-    }
-
-    private void performMove(PlayerMove message){
-        Player p = message.getPlayer();
-        if(turn.get(p) && (game.isSimple() || !firstTurn) && outcome.get(p) == null){
-            try {
-                p.getTurn().move( message.getX(), message.getY());
-                game.notify(new BoardUpdate(game.getBoard().data(),game.getPlayers()));
-                if(p.getTurn().won()){
-                    outcome.replace(p,true);
-                    for(Player c:game.getPlayers()){
-                        if(!c.equals(p)){
-                            outcome.replace(c,false);
-                        }
-                    }
-                }
-            }catch(RuntimeException e){
-                System.err.println(e.getMessage());
-            }
-        }else{
-            throw new RuntimeException("Not your turn buddy!");
-        }
-    }
-    private void performBuild(PlayerBuild message){
-        Player p = message.getPlayer();
-        int index = game.getPlayers().indexOf(p);
-        if(turn.get(p) && outcome.get(p) == null){
-            try {
-                p.getTurn().build(message.getX(),message.getY());
-                game.notify(new BoardUpdate(game.getBoard().data(),game.getPlayers()));
-            }catch (RuntimeException e){
-                System.err.println(e.getMessage());
-            }
-        }else{
-            throw new RuntimeException("Not your turn buddy!");
-        }
-    }
-
-    private void performChoice(CardChoice message){
-        Player p = message.getPlayer(); // da riferimento nullo
-        Card card = new Card(message.getCard().getName());
-        //todo: controllare che la carta sia effettivamente nell'array card
-        if(firstTurn && turn.get(p) && outcome.get(p) == null){
-            p.setCard(card);
-            removeCard(card);
-            if(p.equals(game.getPlayers().get(game.getPlayers().size()-1))){
-                game.getPlayers().get(0).setCard(cards.get(0));
-            }
-            updateTurn();
-        }
-        else{
-            throw new RuntimeException("Can't do that");
-        }
-    }
-
-    private void performDeckBuilding(DeckChoice message){
-        Player p = message.getPlayer();
-        if(turn.get(p) && firstTurn &&  outcome.get(p)==null){
-            for(Card c: message.getCards()){
-                game.addCard(c);
-                cards.add(c);
-            }
-            updateTurn();
-        }
-        else {
-            throw new RuntimeException("Non è il tuo turno");
-        }
-    }
-
-    private void performStart(PlayerStart message){
-        Player p = message.getPlayer();
-        Worker w = message.getWorker();
-
-        if(outcome.get(p) == null && loosingPlayers == (outcome.size()-1)){
-            outcome.replace(p,true);
-        }
-
-        if(turn.get(p)){
-            try{
-                p.getTurn().start(w);
-            }catch (RuntimeException e){
-                System.out.println(e.toString());
-                if(e instanceof PlayerLostException){
-                    outcome.replace(p,false);
-                    loosingPlayers ++;
-                    if(loosingPlayers == game.getPlayers().size()-1){
-                        for(Player c : game.getPlayers()){
-                            if(outcome.get(c) == null){
-                                outcome.replace(c,true);
-                            }
-                        }
-                    }
-                }
-                else {
-                    System.err.println(e.getMessage());
-                }
-            }
-        }else{
-            throw new RuntimeException("Non è il tuo turno");
-        }
-    }
-
-    private void performEnd(PlayerEnd message){
-        Player p = message.getPlayer();
-        if(turn.get(p) && outcome.get(p) == null){
-            try{
-                //game.getPlayers().get(game.getPlayers().indexOf(p)).getTurn().end();
-                p.getTurn().end();
-                //game.notify(new BoardUpdate(game.getBoard().data()));
-                updateTurn();
-                game.notify(new BoardUpdate(game.getBoard().data(),game.getPlayers()));
-            }catch (RuntimeException e){
-                System.err.println(e.getMessage());
-            }
-        }else{
-            throw new RuntimeException("Non è il tuo turno");
-        }
-    }
-
-
-
-    public boolean getFirstTurn(){
-        return firstTurn;
-    }
-
-    private void removeCard(Card card){
-        for(Card c: cards){
-            if(c.getName() == card.getName()){
-                cards.remove(c);
-            }
-        }
-    }
-
-    private void performRemoval(PlayerRemove message){
-        Player p = message.getPlayer();
-        outcome.replace(p,false);
-        loosingPlayers++;
-        if(turn.get(p)){
-            updateTurn();
-            turn.remove(p);
-        }
-        else {
-            turn.remove(p);
-        }
-        game.removePlayer(p);
-    }
-
-    public ArrayList<Card> getCards() {
+    public ArrayList<Card> getCards(){
         return cards;
     }
 
-    //message è la mossa generica
+    //Actions
+    private void performStart(PlayerStart message) {
+        Player player = message.getPlayer();
+        Worker worker = message.getWorker();
+
+        if (turn.get(player) && !firstTurn && outcome.get(player) == null) {
+
+            if (outcome.get(player) == null && loosingPlayers == playersList.size() - 1) {
+                outcome.replace(player, true);
+            }
+
+            try {
+                player.getTurn().start(worker);
+            } catch (PlayerLostException e1) {
+                outcome.replace(player, false);
+                loosingPlayers++;
+                updateTurn();
+            } catch (RuntimeException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
+
+    private void performMove(PlayerMove message) {
+        Player player = message.getPlayer();
+        Turn playerTurn = player.getTurn();
+        int x = message.getX();
+        int y = message.getY();
+
+        if (turn.get(player) && !firstTurn && outcome.get(player) == null) {
+            try {
+                playerTurn.move(x, y);
+                //TODO: ??
+                game.notify(new BoardUpdate(game.getBoard().data(), game.getPlayers()));
+                if (playerTurn.won()) {
+                    outcome.replaceAll((key, value) -> false);
+                    outcome.replace(player, true);
+                    loosingPlayers = playersList.size() - 1;
+                }
+            } catch (IndexOutOfBoundsException e1) {
+                //TODO: notificare al giocatore
+            } catch (InvalidMoveException e2) {
+                //TODO: notificare al giocatore
+            } catch (AthenaGoUpException e3) {
+                //TODO: notificare al giocatore
+            } catch (RuntimeException e4) {
+                e4.printStackTrace();
+            }
+        }
+    }
+
+    private void performBuild(PlayerBuild message) {
+        Player player = message.getPlayer();
+        Turn playerTurn = player.getTurn();
+        int x = message.getX();
+        int y = message.getY();
+
+        if (turn.get(player) && !firstTurn && outcome.get(player) == null) {
+            try {
+                playerTurn.build(x, y);
+                //TODO: ??
+                game.notify(new BoardUpdate(game.getBoard().data(), game.getPlayers()));
+            } catch (IndexOutOfBoundsException e1) {
+                //TODO: notificare al giocatore
+            } catch (InvalidBuildException e2) {
+                //TODO: notificare al giocatore
+            } catch (RuntimeException e3) {
+                e3.printStackTrace();
+            }
+        }
+    }
+
+    private void performEnd(PlayerEnd message) {
+        Player player = message.getPlayer();
+        Turn playerTurn = player.getTurn();
+
+        if (turn.get(player) && !firstTurn && outcome.get(player) == null) {
+            try {
+                playerTurn.end();
+                updateTurn();
+            } catch (RuntimeException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    private void performDeckBuilding(DeckChoice message) {
+        Player player = message.getPlayer();
+        Set<String> sCards = message.getCards();
+
+        if (cardChoiceTurn && player.equals(playersList.get(0))) {
+            if (sCards.size() == playersList.size()) {
+                try {
+                    for (String c : sCards) {
+                        Card card = new Card(God.valueOf(c));
+                        cards.add(card);
+                    }
+                    game.addCards(cards);
+                } catch (SimpleGameException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalArgumentException e2) {
+                    cards.clear();
+                    //TODO: nome inserito non valido -> notificare scelta invalida
+                }
+
+            }
+        }
+    }
+
+    private void performCardChoice(CardChoice message) {
+        Player player = message.getPlayer();
+        String cardName = message.getCard();
+
+        if (cardChoiceTurn && turn.get(player)) {
+            try {
+                Card card = null;
+                for (Card c : cards) {
+                    if (c.getName().equals(God.valueOf(cardName))) {
+                        card = c;
+                    }
+                }
+                player.setCard(card);
+                cards.remove(card);
+                updateTurn();
+            } catch (SimpleGameException | CardAlreadySetException e1) {
+                e1.printStackTrace();
+            } catch (NullPointerException e2) {
+                //TODO: carta non presente nel deck -> notificare scelta invalida
+            } catch (IllegalArgumentException e3) {
+                //TODO: nome scelto inesistente -> notificare scelta invalida
+            }
+        }
+    }
+
+    private void performPawnPositioning(PlacePawn message) {
+        Player player = message.getPlayer();
+        int worker1X = message.getX1();
+        int worker1Y = message.getY1();
+        int worker2X = message.getX2();
+        int worker2Y = message.getY2();
+        Board board = game.getBoard();
+
+        if (turn.get(player) && firstTurn) {
+            try {
+                board.placePawn(player.getWorker1(), worker1X, worker1Y);
+                board.placePawn(player.getWorker2(), worker2X, worker2Y);
+                updateTurn();
+            } catch (IndexOutOfBoundsException e1) {
+                //TODO: notificare scelta invalida
+            }
+            //TODO: ??
+            game.notify(new BoardUpdate(board.data(), game.getPlayers()));
+        }
+    }
+
+
+    private void performPlayerRemoval(PlayerRemove message) {
+        Player player = message.getPlayer();
+        Board board = game.getBoard();
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+
+        outcome.remove(player);
+
+        if (turn.get(player)) {
+            updateTurn();
+        }
+
+        board.getBox(worker1.getXPos(), worker1.getYPos()).removePawn();
+        board.getBox(worker2.getXPos(), worker2.getYPos()).removePawn();
+
+        playersList.remove(player);
+        turn.remove(player);
+
+    }
+
+
     @Override
     public void update(Message message) {
 
-        if(message instanceof PlayerMove){
+        if (message instanceof PlayerMove) {
             performMove((PlayerMove) message);
         }
-        if(message instanceof PlayerBuild){
+        if (message instanceof PlayerBuild) {
             performBuild((PlayerBuild) message);
         }
-        if(message instanceof CardChoice){
-            performChoice((CardChoice) message);
+        if (message instanceof CardChoice) {
+            performCardChoice((CardChoice) message);
         }
-        if(message instanceof DeckChoice){
+        if (message instanceof DeckChoice) {
             performDeckBuilding((DeckChoice) message);
         }
-        if(message instanceof PlayerStart){
+        if (message instanceof PlayerStart) {
             performStart((PlayerStart) message);
         }
-        if(message instanceof PlayerEnd){
+        if (message instanceof PlayerEnd) {
             performEnd((PlayerEnd) message);
         }
-        if(message instanceof PlayerRemove){
-            performRemoval((PlayerRemove) message);
+        if (message instanceof PlayerRemove) {
+            performPlayerRemoval((PlayerRemove) message);
         }
-//        if(message instanceof InitializePlayersMessage){
-//            initializePlayers((InitializePlayersMessage)message);
-//        }
-        if(message instanceof PlacePawn){
-            performPlacePawn((PlacePawn)message);
+        if (message instanceof PlacePawn) {
+            performPawnPositioning((PlacePawn) message);
         }
     }
-
-//    public void initializePlayers(InitializePlayersMessage message) {
-//        try{
-//            System.out.println("Inizializing players");
-//            game.notify(new BoardUpdate(game.getBoard().data()));
-//            for(Player p: message.getPlayers()){
-//                //players.put(p,game.getPlayers().get(message.getPlayers().indexOf(p)));
-//            }
-//        }catch(NullPointerException e){
-//            System.err.println(e.getMessage());
-//        }
-//    }
-
-    public void performPlacePawn(PlacePawn message){
-        Player p = message.getPlayer();
-        try{
-            game.getBoard().placePawn(p.getWorker1(),message.getX1(),message.getY1());
-            game.getBoard().placePawn(p.getWorker2(),message.getX2(),message.getY2());
-        }
-        catch (NullPointerException e){
-            System.out.println(p + "" + message.getPlayer());
-            System.out.println(message.getX1()+message.getY1()+message.getX2()+message.getY2());
-            System.err.println(e.getMessage());
-        }
-        game.notify(new BoardUpdate(game.getBoard().data(),game.getPlayers()));
-    }
-
 }

@@ -6,11 +6,11 @@ import static org.junit.Assert.*;
 
 public class DefaultMoveTest {
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void noMoveOverIndex() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
@@ -21,7 +21,7 @@ public class DefaultMoveTest {
     public void noMoveZero() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
@@ -33,7 +33,7 @@ public class DefaultMoveTest {
     public void rightMoveZeroLevel() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultMove mover = new DefaultMove(player);
         Worker worker = player.getWorker1();
 
@@ -62,7 +62,7 @@ public class DefaultMoveTest {
     public void noMoveOverDome() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
@@ -77,7 +77,7 @@ public class DefaultMoveTest {
     public void noMoveOverTwoSteps() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
@@ -89,7 +89,7 @@ public class DefaultMoveTest {
     public void rightMoveUpper() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
@@ -141,7 +141,7 @@ public class DefaultMoveTest {
     public void stepDownMove() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker = player.getWorker1();
@@ -178,7 +178,7 @@ public class DefaultMoveTest {
     public void noMoveOverPawn() {
         Board board = new Board();
         Game game = new Game("Marco", "Giuseppe", board, true);
-        Player player = new Player("Marco", game);
+        Player player = new Player("Marco", game, Color.BLUE);
         DefaultMove mover = new DefaultMove(player);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker1 = player.getWorker1();

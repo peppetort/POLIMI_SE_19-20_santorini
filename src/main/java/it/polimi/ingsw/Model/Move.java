@@ -4,7 +4,7 @@ package it.polimi.ingsw.Model;
  * Rappresenta l'interfaccai che specifica la
  * la mossa del {@link Player}.
  * <p>
- *     Fa parte dello Strategy Pattern
+ * Fa parte dello Strategy Pattern
  * </p>
  */
 public interface Move {
@@ -15,9 +15,10 @@ public interface Move {
      * controlla le condizioni apposite.
      *
      * @param worker è la pedina da muovere
-     * @param x è la posizione X della {@link Board} sulla quale si vuole posizionare la pedina
-     * @param y è la posizione Y della {@link Board} sulla quale si vuole posizionare la pedina
+     * @param x      è la posizione X della {@link Board} sulla quale si vuole posizionare la pedina
+     * @param y      è la posizione Y della {@link Board} sulla quale si vuole posizionare la pedina
      */
     void move(Worker worker, int x, int y);
+
     void moveNoGoUp(Worker worker, int x, int y);
 }

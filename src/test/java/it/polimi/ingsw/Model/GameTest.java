@@ -15,16 +15,15 @@ public class GameTest {
             Card c2 = new Card(God.APOLLO);
             Card c3 = new Card(God.ARTEMIS);
             ArrayList<Card> cards = new ArrayList<Card>();
-            ArrayList<Card> cards1 = new ArrayList<Card>();;
+            ArrayList<Card> cards1;
             Game game = new Game("Marco","Giuseppe",board,false);
-            game.addCard(c1);
-            game.addCard(c2);
-            game.addCard(c2);
-            game.addCard(c3);
-            cards = game.getCards();
-            assertEquals(God.PAN,cards.get(0).getName());
-            assertEquals(God.APOLLO,cards.get(1).getName());
-            assertFalse(cards.contains(c3));
+            cards.add(c1);
+            cards.add(c2);
+            cards.add(c3);
+            cards1 = game.getCards();
+            assertEquals(God.PAN,cards1.get(0).getName());
+            assertEquals(God.APOLLO,cards1.get(1).getName());
+            assertFalse(cards1.contains(c3));
 
     }
     @Test
@@ -43,14 +42,7 @@ public class GameTest {
         Game game = new Game("Marco","Giuseppe",board,false);
         assertEquals(false,game.isSimple());
     }
-    @Test
-    public void getMatchID() {
-        Board board = new Board();
-        Game game = new Game("Marco","Giuseppe",board,false);
-        long matchID = 1111111111;
-        game.setMatchID(matchID);
-        assertEquals(matchID,game.getMatchID());
-    }
+
 
 
 

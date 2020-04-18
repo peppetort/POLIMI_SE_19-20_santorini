@@ -6,14 +6,14 @@ import it.polimi.ingsw.Model.Player;
 public class CardChoice implements Message {
 
     Player player;
-    Card card;
+    String card;
 
-    public CardChoice(Player player, Card card) {
+    public CardChoice(Player player, String card) {
         this.player = player;
         this.card = card;
     }
 
-    public Card getCard() {
+    public String getCard() {
         return card;
     }
 

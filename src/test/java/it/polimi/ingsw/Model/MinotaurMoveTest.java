@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.InvalidMoveException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -46,7 +47,7 @@ public class MinotaurMoveTest {
         assertEquals((int)workerPlayer2.getYPos(), 4);
     }
 
-    @Test
+    @Test(expected = InvalidMoveException.class)
     public void moveMinotaurCantBackAwayOutOfBoard(){
         Board board = new Board();
         Game game = new Game("Pippo", "Pluto", board, false);
@@ -144,7 +145,7 @@ public class MinotaurMoveTest {
         assertTrue(board.getBox(2,4).isFree());
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void movePawnNotPlaced() {
         Board board = new Board();
         Game game = new Game("Pippo", "Pluto", board, false);
@@ -157,7 +158,7 @@ public class MinotaurMoveTest {
         assertTrue(startBox.isFree());
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void moveIndexOutOfBoardLimits() {
         Board board = new Board();
         Game game = new Game("Pippo", "Pluto", board, false);

@@ -17,7 +17,7 @@ public class DemeterTurn extends DefaultTurn {
     }
 
     @Override
-    public void start(Worker worker){
+    public void start(Worker worker) {
         super.start(worker);
         lastX = null;
         lastY = null;
@@ -25,8 +25,8 @@ public class DemeterTurn extends DefaultTurn {
     }
 
     @Override
-    public void build( int x, int y) throws NullPointerException {
-        if(!running){
+    public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
+        if (!running) {
             throw new RuntimeException("Turn not started!");
         }
         if (!canBuild) {
@@ -40,6 +40,7 @@ public class DemeterTurn extends DefaultTurn {
             }
             buildAction.build(worker, x, y);
             canBuild = false; //non posso più costruire
+            playerMenu.replace("build", false);
         } catch (NullPointerException e) { // vuol dire che è la prima volta che costruisco poichè lastX lastY sono null
             buildAction.build(worker, x, y);
             //salvo la posizione della prima costruzione
@@ -47,17 +48,19 @@ public class DemeterTurn extends DefaultTurn {
             lastY = y;
             oneBuild = true; //indico che ho costruito almeno una volta
         }
+        playerMenu.replace("end", true);
     }
 
     @Override
-    public void end(){
-        if(!running){
+    public void end() {
+        if (!running) {
             throw new TurnNotStartedException("Turn not started!");
-        }else if(canMove){
+        } else if (canMove) {
             throw new RuntimeException("Can't end turn! You have to move!");
-        }else if(!oneBuild){ //controllo di aver costruito almeno una volta
+        } else if (!oneBuild) { //controllo di aver costruito almeno una volta
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
+        playerMenu.replace("end", false);
     }
 }

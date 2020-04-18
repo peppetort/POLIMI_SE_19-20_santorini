@@ -1,9 +1,7 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Messages.BoardUpdate;
-import it.polimi.ingsw.Messages.Message;
-import it.polimi.ingsw.Exceptions.DuplicateCardException;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
+import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Observer.Observable;
 
 import java.util.ArrayList;
@@ -12,60 +10,45 @@ import java.util.ArrayList;
  * Classe che rappresenta la partita stessa.
  */
 public class Game extends Observable<Message> {
-    private long matchID;
-    private ArrayList<Player> players = new ArrayList<Player>();    //lista dei player
-    private ArrayList<Card> cards = new ArrayList<Card>();          //list delle carte selezionate dai player
-    private Board board;
-    private boolean simpleGame;
+    private final ArrayList<Player> players = new ArrayList<>();    //lista dei player
+    private ArrayList<Card> cards;          //list delle carte selezionate dai player
+    private final Board board;
+    private final boolean simpleGame;
 
     /**
      * Rappresenta il costruttore della classe {@link Game} nel caso in cui la partita sia per due giocatori.
-     * @param player1 Giocatore1 (lo sfidante)
-     * @param player2 Giocatore2
-     * @param board La tavola su cui si svolge la partita
+     *
+     * @param player1    Giocatore1 (lo sfidante)
+     * @param player2    Giocatore2
+     * @param board      La tavola su cui si svolge la partita
      * @param simpleGame se true la partita è senza carte, altrimenti i {@link Player} avranno la loro {@link Card} ciascuno
      */
 
-    public Game(String player1, String player2,Board board,boolean simpleGame){
+    public Game(String player1, String player2, Board board, boolean simpleGame) {
         this.board = board;
         this.simpleGame = simpleGame;
         players.add(new Player(player1,this,Color.BLUE));
         players.add(new Player(player2,this,Color.RED));
     }
+
     /**
      * Rappresenta il costruttore della classe {@link Game} nel caso in cui la partita sia per tre giocatori.
-     * @param player1 Giocatore1 (lo sfidante)
-     * @param player2 Giocatore2
-     * @param board La tavola su cui si svolge la partita
+     *
+     * @param player1    Giocatore1 (lo sfidante)
+     * @param player2    Giocatore2
+     * @param board      La tavola su cui si svolge la partita
      * @param simpleGame se true la partita è senza carte, altrimenti i {@link Player} avranno la loro {@link Card} ciascuno
      */
-    public Game(String player1,String player2,String player3,Board board,boolean simpleGame){
+    public Game(String player1, String player2, String player3, Board board, boolean simpleGame) {
         this.board = board;
         this.simpleGame = simpleGame;
         players.add(new Player(player1,this,Color.BLUE));
         players.add(new Player(player2,this,Color.RED));
         players.add(new Player(player3,this,Color.GREEN));
     }
-    /**
-     * @return l'ID del match
-     */
-    public long getMatchID() {
-        return matchID;
-    }
-    /**
-     * @param matchID ID del match
-     */
-    public void setMatchID(long matchID) {
-        this.matchID = matchID;
-    }
 
-    /**
-     * @param card rappresenta la {@link Card} che player1 vuole aggiungere alle carte utilizzabili in gioco.
-     * @throws RuntimeException se provo ad inserire una carta già presente
-     * @throws RuntimeException se provo ad inserire più carte che numero di player
-     * @throws RuntimeException se provo ad inserire una carta quando il gioco è semplice (senza l'utilizzo di carte)
-     */
-    public void addCard(Card card){
+
+/*    public void addCard(Card card){
         if(cards.size() < players.size()) {
             if(!simpleGame) {
                 for(Card c: cards){
@@ -79,7 +62,15 @@ public class Game extends Observable<Message> {
         else{
             throw new RuntimeException("non si possono aggiungere ulteriori carte");
         }
+    }*/
+
+    public void addCards(ArrayList<Card> cards){
+        if(simpleGame){
+            throw new SimpleGameException("Game mode: no cards!");
+        }
+        this.cards = cards;
     }
+
     /**
      * @return un ArrayList contenente tutte le {@link Card} scelte dal giocatore sfidante
      */
@@ -107,9 +98,14 @@ public class Game extends Observable<Message> {
         return board;
     }
 
-    public void removePlayer(Player player){
-        board.getBox(player.getWorker1().getXPos(),player.getWorker1().getYPos()).removePawn();
-        board.getBox(player.getWorker2().getXPos(),player.getWorker2().getYPos()).removePawn();
+    //TODO: controllare se serve
+    public void removePlayer(Player player) throws NullPointerException, IndexOutOfBoundsException {
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+
+        board.getBox(worker1.getXPos(), worker1.getYPos()).removePawn();
+        board.getBox(worker2.getXPos(), worker2.getYPos()).removePawn();
         players.remove(player);
+
     }
 }

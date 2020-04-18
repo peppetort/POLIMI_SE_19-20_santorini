@@ -1,32 +1,30 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.CardAlreadySetException;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Rappresenta il giocatore
  */
 public class Player {
 
-    private String username;
-    /**
-     * Rappresenta la carta asseganta al giocatore.
-     * Se la carta non è assegnata assume valore null.
-     */
+    private final String username;
+    private final Worker worker1;
+    private final Worker worker2;
+
+    private final HashMap<String, Boolean> playerMenu = new HashMap<>();
+    private final Game session;
+    private final Color color;
     private Card card;
     private Turn turn;
-    private Worker worker1;
-    private Worker worker2;
-    private Color color;
+
 
     public Color getColor() {
         return color;
     }
-
-    /**
-     * Rappresenta la sessione di gioco a cui il giocatore sta partecipando
-     */
-    private Game session;
-
     /**
      * Rappresenta la condizione di vittoria del giocatore
      */
@@ -54,28 +52,18 @@ public class Player {
      * @param username setta il nome del giocatore
      * @param session  assegna la sessione di gioco
      */
-    public Player(String username, Game session,Color color) {
+    public Player(String username, Game session, Color color) {
         this.username = username;
         this.worker1 = new Worker(1, this);
         this.worker2 = new Worker(2, this);
         this.session = session;
         this.color = color;
 
-        //Modalità di gioco senza carte
-        if (session.isSimple()) {
-            card = null;
-            winAction = new DefaultWin(this);
-            moveAction = new DefaultMove(this);
-            buildAction = new DefaultBuild(this);
-            turn = new DefaultTurn(this);
-        }
-    }
+        playerMenu.put("start", false);
+        playerMenu.put("move", false);
+        playerMenu.put("build", false);
+        playerMenu.put("end", false);
 
-    public Player(String username, Game session) {
-        this.username = username;
-        this.worker1 = new Worker(1, this);
-        this.worker2 = new Worker(2, this);
-        this.session = session;
 
         //Modalità di gioco senza carte
         if (session.isSimple()) {
@@ -91,20 +79,15 @@ public class Player {
         return this.username;
     }
 
-    public Card getCard() throws NullPointerException{
+    public HashMap<String, Boolean> getPlayerMenu(){
+        return this.playerMenu;
+    }
+
+    public Card getCard() {
+        if (session.isSimple()) {
+            throw new SimpleGameException("No card!");
+        }
         return this.card;
-    }
-
-    public Worker getWorker1() {
-        return this.worker1;
-    }
-
-    public Worker getWorker2() {
-        return this.worker2;
-    }
-
-    public Game getSession() {
-        return this.session;
     }
 
     /**
@@ -121,11 +104,11 @@ public class Player {
      * @throws RuntimeException se il giocatore ha già una carta assegnata
      * @throws RuntimeException se il nome della carta assegnata è sconosciuto
      */
-    public void setCard(Card card) {
+    public void setCard(Card card) throws NullPointerException{
         if (session.isSimple()) {
             throw new SimpleGameException("Game mode: no cards!");
         } else if (this.card != null) {
-            throw new RuntimeException("Player " + this.getUsername() + " already has a card!");
+            throw new CardAlreadySetException("Player " + this.getUsername() + " already has a card!");
         }
 
         this.card = card;
@@ -190,23 +173,35 @@ public class Player {
         }
     }
 
-    public boolean equals(Player other) {
-        return username.equals(other.username) && card.getName() == other.card.getName();
+    public Worker getWorker1() {
+        return this.worker1;
     }
 
-    public Move getMoveAction(){
+    public Worker getWorker2() {
+        return this.worker2;
+    }
+
+    public Game getSession() {
+        return this.session;
+    }
+
+    public boolean equals(Player other) {
+        return username.equals(other.username);
+    }
+
+    public Move getMoveAction() {
         return this.moveAction;
     }
 
-    public Build getBuildAction(){
+    public Build getBuildAction() {
         return this.buildAction;
     }
 
-    public Win getWinAction(){
+    public Win getWinAction() {
         return this.winAction;
     }
 
-    public Turn getTurn(){
+    public Turn getTurn() {
         return this.turn;
     }
 

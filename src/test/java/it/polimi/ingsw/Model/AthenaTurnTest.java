@@ -19,12 +19,14 @@ public class AthenaTurnTest {
         board.placePawn(otherWorker, 4,4);
         board.getBox(0,1).build(Block.LONE);
         board.getBox(4,3).build(Block.LONE);
+        player.getPlayerMenu().replace("start", true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
         turn.move(0,1);
         turn.build(0,2);
         turn.end();
         Turn otherTurn = new DefaultTurn(otherPlayer);
+        otherPlayer.getPlayerMenu().replace("start", true);
         otherTurn.start(otherWorker);
         otherTurn.move(4,3);
     }
@@ -41,12 +43,14 @@ public class AthenaTurnTest {
         board.placePawn(otherWorker, 4, 4);
         board.getBox(0, 1).build(Block.LONE);
         board.getBox(4, 3).build(Block.LONE);
+        player.getPlayerMenu().replace("start", true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
         Turn otherTurn = new DemeterTurn(otherPlayer);
+        otherPlayer.getPlayerMenu().replace("start", true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
     }
@@ -63,12 +67,14 @@ public class AthenaTurnTest {
         board.placePawn(otherWorker, 4, 4);
         board.getBox(0, 1).build(Block.LONE);
         board.getBox(4, 3).build(Block.LONE);
+        player.getPlayerMenu().replace("start", true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
         Turn otherTurn = new HaphestusTurn(otherPlayer);
+        otherPlayer.getPlayerMenu().replace("start", true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
     }
@@ -86,11 +92,13 @@ public class AthenaTurnTest {
         board.getBox(0, 1).build(Block.LONE);
         board.getBox(4, 3).build(Block.LONE);
         Turn turn = new AthenaTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
         Turn otherTurn = new ArtemisTurn(otherPlayer);
+        otherPlayer.getPlayerMenu().replace("start", true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
     }
@@ -108,11 +116,13 @@ public class AthenaTurnTest {
         board.getBox(0, 1).build(Block.LONE);
         board.getBox(4, 3).build(Block.LONE);
         Turn turn = new AthenaTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
         Turn otherTurn = new PrometheusTurn(otherPlayer);
+        otherPlayer.getPlayerMenu().replace("start", true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
     }
@@ -130,15 +140,18 @@ public class AthenaTurnTest {
         board.getBox(0, 1).build(Block.LONE);
         board.getBox(4, 3).build(Block.LONE);
         Turn turn = new AthenaTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 0);
         turn.end();
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 0);
         turn.build(0, 1);
         turn.end();
         Turn otherTurn = new DemeterTurn(otherPlayer);
+        otherPlayer.getPlayerMenu().replace("start", true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
         otherTurn.build(4,4);

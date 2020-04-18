@@ -14,6 +14,7 @@ public class HaphestusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        player.getPlayerMenu().replace("start", true);
         Turn turn = new HaphestusTurn(player);
         turn.start(worker);
         turn.move(0, 1);
@@ -31,6 +32,7 @@ public class HaphestusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        player.getPlayerMenu().replace("start", true);
         Turn turn = new HaphestusTurn(player);
         turn.start(worker);
         turn.move(0, 1);
@@ -63,6 +65,7 @@ public class HaphestusTurnTest {
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         Turn turn = new HaphestusTurn(player);
+        player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);

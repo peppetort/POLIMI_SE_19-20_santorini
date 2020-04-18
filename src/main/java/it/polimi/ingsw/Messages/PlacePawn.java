@@ -3,10 +3,11 @@ package it.polimi.ingsw.Messages;
 import it.polimi.ingsw.Model.Player;
 
 public class PlacePawn implements Message {
-    private int x1,y1;
-    private int x2,y2;
+    private int x1, y1;
+    private int x2, y2;
     private Player player;
-    public PlacePawn(Player player,int x1, int y1, int x2, int y2) {
+
+    public PlacePawn(Player player, int x1, int y1, int x2, int y2) {
         this.player = player;
         this.x1 = x1;
         this.y1 = y1;

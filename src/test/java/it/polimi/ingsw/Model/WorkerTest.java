@@ -35,22 +35,22 @@ public class WorkerTest {
         worker.setPos(0, 6);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test
     public void getXPosNotInizialized(){
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker=new Worker(1, player);
-        worker.getXPos();
+        assertNull(worker.getXPos());
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test
     public void getYPosNotInizialized(){
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker=new Worker(1, player);
-        worker.getYPos();
+        assertNull(worker.getYPos());
     }
 
     @Test

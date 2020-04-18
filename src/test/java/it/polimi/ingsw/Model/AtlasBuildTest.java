@@ -33,7 +33,7 @@ public class AtlasBuildTest {
         assertEquals(box.getBlock(), Block.DOME);
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void buildOutOfBoardLimits() {
         Board board = new Board();
         Game game = new Game("Pippo", "Pluto", board, false);
@@ -49,7 +49,7 @@ public class AtlasBuildTest {
         }
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void buildWorkerNotInBoard() {
         Board board = new Board();
         Game game = new Game("Pippo", "Pluto", board, false);

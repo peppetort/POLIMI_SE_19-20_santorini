@@ -5,9 +5,9 @@ package it.polimi.ingsw.Model;
  */
 public class DefaultWin implements Win {
 
-    private Board board;
-    private Worker worker1;
-    private Worker worker2;
+    final Board board;
+    final Worker worker1;
+    final Worker worker2;
 
     /**
      * Rappresenta il costruttore della classe {@link DefaultWin}
@@ -27,9 +27,9 @@ public class DefaultWin implements Win {
     /**
      * Ritorna un booleano che indica se il giocatore ha vinto oppure no.
      * <p>
-     *     Tramite i metodi di {@link Worker} vengono presi le posizioni delle due
-     *     pedine e si controlla se sulla {@link Box} su cui uno dei due si trova è
-     *     costruito un {@link Block} di livello 3
+     * Tramite i metodi di {@link Worker} vengono presi le posizioni delle due
+     * pedine e si controlla se sulla {@link Box} su cui uno dei due si trova è
+     * costruito un {@link Block} di livello 3
      * </p>
      *
      * @return true se il giocatore ha vinto, false altrimenti

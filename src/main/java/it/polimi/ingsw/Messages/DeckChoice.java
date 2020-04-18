@@ -1,21 +1,19 @@
 package it.polimi.ingsw.Messages;
 
-import it.polimi.ingsw.Model.Card;
 import it.polimi.ingsw.Model.Player;
-
-import java.util.ArrayList;
+import java.util.Set;
 
 public class DeckChoice implements Message{
 
     Player player;
-    ArrayList<Card> cards = new ArrayList<Card>();
+    Set<String> cards;
 
-    public DeckChoice(Player player,ArrayList<Card> cards) {
+    public DeckChoice(Player player,Set<String> cards) {
         this.player = player;
         this.cards = cards;
     }
 
-    public ArrayList<Card> getCards(){
+    public Set<String> getCards(){
         return cards;
     }
 

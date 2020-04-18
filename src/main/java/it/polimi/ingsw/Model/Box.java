@@ -22,37 +22,39 @@ public class Box {
      * e inizializzando il tipo di costruzione alla costruzione base {@link Block} a TERRAIN
      * </p>
      */
-    public Box()
-    {
-        typeOfBuilding=Block.TERRAIN;
-        pawn=null;
+    public Box() {
+        typeOfBuilding = Block.TERRAIN;
+        pawn = null;
     }
 
     /**
      * @return il valore della pedina presente {@link #pawn},
      * null se non è presente nessuna pedina nella cella
      */
-    public Worker getPawn(){return pawn;}
+    public Worker getPawn() {
+        return pawn;
+    }
 
     /**
      * @param pawn per mettere il valore della pedina {@link #pawn} nella cella
      */
-    public void setPawn(Worker pawn)
-    {
-            this.pawn=pawn;
+    public void setPawn(Worker pawn) {
+        this.pawn = pawn;
     }
 
     /**
      * Rimuove la pedina {@link #pawn} dalla cella settandola a null
      */
-    public void removePawn()
-    {
-        pawn=null;
+    public void removePawn() {
+        pawn = null;
     }
+
     /**
      * @return il valore la costruzione {@link #typeOfBuilding} presente nel blocco
      */
-    public Block getBlock(){return typeOfBuilding;}
+    public Block getBlock() {
+        return typeOfBuilding;
+    }
 
     /**
      * @param b setta il valore del tipo di costruzione al valore passato {@link #typeOfBuilding}
@@ -64,27 +66,24 @@ public class Box {
     /**
      * @return la presenza o meno di una pedina {@link #pawn} nella cella
      */
-    public boolean isFree()
-    {
+    public boolean isFree() {
         return pawn == null;
     }
 
     /**
-     *
      * @param other cella sulla quale è calcolata la differenza
      * @return la differenza di livello tra la costruzione attuale e quella passata
      */
-    public int getDifference(Box other){
-        return this.typeOfBuilding.getValue()-other.typeOfBuilding.getValue();
+    public int getDifference(Box other) {
+        return this.typeOfBuilding.getValue() - other.typeOfBuilding.getValue();
     }
 
     /**
-     *
      * @param other box nella quale ci si vuole spostare
      * @return se è possibile muovere la pedina nella cella passata controllando che non ci sia una cupola e che
      * che non si può salire di più di un livello
      */
-    public boolean compare(Box other){
-        return this.getDifference(other) >= -1  && other.typeOfBuilding.getValue() != 4;
+    public boolean compare(Box other) {
+        return this.getDifference(other) >= -1 && other.typeOfBuilding.getValue() != 4;
     }
 }

@@ -17,10 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Session extends Observable<Message> {
-    private String name;
-    private int participant;
-    private boolean simple;
-    private Server server;
+    private final String name;
+    private final int participant;
+    private final boolean simple;
+    private final Server server;
+
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<String, ClientConnection> playingConnection = new HashMap<>();
 
@@ -84,8 +85,6 @@ public class Session extends Observable<Message> {
 
             model.addObserver(player1View);
             model.addObserver(player2View);
-
-
 
             this.addObserver(controller);
 
