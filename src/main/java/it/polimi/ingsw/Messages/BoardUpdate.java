@@ -18,8 +18,8 @@ public class BoardUpdate implements Serializable,Message{
 
     public BoardUpdate(Integer[] boardData, ArrayList<Player> players){
         this.boardData = boardData;
-        try {
-            for (Player p : players) {
+        for (Player p : players) {
+            if(p.getWorker1().getXPos() != null){
                 workers.put(p.getUsername(), new Integer[]{
                         p.getWorker1().getXPos(),
                         p.getWorker1().getYPos(),
@@ -28,9 +28,7 @@ public class BoardUpdate implements Serializable,Message{
                 });
                 colors.put(p.getUsername(),p.getColor());
             }
-
-
-        }catch (Exception e){}
+        }
     }
 
     public Integer[] getBoardData() {
