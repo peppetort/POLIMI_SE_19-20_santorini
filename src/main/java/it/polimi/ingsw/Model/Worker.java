@@ -88,12 +88,8 @@ public class Worker {
      * @return l'attributo {@link #x}
      * @throws NullPointerException se la posizone non è inizializzata
      */
-    public int getXPos() {
-        if (this.x == null) {
-            throw new NullPointerException("Position not Initialized!");
-        } else {
-            return this.x;
-        }
+    public Integer getXPos() {
+        return this.x;
     }
 
     /**
@@ -102,12 +98,8 @@ public class Worker {
      * @return l'attributo {@link #y}
      * @throws NullPointerException se la posizone non è inizializzata
      */
-    public int getYPos() {
-        if (this.y == null) {
-            throw new NullPointerException("Position not Initialized!");
-        } else {
-            return this.y;
-        }
+    public Integer getYPos() {
+        return this.y;
     }
 
     public Player getPlayer() {
