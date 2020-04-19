@@ -1,16 +1,14 @@
 package it.polimi.ingsw.Model;
 
-/**
- * Rappresenta il campo di gioco {@link Game}
- */
+
 public class Board {
     /**
-     * Rappresenta la matrice di celle {@link Box} che compongono la board
+     * Matrix 5 x 5 that represents the field.
      */
     private final Box[][] board = new Box[5][5];
 
     /**
-     * Costruttore che inizializza ogni cella {@link Box} della board
+     * Constructor which initializes each {@link Box} at TERRAIN level
      */
     public Board() {
         int x;
@@ -22,14 +20,10 @@ public class Board {
     }
 
     /**
-     * <p>
-     * Ritorna la cella di coordinate richieste
-     * </p>
-     *
-     * @param x coordinate x della cella a cui si vuole accedere
-     * @param y coordinate y della cella a cui si vuole accedere
-     * @return la cella {@link Box} richiesta
-     * @throws IndexOutOfBoundsException se x e/o y escono fuori dai confini del campo
+     * @param x x coordinate of the board matrix.
+     * @param y y coordinate of the board matrix.
+     * @return {@link Box} at x-y coordinates.
+     * @throws IndexOutOfBoundsException if x or y are out of the board boundaries.
      */
     public Box getBox(int x, int y) throws ArrayIndexOutOfBoundsException {
         return board[x][y];
@@ -37,15 +31,13 @@ public class Board {
 
     /**
      * <p>
-     * posizione il worker passato nella cella a cui si vuole accedere modificando:
-     * la posizione del worker {@link Worker}
-     * il la presenza della pedina nella cella {@link Box}
+     * Place the {@link Worker} reference in the x-y coordinates in board.
      * </p>
      *
-     * @param worker pedina di cui si modifica la posizione
-     * @param x      coordinate x della cella a cui si vuole accedere
-     * @param y      coordinate y della cella a cui si vuole accedere
-     * @throws IndexOutOfBoundsException se x e/o y escono fuori dai confini del campo
+     * @param worker reference of the selected {@link Worker}
+     * @param x      x coordinate
+     * @param y     y coordinate
+     * @throws IndexOutOfBoundsException if x or y is/are out of board boundaries.
      */
     public void placePawn(Worker worker, int x, int y) throws IndexOutOfBoundsException {
         board[x][y].setPawn(worker);

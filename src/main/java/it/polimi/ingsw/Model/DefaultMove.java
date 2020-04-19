@@ -4,34 +4,33 @@ import it.polimi.ingsw.Exceptions.AthenaGoUpException;
 import it.polimi.ingsw.Exceptions.InvalidMoveException;
 
 /**
- * Rappresenta la classe utilizzata dal {@link Player} nel caso in cui non possegga una carta in grado di modificare
- * la sua mossa di movimento.
+ * Represents the move if the
+ * {@link Player} has no {@link Card} / has a {@link Card} that doesn't modifies the move rules.
  */
+
 public class DefaultMove implements Move {
 
     final Board board;
 
     /**
-     * Rappresenta il metodo costruttore.
+     * Rappresenta constructor method.
      *
-     * @param player rappresenta il {@link Player} che si muoverà secondo le regole base del gioco.
+     * @param player represents the {@link Player} that will move his pawns with default rules.
      */
     public DefaultMove(Player player) {
         this.board = player.getSession().getBoard();
     }
 
     /**
-     * Rappresenta il metodo per effettuare un movimento secondo le regole base del gioco.
+     * Moves the selected {@link Worker} with default move rules.
      *
-     * @param worker è la pedina da muovere
-     * @param x      è la posizione X della {@link Board} sulla quale si vuole posizionare la pedina
-     * @param y      è la posizione Y della {@link Board} sulla quale si vuole posizionare la pedina
-     * @throws RuntimeException          se le coordinate non sono valide (non è una cella adiacente oppure è la stessa
-     *                                   delle coordinate attuali del {@link Worker})
-     * @throws RuntimeException          se la cella su cui voglio muovermi è occupata da un altro {@link Worker}
-     * @throws RuntimeException          se per muovermi su quella cella devo compiere un salto di due o più livelli
-     * @throws IndexOutOfBoundsException se voglio muovermi fuori dai bordi di {@link Board}
-     * @throws NullPointerException      se il riferimento a {@link Worker} è null
+     * @param worker selected worker
+     * @param x      x coordinate where the {@link Player} wants to move
+     * @param y      y coordinate where the {@link Player} wants to move
+     * @throws InvalidMoveException if the distance is too high
+     * @throws InvalidMoveException if it's the same of the actual position
+     * @throws InvalidMoveException if I'm trying to move on a level which is too high
+     * @throws InvalidMoveException if the box is already occupied
      */
     @Override
     public void move(Worker worker, int x, int y) throws IndexOutOfBoundsException, NullPointerException {

@@ -1,40 +1,24 @@
 package it.polimi.ingsw.Model;
 
 /**
- * Rappresenta la classe che modellizza la condizione di vittoria se il
- * giocatore possiede la {@link Card} PAN
  * <p>
- * Estende la classe {@link DefaultWin} poiché aggiunge una condizione di vittoria
- * a quella di default
+ * Extends the class {@link DefaultWin} because it adds a post-condition and has the same pre-conditions
  * </p>
  */
 public class PanWin extends DefaultWin {
 
     /**
-     * Rappresenta il costruttore della classe {@link PanWin}
-     * <p>
-     * Tramite i metodi di {@link Player} vengono settati gli attributi
-     * {@link #board}, {@link #worker1} e {@link #worker2}.
-     * </p>
+     * Constructor of the class {@link PanWin}
      *
-     * @param player giocatore che istanzia la classe
+     * @param player {@link Player} that has the {@link Card} PAN
      */
     public PanWin(Player player) {
         super(player);
     }
 
     /**
-     * Ritorna un booleano che indica se il giocatore ha vinto oppure no
-     * <p>
-     * Controlla inzialmente se il giocatore ha vinto, chiamando il metodo di
-     * {@link DefaultWin}: se ritorna flase, controlla la condizione di vittoria di Pan.
-     * Quindi per ciascua pedina, controlla che la differenza di livello tra la
-     * vecchia {@link Box} e quella attuale è 2
-     *
-     * </p>
-     *
-     * @return true se il giocatore ha vinto, false altrimenti
-     * @throws NullPointerException se l'attributo lastBox di {@link Worker} non è settato
+     * @return true if the {@link Player} has won.
+     * @throws NullPointerException if lastBox of {@link Worker} is null
      */
     @Override
     public boolean winChecker() {

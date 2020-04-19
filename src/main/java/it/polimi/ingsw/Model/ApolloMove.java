@@ -3,17 +3,16 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Exceptions.InvalidMoveException;
 
 /**
- * Rappresenta la classe che modellizza la mossa del
- * {@link Player} nel caso in cui abbia la carta APOLLO
+ * Represents the move in case the
+ * {@link Player} has the card APOLLO
  */
 public class ApolloMove extends DefaultMove {
 
     final Player player;
 
     /**
-     * Rappresenta il costruttore della classe {@link ApolloMove}
-     *
-     * @param player giocatore che ha istanziato la classe
+     * Constructor of the class {@link ApolloMove}
+     * @param player
      */
     public ApolloMove(Player player) {
         super(player);
@@ -21,17 +20,15 @@ public class ApolloMove extends DefaultMove {
     }
 
     /**
-     * Muove la pedina specificata nella posizione specificata, secondo le regole della
-     * classe {@link DefaultMove} con la condizione aggiuntiva di poter scambiare la propria
-     * posizione con quella di una pedina avversaria
+     * Moves the selected {@link Worker} with default move rules.
      *
-     * @param worker è la pedina da muovere
-     * @param x      è la posizione X della {@link Board} sulla quale si vuole posizionare la pedina
-     * @param y      è la posizione Y della {@link Board} sulla quale si vuole posizionare la pedina
-     * @throws RuntimeException se la posizione specificata eccede quelle che la pedina può assumere oppure
-     *                          se conincide con l'attuale posizione della pedina
-     * @throws RuntimeException se si cerca di muovere la pedina su un livello troppo altro
-     * @throws RuntimeException se si cerca di posizionare la pedina nella posizione dell'altra pedina dello stesso giocatore
+     * @param worker selected worker
+     * @param x      x coordinate where the {@link Player} wants to move
+     * @param y      y coordinate where the {@link Player} wants to move
+     * @throws InvalidMoveException if the distance is too high
+     * @throws InvalidMoveException if it's the same of the actual position
+     * @throws InvalidMoveException if I'm trying to move on a level which is too high
+     * @throws InvalidMoveException if the box is already occupied
      */
     @Override
     public void move(Worker worker, int x, int y) {

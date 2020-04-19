@@ -3,32 +3,28 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Exceptions.InvalidBuildException;
 
 /**
- * Rappresenta la classe che modellizza l'azione di costruzione del
- * {@link Player} nel caso in cui abbia la carta ATLAS
+ * Represents the build if the
+ * {@link Player} has the card ATLAS
  */
 public class AtlasBuild extends DefaultBuild {
 
 
     /**
-     * Rappresenta il costruttore della classe {@link AtlasBuild}
-     *
-     * @param player giocatore che ha istanziato la classe
+     * Constructor of the class {@link AtlasBuild}
+     * @param player
      */
     public AtlasBuild(Player player) {
         super(player);
     }
 
     /**
-     * Costruisce una cupola sulla posizione specificata senza che sulla
-     * {@link Box} corrispondente ci sia necessariamente un {@link Block}
-     * LTHREE
      *
-     * @param worker è la pedina che costruisce
-     * @param x      è la posizione X della {@link Board} sulla quale si vuole costruire
-     * @param y      è la posizione Y della {@link Board} sulla quale si vuole costruire
-     * @throws RuntimeException se la {@link Box} sulla quale si vuole costruire non è vicino alla pedina
-     * @throws RuntimeException se la {@link Box} sulla quale si vuole costruire ha già una cupola
-     * @throws RuntimeException se la {@link Box} sulla quale si vuole costruire è occupata da un'altra pedina
+     * @param worker the {@link Worker} that builds
+     * @param x x coordinate where I want to build
+     * @param y y coordinate where I want to build
+     * @throws InvalidBuildException if I try to build at more than one block of distance.
+     * @throws InvalidBuildException if I try to build over a dome.
+     * @throws InvalidBuildException if I try to build over a pawn.
      */
     public void buildDome(Worker worker, int x, int y) throws IndexOutOfBoundsException, NullPointerException {
 

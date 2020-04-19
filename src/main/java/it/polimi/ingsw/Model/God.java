@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Model;
 
 /**
- * Rappresenta le varie divinità utilizzabili in gioco e che il giocatore challenger può scegliere all'inizio
- * del gioco. Viene utilizzata nella classe contenitore {@link Card}
+ * enumeration that has every divinity that a {@link Player} could use
  */
 public enum God {
     APOLLO,

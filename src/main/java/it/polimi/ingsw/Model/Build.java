@@ -1,22 +1,23 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exceptions.InvalidBuildException;
+
 /**
- * Rappresenta l'interfaccai che specifica la
- * l'azione di costruzione del {@link Player}.
  * <p>
- * Fa parte dello Strategy Pattern
+ * Strategy Pattern interface for the Build
  * </p>
  */
+
 public interface Build {
 
     /**
-     * Sposta la pedina specificata nella posizione
-     * specificata. A seconda della classe che lo implementa
-     * controlla le condizioni apposite.
      *
-     * @param worker è la pedina che costruisce
-     * @param x      è la posizione X della {@link Board} sulla quale si vuole costruire
-     * @param y      è la posizione Y della {@link Board} sulla quale si vuole costruire
+     * @param worker the {@link Worker} that builds
+     * @param x x coordinate where I want to build
+     * @param y y coordinate where I want to build
+     * @throws InvalidBuildException if I try to build at more than one block of distance.
+     * @throws InvalidBuildException if I try to build over a dome.
+     * @throws InvalidBuildException if I try to build over a pawn.
      */
     void build(Worker worker, int x, int y);
 }

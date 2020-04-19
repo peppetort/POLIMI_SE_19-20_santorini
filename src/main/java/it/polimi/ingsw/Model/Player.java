@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Rappresenta il giocatore
+ * Represent one of the 2 or 3 players that play the match
  */
 public class Player {
 
@@ -26,31 +26,27 @@ public class Player {
         return color;
     }
     /**
-     * Rappresenta la condizione di vittoria del giocatore
+     * Represent the winning condition, it depends on the {@link Card} (if the {@link Game} is not simple)
      */
     private Win winAction;
     /**
-     * Rappresenta la mossa del giocatore
+     * Represent the possible moveset, it depends on the {@link Card} (if the {@link Game} is not simple)
      */
     private Move moveAction;
     /**
-     * Rappresetna la costruzione del giocatore
+     * Represent the possible buildset, it depends on the {@link Card} (if the {@link Game} is not simple)
      */
     private Build buildAction;
 
     /**
-     * Costruttore della classe {@link Player}.
+     * Constructor of the class {@link Player}.
      * <p>
-     * Il costruttore setta il nome del giocatore, la sessione di gioco, le sue pedine {@link Worker} e
-     * nel caso la modalità di gioco è impostata senza carte, istanzia le
-     * classi di default {@link DefaultWin}, {@link DefaultMove}, {@link DefaultBuild}
-     * assegnadole agli attributi {@link #winAction}, {@link #moveAction}, {@link #buildAction}.
-     * Ai costruttori dei due {@link Worker} viene passato una stringa composta dal {@link #username} del
-     * {@link Player} concatenato con la stringa "1" o "2" a seconda si tratti si {@link #worker1} o {@link #worker2}
+     * The constructor initializes every possible move (of the player menu) at false value.
      * </p>
      *
-     * @param username setta il nome del giocatore
-     * @param session  assegna la sessione di gioco
+     * @param username name of the {@link Player}
+     * @param session reference of the {@link Game} session
+     * @param color {@link Color} of the player
      */
     public Player(String username, Game session, Color color) {
         this.username = username;
@@ -91,18 +87,12 @@ public class Player {
     }
 
     /**
-     * Setta la carta del giocatore
-     * <p>
-     * Oltre a settare l'attributo {@link #card},
-     * assegna ad uno degli attributi {@link #winAction}, {@link #moveAction},
-     * {@link #buildAction} l'istanza della classe specifica della carta settata.
-     * Agli altri attributi, assegna l'istanza delle classi di default
-     * </p>
+     * Set the choosen {@link Card}
      *
-     * @param card la carta da settare
-     * @throws RuntimeException se la sessione di gioco è senza carte
-     * @throws RuntimeException se il giocatore ha già una carta assegnata
-     * @throws RuntimeException se il nome della carta assegnata è sconosciuto
+     * @param card
+     * @throws RuntimeException if the {@link Game} is simple
+     * @throws RuntimeException if the {@link Player} has already a {@link Card}
+     * @throws RuntimeException if the {@link Card} doesn't exist
      */
     public void setCard(Card card) throws NullPointerException{
         if (session.isSimple()) {

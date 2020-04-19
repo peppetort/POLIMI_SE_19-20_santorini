@@ -3,35 +3,30 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Exceptions.InvalidBuildException;
 
 /**
- * Rappresenta la classe utilizzata dal {@link Player} nel caso in cui non possegga una carta in grado di modificare
- * la sua mossa "costruzione".
+ * Represents the build if the
+ * {@link Player} has no {@link Card} / has a {@link Card} that doesn't modifies the build rules.
  */
 public class DefaultBuild implements Build {
 
     final Board board;
 
     /**
-     * Rappresenta il metodo costruttore.
+     * Constructor method
      *
-     * @param player rappresenta il {@link Player} che costruirà gli edifici usando le regole base del gioco.
+     * @param player represents the {@link Player} that will build with default rules.
      */
     public DefaultBuild(Player player) {
         this.board = player.getSession().getBoard();
     }
 
     /**
-     * Rappresenta il metodo per eseguire la costruzione secondo le regole base del gioco.
      *
-     * @param worker è la pedina che costruisce
-     * @param x      è la posizione X della {@link Board} sulla quale si vuole costruire
-     * @param y      è la posizione Y della {@link Board} sulla quale si vuole costruire
-     * @throws RuntimeException          se provo a costruire a più di una cella di distanza dalla {@link Worker}
-     * @throws RuntimeException          se provo a costruire sulle stesse coordinate di {@link Worker}
-     * @throws RuntimeException          se provo a costruire sulle stesse coordinate di un altro {@link Worker}
-     * @throws RuntimeException          se provo a costruire sopra una cupola
-     * @throws RuntimeException          se incontro errori a RunTime
-     * @throws IndexOutOfBoundsException se provo a costruire fuori dai bordi di {@link Board}
-     * @throws NullPointerException      se il riferimento di {@link Worker} è null
+     * @param worker the {@link Worker} that builds
+     * @param x x coordinate where I want to build
+     * @param y y coordinate where I want to build
+     * @throws InvalidBuildException if I try to build at more than one block of distance.
+     * @throws InvalidBuildException if I try to build over a dome.
+     * @throws InvalidBuildException if I try to build over a pawn.
      */
     @Override
     public void build(Worker worker, int x, int y) throws IndexOutOfBoundsException, NullPointerException {

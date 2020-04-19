@@ -5,52 +5,41 @@ package it.polimi.ingsw.Model;
  * Rappresenta una pedina del {@link Player}
  */
 public class Worker {
+    private final Player player;
     private final String id;
+
     /**
-     * Rappresenta la posizone X del giocatore sul {@link Board}
+     * X position on the {@link Board}
      * <p>
-     * Viene salvato per poter accedere direttamente alla posizione del giocatore senza
-     * dover cercare nella {@link Board}.
-     * Ogni volta che {@link Worker} viene mosso, viene aggionato.
-     * Nel caso il {@link Worker} non sia stato ancora posizionato sulla
-     * {@link Board} assume valore null
+     * If not setted is initialized at null value. It's setted when the {@link Player} place it on the {@link Board} and
+     * updated at every move.
      * </p>
      */
 
-    private final Player player;
-
     private Integer x;
+
     /**
-     * Rappresenta la posizone Y del giocatore sul {@link Board}
+     * X position on the {@link Board}
      * <p>
-     * Viene salvato per poter accedere direttamente alla posizione del giocatore senza
-     * dover cercare nella {@link Board}.
-     * Ogni volta che {@link Worker} viene mosso, viene aggionato.
-     * Nel caso il {@link Worker} non sia stato ancora posizionato sulla
-     * {@link Board} assume valore null
+     * If not setted is initialized at null value. It's setted when the {@link Player} place it on the {@link Board} and
+     * updated at every move.
      * </p>
      */
     private Integer y;
+
     /**
-     * Rappresenta l'ultima {@link Box} su cui è stato il giocatore (non quella attuale)
+     * last {@link Box} where the {@link Worker} has been
      * <p>
-     * Viene salvato perché serve per verificare la condizione di vittoria nel caso in cui
-     * il {@link Player} abbia la classe {@link PanWin}.
-     * Ogni volta che {@link Worker} viene mosso, viene aggionato.
-     * Nel caso il {@link Worker} non sia stato ancora posizionato sulla
-     * {@link Board} assume valore null
+     * It's null if the {@link Worker} hasn't moved yet.
      * </p>
      */
     private Box lastBox;
 
     /**
-     * Costruttore della classe {@link Worker}
+     * Constructor of the class {@link Worker}
      * <p>
-     * Setta l'attributo {@link #id} ed inizializza gli attributi
-     * {@link #x}, {@link #y} e {@link #lastBox} a null
-     * </p>
-     *
-     * @param id identificativo della pedina
+     * @param id it can be 1 or 2
+     * @param player (the {@link Player} has 2 pawns)
      */
     public Worker(int id, Player player) {
         this.id = player.getUsername() + id;
@@ -65,14 +54,9 @@ public class Worker {
     }
 
     /**
-     * Setta gli attributi {@link #x} e {@link #y} del {@link Worker}
-     * <p>
-     * è chiamato ogni volta che sulla {@link Board} il {@link Worker} è mosso
-     * </p>
-     *
-     * @param x posizione X sulla {@link Board}
-     * @param y posizione Y sulla {@link Board}
-     * @throws IndexOutOfBoundsException se x e/o y escono fuori dai confini del campo
+     * @param x x coordinate
+     * @param y y coordinate
+     * @throws IndexOutOfBoundsException if x || y are out of the {@link Board} boundaries
      */
     public void setPos(int x, int y) {
         if (x >= 0 && x < 5 && y >= 0 && y < 5) {
@@ -83,22 +67,12 @@ public class Worker {
         }
     }
 
-    /**
-     * Restituisce l'attributo {@link #x}
-     *
-     * @return l'attributo {@link #x}
-     * @throws NullPointerException se la posizone non è inizializzata
-     */
+
     public Integer getXPos() {
         return this.x;
     }
 
-    /**
-     * Restituisce l'attributo {@link #y}
-     *
-     * @return l'attributo {@link #y}
-     * @throws NullPointerException se la posizone non è inizializzata
-     */
+
     public Integer getYPos() {
         return this.y;
     }
@@ -112,13 +86,9 @@ public class Worker {
     }
 
     /**
-     * Aggiorna l'ultima posizione del {@link Worker}
-     * <p>
-     * Viene creato un nuovo oggetto {@link Box} e vengono copiati
-     * gli attributi di quello passato come parametro.
-     * </p>
-     *
-     * @param box l'oggeto {@link Box}
+     *Update the last position of the {@link Worker}. This method has to be called before doing the move because
+     * it takes the {@link Worker} reference from the parameter.
+     * @param box last box where the {@link Worker} was.
      */
     public void updateLastBox(Box box) {
         lastBox = new Box();

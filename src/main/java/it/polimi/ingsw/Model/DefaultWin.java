@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model;
 
 /**
- * Rappresenta la classe che modellizza la condizione di vittoria di default
+ * Represents the class which models the default win condition
  */
 public class DefaultWin implements Win {
 
@@ -10,13 +10,9 @@ public class DefaultWin implements Win {
     final Worker worker2;
 
     /**
-     * Rappresenta il costruttore della classe {@link DefaultWin}
-     * <p>
-     * Tramite i metodi di {@link Player} vengono settati gli attributi
-     * {@link #board}, {@link #worker1} e {@link #worker2}.
-     * </p>
+     * Constructor of the class {@link DefaultWin}.
      *
-     * @param player giocatore che istanzia la classe
+     * @param player {@link Player} that has no {@link Card}.
      */
     public DefaultWin(Player player) {
         this.board = player.getSession().getBoard();
@@ -25,14 +21,8 @@ public class DefaultWin implements Win {
     }
 
     /**
-     * Ritorna un booleano che indica se il giocatore ha vinto oppure no.
-     * <p>
-     * Tramite i metodi di {@link Worker} vengono presi le posizioni delle due
-     * pedine e si controlla se sulla {@link Box} su cui uno dei due si trova è
-     * costruito un {@link Block} di livello 3
-     * </p>
-     *
-     * @return true se il giocatore ha vinto, false altrimenti
+     * @return true if the {@link Player} has won.
+     * @throws NullPointerException if lastBox of {@link Worker} is null
      */
     @Override
     public boolean winChecker() {

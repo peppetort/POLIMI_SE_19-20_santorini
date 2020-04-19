@@ -7,7 +7,7 @@ import it.polimi.ingsw.Observer.Observable;
 import java.util.ArrayList;
 
 /**
- * Classe che rappresenta la partita stessa.
+ * Class which represents the model itself
  */
 public class Game extends Observable<Message> {
     private final ArrayList<Player> players = new ArrayList<>();    //lista dei player
@@ -16,12 +16,12 @@ public class Game extends Observable<Message> {
     private final boolean simpleGame;
 
     /**
-     * Rappresenta il costruttore della classe {@link Game} nel caso in cui la partita sia per due giocatori.
+     * Constructor of the class {@link Game} if it's a 2-Player's match
      *
-     * @param player1    Giocatore1 (lo sfidante)
-     * @param player2    Giocatore2
-     * @param board      La tavola su cui si svolge la partita
-     * @param simpleGame se true la partita è senza carte, altrimenti i {@link Player} avranno la loro {@link Card} ciascuno
+     * @param player1 Player 1, the one which choose the deck
+     * @param player2 Player 2
+     * @param board Board where the game is taken
+     * @param simpleGame true if the game is without any {@link Card}, false if each {@link Player} has a {@link Card}
      */
 
     public Game(String player1, String player2, Board board, boolean simpleGame) {
@@ -32,12 +32,12 @@ public class Game extends Observable<Message> {
     }
 
     /**
-     * Rappresenta il costruttore della classe {@link Game} nel caso in cui la partita sia per tre giocatori.
+     * Constructor of the class {@link Game} if it's a 3-Player's match
      *
-     * @param player1    Giocatore1 (lo sfidante)
-     * @param player2    Giocatore2
-     * @param board      La tavola su cui si svolge la partita
-     * @param simpleGame se true la partita è senza carte, altrimenti i {@link Player} avranno la loro {@link Card} ciascuno
+     * @param player1 Player 1, the one which choose the deck
+     * @param player2 Player 2
+     * @param board Board where the game is taken
+     * @param simpleGame true if the game is without any {@link Card}, false if each {@link Player} has a {@link Card}
      */
     public Game(String player1, String player2, String player3, Board board, boolean simpleGame) {
         this.board = board;
@@ -71,34 +71,30 @@ public class Game extends Observable<Message> {
         this.cards = cards;
     }
 
-    /**
-     * @return un ArrayList contenente tutte le {@link Card} scelte dal giocatore sfidante
-     */
+
     public ArrayList<Card> getCards(){
         ArrayList<Card> clonedCards = new ArrayList<>(cards.size());
         clonedCards.addAll(cards);
         return clonedCards;
     }
-    /**
-     *
-     * @return un ArrayList contenente i {@link Player} della partita
-     */
+
     public ArrayList<Player> getPlayers(){
         return players;
     }
-    /**
-     * @return True se il gioco è in modalità semplice (senza carte)
-     */
+
     public boolean isSimple(){return this.simpleGame;}
 
-    /**
-     * @return la {@link Board} su cui si svolge la partita
-     */
     public Board getBoard() {
         return board;
     }
 
-    //TODO: controllare se serve
+    /**
+     *
+     * This method will remove the parameter {@link Player} from the {@link Game} and his {@link Worker} from the {@link Board}
+     * @param player
+     * @throws NullPointerException
+     * @throws IndexOutOfBoundsException
+     */
     public void removePlayer(Player player) throws NullPointerException, IndexOutOfBoundsException {
         Worker worker1 = player.getWorker1();
         Worker worker2 = player.getWorker2();
