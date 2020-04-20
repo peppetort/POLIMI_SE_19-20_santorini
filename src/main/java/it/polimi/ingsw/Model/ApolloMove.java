@@ -39,8 +39,10 @@ public class ApolloMove extends DefaultMove {
             Box workerBox = board.getBox(wX, wY);
             Box nextBox = board.getBox(x, y);
 
-            if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1 || (x == wX && y == wY)) {
+            if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1 ) {
                 throw new InvalidMoveException("Move too far from the worker position!");
+            }else if((x == wX && y == wY)){
+                throw new InvalidMoveException("Invalid move!");
             } else if (!workerBox.compare(nextBox)) {
                 throw new InvalidMoveException("Level in box " + x + " " + y + "is too high!");
             } else {

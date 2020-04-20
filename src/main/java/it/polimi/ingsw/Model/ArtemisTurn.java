@@ -32,7 +32,7 @@ public class ArtemisTurn extends DefaultTurn {
         if (!canGoUp) {
             try {
                 if (startX == x && startY == y) {
-                    throw new InvalidMoveException("Can't move worker on this box!");
+                    throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
                 }
                 moveAction.moveNoGoUp(worker, x, y);
                 canMove = false;
@@ -45,7 +45,7 @@ public class ArtemisTurn extends DefaultTurn {
         } else {
             try {
                 if (startX == x && startY == y) {
-                    throw new InvalidMoveException("Can't move worker on this box!");
+                    throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
                 }
                 moveAction.move(worker, x, y);
                 canMove = false;

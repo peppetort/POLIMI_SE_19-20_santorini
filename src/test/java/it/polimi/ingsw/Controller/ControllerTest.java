@@ -126,8 +126,8 @@ public class ControllerTest {
         cards.add("APOLLO");
         cards.add("APOLLO");
 
-        assertEquals(true, controller.getTurn().get(player2));
-        assertEquals(false, controller.getTurn().get(player1));
+        assertEquals(false, controller.getTurn().get(player2));
+        assertEquals(true, controller.getTurn().get(player1));
 
         Message message = new DeckChoice(player1, cards);
         controller.update(message);
@@ -168,7 +168,7 @@ public class ControllerTest {
         message = new PlacePawn(player1, 3,4, 4, 4);
         controller.update(message);
 
-        message = new PlayerRemove(player2);
+        message = new PlayerRemove(player2.getUsername());
         controller.update(message);
 
         assertNull(game.getBoard().getBox(0, 0).getPawn());

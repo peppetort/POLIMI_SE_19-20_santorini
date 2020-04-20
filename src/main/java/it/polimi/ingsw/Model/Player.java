@@ -3,7 +3,6 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Exceptions.CardAlreadySetException;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,6 +24,7 @@ public class Player {
     public Color getColor() {
         return color;
     }
+
     /**
      * Represent the winning condition, it depends on the {@link Card} (if the {@link Game} is not simple)
      */
@@ -45,8 +45,8 @@ public class Player {
      * </p>
      *
      * @param username name of the {@link Player}
-     * @param session reference of the {@link Game} session
-     * @param color {@link Color} of the player
+     * @param session  reference of the {@link Game} session
+     * @param color    {@link Color} of the player
      */
     public Player(String username, Game session, Color color) {
         this.username = username;
@@ -55,6 +55,9 @@ public class Player {
         this.session = session;
         this.color = color;
 
+        playerMenu.put("buildDeck", false);
+        playerMenu.put("chooseCard", false);
+        playerMenu.put("placePawns", false);
         playerMenu.put("start", false);
         playerMenu.put("move", false);
         playerMenu.put("build", false);
@@ -75,7 +78,7 @@ public class Player {
         return this.username;
     }
 
-    public HashMap<String, Boolean> getPlayerMenu(){
+    public HashMap<String, Boolean> getPlayerMenu() {
         return this.playerMenu;
     }
 
@@ -94,7 +97,7 @@ public class Player {
      * @throws RuntimeException if the {@link Player} has already a {@link Card}
      * @throws RuntimeException if the {@link Card} doesn't exist
      */
-    public void setCard(Card card) throws NullPointerException{
+    public void setCard(Card card) throws NullPointerException {
         if (session.isSimple()) {
             throw new SimpleGameException("Game mode: no cards!");
         } else if (this.card != null) {

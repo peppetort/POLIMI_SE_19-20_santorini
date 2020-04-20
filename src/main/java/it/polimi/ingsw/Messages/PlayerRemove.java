@@ -3,13 +3,13 @@ package it.polimi.ingsw.Messages;
 import it.polimi.ingsw.Model.Player;
 
 public class PlayerRemove implements Message {
-    private Player player;
+    private String player;
 
-    public PlayerRemove(Player player) {
+    public PlayerRemove(String player) {
         this.player = player;
     }
 
-    public Player getPlayer() {
+    public String getPlayer() {
         return player;
     }
 }

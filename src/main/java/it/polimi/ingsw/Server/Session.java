@@ -2,8 +2,9 @@ package it.polimi.ingsw.Server;
 
 
 import it.polimi.ingsw.Controller.Controller;
-import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Exceptions.FullSessionException;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.PlayerRemove;
 import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Player;
@@ -22,8 +23,8 @@ public class Session extends Observable<Message> {
     private final boolean simple;
     private final Server server;
 
-    private Map<String, ClientConnection> waitingConnection = new HashMap<>();
-    private Map<String, ClientConnection> playingConnection = new HashMap<>();
+    private final Map<String, ClientConnection> waitingConnection = new HashMap<>();
+    private final Map<String, ClientConnection> playingConnection = new HashMap<>();
 
 
     public Session(ClientConnection creatorConnection, int p, boolean simple, Server server, String sessionName) {
@@ -32,6 +33,14 @@ public class Session extends Observable<Message> {
         this.server = server;
         this.name = sessionName;
         addParticipant(creatorConnection);
+    }
+
+    public boolean isSimple() {
+        return simple;
+    }
+
+    public synchronized Map<String, ClientConnection> getWaitingConnection() {
+        return this.waitingConnection;
     }
 
     public synchronized void addParticipant(ClientConnection player) {
@@ -53,9 +62,13 @@ public class Session extends Observable<Message> {
     public synchronized void deregisterConnection(String username) {
         if (playingConnection.isEmpty()) {
             waitingConnection.remove(username);
+            if (getWaitingConnection().size() == 0) {
+                server.disponibleSession.remove(name);
+            }
         } else {
-            //TODO: inviare messaggio al controller per invocare removePlayer() in game
-            //TODO: notify(messaggio)
+            Message remove = new PlayerRemove(username);
+            //TODO: update(remove)
+            //TODO: eliminare da playingConnection
         }
     }
 
@@ -65,11 +78,12 @@ public class Session extends Observable<Message> {
         List<String> keys = new ArrayList<>(waitingConnection.keySet());
         Board board = new Board();
 
-        //TODO: riempire mappa playingConnection
+        playingConnection.putAll(waitingConnection);
+        waitingConnection.clear();
 
         if (participant == 2) {
-            ClientConnection player1Connection = waitingConnection.get(keys.get(0));
-            ClientConnection player2Connection = waitingConnection.get(keys.get(1));
+            ClientConnection player1Connection = playingConnection.get(keys.get(0));
+            ClientConnection player2Connection = playingConnection.get(keys.get(1));
 
             Game model = new Game(keys.get(0), keys.get(1), board, simple);
             Controller controller = new Controller(model);
@@ -77,8 +91,8 @@ public class Session extends Observable<Message> {
             Player player1 = model.getPlayers().get(0);
             Player player2 = model.getPlayers().get(1);
 
-            View player1View = new RemoteView(player1, player2, player1Connection);
-            View player2View = new RemoteView(player2, player1, player2Connection);
+            View player1View = new RemoteView(player1, player1Connection);
+            View player2View = new RemoteView(player2, player2Connection);
 
             player1View.addObserver(controller);
             player2View.addObserver(controller);
@@ -89,9 +103,9 @@ public class Session extends Observable<Message> {
             this.addObserver(controller);
 
         } else if (participant == 3) {
-            ClientConnection player1Connection = waitingConnection.get(keys.get(0));
-            ClientConnection player2Connection = waitingConnection.get(keys.get(1));
-            ClientConnection player3Connection = waitingConnection.get(keys.get(2));
+            ClientConnection player1Connection = playingConnection.get(keys.get(0));
+            ClientConnection player2Connection = playingConnection.get(keys.get(1));
+            ClientConnection player3Connection = playingConnection.get(keys.get(2));
 
             Game model = new Game(keys.get(0), keys.get(1), keys.get(2), board, simple);
             Controller controller = new Controller(model);
@@ -100,9 +114,9 @@ public class Session extends Observable<Message> {
             Player player2 = model.getPlayers().get(1);
             Player player3 = model.getPlayers().get(2);
 
-            View player1View = new RemoteView(player1, player1, player1Connection);
-            View player2View = new RemoteView(player2, player2, player2Connection);
-            View player3View = new RemoteView(player3, player3, player3Connection);
+            View player1View = new RemoteView(player1, player1Connection);
+            View player2View = new RemoteView(player2, player2Connection);
+            View player3View = new RemoteView(player3, player3Connection);
 
             player1View.addObserver(controller);
             player2View.addObserver(controller);
@@ -114,25 +128,5 @@ public class Session extends Observable<Message> {
 
             this.addObserver(controller);
         }
-
-        //TODO:gestire la scelta della carte e l'inizio del gioco
-
-
-/*        if (model.isSimple()) {
-            c1.asyncSend("starting\n");
-            c1.asyncSend(board.data());
-            c1.asyncSend("put your worker\n");
-            c2.asyncSend("starting\n");
-            c2.asyncSend(board.data());
-        } else {
-            String god = "";
-            for (God g : God.values())
-                god += g + "-";
-            c1.asyncSend("choose the card");
-            c1.asyncSend(god);
-        }
-        c2.asyncSend("wait\n");
-    }*/
-
     }
 }

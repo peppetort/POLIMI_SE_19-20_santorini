@@ -1,7 +1,9 @@
 package it.polimi.ingsw.Controller;
 
 
-import it.polimi.ingsw.Exceptions.*;
+import it.polimi.ingsw.Exceptions.CardAlreadySetException;
+import it.polimi.ingsw.Exceptions.PlayerLostException;
+import it.polimi.ingsw.Exceptions.SimpleGameException;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.Observable;
@@ -19,8 +21,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
     private final ArrayList<Card> cards = new ArrayList<>();
     private final HashMap<Player, Boolean> turn = new HashMap<>();
     private final HashMap<Player, Boolean> outcome = new HashMap<>();
-    private boolean cardChoiceTurn;
-    private boolean firstTurn;
     private int loosingPlayers;
 
     public Controller(Game game) {
@@ -28,49 +28,74 @@ public class Controller extends Observable<Message> implements Observer<Message>
         playersList = game.getPlayers();
         loosingPlayers = 0;
 
-        if (game.isSimple()) {
-            cardChoiceTurn = false;
-            firstTurn = true;
-        } else {
-            cardChoiceTurn = true;
-            firstTurn = false;
-        }
-
         for (Player p : game.getPlayers()) {
             turn.put(p, false);
             outcome.put(p, null);
         }
-        turn.replace(game.getPlayers().get(1), true);
+
+        if (game.isSimple()) {
+            playersList.get(1).getPlayerMenu().replace("placePawns", true);
+            turn.replace(game.getPlayers().get(1), true);
+        } else {
+            playersList.get(0).getPlayerMenu().replace("buildDeck", true);
+            turn.replace(game.getPlayers().get(0), true);
+        }
+
     }
 
     private void updateTurn() {
-        int index;
+        int nextPlayerIndex;
+        Player nextPlayer;
+        HashMap<String, Boolean> playerMenu;
+        HashMap<String, Boolean> nextPlayerMenu;
 
-        for (Player p : playersList) {
-            if (turn.get(p)) {
-                turn.replace(p, false);
-                index = (playersList.indexOf(p) + 1) % (playersList.size());
-                if (index == 1 && cardChoiceTurn) {
-                    cardChoiceTurn = false;
-                    firstTurn = true;
-                } else if (index == 1 && firstTurn) {
-                    firstTurn = false;
-                    playersList.get(index).getPlayerMenu().replace("start", true);
-                }else {
-                    playersList.get(index).getPlayerMenu().replace("start", true);
-                }
-                if(playersList.size() == loosingPlayers+1){
-                    if(outcome.get(playersList.get(index))==null){
-                        outcome.replace(playersList.get(index), true);
+        for (Player player : playersList) {
+            if (turn.get(player)) {
+                playerMenu = player.getPlayerMenu();
+                nextPlayerIndex = (playersList.indexOf(player) + 1) % (playersList.size());
+                nextPlayer = playersList.get(nextPlayerIndex);
+                nextPlayerMenu = nextPlayer.getPlayerMenu();
+
+                //Finito il giro
+                if (nextPlayerIndex == 1) {
+                    if (playerMenu.get("buildDeck")) {
+                        playerMenu.replace("buildDeck", false);
+                        nextPlayerMenu.replace("chooseCard", true);
+                    } else if (playerMenu.get("chooseCard")) {
+                        playerMenu.replace("chooseCard", false);
+                        nextPlayerMenu.replace("placePawns", true);
+                    } else if (playerMenu.get("placePawns")) {
+                        playerMenu.replace("placePawns", false);
+                        nextPlayerMenu.replace("start", true);
+                    } else {
+                        nextPlayerMenu.replace("start", true);
+                    }
+                } else {
+                    if (playerMenu.get("chooseCard")) {
+                        playerMenu.replace("chooseCard", false);
+                        nextPlayerMenu.replace("chooseCard", true);
+                    } else if (playerMenu.get("placePawns")) {
+                        playerMenu.replace("placePawns", false);
+                        nextPlayerMenu.replace("placePawns", true);
+                    } else {
+                        nextPlayerMenu.replace("start", true);
                     }
                 }
-                turn.replace(playersList.get(index), true);
+
+                //Altri giocatori hanno perso-> il rimanente vince
+                if (playersList.size() == loosingPlayers + 1 && outcome.get(nextPlayer) == null) {
+                    outcome.replace(nextPlayer, true);
+                }
+
+                turn.replace(player, false);
+                turn.replace(nextPlayer, true);
                 break;
             }
-        }
 
-        if(outcome.size() == 1){
-            outcome.replaceAll((key, value) -> true);
+            //Unico giocatore rimasto vince
+            if (outcome.size() == 1) {
+                outcome.replaceAll((key, value) -> true);
+            }
         }
     }
 
@@ -82,7 +107,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         return outcome;
     }
 
-    public ArrayList<Card> getCards(){
+    public ArrayList<Card> getCards() {
         return cards;
     }
 
@@ -91,7 +116,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         Player player = message.getPlayer();
         Worker worker = message.getWorker();
 
-        if (turn.get(player) && !firstTurn && outcome.get(player) == null) {
+        if (turn.get(player) && player.getPlayerMenu().get("start") && outcome.get(player) == null) {
 
             if (outcome.get(player) == null && loosingPlayers == playersList.size() - 1) {
                 outcome.replace(player, true);
@@ -110,66 +135,44 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     }
 
-    private void performMove(PlayerMove message) {
+    private void performMove(PlayerMove message) throws RuntimeException {
         Player player = message.getPlayer();
         Turn playerTurn = player.getTurn();
         int x = message.getX();
         int y = message.getY();
 
-        if (turn.get(player) && !firstTurn && outcome.get(player) == null) {
-            try {
-                playerTurn.move(x, y);
-                //TODO: ??
-                game.notify(new BoardUpdate(game.getBoard().data(), game.getPlayers()));
-                if (playerTurn.won()) {
-                    outcome.replaceAll((key, value) -> false);
-                    outcome.replace(player, true);
-                    loosingPlayers = playersList.size() - 1;
-                }
-            } catch (IndexOutOfBoundsException e1) {
-                //TODO: notificare al giocatore
-            } catch (InvalidMoveException e2) {
-                //TODO: notificare al giocatore
-            } catch (AthenaGoUpException e3) {
-                //TODO: notificare al giocatore
-            } catch (RuntimeException e4) {
-                e4.printStackTrace();
+        if (turn.get(player) && player.getPlayerMenu().get("move") && outcome.get(player) == null) {
+            playerTurn.move(x, y);
+            //TODO: ??
+            game.notify(new BoardUpdate(game.getBoard().data(), game.getPlayers()));
+            if (playerTurn.won()) {
+                outcome.replaceAll((key, value) -> false);
+                outcome.replace(player, true);
+                loosingPlayers = playersList.size() - 1;
             }
         }
     }
 
-    private void performBuild(PlayerBuild message) {
+    private void performBuild(PlayerBuild message) throws RuntimeException {
         Player player = message.getPlayer();
         Turn playerTurn = player.getTurn();
         int x = message.getX();
         int y = message.getY();
 
-        if (turn.get(player) && !firstTurn && outcome.get(player) == null) {
-            try {
-                playerTurn.build(x, y);
-                //TODO: ??
-                game.notify(new BoardUpdate(game.getBoard().data(), game.getPlayers()));
-            } catch (IndexOutOfBoundsException e1) {
-                //TODO: notificare al giocatore
-            } catch (InvalidBuildException e2) {
-                //TODO: notificare al giocatore
-            } catch (RuntimeException e3) {
-                e3.printStackTrace();
-            }
+        if (turn.get(player) && player.getPlayerMenu().get("build") && outcome.get(player) == null) {
+            playerTurn.build(x, y);
+            //TODO: ??
+            game.notify(new BoardUpdate(game.getBoard().data(), game.getPlayers()));
         }
     }
 
-    private void performEnd(PlayerEnd message) {
+    private void performEnd(PlayerEnd message) throws RuntimeException {
         Player player = message.getPlayer();
         Turn playerTurn = player.getTurn();
 
-        if (turn.get(player) && !firstTurn && outcome.get(player) == null) {
-            try {
-                playerTurn.end();
-                updateTurn();
-            } catch (RuntimeException e1) {
-                e1.printStackTrace();
-            }
+        if (turn.get(player) && player.getPlayerMenu().get("end") && outcome.get(player) == null) {
+            playerTurn.end();
+            updateTurn();
         }
     }
 
@@ -177,7 +180,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         Player player = message.getPlayer();
         Set<String> sCards = message.getCards();
 
-        if (cardChoiceTurn && player.equals(playersList.get(0))) {
+        if (turn.get(player) && player.getPlayerMenu().get("buildDeck") && player.equals(playersList.get(0))) {
             if (sCards.size() == playersList.size()) {
                 try {
                     for (String c : sCards) {
@@ -185,22 +188,23 @@ public class Controller extends Observable<Message> implements Observer<Message>
                         cards.add(card);
                     }
                     game.addCards(cards);
+                    updateTurn();
                 } catch (SimpleGameException e1) {
                     e1.printStackTrace();
                 } catch (IllegalArgumentException e2) {
                     cards.clear();
-                    //TODO: nome inserito non valido -> notificare scelta invalida
+                    throw new IllegalArgumentException("Card inserted does not exist");
                 }
 
             }
         }
     }
 
-    private void performCardChoice(CardChoice message) {
+    private void performCardChoice(CardChoice message) throws NullPointerException, IllegalArgumentException {
         Player player = message.getPlayer();
         String cardName = message.getCard();
 
-        if (cardChoiceTurn && turn.get(player)) {
+        if (player.getPlayerMenu().get("chooseCard") && turn.get(player)) {
             try {
                 Card card = null;
                 for (Card c : cards) {
@@ -213,15 +217,11 @@ public class Controller extends Observable<Message> implements Observer<Message>
                 updateTurn();
             } catch (SimpleGameException | CardAlreadySetException e1) {
                 e1.printStackTrace();
-            } catch (NullPointerException e2) {
-                //TODO: carta non presente nel deck -> notificare scelta invalida
-            } catch (IllegalArgumentException e3) {
-                //TODO: nome scelto inesistente -> notificare scelta invalida
             }
         }
     }
 
-    private void performPawnPositioning(PlacePawn message) {
+    private void performPawnPositioning(PlacePawn message) throws IndexOutOfBoundsException {
         Player player = message.getPlayer();
         int worker1X = message.getX1();
         int worker1Y = message.getY1();
@@ -229,14 +229,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
         int worker2Y = message.getY2();
         Board board = game.getBoard();
 
-        if (turn.get(player) && firstTurn) {
-            try {
-                board.placePawn(player.getWorker1(), worker1X, worker1Y);
-                board.placePawn(player.getWorker2(), worker2X, worker2Y);
-                updateTurn();
-            } catch (IndexOutOfBoundsException e1) {
-                //TODO: notificare scelta invalida
+        if (turn.get(player) && player.getPlayerMenu().get("placePawns")) {
+            if (!board.getBox(worker1X, worker1Y).isFree() || !board.getBox(worker2X, worker2Y).isFree()) {
+                throw new RuntimeException("Can't place pawns here! The positions chosen are already occupied");
             }
+            board.placePawn(player.getWorker1(), worker1X, worker1Y);
+            board.placePawn(player.getWorker2(), worker2X, worker2Y);
+            updateTurn();
             //TODO: ??
             game.notify(new BoardUpdate(board.data(), game.getPlayers()));
         }
@@ -244,22 +243,25 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
 
     private void performPlayerRemoval(PlayerRemove message) {
-        Player player = message.getPlayer();
-        Board board = game.getBoard();
-        Worker worker1 = player.getWorker1();
-        Worker worker2 = player.getWorker2();
+        String playerName = message.getPlayer();
+        Player player = null;
 
-        outcome.remove(player);
-
-        if (turn.get(player)) {
-            updateTurn();
+        for (Player p : playersList) {
+            if (p.getUsername().equals(playerName)) {
+                player = p;
+            }
         }
 
-        board.getBox(worker1.getXPos(), worker1.getYPos()).removePawn();
-        board.getBox(worker2.getXPos(), worker2.getYPos()).removePawn();
+        if (player != null) {
+            outcome.remove(player);
 
-        playersList.remove(player);
-        turn.remove(player);
+            if (turn.get(player)) {
+                updateTurn();
+            }
+            game.removePlayer(player);
+            playersList.remove(player);
+            turn.remove(player);
+        }
 
     }
 

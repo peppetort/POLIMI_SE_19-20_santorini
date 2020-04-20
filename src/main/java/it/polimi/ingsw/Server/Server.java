@@ -10,8 +10,8 @@ import java.util.concurrent.Executors;
 public class Server {
 
     private static final int PORT = 12346;
-    private ServerSocket serverSocket;
-    private ExecutorService executor = Executors.newFixedThreadPool(128);
+    private final ServerSocket serverSocket;
+    private final ExecutorService executor = Executors.newFixedThreadPool(128);
     public HashMap<String, Session> disponibleSession = new HashMap<>();
 
     public Server() throws IOException {

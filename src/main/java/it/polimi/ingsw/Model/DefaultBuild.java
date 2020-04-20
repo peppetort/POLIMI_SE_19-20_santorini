@@ -35,8 +35,12 @@ public class DefaultBuild implements Build {
         int wX, wY;
         wX = worker.getXPos();
         wY = worker.getYPos();
-        if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1 || (x == wX && y == wY) || !box.isFree()) {
-            throw new InvalidBuildException("Can't build in " + x + " " + y);
+        if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1) {
+            throw new InvalidBuildException("Build too far from the worker position!");
+        }else if(x == wX && y == wY) {
+            throw new InvalidBuildException("Invalid build!");
+        }else if(!box.isFree()){
+            throw new InvalidBuildException("Can't build here! There is a worker");
         } else {
             switch (box.getBlock()) {
                 case TERRAIN:
