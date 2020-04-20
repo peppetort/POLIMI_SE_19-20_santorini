@@ -48,23 +48,6 @@ public class Game extends Observable<Message> {
         players.add(new Player(player3, this, Color.GREEN));
     }
 
-
-/*    public void addCard(Card card){
-        if(cards.size() < players.size()) {
-            if(!simpleGame) {
-                for(Card c: cards){
-                    if(c.getName()==card.getName()){
-                        throw new DuplicateCardException("Card already chosen!");
-                    }
-                }
-                cards.add(card);
-            }else{throw new SimpleGameException("Game mode: no cards!");}
-        }
-        else{
-            throw new RuntimeException("non si possono aggiungere ulteriori carte");
-        }
-    }*/
-
     public void addCards(ArrayList<Card> cards) {
         if (simpleGame) {
             throw new SimpleGameException("Game mode: no cards!");

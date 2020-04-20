@@ -4,9 +4,9 @@ public enum Color {
 
     BLUE(1),RED(2),GREEN(3);
 
-    private int value;
+    private final int value;
 
-    private Color(int value){
+    Color(int value){
         this.value = value;
     }
 

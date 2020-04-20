@@ -124,6 +124,7 @@ public class RemoteView extends View {
 
     }
 
+
     @Override
     protected void showMessage(Object message) {
         clientConnection.asyncSend(message);
