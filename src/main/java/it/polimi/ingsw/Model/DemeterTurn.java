@@ -2,6 +2,8 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.InvalidBuildException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
+import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.MenuMessage;
 
 public class DemeterTurn extends DefaultTurn {
 
@@ -49,6 +51,8 @@ public class DemeterTurn extends DefaultTurn {
             oneBuild = true; //indico che ho costruito almeno una volta
         }
         playerMenu.replace("end", true);
+        player.notify(new MenuMessage(playerMenu));
+        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
     }
 
     @Override

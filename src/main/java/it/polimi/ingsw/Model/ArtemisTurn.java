@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.*;
+import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.MenuMessage;
 
 public class ArtemisTurn extends DefaultTurn {
 
@@ -59,6 +61,9 @@ public class ArtemisTurn extends DefaultTurn {
         }
         canBuild = true;
         playerMenu.replace("build", true);
+
+        player.notify(new MenuMessage(playerMenu));
+        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
     }
 
     @Override

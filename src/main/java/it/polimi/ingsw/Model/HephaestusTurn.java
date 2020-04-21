@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.*;
+import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.MenuMessage;
 
 public class HephaestusTurn extends DefaultTurn {
 
@@ -54,6 +56,8 @@ public class HephaestusTurn extends DefaultTurn {
             }
         }
         playerMenu.replace("end", true);
+        player.notify(new MenuMessage(playerMenu));
+        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
 
     }
 
