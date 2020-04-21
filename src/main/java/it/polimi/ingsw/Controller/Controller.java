@@ -82,7 +82,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
                     }
                 }
 
-                //Altri giocatori hanno perso-> il rimanente vince
+                //Altri giocatori hanno perso -> il rimanente vince
                 if (playersList.size() == loosingPlayers + 1 && outcome.get(nextPlayer) == null) {
                     outcome.replace(nextPlayer, true);
                 }
@@ -254,13 +254,20 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
         if (player != null) {
             outcome.remove(player);
-
             if (turn.get(player)) {
-                updateTurn();
+                if(player.getPlayerMenu().get("buildDeck")){
+                    playersList.remove(player);
+                    turn.remove(player);
+                    Player firstPlayer = playersList.get(0);
+                    firstPlayer.getPlayerMenu().replace("buildDeck", true);
+                    turn.replace(firstPlayer, true);
+                }else{
+                    updateTurn();
+                    playersList.remove(player);
+                    turn.remove(player);
+                }
             }
             game.removePlayer(player);
-            playersList.remove(player);
-            turn.remove(player);
         }
 
     }

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Session extends Observable<Message> {
+public class Session extends Observable<Message>{
     private final String name;
     private final int participant;
     private final boolean simple;
@@ -62,13 +62,16 @@ public class Session extends Observable<Message> {
     public synchronized void deregisterConnection(String username) {
         if (playingConnection.isEmpty()) {
             waitingConnection.remove(username);
-            if (getWaitingConnection().size() == 0) {
+            if (getWaitingConnection().isEmpty()) {
                 server.disponibleSession.remove(name);
             }
         } else {
             Message remove = new PlayerRemove(username);
-            //TODO: update(remove)
-            //TODO: eliminare da playingConnection
+            notify(remove);
+            playingConnection.remove(username);
+            for(String u: playingConnection.keySet()){
+                playingConnection.get(u).asyncSend(username + " left the game");
+            }
         }
     }
 
