@@ -2,13 +2,15 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.CardAlreadySetException;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Observer.Observable;
 
 import java.util.HashMap;
 
 /**
  * Represent one of the 2 or 3 players that play the match
  */
-public class Player {
+public class Player extends Observable<Message> {
 
     private final String username;
     private final Worker worker1;
