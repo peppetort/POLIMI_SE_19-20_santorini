@@ -54,7 +54,7 @@ public class HaphestusTurn extends DefaultTurn {
             }
         }
         playerMenu.replace("end", true);
-        playerMenu.replace("build", false);
+
     }
 
     @Override
@@ -68,5 +68,6 @@ public class HaphestusTurn extends DefaultTurn {
         }
         running = false;
         playerMenu.replace("end", false);
+        playerMenu.replace("build", false);
     }
 }
