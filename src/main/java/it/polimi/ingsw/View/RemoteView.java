@@ -1,7 +1,9 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.MenuMessage;
 import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.TurnMessage;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Server.ClientConnection;
@@ -120,9 +122,15 @@ public class RemoteView extends View {
 
     @Override
     public void update(Message message) {
+        if (message instanceof MenuMessage){
+            clientConnection.asyncSend(message);
+        }
         if (message instanceof BoardUpdate) {
             clientConnection.asyncSend(message);
-        } else {
+        }
+        if (message instanceof TurnMessage) {
+            clientConnection.asyncSend(message);
+        }else {
             System.err.println("Malformed message: " + message.toString());
         }
 
