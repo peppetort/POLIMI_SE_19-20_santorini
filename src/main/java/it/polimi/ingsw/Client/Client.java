@@ -2,11 +2,14 @@ package it.polimi.ingsw.Client;
 
 
 import it.polimi.ingsw.Messages.BoardUpdate;
+import it.polimi.ingsw.Messages.MenuMessage;
+import it.polimi.ingsw.Messages.TurnMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -39,7 +42,12 @@ public class Client {
                         System.out.println((String) inputObject);
                     } else if (inputObject instanceof BoardUpdate) {
                         printBoard((BoardUpdate) inputObject);
-                    } else {
+                    } else if (inputObject instanceof MenuMessage) {
+                        printMenu((MenuMessage) inputObject);
+                    } else if (inputObject instanceof TurnMessage) {
+                        printTurn((TurnMessage) inputObject);
+                    }
+                    else {
                         throw new IllegalArgumentException();
                     }
                 }
@@ -135,6 +143,15 @@ public class Client {
         }
     }
 
+    public void printMenu(MenuMessage message){
+        ArrayList<String> actions = message.getActions();
+        System.out.println("+--------------------------ACTIONS----------------------------+");
+        for(String s: actions){
+            System.out.println(s);
+        }
+        System.out.println("+-------------------------------------------------------------+");
+    }
+
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
@@ -154,6 +171,14 @@ public class Client {
             socketIn.close();
             socketOut.close();
             socket.close();
+        }
+    }
+
+    public void printTurn(TurnMessage message) {
+        for(String s: message.getTurn().keySet()){
+            if(message.getTurn().get(s)){
+                System.out.println("Turno di "+ s);
+            }
         }
     }
 }
