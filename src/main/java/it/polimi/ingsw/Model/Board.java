@@ -1,11 +1,14 @@
 package it.polimi.ingsw.Model;
 
 
+import it.polimi.ingsw.Messages.BoardUpdate;
+
 public class Board {
     /**
      * Matrix 5 x 5 that represents the field.
      */
     private final Box[][] board = new Box[5][5];
+
 
     /**
      * Constructor which initializes each {@link Box} at TERRAIN level
@@ -42,6 +45,17 @@ public class Board {
     public void placePawn(Worker worker, int x, int y) throws IndexOutOfBoundsException {
         board[x][y].setPawn(worker);
         worker.setPos(x, y);
+    }
+    public void initializePawn(Worker worker1,Worker worker2, int x1, int y1,int x2,int y2) throws IndexOutOfBoundsException {
+        Game game = worker1.getPlayer().getSession();
+        board[x1][y1].setPawn(worker1);
+        board[x2][y2].setPawn(worker2);
+        worker1.setPos(x1, y1);
+        worker2.setPos(x2,y2);
+
+        game.notify(new BoardUpdate(this.data(),game.getPlayers()));
+
+
     }
 
     public Integer[] data() {
