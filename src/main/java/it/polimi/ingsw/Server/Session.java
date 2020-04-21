@@ -100,10 +100,15 @@ public class Session extends Observable<Message>{
             player1View.addObserver(controller);
             player2View.addObserver(controller);
 
+            player1.addObserver(player1View);
+            player2.addObserver(player2View);
+
             model.addObserver(player1View);
             model.addObserver(player2View);
 
             this.addObserver(controller);
+
+            controller.initialize();
 
         } else if (participant == 3) {
             ClientConnection player1Connection = playingConnection.get(keys.get(0));
@@ -121,6 +126,10 @@ public class Session extends Observable<Message>{
             View player2View = new RemoteView(player2, player2Connection);
             View player3View = new RemoteView(player3, player3Connection);
 
+            player1.addObserver(player1View);
+            player2.addObserver(player2View);
+            player3.addObserver(player3View);
+
             player1View.addObserver(controller);
             player2View.addObserver(controller);
             player3View.addObserver(controller);
@@ -130,6 +139,8 @@ public class Session extends Observable<Message>{
             model.addObserver(player3View);
 
             this.addObserver(controller);
+
+            controller.initialize();
         }
     }
 }
