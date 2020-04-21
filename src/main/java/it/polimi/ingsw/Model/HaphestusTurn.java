@@ -54,6 +54,7 @@ public class HaphestusTurn extends DefaultTurn {
             }
         }
         playerMenu.replace("end", true);
+        playerMenu.replace("build", false);
     }
 
     @Override
