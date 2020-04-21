@@ -62,5 +62,6 @@ public class DemeterTurn extends DefaultTurn {
         }
         running = false;
         playerMenu.replace("end", false);
+        playerMenu.replace("build", false);
     }
 }
