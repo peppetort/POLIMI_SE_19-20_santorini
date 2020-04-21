@@ -24,7 +24,11 @@ public class RemoteView extends View {
 
                 if (inputs[0].compareTo("DECK") == 0) {
                     card = inputs[1].split(",");
-                    handleDeck(card[0], card[1], card[2]);
+                    if(card.length == 2){
+                        handleDeck(card[0], card[1]);
+                    }else {
+                        handleDeck(card[0], card[1], card[2]);
+                    }
                 } else if (inputs[0].compareTo("CARD") == 0) {
                     handleCard(inputs[1]);
                 } else if (inputs[0].compareTo("MOVE") == 0) {

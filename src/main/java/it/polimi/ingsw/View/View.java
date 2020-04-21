@@ -28,6 +28,13 @@ public abstract class View extends Observable<Message> implements Observer<Messa
         notify(new DeckChoice(player, cardsNames));
     }
 
+    public void handleDeck(String card1, String card2) {
+        Set<String> cardsNames = new HashSet<>();
+        cardsNames.add(card1);
+        cardsNames.add(card2);
+        notify(new DeckChoice(player, cardsNames));
+    }
+
     public void handleCard(String card) {
         notify(new CardChoice(player, card));
     }
