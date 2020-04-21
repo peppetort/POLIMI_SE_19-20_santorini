@@ -131,11 +131,11 @@ public class Player {
                 buildAction = new DefaultBuild(this);
                 turn = new DemeterTurn(this);
                 break;
-            case HEPHASTUS:
+            case HEPHAESTUS:
                 winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
                 buildAction = new DefaultBuild(this);
-                turn = new HaphestusTurn(this);
+                turn = new HephaestusTurn(this);
                 break;
             case PROMETHEUS:
                 winAction = new DefaultWin(this);

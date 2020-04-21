@@ -5,17 +5,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class HaphestusTurnTest {
+public class HephaestusTurnTest {
 
     @Test
-    public void haphestusDoubleBuildSameBox(){
+    public void hephaestusDoubleBuildSameBox(){
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         player.getPlayerMenu().replace("start", true);
-        Turn turn = new HaphestusTurn(player);
+        Turn turn = new HephaestusTurn(player);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);
@@ -26,14 +26,14 @@ public class HaphestusTurnTest {
     }
 
     @Test(expected = InvalidBuildException.class)
-    public void haphestusDoubleBuildDifferentBox(){
+    public void hephaestusDoubleBuildDifferentBox(){
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         player.getPlayerMenu().replace("start", true);
-        Turn turn = new HaphestusTurn(player);
+        Turn turn = new HephaestusTurn(player);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);
@@ -42,14 +42,14 @@ public class HaphestusTurnTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void haphestusDoubleBuildSameBoxLevelThree(){
+    public void hephaestusDoubleBuildSameBoxLevelThree(){
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
         board.getBox(0,0).build(Block.LTWO);
-        Turn turn = new HaphestusTurn(player);
+        Turn turn = new HephaestusTurn(player);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);
@@ -58,13 +58,13 @@ public class HaphestusTurnTest {
     }
 
     @Test
-    public void haphestusOneBuild(){
+    public void hephaestusOneBuild(){
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
-        Turn turn = new HaphestusTurn(player);
+        Turn turn = new HephaestusTurn(player);
         player.getPlayerMenu().replace("start", true);
         turn.start(worker);
         turn.move(0, 1);

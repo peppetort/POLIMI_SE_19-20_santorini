@@ -2,13 +2,13 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.*;
 
-public class HaphestusTurn extends DefaultTurn {
+public class HephaestusTurn extends DefaultTurn {
 
     Integer lastX;
     Integer lastY;
     boolean oneBuild;
 
-    public HaphestusTurn(Player player) {
+    public HephaestusTurn(Player player) {
         super(player);
         lastX = null;
         lastY = null;

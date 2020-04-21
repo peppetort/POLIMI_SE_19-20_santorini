@@ -73,7 +73,7 @@ public class AthenaTurnTest {
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
-        Turn otherTurn = new HaphestusTurn(otherPlayer);
+        Turn otherTurn = new HephaestusTurn(otherPlayer);
         otherPlayer.getPlayerMenu().replace("start", true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);

@@ -9,7 +9,7 @@ public enum God {
     ATHENA,
     ATLAS,
     DEMETER,
-    HEPHASTUS,
+    HEPHAESTUS,
     MINOTAUR,
     PAN,
     PROMETHEUS
