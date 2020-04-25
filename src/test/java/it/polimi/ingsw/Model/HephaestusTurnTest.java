@@ -48,7 +48,7 @@ public class HephaestusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
-        board.getBox(0,0).build(Block.LTWO);
+        board.build(0,0,Block.LTWO);
         Turn turn = new HephaestusTurn(player);
         turn.start(worker);
         turn.move(0, 1);

@@ -1,15 +1,12 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Messages.BoardUpdate;
-import it.polimi.ingsw.Messages.MenuMessage;
-import it.polimi.ingsw.Messages.Message;
-import it.polimi.ingsw.Messages.TurnMessage;
+import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Server.ClientConnection;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RemoteView extends View {
 
@@ -26,9 +23,9 @@ public class RemoteView extends View {
 
                 if (inputs[0].compareTo("DECK") == 0) {
                     card = inputs[1].split(",");
-                    if(card.length == 2){
+                    if (card.length == 2) {
                         handleDeck(card[0], card[1]);
-                    }else {
+                    } else {
                         handleDeck(card[0], card[1], card[2]);
                     }
                 } else if (inputs[0].compareTo("CARD") == 0) {
@@ -85,14 +82,14 @@ public class RemoteView extends View {
                         helpMessage.append("Wait you turn");
                     }
 
-                    clientConnection.asyncSend(helpMessage.toString());
+                    clientConnection.send(helpMessage.toString());
                 } else {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException e) {
-                clientConnection.asyncSend("Input Error! Please try again");
+                clientConnection.send("Input Error! Please try again");
             } catch (Exception e) {
-                clientConnection.asyncSend(e.getMessage());
+                clientConnection.send(e.getMessage());
             }
         }
     }
@@ -104,41 +101,38 @@ public class RemoteView extends View {
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());
         ArrayList<Player> opponents = player.getSession().getPlayers();
-        HashMap<String, Boolean> playerMenu = player.getPlayerMenu();
+        ArrayList<Color> players = new ArrayList<>();
+        players.add(player.getColor());
         StringBuilder opponentsMessage = new StringBuilder("Your opponents are: ");
+
 
         for (Player p : opponents) {
             String opponentUsername = p.getUsername();
             if (!opponentUsername.equals(player.getUsername())) {
                 opponentsMessage.append(opponentUsername).append(" ");
+                players.add(p.getColor());
             }
         }
-        c.asyncSend(opponentsMessage.toString());
+        c.send(opponentsMessage.toString());
 
-        if (!playerMenu.get("buildDeck") && !playerMenu.get("placePawns")) {
-            c.asyncSend("Waiting...");
-        }
+        ClientInitMessage message = new ClientInitMessage(player.getUsername(), players);
+        c.send(message);
+
     }
 
-    @Override
+@Override
     public void update(Message message) {
-        if (message instanceof MenuMessage){
-            clientConnection.asyncSend(message);
-        }
-        if (message instanceof BoardUpdate) {
-            clientConnection.asyncSend(message);
-        }
-        if (message instanceof TurnMessage) {
-            clientConnection.asyncSend(message);
-        }else {
+        if (message instanceof ActionsUpdateMessage) {
+            clientConnection.send(message);
+        } else if (message instanceof TurnUpdateMessage) {
+            clientConnection.send(message);
+        } else if (message instanceof BoardUpdatePlaceMessage) {
+            clientConnection.send(message);
+        } else if (message instanceof BoardUpdateBuildMessage) {
+            clientConnection.send(message);
+        } else {
             System.err.println("Malformed message: " + message.toString());
         }
-
     }
 
-
-    @Override
-    protected void showMessage(Object message) {
-        clientConnection.asyncSend(message);
-    }
 }

@@ -2,12 +2,12 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
 
-public class PlayerMove implements Message{
+public class PlayerMoveMessage implements Message{
 
     Player player;
     int x,y;
 
-    public PlayerMove(Player player,int x,int y){
+    public PlayerMoveMessage(Player player, int x, int y){
         this.player = player;
         this.x = x;
         this.y = y;

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.Model;
 
+
 /**
  * Represents the cell where I can build/move or place a {@link Worker}.
  */
-public class Box {
+public class Box{
 
     /**
      * This contains a type {@link Block}
@@ -47,7 +48,7 @@ public class Box {
     /**
      * @param b setter for the typeOfBuilding attribute.
      */
-    public void build(Block b) {
+    public void setBlock(Block b) {
         this.typeOfBuilding = b;
     }
 

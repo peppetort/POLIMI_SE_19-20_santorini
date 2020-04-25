@@ -118,7 +118,7 @@ public class MinotaurMoveTest {
         Box startBox = board.getBox(2,2);
         startBox.setPawn(worker1);
         worker1.setPos(2,2);
-        board.getBox(2,3).build(Block.LTWO);
+        board.build(2,3,Block.LTWO);
         Move moveAction = new MinotaurMove(player);
         moveAction.move(worker1, 2, 3);
     }
@@ -183,14 +183,14 @@ public class MinotaurMoveTest {
         Box startBox = board.getBox(2,2);
         startBox.setPawn(worker1);
         worker1.setPos(2,2);
-        board.getBox(1,1).build(Block.LONE);
-        board.getBox(1,2).build(Block.LONE);
-        board.getBox(1,3).build(Block.LONE);
-        board.getBox(2,1).build(Block.LONE);
-        board.getBox(2,3).build(Block.LONE);
-        board.getBox(3,1).build(Block.LONE);
-        board.getBox(3,2).build(Block.LONE);
-        board.getBox(3,3).build(Block.LONE);
+        board.build(1,1,Block.LONE);
+        board.build(1,2,Block.LONE);
+        board.build(1,3,Block.LONE);
+        board.build(2,1,Block.LONE);
+        board.build(2,3,Block.LONE);
+        board.build(3,1,Block.LONE);
+        board.build(3,2,Block.LONE);
+        board.build(3,3,Block.LONE);
         Move moveAction = new MinotaurMove(player);
         for(int i=-1; i<=1;i++){
             for(int j=-1; j<=1; j++){
@@ -220,7 +220,7 @@ public class MinotaurMoveTest {
         workerPlayer1.setPos(2,2);
         boxPlayer2.setPawn(workerPlayer2);
         workerPlayer2.setPos(2,3);
-        boxPlayer2.build(Block.LONE);
+        boxPlayer2.setBlock(Block.LONE);
         Move moveAction = new MinotaurMove(player1);
         moveAction.moveNoGoUp(workerPlayer1, 2,3);
         assertEquals(workerPlayer1, boxPlayer1.getPawn());

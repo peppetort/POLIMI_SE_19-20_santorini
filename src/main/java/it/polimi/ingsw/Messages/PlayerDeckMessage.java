@@ -3,12 +3,12 @@ package it.polimi.ingsw.Messages;
 import it.polimi.ingsw.Model.Player;
 import java.util.Set;
 
-public class DeckChoice implements Message{
+public class PlayerDeckMessage implements Message{
 
     Player player;
     Set<String> cards;
 
-    public DeckChoice(Player player,Set<String> cards) {
+    public PlayerDeckMessage(Player player, Set<String> cards) {
         this.player = player;
         this.cards = cards;
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.CardAlreadySetException;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
+import it.polimi.ingsw.Messages.CardUpdateMessage;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Observer.Observable;
 
@@ -166,6 +167,10 @@ public class Player extends Observable<Message> {
             default:
                 throw new RuntimeException("Unexpected case");
         }
+
+
+        CardUpdateMessage cardMessage = new CardUpdateMessage(card.getName());
+        notify(cardMessage);
     }
 
     public Worker getWorker1() {

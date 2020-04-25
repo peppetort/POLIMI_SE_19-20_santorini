@@ -19,8 +19,8 @@ public class DefaultWinTest {
         box2.setPawn(worker2);
         worker1.setPos(0, 0);
         worker2.setPos(4,4);
-        box1.build(Block.LTHREE);
-        box2.build(Block.TERRAIN);
+        box1.setBlock(Block.LTHREE);
+        box2.setBlock(Block.TERRAIN);
         Win winAction = new DefaultWin(player);
         Boolean res = winAction.winChecker();
         assertEquals(true, res);
@@ -39,8 +39,8 @@ public class DefaultWinTest {
         box2.setPawn(worker2);
         worker1.setPos(0, 0);
         worker2.setPos(4,4);
-        box1.build(Block.LTWO);
-        box2.build(Block.LTHREE);
+        box1.setBlock(Block.LTWO);
+        box2.setBlock(Block.LTHREE);
         Win winAction = new DefaultWin(player);
         Boolean res = winAction.winChecker();
         assertEquals(true, res);
@@ -59,8 +59,8 @@ public class DefaultWinTest {
         box2.setPawn(worker2);
         worker1.setPos(0, 0);
         worker2.setPos(4,4);
-        box1.build(Block.LTWO);
-        box2.build(Block.TERRAIN);
+        box1.setBlock(Block.LTWO);
+        box2.setBlock(Block.TERRAIN);
         Win winAction = new DefaultWin(player);
         Boolean res = winAction.winChecker();
         assertEquals(false, res);
@@ -78,8 +78,8 @@ public class DefaultWinTest {
         box1.setPawn(worker1);
         box2.setPawn(worker2);
         worker2.setPos(4,4);
-        box1.build(Block.LTWO);
-        box2.build(Block.TERRAIN);
+        box1.setBlock(Block.LTWO);
+        box2.setBlock(Block.TERRAIN);
         Win winAction = new DefaultWin(player);
         Boolean res = winAction.winChecker();
         assertEquals(false, res);

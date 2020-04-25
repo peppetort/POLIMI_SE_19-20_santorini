@@ -13,7 +13,7 @@ public class PrometheusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
-        board.getBox(0,1).build(Block.LONE);
+        board.build(0,1,Block.LONE);
         Turn turn = new PrometheusTurn(player);
         turn.start(worker);
         turn.build(0,1);

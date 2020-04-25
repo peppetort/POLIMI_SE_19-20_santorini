@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.Messages.BoardUpdate;
-import it.polimi.ingsw.Messages.MenuMessage;
+import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
 public class ArtemisTurn extends DefaultTurn {
 
@@ -52,18 +51,25 @@ public class ArtemisTurn extends DefaultTurn {
                 moveAction.move(worker, x, y);
                 canMove = false;
                 playerMenu.replace("move", false);
+
+                ActionsUpdateMessage message = new ActionsUpdateMessage();
+                message.addAction("build");
+                player.notify(message);
+
             } catch (NullPointerException e) {
                 startX = worker.getXPos();
                 startY = worker.getYPos();
                 moveAction.move(worker, x, y);
                 oneMove = true;
+
+                ActionsUpdateMessage message = new ActionsUpdateMessage();
+                message.addAction("move");
+                message.addAction("build");
+                player.notify(message);
             }
         }
         canBuild = true;
         playerMenu.replace("build", true);
-
-        player.notify(new MenuMessage(playerMenu));
-        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
     }
 
     @Override

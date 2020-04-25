@@ -12,6 +12,7 @@ public class ApolloMove extends DefaultMove {
 
     /**
      * Constructor of the class {@link ApolloMove}
+     *
      * @param player
      */
     public ApolloMove(Player player) {
@@ -39,9 +40,9 @@ public class ApolloMove extends DefaultMove {
             Box workerBox = board.getBox(wX, wY);
             Box nextBox = board.getBox(x, y);
 
-            if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1 ) {
+            if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1) {
                 throw new InvalidMoveException("Move too far from the worker position!");
-            }else if((x == wX && y == wY)){
+            } else if ((x == wX && y == wY)) {
                 throw new InvalidMoveException("Invalid move!");
             } else if (!workerBox.compare(nextBox)) {
                 throw new InvalidMoveException("Level in box " + x + " " + y + "is too high!");
@@ -54,6 +55,7 @@ public class ApolloMove extends DefaultMove {
                         other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
                         board.placePawn(worker, x, y);          // posiziono la mia pedina nella nuova posizione
                         worker.updateLastBox(workerBox);        // aggiorno l'ultima box della mia pedina
+
                     } else {
                         throw new InvalidMoveException("Can't place pawn here! It's your worker!");
                     }

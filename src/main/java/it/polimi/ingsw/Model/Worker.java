@@ -93,7 +93,7 @@ public class Worker {
     public void updateLastBox(Box box) {
         lastBox = new Box();
         lastBox.setPawn(box.getPawn());
-        lastBox.build(box.getBlock());
+        lastBox.setBlock(box.getBlock());
     }
 
 

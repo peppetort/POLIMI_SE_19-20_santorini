@@ -27,9 +27,9 @@ public class DefaultTurnTest {
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
-        board.getBox(0,1).build(Block.LTWO);
-        board.getBox(1,0).build(Block.LTWO);
-        board.getBox(1,1).build(Block.LTWO);
+        board.build(0,1,Block.LTWO);
+        board.build(1,0,Block.LTWO);
+        board.build(1,1,Block.LTWO);
         Turn turn = new DefaultTurn(player);
         player.getPlayerMenu().replace("start", true);
         turn.start(worker);
@@ -44,10 +44,10 @@ public class DefaultTurnTest {
         Worker worker2 = player.getWorker2();
         board.placePawn(worker1, 0, 0);
         board.placePawn(worker2, 0,1);
-        board.getBox(0,2).build(Block.LTWO);
-        board.getBox(1,0).build(Block.LTWO);
-        board.getBox(1,1).build(Block.LTWO);
-        board.getBox(1,2).build(Block.LTWO);
+        board.build(0,2,Block.LTWO);
+        board.build(1,0,Block.LTWO);
+        board.build(1,1,Block.LTWO);
+        board.build(1,2,Block.LTWO);
         Turn turn = new DefaultTurn(player);
         player.getPlayerMenu().replace("start", true);
         turn.start(worker1);
@@ -156,8 +156,8 @@ public class DefaultTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker1 = player.getWorker1();
         Worker worker2 = player.getWorker2();
-        board.getBox(0,0).build(Block.LTWO);
-        board.getBox(0,1).build(Block.LTHREE);
+        board.build(0,0,Block.LTWO);
+        board.build(0,1,Block.LTHREE);
         board.placePawn(worker1, 0, 0);
         board.placePawn(worker2,4,4);
 

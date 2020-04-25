@@ -3,8 +3,10 @@ package it.polimi.ingsw.Server;
 
 import it.polimi.ingsw.Controller.Controller;
 import it.polimi.ingsw.Exceptions.FullSessionException;
+import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 import it.polimi.ingsw.Messages.Message;
-import it.polimi.ingsw.Messages.PlayerRemove;
+import it.polimi.ingsw.Messages.PlayerRemoveMessage;
+import it.polimi.ingsw.Messages.TurnUpdateMessage;
 import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Player;
@@ -27,7 +29,7 @@ public class Session extends Observable<Message>{
     private final Map<String, ClientConnection> playingConnection = new HashMap<>();
 
 
-    public Session(ClientConnection creatorConnection, int p, boolean simple, Server server, String sessionName) {
+    public Session(ClientConnection creatorConnection, int p, boolean simple, Server server, String sessionName) throws InterruptedException {
         this.participant = p;
         this.simple = simple;
         this.server = server;
@@ -43,7 +45,7 @@ public class Session extends Observable<Message>{
         return this.waitingConnection;
     }
 
-    public synchronized void addParticipant(ClientConnection player) {
+    public synchronized void addParticipant(ClientConnection player) throws InterruptedException {
         if (waitingConnection.size() < participant) {
             waitingConnection.put(player.getUsername(), player);
 
@@ -51,7 +53,7 @@ public class Session extends Observable<Message>{
                 server.disponibleSession.remove(name);
                 this.start();
             } else {
-                player.asyncSend("Wait participants");
+                player.send("Wait participants");
             }
         } else {
             throw new FullSessionException("Session is full!");
@@ -66,81 +68,83 @@ public class Session extends Observable<Message>{
                 server.disponibleSession.remove(name);
             }
         } else {
-            Message remove = new PlayerRemove(username);
+            Message remove = new PlayerRemoveMessage(username);
             notify(remove);
             playingConnection.remove(username);
-            for(String u: playingConnection.keySet()){
-                playingConnection.get(u).asyncSend(username + " left the game");
-            }
         }
     }
 
 
-    private void start() {
+    private void start(){
 
         List<String> keys = new ArrayList<>(waitingConnection.keySet());
         Board board = new Board();
+        ClientConnection player3Connection = null;
+        Player player3;
 
         playingConnection.putAll(waitingConnection);
         waitingConnection.clear();
 
-        if (participant == 2) {
-            ClientConnection player1Connection = playingConnection.get(keys.get(0));
-            ClientConnection player2Connection = playingConnection.get(keys.get(1));
+        ClientConnection player1Connection = playingConnection.get(keys.get(0));
+        ClientConnection player2Connection = playingConnection.get(keys.get(1));
 
-            Game model = new Game(keys.get(0), keys.get(1), board, simple);
-            Controller controller = new Controller(model);
+        Game model = new Game(keys.get(0), keys.get(1), board, simple);
+        Controller controller = new Controller(model);
 
-            Player player1 = model.getPlayers().get(0);
-            Player player2 = model.getPlayers().get(1);
+        Player player1 = model.getPlayers().get(0);
+        View player1View = new RemoteView(player1, player1Connection);
+        player1.addObserver(player1View);
+        board.addObserver(player1View);
+        player1View.addObserver(controller);
+        model.addObserver(player1View);
 
-            View player1View = new RemoteView(player1, player1Connection);
-            View player2View = new RemoteView(player2, player2Connection);
 
-            player1View.addObserver(controller);
-            player2View.addObserver(controller);
+        Player player2 = model.getPlayers().get(1);
+        View player2View = new RemoteView(player2, player2Connection);
+        player2.addObserver(player2View);
+        board.addObserver(player2View);
+        player2View.addObserver(controller);
+        model.addObserver(player2View);
 
-            player1.addObserver(player1View);
-            player2.addObserver(player2View);
-
-            model.addObserver(player1View);
-            model.addObserver(player2View);
-
-            this.addObserver(controller);
-
-            controller.initialize();
-
-        } else if (participant == 3) {
-            ClientConnection player1Connection = playingConnection.get(keys.get(0));
-            ClientConnection player2Connection = playingConnection.get(keys.get(1));
-            ClientConnection player3Connection = playingConnection.get(keys.get(2));
-
-            Game model = new Game(keys.get(0), keys.get(1), keys.get(2), board, simple);
-            Controller controller = new Controller(model);
-
-            Player player1 = model.getPlayers().get(0);
-            Player player2 = model.getPlayers().get(1);
-            Player player3 = model.getPlayers().get(2);
-
-            View player1View = new RemoteView(player1, player1Connection);
-            View player2View = new RemoteView(player2, player2Connection);
+        if(participant == 3){
+            player3Connection = playingConnection.get(keys.get(2));
+            player3 = model.getPlayers().get(2);
             View player3View = new RemoteView(player3, player3Connection);
-
-            player1.addObserver(player1View);
-            player2.addObserver(player2View);
             player3.addObserver(player3View);
-
-            player1View.addObserver(controller);
-            player2View.addObserver(controller);
+            board.addObserver(player3View);
             player3View.addObserver(controller);
-
-            model.addObserver(player1View);
-            model.addObserver(player2View);
             model.addObserver(player3View);
+        }
 
-            this.addObserver(controller);
+        this.addObserver(controller);
 
-            controller.initialize();
+
+        if(model.isSimple()){
+            TurnUpdateMessage turnMessage = new TurnUpdateMessage(player2.getUsername());
+
+            player1Connection.send(turnMessage);
+            player2Connection.send(turnMessage);
+            if(participant == 3){
+                player3Connection.send(turnMessage);
+            }
+
+            ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
+            actionMessage.addAction("place");
+            player2Connection.send(actionMessage);
+
+        }else{
+            TurnUpdateMessage turnMessage = new TurnUpdateMessage(player1.getUsername());
+
+            player1Connection.send(turnMessage);
+            player2Connection.send(turnMessage);
+            if(participant == 3){
+                player3Connection.send(turnMessage);
+            }
+
+            ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
+            actionMessage.addAction("deck");
+            player1Connection.send(actionMessage);
+
         }
     }
 }

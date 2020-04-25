@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.Messages.BoardUpdate;
-import it.polimi.ingsw.Messages.MenuMessage;
+import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
 public class HephaestusTurn extends DefaultTurn {
 
@@ -42,9 +41,19 @@ public class HephaestusTurn extends DefaultTurn {
             buildAction.build(worker, x, y);
             canBuild = false;
             playerMenu.replace("build", false);
+
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction("end");
+            player.notify(message);
         } catch (NullPointerException e) {
             buildAction.build(worker, x, y);
             oneBuild = true;
+
+
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction("build");
+            message.addAction("end");
+            player.notify(message);
 
             //se la prima volta che costruisco, costruisco un livello
             //tre, allora non posso usare il potere della carta => disabilito la costruzione
@@ -56,8 +65,6 @@ public class HephaestusTurn extends DefaultTurn {
             }
         }
         playerMenu.replace("end", true);
-        player.notify(new MenuMessage(playerMenu));
-        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
 
     }
 

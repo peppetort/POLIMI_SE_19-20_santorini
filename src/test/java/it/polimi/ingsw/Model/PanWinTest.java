@@ -19,8 +19,8 @@ public class PanWinTest {
         box2.setPawn(worker2);
         worker1.setPos(0, 0);
         worker2.setPos(4,4);
-        box1.build(Block.LTHREE);
-        box2.build(Block.TERRAIN);
+        box1.setBlock(Block.LTHREE);
+        box2.setBlock(Block.TERRAIN);
         Win winAction = new PanWin(player);
         assertTrue(winAction.winChecker());
     }
@@ -37,7 +37,7 @@ public class PanWinTest {
         Box box1 = board.getBox(0,1);
         box2.setPawn(worker2);
         worker2.setPos(4,4);
-        lastBox1.build(Block.LTWO);
+        lastBox1.setBlock(Block.LTWO);
         box1.setPawn(worker1);
         worker1.setPos(0,1);
         worker1.updateLastBox(lastBox1);
@@ -57,7 +57,7 @@ public class PanWinTest {
         Box box1 = board.getBox(0,1);
         box2.setPawn(worker2);
         worker2.setPos(4,4);
-        lastBox1.build(Block.LONE);
+        lastBox1.setBlock(Block.LONE);
         box1.setPawn(worker1);
         worker1.setPos(0,1);
         worker1.updateLastBox(lastBox1);

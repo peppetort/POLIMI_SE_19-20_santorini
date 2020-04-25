@@ -29,17 +29,6 @@ public class SocketClientConnection extends Observable<String> implements Client
         return active;
     }
 
-    private synchronized void send(Object message) {
-        try {
-            out.reset();
-            out.writeObject(message);
-            out.flush();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-
-    }
-
     @Override
     public synchronized void closeConnection() {
         send("Connection closed!");
@@ -64,8 +53,14 @@ public class SocketClientConnection extends Observable<String> implements Client
     }
 
     @Override
-    public void asyncSend(final Object message) {
-        new Thread(() -> send(message)).start();
+    public synchronized void send(final Object message) {
+        try {
+            out.reset();
+            out.writeObject(message);
+            out.flush();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     private void setName(Scanner in) {
@@ -217,7 +212,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                 notify(read);
             }
 
-        } catch (IOException | NoSuchElementException e) {
+        } catch (IOException | NoSuchElementException | InterruptedException e) {
             System.err.println("Error!" + e.getMessage());
         } finally {
             close();

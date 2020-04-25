@@ -27,7 +27,7 @@ public class AtlasBuildTest {
         Worker worker = player.getWorker1();
         Box box = board.getBox(0,0);
         board.placePawn(worker,0, 1);
-        box.build(Block.DOME);
+        box.setBlock(Block.DOME);
         Build buildAction = new AtlasBuild(player);
         ((AtlasBuild) buildAction).buildDome(worker, 0, 0);
         assertEquals(box.getBlock(), Block.DOME);

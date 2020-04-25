@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.InvalidMoveException;
+import it.polimi.ingsw.Messages.BoardUpdatePlaceMessage;
 
 /**
  * Represents the move in case the
@@ -12,6 +13,7 @@ public class MinotaurMove extends DefaultMove {
 
     /**
      * Constructor of the class {@link MinotaurMove}
+     *
      * @param player
      */
     public MinotaurMove(Player player) {
@@ -39,9 +41,9 @@ public class MinotaurMove extends DefaultMove {
         Box workerBox = board.getBox(wX, wY);
         Box nextBox = board.getBox(x, y);
 
-        if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1 ) {
+        if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1) {
             throw new InvalidMoveException("Move too far from the worker position!");
-        }else if(x == wX && y == wY){
+        } else if (x == wX && y == wY) {
             throw new InvalidMoveException("Invalid move!");
         } else if (!workerBox.compare(nextBox)) {
             throw new InvalidMoveException("Level in box " + x + " " + y + "is too high!");

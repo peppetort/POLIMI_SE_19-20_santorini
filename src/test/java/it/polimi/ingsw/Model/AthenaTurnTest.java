@@ -17,8 +17,8 @@ public class AthenaTurnTest {
         Worker otherWorker = otherPlayer.getWorker1();
         board.placePawn(worker, 0, 0);
         board.placePawn(otherWorker, 4,4);
-        board.getBox(0,1).build(Block.LONE);
-        board.getBox(4,3).build(Block.LONE);
+        board.build(0,1,Block.LONE);
+        board.build(4,3,Block.LONE);
         player.getPlayerMenu().replace("start", true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
@@ -41,8 +41,8 @@ public class AthenaTurnTest {
         Worker otherWorker = otherPlayer.getWorker1();
         board.placePawn(worker, 0, 0);
         board.placePawn(otherWorker, 4, 4);
-        board.getBox(0, 1).build(Block.LONE);
-        board.getBox(4, 3).build(Block.LONE);
+        board.build(0, 1,Block.LONE);
+        board.build(4, 3,Block.LONE);
         player.getPlayerMenu().replace("start", true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
@@ -65,8 +65,8 @@ public class AthenaTurnTest {
         Worker otherWorker = otherPlayer.getWorker1();
         board.placePawn(worker, 0, 0);
         board.placePawn(otherWorker, 4, 4);
-        board.getBox(0, 1).build(Block.LONE);
-        board.getBox(4, 3).build(Block.LONE);
+        board.build(0, 1,Block.LONE);
+        board.build(4, 3,Block.LONE);
         player.getPlayerMenu().replace("start", true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
@@ -89,8 +89,8 @@ public class AthenaTurnTest {
         Worker otherWorker = otherPlayer.getWorker1();
         board.placePawn(worker, 0, 0);
         board.placePawn(otherWorker, 4, 4);
-        board.getBox(0, 1).build(Block.LONE);
-        board.getBox(4, 3).build(Block.LONE);
+        board.build(0, 1,Block.LONE);
+        board.build(4, 3,Block.LONE);
         Turn turn = new AthenaTurn(player);
         player.getPlayerMenu().replace("start", true);
         turn.start(worker);
@@ -113,8 +113,8 @@ public class AthenaTurnTest {
         Worker otherWorker = otherPlayer.getWorker1();
         board.placePawn(worker, 0, 0);
         board.placePawn(otherWorker, 4, 4);
-        board.getBox(0, 1).build(Block.LONE);
-        board.getBox(4, 3).build(Block.LONE);
+        board.build(0, 1,Block.LONE);
+        board.build(4, 3,Block.LONE);
         Turn turn = new AthenaTurn(player);
         player.getPlayerMenu().replace("start", true);
         turn.start(worker);
@@ -137,8 +137,8 @@ public class AthenaTurnTest {
         Worker otherWorker = otherPlayer.getWorker1();
         board.placePawn(worker, 0, 0);
         board.placePawn(otherWorker, 4, 4);
-        board.getBox(0, 1).build(Block.LONE);
-        board.getBox(4, 3).build(Block.LONE);
+        board.build(0, 1,Block.LONE);
+        board.build(4, 3,Block.LONE);
         Turn turn = new AthenaTurn(player);
         player.getPlayerMenu().replace("start", true);
         turn.start(worker);

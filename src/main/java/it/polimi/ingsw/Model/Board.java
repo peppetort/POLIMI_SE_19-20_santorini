@@ -1,9 +1,11 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Messages.BoardUpdateBuildMessage;
+import it.polimi.ingsw.Messages.BoardUpdatePlaceMessage;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Observer.Observable;
 
-import it.polimi.ingsw.Messages.BoardUpdate;
-
-public class Board {
+public class Board extends Observable<Message> {
     /**
      * Matrix 5 x 5 that represents the field.
      */
@@ -32,6 +34,14 @@ public class Board {
         return board[x][y];
     }
 
+    public void build(int x, int y, Block b) throws  ArrayIndexOutOfBoundsException{
+        board[x][y].setBlock(b);
+
+        BoardUpdateBuildMessage message = new BoardUpdateBuildMessage(x, y, b.getValue());
+        notify(message);
+    }
+
+
     /**
      * <p>
      * Place the {@link Worker} reference in the x-y coordinates in board.
@@ -45,29 +55,25 @@ public class Board {
     public void placePawn(Worker worker, int x, int y) throws IndexOutOfBoundsException {
         board[x][y].setPawn(worker);
         worker.setPos(x, y);
+        Player player = worker.getPlayer();
+        int workerId = Integer.parseInt(worker.getId().substring(worker.getId().length() -1 ));
+        BoardUpdatePlaceMessage message = new BoardUpdatePlaceMessage(player.getColor(), workerId, x, y);
+        notify(message);
     }
     public void initializePawn(Worker worker1,Worker worker2, int x1, int y1,int x2,int y2) throws IndexOutOfBoundsException {
-        Game game = worker1.getPlayer().getSession();
         board[x1][y1].setPawn(worker1);
         board[x2][y2].setPawn(worker2);
         worker1.setPos(x1, y1);
         worker2.setPos(x2,y2);
 
-        game.notify(new BoardUpdate(this.data(),game.getPlayers()));
+        Player player = worker1.getPlayer();
 
+        int worker1Id = Integer.parseInt(worker1.getId().substring(worker1.getId().length() -1 ));
+        BoardUpdatePlaceMessage message1 = new BoardUpdatePlaceMessage(player.getColor(), worker1Id, x1, y1);
+        notify(message1);
 
-    }
-
-    public Integer[] data() {
-        Integer[] coordinates = new Integer[25];
-        int c = 0;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                coordinates[c] = board[i][j].getBlock().getValue();
-                c++;
-            }
-        }
-
-        return coordinates;
+        int worker2Id = Integer.parseInt(worker2.getId().substring(worker2.getId().length() -1 ));
+        BoardUpdatePlaceMessage message2 = new BoardUpdatePlaceMessage(player.getColor(), worker2Id, x2, y2);
+        notify(message2);
     }
 }

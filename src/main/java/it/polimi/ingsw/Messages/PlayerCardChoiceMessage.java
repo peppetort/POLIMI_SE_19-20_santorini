@@ -3,12 +3,12 @@ package it.polimi.ingsw.Messages;
 import it.polimi.ingsw.Model.Card;
 import it.polimi.ingsw.Model.Player;
 
-public class CardChoice implements Message {
+public class PlayerCardChoiceMessage implements Message {
 
     Player player;
     String card;
 
-    public CardChoice(Player player, String card) {
+    public PlayerCardChoiceMessage(Player player, String card) {
         this.player = player;
         this.card = card;
     }

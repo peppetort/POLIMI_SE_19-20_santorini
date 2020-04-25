@@ -45,7 +45,7 @@ public class AtlasBuild extends DefaultBuild {
                 case LONE:
                 case LTWO:
                 case LTHREE:
-                    box.build(Block.DOME);
+                    board.build(x, y, Block.DOME);
                     break;
                 case DOME:
                     throw new InvalidBuildException("Can't build here! There is a DOME");

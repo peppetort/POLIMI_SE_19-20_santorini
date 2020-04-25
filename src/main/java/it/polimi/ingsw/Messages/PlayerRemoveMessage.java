@@ -2,10 +2,10 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
 
-public class PlayerRemove implements Message {
+public class PlayerRemoveMessage implements Message {
     private String player;
 
-    public PlayerRemove(String player) {
+    public PlayerRemoveMessage(String player) {
         this.player = player;
     }
 

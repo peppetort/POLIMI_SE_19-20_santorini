@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.Messages.BoardUpdate;
-import it.polimi.ingsw.Messages.MenuMessage;
+import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
 import java.util.HashMap;
 
@@ -58,8 +57,9 @@ public class DefaultTurn implements Turn {
         playerMenu.replace("start", false);
         playerMenu.replace("move", true);
 
-        player.notify(new MenuMessage(playerMenu));
-        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
+        ActionsUpdateMessage message = new ActionsUpdateMessage();
+        message.addAction("move");
+        player.notify(message);
 
     }
 
@@ -80,10 +80,13 @@ public class DefaultTurn implements Turn {
         canBuild = true; // abilita la costruzione
         playerMenu.replace("move", false);
         playerMenu.replace("build", true);
+
+        ActionsUpdateMessage message = new ActionsUpdateMessage();
+        message.addAction("build");
+        player.notify(message);
+
         win = winAction.winChecker();
 
-        player.notify(new MenuMessage(playerMenu));
-        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
     }
 
     @Override
@@ -99,8 +102,9 @@ public class DefaultTurn implements Turn {
         playerMenu.replace("build", false);
         playerMenu.replace("end", true);
 
-        player.notify(new MenuMessage(playerMenu));
-        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
+        ActionsUpdateMessage message = new ActionsUpdateMessage();
+        message.addAction("end");
+        player.notify(message);
 
     }
 

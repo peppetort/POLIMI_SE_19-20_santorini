@@ -84,8 +84,8 @@ public class WorkerTest {
         Worker w2=new Worker(2, player);
         board.placePawn(w1,0,0);
         board.placePawn(w2,1,1);
-        board.getBox(0,1).build(Block.DOME);
-        board.getBox(1,0).build(Block.DOME);
+        board.build(0,1,Block.DOME);
+        board.build(1,0,Block.DOME);
         assertFalse(w1.canBuild());
     }
 
@@ -98,8 +98,8 @@ public class WorkerTest {
         Worker w2=new Worker(2, player);
         board.placePawn(w1,0,0);
         board.placePawn(w2,1,1);
-        board.getBox(0,1).build(Block.LTHREE);
-        board.getBox(1,0).build(Block.DOME);
+        board.build(0, 1, Block.LTHREE);
+        board.build(1,0, Block.DOME);
         assertTrue(w1.canBuild());
     }
 
@@ -113,8 +113,8 @@ public class WorkerTest {
         Worker w2=new Worker(2, player);
         board.placePawn(w1,0,0);
         board.placePawn(w2,1,1);
-        board.getBox(0,1).build(Block.LTWO);
-        board.getBox(1,0).build(Block.LTWO);
+        board.build(0,1, Block.LTWO);
+        board.build(1,0, Block.LTWO);
         assertFalse(w1.canMove(true));
     }
 
@@ -125,8 +125,8 @@ public class WorkerTest {
         Player player = session.getPlayers().get(0);
         Worker worker=new Worker(1, player);
         board.placePawn(worker,4,4);
-        board.getBox(4,3).build(Block.LTWO);
-        board.getBox(3,4).build(Block.LTWO);
+        board.build(4,3, Block.LTWO);
+        board.build(3,4, Block.LTWO);
         assertTrue(worker.canMove(true));
     }
 
@@ -142,8 +142,8 @@ public class WorkerTest {
         Worker wp2 = player2.getWorker2();
         board.placePawn(wp1, 0, 0);
         board.placePawn(wp2, 1,1);
-        board.getBox(0,1).build(Block.LTWO);
-        board.getBox(1,0).build(Block.LTWO);
+        board.build(0,1, Block.LTWO);
+        board.build(1,0, Block.LTWO);
         assertTrue(wp1.canMove(true));
     }
 
@@ -159,13 +159,13 @@ public class WorkerTest {
         Worker wp2 = player2.getWorker2();
         board.placePawn(wp1, 0, 0);
         board.placePawn(wp2, 1,1);
-        board.getBox(0,1).build(Block.DOME);
-        board.getBox(0,2).build(Block.DOME);
-        board.getBox(1,0).build(Block.DOME);
-        board.getBox(2,0).build(Block.DOME);
-        board.getBox(2,2).build(Block.DOME);
-        board.getBox(2,1).build(Block.DOME);
-        board.getBox(1,2).build(Block.DOME);
+        board.build(0,1,Block.DOME);
+        board.build(0,2,Block.DOME);
+        board.build(1,0,Block.DOME);
+        board.build(2,0,Block.DOME);
+        board.build(2,2,Block.DOME);
+        board.build(2,1,Block.DOME);
+        board.build(1,2,Block.DOME);
         assertFalse(wp1.canMove( true));
     }
 
@@ -181,8 +181,8 @@ public class WorkerTest {
         Worker wp2 = player2.getWorker1();
         board.placePawn(wp1, 0, 0);
         board.placePawn(wp2, 1,1);
-        board.getBox(0,1).build(Block.LTWO);
-        board.getBox(1,0).build(Block.LTWO);
+        board.build(0,1,Block.LTWO);
+        board.build(1,0,Block.LTWO);
         assertTrue(wp1.canMove(true));
     }
 
@@ -198,13 +198,13 @@ public class WorkerTest {
         Worker wp2 = player2.getWorker2();
         board.placePawn(wp1, 0, 0);
         board.placePawn(wp2, 1,1);
-        board.getBox(0,1).build(Block.DOME);
-        board.getBox(0,2).build(Block.DOME);
-        board.getBox(1,0).build(Block.DOME);
-        board.getBox(2,0).build(Block.DOME);
-        board.getBox(2,2).build(Block.LTHREE);
-        board.getBox(2,1).build(Block.DOME);
-        board.getBox(1,2).build(Block.DOME);
+        board.build(0,1,Block.DOME);
+        board.build(0,2,Block.DOME);
+        board.build(1,0,Block.DOME);
+        board.build(2,0,Block.DOME);
+        board.build(2,2,Block.LTHREE);
+        board.build(2,1,Block.DOME);
+        board.build(1,2,Block.DOME);
         assertFalse(wp1.canMove(true));
     }
 
@@ -222,13 +222,13 @@ public class WorkerTest {
         Worker wp2 = player2.getWorker2();
         board.placePawn(wp1, 0, 0);
         board.placePawn(wp2, 1,1);
-        board.getBox(0,1).build(Block.LTWO);
-        board.getBox(0,2).build(Block.DOME);
-        board.getBox(1,0).build(Block.DOME);
-        board.getBox(2,0).build(Block.DOME);
-        board.getBox(2,2).build(Block.DOME);
-        board.getBox(2,1).build(Block.DOME);
-        board.getBox(1,2).build(Block.DOME);
+        board.build(0,1,Block.LTWO);
+        board.build(0,2,Block.DOME);
+        board.build(1,0,Block.DOME);
+        board.build(2,0,Block.DOME);
+        board.build(2,2,Block.DOME);
+        board.build(2,1,Block.DOME);
+        board.build(1,2,Block.DOME);
         assertFalse(wp1.canMove(true));
     }
 }

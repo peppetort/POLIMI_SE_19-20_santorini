@@ -2,9 +2,9 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
 
-public class PlayerEnd implements Message {
+public class PlayerEndMessage implements Message {
     Player player;
-    public PlayerEnd(Player player){
+    public PlayerEndMessage(Player player){
         this.player = player;
     }
 

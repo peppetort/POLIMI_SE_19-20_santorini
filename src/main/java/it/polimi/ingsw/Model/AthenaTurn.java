@@ -2,8 +2,7 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.InvalidMoveException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
-import it.polimi.ingsw.Messages.BoardUpdate;
-import it.polimi.ingsw.Messages.MenuMessage;
+import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
 public class AthenaTurn extends DefaultTurn {
 
@@ -29,8 +28,9 @@ public class AthenaTurn extends DefaultTurn {
         playerMenu.replace("build", true);
         win = winAction.winChecker();
 
-        player.notify(new MenuMessage(playerMenu));
-        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
+        ActionsUpdateMessage message = new ActionsUpdateMessage();
+        message.addAction("move");
+        player.notify(message);
 
         //se la box su cui mi sono mosso ha una costruzione > di
         //quella da cui sono partito, la differenza è > 0.

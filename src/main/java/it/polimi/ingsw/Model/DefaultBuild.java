@@ -32,6 +32,7 @@ public class DefaultBuild implements Build {
     public void build(Worker worker, int x, int y) throws IndexOutOfBoundsException, NullPointerException {
 
         Box box = board.getBox(x, y);
+        Block block;
         int wX, wY;
         wX = worker.getXPos();
         wY = worker.getYPos();
@@ -44,22 +45,23 @@ public class DefaultBuild implements Build {
         } else {
             switch (box.getBlock()) {
                 case TERRAIN:
-                    box.build(Block.LONE);
+                    block = Block.LONE;
                     break;
                 case LONE:
-                    box.build(Block.LTWO);
+                    block = Block.LTWO;
                     break;
                 case LTWO:
-                    box.build(Block.LTHREE);
+                    block = Block.LTHREE;
                     break;
                 case LTHREE:
-                    box.build(Block.DOME);
+                    block = Block.DOME;
                     break;
                 case DOME:
                     throw new InvalidBuildException("Can't build here! There is a DOME");
                 default:
                     throw new InvalidBuildException("Unexpected case!");
             }
+            board.build(x, y, block);
         }
     }
 

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.Messages.BoardUpdate;
-import it.polimi.ingsw.Messages.MenuMessage;
+import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
 public class PrometheusTurn extends DefaultTurn {
 
@@ -12,33 +11,33 @@ public class PrometheusTurn extends DefaultTurn {
         super(player);
     }
 
-//    @Override
-//    public void start(Worker worker) {
-//        super.start(worker);
-//        if (!worker.moveGoUp()) {
-//            canMove = true;
-//            canBuild = true;
-//            playerMenu.replace("build", true);
-//        }
-//        startBuild = false;
-//    }
+/*    @Override
+    public void start(Worker worker) {
+        super.start(worker);
+        if (!worker.moveGoUp()) {
+            canMove = true;
+            canBuild = true;
+            playerMenu.replace("build", true);
+        }
+        startBuild = false;
+    }
 
-//    @Override
-//    public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, AthenaGoUpException, InvalidMoveException {
-//        super.move(x, y);
-//        startBuild = true;
-//
-//    }
+    @Override
+    public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, AthenaGoUpException, InvalidMoveException {
+        super.move(x, y);
+        startBuild = true;
+
+    }
 
 
-//    @Override
-//    public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
-//        super.build(x, y);
-//        if (!startBuild) {
-//            startBuild = true;
-//            playerMenu.replace("build", false);
-//        }
-//    }
+    @Override
+    public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
+        super.build(x, y);
+        if (!startBuild) {
+            startBuild = true;
+            playerMenu.replace("build", false);
+        }
+    }*/
 
     @Override
     public void start(Worker worker) {
@@ -65,15 +64,19 @@ public class PrometheusTurn extends DefaultTurn {
         playerMenu.replace("start", false);
         playerMenu.replace("move", true);
 
+        ActionsUpdateMessage message = new ActionsUpdateMessage();
+        message.addAction("move");
+
         if (!worker.moveGoUp()) {
             canMove = true;
             canBuild = true;
             playerMenu.replace("build", true);
-        }
-        startBuild = false;
 
-        player.notify(new MenuMessage(playerMenu));
-        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
+            message.addAction("build");
+        }
+
+        player.notify(message);
+        startBuild = false;
 
     }
 
@@ -96,13 +99,19 @@ public class PrometheusTurn extends DefaultTurn {
         canBuild = false;
         playerMenu.replace("build", false);
         playerMenu.replace("end", true);
+
+        ActionsUpdateMessage message = new ActionsUpdateMessage();
+
+
         if (!startBuild) {
             startBuild = true;
             playerMenu.replace("build", false);
+            message.addAction("move");
+        }else {
+            message.addAction("end");
         }
 
-        player.notify(new MenuMessage(playerMenu));
-        player.notify(new BoardUpdate(board.data(),player.getSession().getPlayers()));
+        player.notify(message);
 
     }
 

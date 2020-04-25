@@ -36,7 +36,7 @@ public class BoxTest {
 
     @Test
     public void build() {
-        b.build(Block.LONE);
+        b.setBlock(Block.LONE);
         assertEquals(Block.LONE, b.getBlock());
     }
 
@@ -60,13 +60,13 @@ public class BoxTest {
         Box[] box = new Box[5];
         box[0] = new Box();
         box[1] = new Box();
-        box[1].build(Block.LONE);
+        box[1].setBlock(Block.LONE);
         box[2] = new Box();
-        box[2].build(Block.LTWO);
+        box[2].setBlock(Block.LTWO);
         box[3] = new Box();
-        box[3].build(Block.LTHREE);
+        box[3].setBlock(Block.LTHREE);
         box[4] = new Box();
-        box[4].build(Block.DOME);
+        box[4].setBlock(Block.DOME);
         assertEquals(0, box[0].getDifference(box[0]));
         assertEquals(0, box[1].getDifference(box[1]));
         assertEquals(0, box[2].getDifference(box[2]));
@@ -102,7 +102,7 @@ public class BoxTest {
     @Test
     public void compareTrue1() {
         Box b1 = new Box();
-        b1.build(Block.LONE);
+        b1.setBlock(Block.LONE);
         assertTrue(b1.compare(b));
     }
 
@@ -110,8 +110,8 @@ public class BoxTest {
     public void compareFalse1() {
         Box b1 = new Box();
         Box b2 = new Box();
-        b1.build(Block.LTHREE);
-        b2.build(Block.LONE);
+        b1.setBlock(Block.LTHREE);
+        b2.setBlock(Block.LONE);
         assertFalse(b2.compare(b1));
     }
 
@@ -119,8 +119,8 @@ public class BoxTest {
     public void compareFalse2() {
         Box b1 = new Box();
         Box b2 = new Box();
-        b1.build(Block.LTHREE);
-        b2.build(Block.DOME);
+        b1.setBlock(Block.LTHREE);
+        b2.setBlock(Block.DOME);
         assertFalse(b1.compare(b2));
     }
 
