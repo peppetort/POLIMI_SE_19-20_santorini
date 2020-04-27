@@ -33,6 +33,160 @@ public class MinotaurMoveTest {
         Worker workerPlayer1 = player1.getWorker1();
         Worker workerPlayer2 = player2.getWorker1();
         Box myBox = board.getBox(2,2);
+        Box otherBox = board.getBox(1,1);
+        myBox.setPawn(workerPlayer1);
+        otherBox.setPawn(workerPlayer2);
+        workerPlayer1.setPos(2,2);
+        workerPlayer2.setPos(1,1);
+        Move moveAction = new MinotaurMove(player1);
+        moveAction.move(workerPlayer1, 1,1);
+        assertEquals(otherBox.getPawn(), workerPlayer1);
+        assertEquals(board.getBox(0,0).getPawn(), workerPlayer2);
+        assertTrue(myBox.isFree());
+        assertEquals((int)workerPlayer1.getYPos(), 1);
+        assertEquals((int)workerPlayer1.getXPos(), 1);
+        assertEquals((int)workerPlayer2.getYPos(), 0);
+        assertEquals((int)workerPlayer2.getXPos(), 0);
+
+    }
+
+    @Test
+    public void moveMinotaur1(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box myBox = board.getBox(2,2);
+        Box otherBox = board.getBox(2,1);
+        myBox.setPawn(workerPlayer1);
+        otherBox.setPawn(workerPlayer2);
+        workerPlayer1.setPos(2,2);
+        workerPlayer2.setPos(2,1);
+        Move moveAction = new MinotaurMove(player1);
+        moveAction.move(workerPlayer1, 2,1);
+        assertEquals(otherBox.getPawn(), workerPlayer1);
+        assertEquals(board.getBox(2,0).getPawn(), workerPlayer2);
+        assertTrue(myBox.isFree());
+        assertEquals((int)workerPlayer1.getXPos(), 2);
+        assertEquals((int)workerPlayer1.getYPos(), 1);
+        assertEquals((int)workerPlayer2.getXPos(), 2);
+        assertEquals((int)workerPlayer2.getYPos(), 0);
+    }
+
+    @Test
+    public void moveMinotaur2(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box myBox = board.getBox(2,2);
+        Box otherBox = board.getBox(3,1);
+        myBox.setPawn(workerPlayer1);
+        otherBox.setPawn(workerPlayer2);
+        workerPlayer1.setPos(2,2);
+        workerPlayer2.setPos(3,1);
+        Move moveAction = new MinotaurMove(player1);
+        moveAction.move(workerPlayer1, 3,1);
+        assertEquals(otherBox.getPawn(), workerPlayer1);
+        assertEquals(board.getBox(4,0).getPawn(), workerPlayer2);
+        assertTrue(myBox.isFree());
+        assertEquals((int)workerPlayer1.getXPos(), 3);
+        assertEquals((int)workerPlayer1.getYPos(), 1);
+        assertEquals((int)workerPlayer2.getXPos(), 4);
+        assertEquals((int)workerPlayer2.getYPos(), 0);
+    }
+
+    @Test
+    public void moveMinotaur3(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box myBox = board.getBox(2,2);
+        Box otherBox = board.getBox(1,2);
+        myBox.setPawn(workerPlayer1);
+        otherBox.setPawn(workerPlayer2);
+        workerPlayer1.setPos(2,2);
+        workerPlayer2.setPos(1,2);
+        Move moveAction = new MinotaurMove(player1);
+        moveAction.move(workerPlayer1, 1,2);
+        assertEquals(otherBox.getPawn(), workerPlayer1);
+        assertEquals(board.getBox(0,2).getPawn(), workerPlayer2);
+        assertTrue(myBox.isFree());
+        assertEquals((int)workerPlayer1.getXPos(), 1);
+        assertEquals((int)workerPlayer1.getYPos(), 2);
+        assertEquals((int)workerPlayer2.getXPos(), 0);
+        assertEquals((int)workerPlayer2.getYPos(), 2);
+
+    }
+
+    @Test
+    public void moveMinotaur4(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box myBox = board.getBox(2,2);
+        Box otherBox = board.getBox(3,2);
+        myBox.setPawn(workerPlayer1);
+        otherBox.setPawn(workerPlayer2);
+        workerPlayer1.setPos(2,2);
+        workerPlayer2.setPos(3,2);
+        Move moveAction = new MinotaurMove(player1);
+        moveAction.move(workerPlayer1, 3,2);
+        assertEquals(otherBox.getPawn(), workerPlayer1);
+        assertEquals(board.getBox(4,2).getPawn(), workerPlayer2);
+        assertTrue(myBox.isFree());
+        assertEquals((int)workerPlayer1.getXPos(), 3);
+        assertEquals((int)workerPlayer1.getYPos(), 2);
+        assertEquals((int)workerPlayer2.getXPos(), 4);
+        assertEquals((int)workerPlayer2.getYPos(), 2);
+
+    }
+
+    @Test
+    public void moveMinotaur5(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box myBox = board.getBox(2,2);
+        Box otherBox = board.getBox(1,3);
+        myBox.setPawn(workerPlayer1);
+        otherBox.setPawn(workerPlayer2);
+        workerPlayer1.setPos(2,2);
+        workerPlayer2.setPos(1,3);
+        Move moveAction = new MinotaurMove(player1);
+        moveAction.move(workerPlayer1, 1,3);
+        assertEquals(otherBox.getPawn(), workerPlayer1);
+        assertEquals(board.getBox(0,4).getPawn(), workerPlayer2);
+        assertTrue(myBox.isFree());
+        assertEquals((int)workerPlayer1.getXPos(), 1);
+        assertEquals((int)workerPlayer1.getYPos(), 3);
+        assertEquals((int)workerPlayer2.getXPos(), 0);
+        assertEquals((int)workerPlayer2.getYPos(), 4);
+
+    }
+
+    @Test
+    public void moveMinotaur6(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box myBox = board.getBox(2,2);
         Box otherBox = board.getBox(2,3);
         myBox.setPawn(workerPlayer1);
         otherBox.setPawn(workerPlayer2);
@@ -43,13 +197,40 @@ public class MinotaurMoveTest {
         assertEquals(otherBox.getPawn(), workerPlayer1);
         assertEquals(board.getBox(2,4).getPawn(), workerPlayer2);
         assertTrue(myBox.isFree());
+        assertEquals((int)workerPlayer1.getXPos(), 2);
         assertEquals((int)workerPlayer1.getYPos(), 3);
+        assertEquals((int)workerPlayer2.getXPos(), 2);
         assertEquals((int)workerPlayer2.getYPos(), 4);
 
     }
 
     @Test
-    public void moveMinotaur1(){
+    public void moveMinotaur7(){
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box myBox = board.getBox(2,2);
+        Box otherBox = board.getBox(3,3);
+        myBox.setPawn(workerPlayer1);
+        otherBox.setPawn(workerPlayer2);
+        workerPlayer1.setPos(2,2);
+        workerPlayer2.setPos(3,3);
+        Move moveAction = new MinotaurMove(player1);
+        moveAction.move(workerPlayer1, 3,3);
+        assertEquals(otherBox.getPawn(), workerPlayer1);
+        assertEquals(board.getBox(4,4).getPawn(), workerPlayer2);
+        assertTrue(myBox.isFree());
+        assertEquals((int)workerPlayer1.getXPos(), 3);
+        assertEquals((int)workerPlayer1.getYPos(), 3);
+        assertEquals((int)workerPlayer2.getXPos(), 4);
+        assertEquals((int)workerPlayer2.getYPos(), 4);
+
+    }
+    @Test
+    public void moveMinotaur10(){
         Board board = new Board();
         Game game = new Game("Pippo", "Pluto", board, false);
         Player player1 = game.getPlayers().get(0);
