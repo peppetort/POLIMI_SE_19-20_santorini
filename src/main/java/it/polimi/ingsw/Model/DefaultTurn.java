@@ -35,21 +35,27 @@ public class DefaultTurn implements Turn {
     @Override
     public void start(Worker worker) {
 
-        if(player.getWorker1().equals(worker)){
+        if (player.getWorker1().equals(worker)) {
             otherWorker = player.getWorker2();
-        }else {
+        } else {
             otherWorker = player.getWorker1();
         }
 
-        if(!playerMenu.get("start")){
+        if (!playerMenu.get("start")) {
             throw new RuntimeException("Can't start!");
         }
         if (running) { // controlla che il turno non è stato già iniziato
             throw new RuntimeException("Already start!");
         }
-        if (!worker.canMove(canGoUp) && !otherWorker.canMove(canGoUp)) { //controlla che il giocatore ha almeno una possibilità di muoversi
+        boolean canMoveSelected = worker.canMove(canGoUp);
+        boolean canMoveOther = otherWorker.canMove(canGoUp);
+
+        if(!canMoveSelected && !canMoveOther){
             throw new PlayerLostException("Your workers cannot make any moves!");
+        }else if(!canMoveSelected){
+            throw new RuntimeException("Selected worker cannot make any moves");
         }
+
         running = true;
         this.worker = worker;
         canMove = true; // abilita la mossa
@@ -107,6 +113,7 @@ public class DefaultTurn implements Turn {
         player.notify(message);
 
     }
+
     public void buildDome(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         if (!running) {
             throw new TurnNotStartedException("Turn not started!");

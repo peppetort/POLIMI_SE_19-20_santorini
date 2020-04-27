@@ -42,9 +42,8 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     private void close() {
         closeConnection();
-        System.out.println("Deregister client...");
+        System.out.println("Deregister client " + username + ":" + session);
         session.deregisterConnection(username);
-        System.out.println("Done!");
     }
 
     @Override
@@ -66,13 +65,13 @@ public class SocketClientConnection extends Observable<String> implements Client
     private void setName(Scanner in) {
         boolean valid = false;
         do {
-            send("Insert your name:");
+            send("Insert your name");
             username = in.nextLine().toUpperCase();
             try {
                 if (session.getWaitingConnection().get(username) == null) {
                     valid = true;
                 } else {
-                    send(username + " alredy exists.\nTry again:");
+                    send(username + " already exists.\nTry again:");
                 }
             } catch (NullPointerException e) {
                 valid = true;

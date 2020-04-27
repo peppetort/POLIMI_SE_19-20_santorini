@@ -34,69 +34,21 @@ public class RemoteView extends View {
                 } else if (inputs[0].compareTo("MOVE") == 0) {
                     handleMove(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
                 } else if (inputs[0].compareTo("BUILD") == 0) {
-                   // if(player.getCard().getName().equals(God.ATLAS)) {
-                        try {
-                            if (inputs[3].compareTo("DOME") == 0) {
-                                handleBuildDome(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
-                            }
-                        } catch (IndexOutOfBoundsException e) {
-                            handleBuild(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
+                    if (inputs[1].compareTo("DOME") == 0) {
+                        if (player.getCard().getName().equals(God.ATLAS)) {
+                            handleBuildDome(Integer.parseInt(inputs[2]), Integer.parseInt(inputs[3]));
+                        }else {
+                            throw new IllegalArgumentException("Can't build a dome directly");
                         }
-                   // }
-                /*else{
-                        System.out.print(player.getCard().getName());
+                    } else {
                         handleBuild(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
-                    }*/
-
+                    }
                 } else if (inputs[0].compareTo("END") == 0) {
                     handleEnd();
                 } else if (inputs[0].compareTo("START") == 0) {
                     handleStart(Integer.parseInt(inputs[1]));
                 } else if (inputs[0].compareTo("PLACE") == 0) {
                     handlePlacing(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]), Integer.parseInt(inputs[3]), Integer.parseInt(inputs[4]));
-                } else if (inputs[0].compareTo("HELP") == 0) {
-                    String placeHelpMessage = "place [x1] [y1] [x2] [y2]: places pawns on the board\n";
-                    String startHelpMessage = "start [1]/[2]: starts the game turn with one of the two workers\n";
-                    String moveHelpMessage = "move [x] [y]: moves pawn specified in the start command\n";
-                    String buildHelpMessage = "build [x] [y]: builds a level above the existing one\n";
-                    String endHelpMessage = "end: ends turn\n";
-                    String deckBuildHelpMessage = "deck [card1],[card2]{,[card3]}: makes up the game deck\n";
-                    String chooseCardHelpMessage = "card [card]: selects a card from those available on the deck\n";
-                    String buildDomeHelpMessage = "dome [x] [y]: builds a dome\n";
-
-                    StringBuilder helpMessage = new StringBuilder();
-
-                    if (player.getPlayerMenu().get("placePawns")) {
-                        helpMessage.append(placeHelpMessage);
-                    }
-                    if (player.getPlayerMenu().get("buildDeck")) {
-                        helpMessage.append(deckBuildHelpMessage);
-                    }
-                    if (player.getPlayerMenu().get("chooseCard")) {
-                        helpMessage.append(chooseCardHelpMessage);
-                    }
-                    if (player.getPlayerMenu().get("start")) {
-                        helpMessage.append(startHelpMessage);
-                    }
-                    if (player.getPlayerMenu().get("move")) {
-                        helpMessage.append(moveHelpMessage);
-                    }
-                    if (player.getPlayerMenu().get("build")) {
-                        helpMessage.append(buildHelpMessage);
-                    }
-                    if (player.getPlayerMenu().get("end")) {
-                        helpMessage.append(endHelpMessage);
-                    }
-                    //TODO: atlas
-/*                    if (player.getPlayerMenu().get("dome")) {
-                        helpMessage.append(buildDomeHelpMessage);
-                    }*/
-
-                    if (helpMessage.length() == 0) {
-                        helpMessage.append("Wait you turn");
-                    }
-
-                    clientConnection.send(helpMessage.toString());
                 } else {
                     throw new IllegalArgumentException();
                 }
@@ -117,7 +69,13 @@ public class RemoteView extends View {
         ArrayList<Player> opponents = player.getSession().getPlayers();
         ArrayList<Color> players = new ArrayList<>();
         players.add(player.getColor());
-        StringBuilder opponentsMessage = new StringBuilder("Your opponents are: ");
+
+        StringBuilder opponentsMessage;
+        if(opponents.size() == 1){
+            opponentsMessage = new StringBuilder("Your opponent is: ");
+        }else {
+            opponentsMessage = new StringBuilder("Your opponents are: ");
+        }
 
 
         for (Player p : opponents) {
@@ -134,7 +92,7 @@ public class RemoteView extends View {
 
     }
 
-@Override
+    @Override
     public void update(Message message) {
         if (message instanceof ActionsUpdateMessage) {
             clientConnection.send(message);
@@ -143,6 +101,14 @@ public class RemoteView extends View {
         } else if (message instanceof BoardUpdatePlaceMessage) {
             clientConnection.send(message);
         } else if (message instanceof BoardUpdateBuildMessage) {
+            clientConnection.send(message);
+        } else if (message instanceof WinMessage) {
+            clientConnection.send(message);
+        } else if (message instanceof CardUpdateMessage) {
+            clientConnection.send(message);
+        } else if (message instanceof DeckUpdateMessage) {
+            clientConnection.send(message);
+        }else if(message instanceof LostMessage){
             clientConnection.send(message);
         } else {
             System.err.println("Malformed message: " + message.toString());

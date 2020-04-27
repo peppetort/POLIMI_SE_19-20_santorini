@@ -46,7 +46,6 @@ public class ClientBoard {
     }
 
     private final Box[][] board = new Box[5][5];
-    private final Color player;
 
     HashMap<Color, Box[]> playersLatestBoxes = new HashMap<>();
 
@@ -57,12 +56,18 @@ public class ClientBoard {
             }
         }
 
-        this.player = players.get(0);
-
         for (Color p : players) {
             playersLatestBoxes.put(p, new Box[2]);
         }
 
+        print();
+    }
+
+    public void lose(Color player) {
+        Box[] workers = playersLatestBoxes.get(player);
+        workers[0].clear();
+        workers[1].clear();
+        playersLatestBoxes.remove(player);
     }
 
     public void placePlayer(int x, int y, Color player, int worker) {
@@ -87,10 +92,7 @@ public class ClientBoard {
             playersLatestBoxes.replace(player, newArray);
         }
 
-
-        if (worker1 != null && worker2 != null) {
-            print();
-        }
+        print();
     }
 
     public void setLevel(int x, int y, int level) {

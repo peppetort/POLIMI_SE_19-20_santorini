@@ -150,7 +150,7 @@ public class Player extends Observable<Message> {
                 winAction = new DefaultWin(this);
                 moveAction = new DefaultMove(this);
                 buildAction = new AtlasBuild(this);
-                turn = new AtlasTurn(this);
+                turn = new DefaultTurn(this);
                 break;
             case MINOTAUR:
                 winAction = new DefaultWin(this);

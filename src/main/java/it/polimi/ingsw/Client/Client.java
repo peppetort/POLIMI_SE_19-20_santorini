@@ -55,10 +55,10 @@ public class Client {
                     } else if (inputObject instanceof ActionsUpdateMessage) {
                         ArrayList<String> actions = ((ActionsUpdateMessage) inputObject).getActions();
                         status.updateAction(actions);
-                    } else if (inputObject instanceof CardUpdateMessage){
+                    } else if (inputObject instanceof CardUpdateMessage) {
                         God card = ((CardUpdateMessage) inputObject).getCard();
                         status.setCard(card);
-                    }else if (inputObject instanceof BoardUpdatePlaceMessage) {
+                    } else if (inputObject instanceof BoardUpdatePlaceMessage) {
                         int x = ((BoardUpdatePlaceMessage) inputObject).getX();
                         int y = ((BoardUpdatePlaceMessage) inputObject).getY();
                         Color player = ((BoardUpdatePlaceMessage) inputObject).getPlayer();
@@ -69,6 +69,17 @@ public class Client {
                         int y = ((BoardUpdateBuildMessage) inputObject).getY();
                         int level = ((BoardUpdateBuildMessage) inputObject).getLevel();
                         board.setLevel(x, y, level);
+                    }else if(inputObject instanceof WinMessage){
+                        String winUser = ((WinMessage) inputObject).getUsername();
+                        status.setWinner(winUser);
+                    }else if (inputObject instanceof LostMessage){
+                        String loser = ((LostMessage) inputObject).getUsername();
+                        Color loserColor = ((LostMessage) inputObject).getColor();
+                        status.lose(loser);
+                        board.lose(loserColor);
+                    }else if(inputObject instanceof DeckUpdateMessage){
+                        ArrayList<God> deck = ((DeckUpdateMessage) inputObject).getDeck();
+                        status.updateDeck(deck);
                     }
                 }
             } catch (Exception e) {
@@ -98,7 +109,6 @@ public class Client {
 
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
-        System.out.println("Connection established");
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);

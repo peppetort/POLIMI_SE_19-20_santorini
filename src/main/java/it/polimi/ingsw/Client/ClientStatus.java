@@ -11,6 +11,8 @@ public class ClientStatus {
     private final Color color;
     private String turn;
     private ArrayList<String> actions;
+    private final ArrayList<String> messages = new ArrayList<>();
+    private ArrayList<God> deck;
 
     private final String lengthMarker = "-";
     private final String widthMarker = "+";
@@ -29,22 +31,63 @@ public class ClientStatus {
     }
 
     public synchronized void setCard(God card) {
-        if(card == null) {
+        if(card != null) {
             this.card = card.toString();
+            deck = null;
         }
+    }
+
+    public synchronized void updateDeck(ArrayList<God> deck){
+        this.deck = deck;
     }
 
     public synchronized void updateTurn(String player){
         this.turn = player;
+
         if(!turn.equals(username)){
+            messages.clear();
+            messages.add("Wait your turn");
             print();
+        }else {
+            messages.clear();
         }
+    }
+
+    public synchronized void setWinner(String username){
+        this.turn = null;
+        this.actions = null;
+
+        messages.clear();
+        if(username.equals(this.username)){
+            messages.add("YOU WIN :)");
+        }else {
+            messages.add("YOU LOSE :(");
+        }
+
+        print();
+    }
+
+    public synchronized void lose(String username){
+        if(username.equals(this.username)){
+            this.actions = null;
+            messages.clear();
+            messages.add("YOU LOSE :(");
+            print();
+        }else {
+            System.out.print(username + " lost");
+        }
+
     }
 
     public synchronized void updateAction(ArrayList<String> actions){
         this.actions = actions;
-        if(turn != null && turn.equals(username)){
-            print();
+
+        print();
+
+        if(actions.get(0).equals("deck")){
+            printAllCards();
+        }else if(actions.get(0).equals("card")){
+            printDeck();
         }
     }
 
@@ -75,7 +118,7 @@ public class ClientStatus {
 
     }
 
-    private synchronized void printMessages(int length, ArrayList<String> messages){
+    private synchronized void printMessages(int length){
         String messagesLabel = "MESSAGES";
         String bodyFormat;
 
@@ -100,11 +143,99 @@ public class ClientStatus {
         System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
     }
 
+    public synchronized void printAllCards(){
+        String title = "ALL CARDS";
+        String menuFormat;
+        String bodyFormat;
+
+        int maxLength = 8;
+
+        menuFormat = "%-";
+        menuFormat += Integer.toString(5 + maxLength / 2);
+        menuFormat += "s%s%";
+        menuFormat += Integer.toString(5 + maxLength / 2);
+        menuFormat += "s%n";
+
+        int length = maxLength / 2 + maxLength / 2 + title.length() + 6;
+
+        System.out.print(widthMarker + " ");
+        for (int i = 0; i < length; i++) {
+            System.out.print(lengthMarker);
+        }
+        System.out.print(" " + widthMarker);
+        System.out.print("\n");
+
+        System.out.printf(menuFormat, widthMarker, title, widthMarker);
+
+        System.out.print(widthMarker + " ");
+        for (int i = 0; i < length; i++) {
+            System.out.print(lengthMarker);
+        }
+        System.out.print(" " + widthMarker);
+        System.out.print("\n");
+
+        for(God g: God.values()){
+            String name = g.name();
+            bodyFormat = "%-3s%s%" + (length + 3 - name.length() - 2) + "s%n";
+            System.out.printf(bodyFormat, widthMarker, name, widthMarker);
+        }
+
+        System.out.print(widthMarker + " ");
+        for (int i = 0; i < length; i++) {
+            System.out.print(lengthMarker);
+        }
+        System.out.print(" " + widthMarker);
+        System.out.print("\n");
+    }
+
+    public synchronized void printDeck(){
+        String title = "AVAILABLE CARDS";
+        String menuFormat;
+        String bodyFormat;
+
+        int maxLength = 8;
+
+        menuFormat = "%-";
+        menuFormat += Integer.toString(5 + maxLength / 2);
+        menuFormat += "s%s%";
+        menuFormat += Integer.toString(5 + maxLength / 2);
+        menuFormat += "s%n";
+
+        int length = maxLength / 2 + maxLength / 2 + title.length() + 6;
+
+        System.out.print(widthMarker + " ");
+        for (int i = 0; i < length; i++) {
+            System.out.print(lengthMarker);
+        }
+        System.out.print(" " + widthMarker);
+        System.out.print("\n");
+
+        System.out.printf(menuFormat, widthMarker, title, widthMarker);
+
+        System.out.print(widthMarker + " ");
+        for (int i = 0; i < length; i++) {
+            System.out.print(lengthMarker);
+        }
+        System.out.print(" " + widthMarker);
+        System.out.print("\n");
+
+        for(God name: deck){
+            bodyFormat = "%-3s%s%" + (length + 3 - name.name().length() - 2) + "s%n";
+            System.out.printf(bodyFormat, widthMarker, name, widthMarker);
+        }
+
+        System.out.print(widthMarker + " ");
+        for (int i = 0; i < length; i++) {
+            System.out.print(lengthMarker);
+        }
+        System.out.print(" " + widthMarker);
+        System.out.print("\n");
+    }
+
     public synchronized void print(){
         String title = "STATUS";
         String menuFormat;
         String bodyFormat;
-        ArrayList<String> messages = new ArrayList<>();
 
         StringBuilder usernameLabel = new StringBuilder("Username: ").append(this.username);
         StringBuilder colorLabel = new StringBuilder("Color: ").append(this.color);
@@ -184,16 +315,12 @@ public class ClientStatus {
         }
         System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
 
-        if(turn.equals(username) && actions!=null) {
+        if(turn != null && turn.equals(username) && actions!=null) {
             printActions(length);
         }
 
-        if(!turn.equals(username)) {
-            messages.add("Wait yuor turn");
-        }
-
         if(messages.size() != 0) {
-            printMessages(length, messages);
+            printMessages(length);
         }
 
         System.out.print(widthMarker + " ");

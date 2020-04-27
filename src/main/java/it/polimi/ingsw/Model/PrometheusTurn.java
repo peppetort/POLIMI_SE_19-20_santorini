@@ -54,9 +54,15 @@ public class PrometheusTurn extends DefaultTurn {
         if (running) { // controlla che il turno non è stato già iniziato
             throw new RuntimeException("Already start!");
         }
-        if (!worker.canMove(canGoUp) && !otherWorker.canMove(canGoUp)) { //controlla che il giocatore ha almeno una possibilità di muoversi
+        boolean canMoveSelected = worker.canMove(canGoUp);
+        boolean canMoveOther = otherWorker.canMove(canGoUp);
+
+        if(!canMoveSelected && !canMoveOther){
             throw new PlayerLostException("Your workers cannot make any moves!");
+        }else if(!canMoveSelected){
+            throw new RuntimeException("Selected worker cannot make any moves");
         }
+
         running = true;
         this.worker = worker;
         canMove = true; // abilita la mossa

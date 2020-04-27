@@ -51,80 +51,89 @@ public class Controller extends Observable<Message> implements Observer<Message>
         HashMap<String, Boolean> playerMenu;
         HashMap<String, Boolean> nextPlayerMenu;
 
-        ActionsUpdateMessage message = new ActionsUpdateMessage();
+        //Unico giocatore rimasto vince
+        if (outcome.size() == 1) {
+            outcome.replaceAll((key, value) -> true);
 
-        for (Player player : playersList) {
-            if (turn.get(player)) {
-                playerMenu = player.getPlayerMenu();
-                nextPlayerIndex = (playersList.indexOf(player) + 1) % (playersList.size());
-                nextPlayer = playersList.get(nextPlayerIndex);
-                nextPlayerMenu = nextPlayer.getPlayerMenu();
+            Player winner = playersList.get(0);
 
-                TurnUpdateMessage turnMessage = new TurnUpdateMessage(nextPlayer.getUsername());
-                for(Player p: playersList){
-                    p.notify(turnMessage);
-                }
+            WinMessage winMessage = new WinMessage(winner.getUsername());
+            notify(winMessage);
+        }else {
 
-                //Finito il giro
-                if (nextPlayerIndex == 1) {
-                    if (playerMenu.get("buildDeck")) {
-                        playerMenu.replace("buildDeck", false);
-                        nextPlayerMenu.replace("chooseCard", true);
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
 
-                        message.addAction("card");
-                        nextPlayer.notify(message);
-                    } else if (playerMenu.get("chooseCard")) {
-                        playerMenu.replace("chooseCard", false);
-                        nextPlayerMenu.replace("placePawns", true);
+            for (Player player : playersList) {
+                if (turn.get(player)) {
+                    playerMenu = player.getPlayerMenu();
+                    nextPlayerIndex = (playersList.indexOf(player) + 1) % (playersList.size());
+                    nextPlayer = playersList.get(nextPlayerIndex);
+                    nextPlayerMenu = nextPlayer.getPlayerMenu();
 
-                        message.addAction("place");
-                        nextPlayer.notify(message);
-                    } else if (playerMenu.get("placePawns")) {
-                        playerMenu.replace("placePawns", false);
-                        nextPlayerMenu.replace("start", true);
+                    //Altri giocatori hanno perso -> il rimanente vince
+                    if (playersList.size() == loosingPlayers + 1 && outcome.get(nextPlayer) == null) {
+                        outcome.replace(nextPlayer, true);
 
-                        message.addAction("start");
-                        nextPlayer.notify(message);
-                    } else {
-                        nextPlayerMenu.replace("start", true);
+                        WinMessage winMessage = new WinMessage(nextPlayer.getUsername());
+                        notify(winMessage);
 
-                        message.addAction("start");
-                        nextPlayer.notify(message);
+                    }else {
+
+                        TurnUpdateMessage turnMessage = new TurnUpdateMessage(nextPlayer.getUsername());
+                        notify(turnMessage);
+
+                        //Finito il giro
+                        if (nextPlayerIndex == 1) {
+                            if (playerMenu.get("buildDeck")) {
+                                playerMenu.replace("buildDeck", false);
+                                nextPlayerMenu.replace("chooseCard", true);
+
+                                message.addAction("card");
+                                nextPlayer.notify(message);
+                            } else if (playerMenu.get("chooseCard")) {
+                                playerMenu.replace("chooseCard", false);
+                                nextPlayerMenu.replace("placePawns", true);
+
+                                message.addAction("place");
+                                nextPlayer.notify(message);
+                            } else if (playerMenu.get("placePawns")) {
+                                playerMenu.replace("placePawns", false);
+                                nextPlayerMenu.replace("start", true);
+
+                                message.addAction("start");
+                                nextPlayer.notify(message);
+                            } else {
+                                nextPlayerMenu.replace("start", true);
+
+                                message.addAction("start");
+                                nextPlayer.notify(message);
+                            }
+                        } else {
+                            if (playerMenu.get("chooseCard")) {
+                                playerMenu.replace("chooseCard", false);
+                                nextPlayerMenu.replace("chooseCard", true);
+
+                                message.addAction("card");
+                                nextPlayer.notify(message);
+                            } else if (playerMenu.get("placePawns")) {
+                                playerMenu.replace("placePawns", false);
+                                nextPlayerMenu.replace("placePawns", true);
+
+                                message.addAction("place");
+                                nextPlayer.notify(message);
+                            } else {
+                                nextPlayerMenu.replace("start", true);
+
+                                message.addAction("start");
+                                nextPlayer.notify(message);
+                            }
+                        }
+
+                        turn.replace(player, false);
+                        turn.replace(nextPlayer, true);
+                        break;
                     }
-                } else {
-                    if (playerMenu.get("chooseCard")) {
-                        playerMenu.replace("chooseCard", false);
-                        nextPlayerMenu.replace("chooseCard", true);
-
-                        message.addAction("card");
-                        nextPlayer.notify(message);
-                    } else if (playerMenu.get("placePawns")) {
-                        playerMenu.replace("placePawns", false);
-                        nextPlayerMenu.replace("placePawns", true);
-
-                        message.addAction("place");
-                        nextPlayer.notify(message);
-                    } else {
-                        nextPlayerMenu.replace("start", true);
-
-                        message.addAction("start");
-                        nextPlayer.notify(message);
-                    }
                 }
-
-                //Altri giocatori hanno perso -> il rimanente vince
-                if (playersList.size() == loosingPlayers + 1 && outcome.get(nextPlayer) == null) {
-                    outcome.replace(nextPlayer, true);
-                }
-
-                turn.replace(player, false);
-                turn.replace(nextPlayer, true);
-                break;
-            }
-
-            //Unico giocatore rimasto vince
-            if (outcome.size() == 1) {
-                outcome.replaceAll((key, value) -> true);
             }
         }
     }
@@ -142,7 +151,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     //Actions
-    private void performStart(PlayerStartMessage message) {
+    private void performStart(PlayerStartMessage message) throws RuntimeException {
         Player player = message.getPlayer();
         Worker worker = message.getWorker();
 
@@ -157,9 +166,11 @@ public class Controller extends Observable<Message> implements Observer<Message>
             } catch (PlayerLostException e1) {
                 outcome.replace(player, false);
                 loosingPlayers++;
+
+                LostMessage lostMessage = new LostMessage(player.getUsername(), player.getColor());
+                notify(lostMessage);
+
                 updateTurn();
-            } catch (RuntimeException e2) {
-                e2.printStackTrace();
             }
         }
 
@@ -177,6 +188,12 @@ public class Controller extends Observable<Message> implements Observer<Message>
                 outcome.replaceAll((key, value) -> false);
                 outcome.replace(player, true);
                 loosingPlayers = playersList.size() - 1;
+
+                WinMessage winMessage = new WinMessage(player.getUsername());
+
+                for (Player p: playersList){
+                    p.notify(winMessage);
+                }
             }
         }
     }
@@ -198,8 +215,10 @@ public class Controller extends Observable<Message> implements Observer<Message>
         int x = message.getX();
         int y = message.getY();
 
-        if (turn.get(player) && player.getPlayerMenu().get("build") && outcome.get(player) == null ) {
-            playerTurn.buildDome(x, y);
+        if(player.getCard().getName().equals(God.ATLAS)) {
+            if (turn.get(player) && player.getPlayerMenu().get("build") && outcome.get(player) == null) {
+                playerTurn.buildDome(x, y);
+            }
         }
     }
 
@@ -216,15 +235,19 @@ public class Controller extends Observable<Message> implements Observer<Message>
     private void performDeckBuilding(PlayerDeckMessage message) {
         Player player = message.getPlayer();
         Set<String> sCards = message.getCards();
+        ArrayList<God> deck = new ArrayList<>();
 
         if (turn.get(player) && player.getPlayerMenu().get("buildDeck") && player.equals(playersList.get(0))) {
             if (sCards.size() == playersList.size()) {
                 try {
                     for (String c : sCards) {
                         Card card = new Card(God.valueOf(c));
+                        deck.add(God.valueOf(c));
                         cards.add(card);
                     }
                     game.addCards(cards);
+                    DeckUpdateMessage deckMessage = new DeckUpdateMessage(deck);
+                    notify(deckMessage);
                     updateTurn();
                 } catch (SimpleGameException e1) {
                     e1.printStackTrace();
@@ -240,6 +263,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     private void performCardChoice(PlayerCardChoiceMessage message) throws NullPointerException, IllegalArgumentException {
         Player player = message.getPlayer();
         String cardName = message.getCard();
+        ArrayList<God> deck = new ArrayList<>();
 
         if (player.getPlayerMenu().get("chooseCard") && turn.get(player)) {
             try {
@@ -251,6 +275,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
                 }
                 player.setCard(card);
                 cards.remove(card);
+
+                for (Card c: cards){
+                    deck.add(c.getName());
+                }
+                DeckUpdateMessage deckMessage = new DeckUpdateMessage(deck);
+                notify(deckMessage);
+
                 updateTurn();
             } catch (SimpleGameException | CardAlreadySetException e1) {
                 e1.printStackTrace();
