@@ -53,7 +53,9 @@ public abstract class View extends Observable<Message> implements Observer<Messa
     public void handleBuild(int row, int column) {
         notify(new PlayerBuildMessage(player, row, column));
     }
-
+    public void handleBuildDome(int row, int column) {
+        notify(new PlayerBuildDomeMessage(player, row, column));
+    }
     public void handlePlacing(int x1, int y1, int x2, int y2) {
         notify(new PlayerPlacePawnsMessage(player, x1, y1, x2, y2));
     }

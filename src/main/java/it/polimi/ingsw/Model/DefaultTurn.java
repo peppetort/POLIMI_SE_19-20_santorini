@@ -107,6 +107,24 @@ public class DefaultTurn implements Turn {
         player.notify(message);
 
     }
+    public void buildDome(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
+        if (!running) {
+            throw new TurnNotStartedException("Turn not started!");
+        }
+        if (!canBuild) {
+            throw new RuntimeException("You can't build!");
+        }
+        //throw new RuntimeException("You can't build a dome!");
+        buildAction.buildDome(worker, x, y);
+        canBuild = false;
+        playerMenu.replace("build", false);
+        playerMenu.replace("end", true);
+
+        ActionsUpdateMessage message = new ActionsUpdateMessage();
+        message.addAction("end");
+        player.notify(message);
+    }
+
 
     @Override
     public boolean won() {

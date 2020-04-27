@@ -192,6 +192,17 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
     }
 
+    private void performBuildDome(PlayerBuildDomeMessage message) throws RuntimeException {
+        Player player = message.getPlayer();
+        Turn playerTurn = player.getTurn();
+        int x = message.getX();
+        int y = message.getY();
+
+        if (turn.get(player) && player.getPlayerMenu().get("build") && outcome.get(player) == null ) {
+            playerTurn.buildDome(x, y);
+        }
+    }
+
     private void performEnd(PlayerEndMessage message) throws RuntimeException {
         Player player = message.getPlayer();
         Turn playerTurn = player.getTurn();
@@ -325,6 +336,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
         if (message instanceof PlayerPlacePawnsMessage) {
             performPawnPositioning((PlayerPlacePawnsMessage) message);
+        }
+        if (message instanceof PlayerBuildDomeMessage) {
+            performBuildDome((PlayerBuildDomeMessage) message);
         }
     }
 }

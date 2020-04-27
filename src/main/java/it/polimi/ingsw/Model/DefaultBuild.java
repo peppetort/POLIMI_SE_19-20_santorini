@@ -19,6 +19,32 @@ public class DefaultBuild implements Build {
         this.board = player.getSession().getBoard();
     }
 
+    @Override
+    public void buildDome(Worker worker, int x, int y) {
+        Box box = board.getBox(x, y);
+        Block block;
+        int wX, wY;
+        wX = worker.getXPos();
+        wY = worker.getYPos();
+        if (x > wX + 1 || x < wX - 1 || y > wY + 1 || y < wY - 1) {
+            throw new InvalidBuildException("Build too far from the worker position!");
+        }else if(x == wX && y == wY) {
+            throw new InvalidBuildException("Invalid build!");
+        }else if(!box.isFree()){
+            throw new InvalidBuildException("Can't build here! There is a worker");
+        } else {
+            switch (box.getBlock()) {
+
+                case LTHREE:
+                    block = Block.DOME;
+                    break;
+                default:
+                    throw new InvalidBuildException("You can't build a dome here!");
+            }
+            board.build(x, y, block);
+        }
+    }
+
     /**
      *
      * @param worker the {@link Worker} that builds
@@ -28,6 +54,7 @@ public class DefaultBuild implements Build {
      * @throws InvalidBuildException if I try to build over a dome.
      * @throws InvalidBuildException if I try to build over a pawn.
      */
+
     @Override
     public void build(Worker worker, int x, int y) throws IndexOutOfBoundsException, NullPointerException {
 

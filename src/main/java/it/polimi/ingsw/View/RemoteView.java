@@ -2,6 +2,7 @@ package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Color;
+import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Server.ClientConnection;
@@ -33,7 +34,20 @@ public class RemoteView extends View {
                 } else if (inputs[0].compareTo("MOVE") == 0) {
                     handleMove(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
                 } else if (inputs[0].compareTo("BUILD") == 0) {
-                    handleBuild(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
+                   // if(player.getCard().getName().equals(God.ATLAS)) {
+                        try {
+                            if (inputs[3].compareTo("DOME") == 0) {
+                                handleBuildDome(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
+                            }
+                        } catch (IndexOutOfBoundsException e) {
+                            handleBuild(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
+                        }
+                   // }
+                /*else{
+                        System.out.print(player.getCard().getName());
+                        handleBuild(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
+                    }*/
+
                 } else if (inputs[0].compareTo("END") == 0) {
                     handleEnd();
                 } else if (inputs[0].compareTo("START") == 0) {
