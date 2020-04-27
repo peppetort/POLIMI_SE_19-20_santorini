@@ -229,29 +229,7 @@ public class MinotaurMoveTest {
         assertEquals((int)workerPlayer2.getYPos(), 4);
 
     }
-    @Test
-    public void moveMinotaur10(){
-        Board board = new Board();
-        Game game = new Game("Pippo", "Pluto", board, false);
-        Player player1 = game.getPlayers().get(0);
-        Player player2 = game.getPlayers().get(1);
-        Worker workerPlayer1 = player1.getWorker1();
-        Worker workerPlayer2 = player2.getWorker1();
-        Box myBox = board.getBox(2,2);
-        Box otherBox = board.getBox(2,1);
-        myBox.setPawn(workerPlayer1);
-        otherBox.setPawn(workerPlayer2);
-        workerPlayer1.setPos(2,2);
-        workerPlayer2.setPos(2,1);
-        Move moveAction = new MinotaurMove(player1);
-        moveAction.move(workerPlayer1, 2,1);
-        assertEquals(otherBox.getPawn(), workerPlayer1);
-        assertEquals(board.getBox(2,0).getPawn(), workerPlayer2);
-        assertTrue(myBox.isFree());
-        assertEquals((int)workerPlayer1.getYPos(), 1);
-        assertEquals((int)workerPlayer2.getYPos(), 0);
 
-    }
 
     @Test(expected = InvalidMoveException.class)
     public void moveMinotaurCantBackAwayOutOfBoard(){
