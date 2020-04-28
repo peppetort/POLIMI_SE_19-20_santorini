@@ -13,6 +13,8 @@ public class PrometheusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         board.build(0,1,Block.LONE);
         Turn turn = new PrometheusTurn(player);
         turn.start(worker);
@@ -26,6 +28,8 @@ public class PrometheusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         Turn turn = new PrometheusTurn(player);
 
         TurnUtils util = new TurnUtils(player);
@@ -50,6 +54,8 @@ public class PrometheusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         Turn turn = new PrometheusTurn(player);
         turn.start(worker);
         turn.build(0,1);
@@ -63,6 +69,8 @@ public class PrometheusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         Turn turn = new PrometheusTurn(player);
         turn.start(worker);
         turn.move(0,1);
@@ -77,6 +85,8 @@ public class PrometheusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         Turn turn = new PrometheusTurn(player);
         player.getPlayerMenu().replace("start", true);
         turn.start(worker);

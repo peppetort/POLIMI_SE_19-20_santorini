@@ -14,6 +14,8 @@ public class HephaestusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         player.getPlayerMenu().replace("start", true);
         Turn turn = new HephaestusTurn(player);
         turn.start(worker);
@@ -32,6 +34,8 @@ public class HephaestusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         player.getPlayerMenu().replace("start", true);
         Turn turn = new HephaestusTurn(player);
         turn.start(worker);
@@ -47,6 +51,8 @@ public class HephaestusTurnTest {
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         board.placePawn(worker, 0, 0);
         board.build(0,0,Block.LTWO);
         Turn turn = new HephaestusTurn(player);
@@ -64,6 +70,8 @@ public class HephaestusTurnTest {
         Player player = session.getPlayers().get(0);
         Worker worker = player.getWorker1();
         board.placePawn(worker, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
         Turn turn = new HephaestusTurn(player);
         player.getPlayerMenu().replace("start", true);
         turn.start(worker);
