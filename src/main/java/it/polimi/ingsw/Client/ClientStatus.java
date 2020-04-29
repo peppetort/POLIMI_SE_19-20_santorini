@@ -14,6 +14,7 @@ public class ClientStatus {
     private final ArrayList<String> messages = new ArrayList<>();
     private ArrayList<God> deck;
 
+    //TODO: spsostre in calsse CLI
     private final String lengthMarker = "-";
     private final String widthMarker = "+";
 
@@ -35,6 +36,7 @@ public class ClientStatus {
             this.card = card.toString();
             deck = null;
         }
+        //TODO: notify()
     }
 
     public synchronized void updateDeck(ArrayList<God> deck){
@@ -91,6 +93,8 @@ public class ClientStatus {
         }
     }
 
+
+    //TODO: spostare in una classe CLI
     private synchronized void printActions(int length) {
 
         String actionsLabel = "ACTION";
@@ -118,6 +122,7 @@ public class ClientStatus {
 
     }
 
+    //TODO: spostare in una classe CLI
     private synchronized void printMessages(int length){
         String messagesLabel = "MESSAGES";
         String bodyFormat;
@@ -143,6 +148,7 @@ public class ClientStatus {
         System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
     }
 
+    //TODO: sposatre in una classe CLI
     public synchronized void printAllCards(){
         String title = "ALL CARDS";
         String menuFormat;
@@ -188,6 +194,7 @@ public class ClientStatus {
         System.out.print("\n");
     }
 
+    //TODO: spostare in una classe CLI
     public synchronized void printDeck(){
         String title = "AVAILABLE CARDS";
         String menuFormat;
@@ -232,6 +239,7 @@ public class ClientStatus {
         System.out.print("\n");
     }
 
+    //TODO: spostare in classe CLI
     public synchronized void print(){
         String title = "STATUS";
         String menuFormat;

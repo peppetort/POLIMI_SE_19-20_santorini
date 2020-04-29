@@ -173,7 +173,7 @@ public class ControllerTest {
 
         assertNull(game.getBoard().getBox(0, 0).getPawn());
         assertNull(game.getBoard().getBox(1, 1).getPawn());
-        assertTrue(controller.getTurn().get(player1));
+        //assertTrue(controller.getTurn().get(player1));
         assertEquals(controller.getTurn().size(), 1);
         assertEquals(controller.getTurn().size(), 1);
         assertEquals(game.getPlayers().size(), 1);

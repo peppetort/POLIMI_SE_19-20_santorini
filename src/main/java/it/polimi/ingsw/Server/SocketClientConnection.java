@@ -85,6 +85,11 @@ public class SocketClientConnection extends Observable<String> implements Client
         String read;
         int status = 0;
 
+
+        //TODO: creare messaggio di creazione partita
+        //TODO: creare messaggio di partecipazione a partita
+
+        //TODO: spostare in CLI
         try {
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());

@@ -19,6 +19,7 @@ public class DefaultBuild implements Build {
         this.board = player.getSession().getBoard();
     }
 
+    //TODO: eliminare
     @Override
     public void buildDome(Worker worker, int x, int y) {
         Box box = board.getBox(x, y);

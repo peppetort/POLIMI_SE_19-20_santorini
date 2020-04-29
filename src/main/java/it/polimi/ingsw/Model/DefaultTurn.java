@@ -114,6 +114,7 @@ public class DefaultTurn implements Turn {
 
     }
 
+    @Override
     public void buildDome(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         if (!running) {
             throw new TurnNotStartedException("Turn not started!");

@@ -222,6 +222,8 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
     }
 
+    //TODO: trovare modo per settare timer a 5s
+
     private void performEnd(PlayerEndMessage message) throws RuntimeException {
         Player player = message.getPlayer();
         Turn playerTurn = player.getTurn();
@@ -371,5 +373,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         if (message instanceof PlayerBuildDomeMessage) {
             performBuildDome((PlayerBuildDomeMessage) message);
         }
+
+        //TODO: messaggio di UNDO
     }
 }

@@ -73,6 +73,8 @@ public class ClientBoard {
     public void placePlayer(int x, int y, Color player, int worker) {
         board[x][y].setPlayer(player, worker);
 
+        //TODO: rivedere nel caso di Apollo
+
         Box worker1 = playersLatestBoxes.get(player)[0];
         Box worker2 = playersLatestBoxes.get(player)[1];
 
@@ -101,6 +103,7 @@ public class ClientBoard {
     }
 
 
+    //TODO: creare una classe CLI e spostare lì
     public void print() {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";

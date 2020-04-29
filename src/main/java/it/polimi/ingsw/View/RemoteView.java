@@ -52,6 +52,8 @@ public class RemoteView extends View {
                 } else {
                     throw new IllegalArgumentException();
                 }
+
+                //TODO: intercettare comando di UNDO
             } catch (IllegalArgumentException e) {
                 clientConnection.send("Input Error! Please try again");
             } catch (Exception e) {
@@ -94,6 +96,8 @@ public class RemoteView extends View {
 
     @Override
     public void update(Message message) {
+        //TODO: intercettare UNDO
+
         if (message instanceof ActionsUpdateMessage) {
             clientConnection.send(message);
         } else if (message instanceof TurnUpdateMessage) {

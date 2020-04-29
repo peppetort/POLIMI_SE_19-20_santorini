@@ -42,13 +42,14 @@ public class Client {
                     Object inputObject = socketIn.readObject();
 
 
-                    if (inputObject instanceof String) {
-                        System.out.println((String) inputObject);
+                    if (inputObject instanceof Exception) {
+                        System.out.println(((Exception) inputObject).getMessage());
                     } else if (inputObject instanceof ClientInitMessage) {
                         String username = ((ClientInitMessage) inputObject).getUsername();
                         ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();
                         status = new ClientStatus(username, players.get(0));
                         board = new ClientBoard(players);
+                        //TODO: inserire observer tra cli e board e tra cli e status
                     } else if (inputObject instanceof TurnUpdateMessage) {
                         String username = ((TurnUpdateMessage) inputObject).getUsername();
                         status.updateTurn(username);

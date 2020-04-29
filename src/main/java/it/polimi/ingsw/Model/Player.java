@@ -23,6 +23,7 @@ public class Player extends Observable<Message> {
     private Card card;
     private Turn turn;
 
+    //TODO: mettere riferimento a stato salvato per UNDO
 
     public Color getColor() {
         return color;
