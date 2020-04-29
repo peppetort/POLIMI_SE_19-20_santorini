@@ -123,7 +123,7 @@ public class DefaultTurn implements Turn {
             throw new RuntimeException("You can't build!");
         }
         //throw new RuntimeException("You can't build a dome!");
-        buildAction.buildDome(worker, x, y);
+        ((AtlasBuild) buildAction).buildDome(worker, x, y);
         canBuild = false;
         playerMenu.replace("build", false);
         playerMenu.replace("end", true);

@@ -20,5 +20,4 @@ public interface Build {
      * @throws InvalidBuildException if I try to build over a pawn.
      */
     void build(Worker worker, int x, int y);
-    void buildDome(Worker worker, int x, int y);
 }

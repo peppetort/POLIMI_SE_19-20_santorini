@@ -41,6 +41,10 @@ public class Client {
                 while (isActive()) {
                     Object inputObject = socketIn.readObject();
 
+                    //TODO: eliminare una volta creata la CLI
+                    if(inputObject instanceof String){
+                        System.out.println(inputObject);
+                    }
 
                     if (inputObject instanceof Exception) {
                         System.out.println(((Exception) inputObject).getMessage());

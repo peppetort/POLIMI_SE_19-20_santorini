@@ -73,20 +73,18 @@ public class ClientBoard {
     public void placePlayer(int x, int y, Color player, int worker) {
         board[x][y].setPlayer(player, worker);
 
-        //TODO: rivedere nel caso di Apollo
-
         Box worker1 = playersLatestBoxes.get(player)[0];
         Box worker2 = playersLatestBoxes.get(player)[1];
 
         if (worker == 1) {
-            if (worker1 != null) {
+            if (worker1 != null && worker1.getPlayer().equals(player)) {
                 worker1.clear();
             }
             worker1 = board[x][y];
             Box[] newArray = {worker1, worker2};
             playersLatestBoxes.replace(player, newArray);
         } else if (worker == 2) {
-            if (worker2 != null) {
+            if (worker2 != null && worker2.getPlayer().equals(player)) {
                 worker2.clear();
             }
             worker2 = board[x][y];
