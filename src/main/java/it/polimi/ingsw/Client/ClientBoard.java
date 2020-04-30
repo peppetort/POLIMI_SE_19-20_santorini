@@ -99,6 +99,11 @@ public class ClientBoard {
         board[x][y].setLevel(level);
         print();
     }
+    public void restore(int x,int y,Integer worker,Color player,int level)
+    {
+        //ristabilisce il livello della costruzione a quello dell'inizio del turno
+        board[x][y].setLevel(level);
+    }
 
 
     //TODO: creare una classe CLI e spostare lì

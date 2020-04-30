@@ -11,4 +11,5 @@ public interface Turn {
     void buildDome(int x, int y);
 
     boolean won();
+    void undo();
 }

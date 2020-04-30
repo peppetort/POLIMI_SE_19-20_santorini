@@ -50,6 +50,12 @@ public class DefaultMove implements Move {
         } else if (!workerBox.compare(nextBox)) {
             throw new InvalidMoveException("Level in box " + x + " " + y + "is too high!");
         } else {
+            //salvataggio stato delle celle
+            //posizione iniziale della pedina
+            board.addAction(worker,wX,wY,workerBox.getBlock());
+            //stato della cella dove la pedina viene spostata
+            board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
+
             board.placePawn(worker, x, y);
             workerBox.removePawn();  //rimuovo pedina dalla vecchia pos
             worker.updateLastBox(workerBox); // aggiorno l'ultima box nel worker

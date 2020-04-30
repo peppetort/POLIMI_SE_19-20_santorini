@@ -55,14 +55,13 @@ public class DefaultTurn implements Turn {
         }else if(!canMoveSelected){
             throw new RuntimeException("Selected worker cannot make any moves");
         }
-
+        board.removeAction();
         running = true;
         this.worker = worker;
         canMove = true; // abilita la mossa
         canBuild = false;
         playerMenu.replace("start", false);
         playerMenu.replace("move", true);
-
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction("move");
         player.notify(message);
@@ -153,4 +152,24 @@ public class DefaultTurn implements Turn {
         playerMenu.replace("end", false);
     }
 
+    //azione che ristabilisce la condizione all'inizio del turno della board
+    //inizializzazione del turno a start, il turno ricomincia
+    public void undo()
+    {
+        board.restore();
+        playerMenu.replace("buildDeck", false);
+        playerMenu.replace("chooseCard", false);
+        playerMenu.replace("placePawns", false);
+        playerMenu.replace("start", true);
+        playerMenu.replace("move", false);
+        playerMenu.replace("build", false);
+        playerMenu.replace("end", false);
+        this.running = false;
+        this.win = false;
+
+        ActionsUpdateMessage message = new ActionsUpdateMessage();
+        message.addAction("start");
+        player.notify(message);
+    }
+    //TODO: gestione undo per le classi che ereditano da questa (solo alcune che non sono ancora state testate)
 }

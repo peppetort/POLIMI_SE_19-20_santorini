@@ -85,6 +85,18 @@ public class Client {
                     }else if(inputObject instanceof DeckUpdateMessage){
                         ArrayList<God> deck = ((DeckUpdateMessage) inputObject).getDeck();
                         status.updateDeck(deck);
+                    }else if (inputObject instanceof BoardUndoMessage) {
+                        int x = ((BoardUndoMessage) inputObject).getX();
+                        int y = ((BoardUndoMessage) inputObject).getY();
+                        Color player = ((BoardUndoMessage) inputObject).getPlayer();
+                        Integer worker = ((BoardUndoMessage) inputObject).getWorker();
+                        int level=((BoardUndoMessage) inputObject).getLevel();
+                        // ristabilisce la visione della board all'inizio del turno
+                        board.restore(x,y,worker,player,level);
+                        if(worker!=null)
+                            board.placePlayer(x, y, player, worker);
+                        else board.print();
+
                     }
                 }
             } catch (Exception e) {

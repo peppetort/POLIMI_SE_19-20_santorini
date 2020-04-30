@@ -45,6 +45,7 @@ public class AtlasBuild extends DefaultBuild {
                 case LONE:
                 case LTWO:
                 case LTHREE:
+                    board.addAction(box.getPawn(),x,y,box.getBlock());
                     board.build(x, y, Block.DOME);
                     break;
                 case DOME:

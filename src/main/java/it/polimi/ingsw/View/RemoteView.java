@@ -49,12 +49,15 @@ public class RemoteView extends View {
                     handleStart(Integer.parseInt(inputs[1]));
                 } else if (inputs[0].compareTo("PLACE") == 0) {
                     handlePlacing(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]), Integer.parseInt(inputs[3]), Integer.parseInt(inputs[4]));
-                } else {
+                } else if (inputs[0].compareTo("UNDO") == 0) {
+                    handleUndo();
+                }
+                else {
                     throw new IllegalArgumentException();
                 }
 
-                //TODO: intercettare comando di UNDO
             } catch (IllegalArgumentException e) {
+
                 clientConnection.send("Input Error! Please try again");
             } catch (Exception e) {
                 clientConnection.send(e.getMessage());
@@ -96,7 +99,6 @@ public class RemoteView extends View {
 
     @Override
     public void update(Message message) {
-        //TODO: intercettare UNDO
 
         if (message instanceof ActionsUpdateMessage) {
             clientConnection.send(message);
@@ -114,7 +116,9 @@ public class RemoteView extends View {
             clientConnection.send(message);
         }else if(message instanceof LostMessage){
             clientConnection.send(message);
-        } else {
+        } else if(message instanceof BoardUndoMessage){
+            clientConnection.send(message);
+        }else {
             System.err.println("Malformed message: " + message.toString());
         }
     }

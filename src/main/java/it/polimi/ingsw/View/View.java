@@ -59,7 +59,7 @@ public abstract class View extends Observable<Message> implements Observer<Messa
     public void handlePlacing(int x1, int y1, int x2, int y2) {
         notify(new PlayerPlacePawnsMessage(player, x1, y1, x2, y2));
     }
-
+    public void handleUndo(){notify(new PlayerUndoMessage(player));}
     public void handleEnd() {
         notify(new PlayerEndMessage(player));
     }

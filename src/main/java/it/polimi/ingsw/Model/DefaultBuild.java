@@ -62,6 +62,9 @@ public class DefaultBuild implements Build {
                 default:
                     throw new InvalidBuildException("Unexpected case!");
             }
+            //salvataggio stato della cella prima di costruirci
+            board.addAction(box.getPawn(),x,y,box.getBlock());
+
             board.build(x, y, block);
         }
     }

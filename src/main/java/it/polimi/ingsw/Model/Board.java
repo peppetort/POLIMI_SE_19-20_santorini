@@ -2,15 +2,34 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Messages.BoardUpdateBuildMessage;
 import it.polimi.ingsw.Messages.BoardUpdatePlaceMessage;
+import it.polimi.ingsw.Messages.BoardUndoMessage;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Observer.Observable;
 
+import java.util.ArrayList;
+
 public class Board extends Observable<Message> {
+    //classe privata per salvare le mosse avvenute
+    private class boxChanged
+    {
+        int x;
+        int y;
+        Worker worker;
+        Block building;
+        public boxChanged(int x,int y,Block b,Worker w)
+        {
+            this.building=b;
+            this.worker=w;
+            this.x=x;
+            this.y=y;
+        }
+    }
     /**
      * Matrix 5 x 5 that represents the field.
      */
     private final Box[][] board = new Box[5][5];
-
+    //arraylist che tiene in momoria lo stato delle celle che vengono cabiate durante la mossa
+    private ArrayList<boxChanged> action = new ArrayList<>();
 
     /**
      * Constructor which initializes each {@link Box} at TERRAIN level
@@ -76,4 +95,37 @@ public class Board extends Observable<Message> {
         BoardUpdatePlaceMessage message2 = new BoardUpdatePlaceMessage(player.getColor(), worker2Id, x2, y2);
         notify(message2);
     }
+    public void addAction(Worker w,int x,int y,Block b)
+    {
+        action.add(0,new boxChanged(x,y,b,w));
+    }
+    public void removeAction()
+    {
+        action.clear();
+    }
+
+    //metodo che fa ritornare la board all'inizio del turno
+    //notify per aggiornare il client
+    public void restore()
+    {
+           for (boxChanged b : action) {
+               Integer workerId=null;
+               Color color=null;
+               if(b.worker!=null) {
+                   workerId = Integer.parseInt(b.worker.getId().substring(b.worker.getId().length() - 1));
+                   color=b.worker.getPlayer().getColor();
+                   board[b.x][b.y].setPawn(b.worker);
+                   b.worker.setPos(b.x,b.y);
+               }
+               else
+                   board[b.x][b.y].removePawn();
+               BoardUndoMessage message = new BoardUndoMessage(color,workerId, b.x, b.y, b.building.getValue());
+               board[b.x][b.y].setBlock(b.building);
+               notify(message);
+
+           }
+           action.clear();
+
+    }
+
 }

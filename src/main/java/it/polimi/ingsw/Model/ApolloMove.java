@@ -49,8 +49,12 @@ public class ApolloMove extends DefaultMove {
             } else {
                 if (!nextBox.isFree()) {
                     Worker other = nextBox.getPawn();
-                    // Controllo se l'altra pedina è una pedina avversaria
+                    // Controllo se l'altra pedina è una pedina avversari
                     if (!other.getId().equals(player.getWorker1().getId()) && !other.getId().equals(player.getWorker2().getId())) {
+                       //salvataggio stato celle
+                        board.addAction(worker,wX,wY,workerBox.getBlock());
+                        board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
+
                         board.placePawn(other, wX, wY);         //posiziono la pedina avversaria nella mia posizione
                         other.updateLastBox(nextBox);           // aggiorno l'ultima box della pedina avversaria
                         board.placePawn(worker, x, y);          // posiziono la mia pedina nella nuova posizione
@@ -60,6 +64,10 @@ public class ApolloMove extends DefaultMove {
                         throw new InvalidMoveException("Can't place pawn here! It's your worker!");
                     }
                 } else {
+                    //salvataggio stato celle
+                    board.addAction(worker,wX,wY,workerBox.getBlock());
+                    board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
+
                     board.placePawn(worker, x, y);
                     workerBox.removePawn();                     // rimuovo pedina dalla vecchia pos
                     worker.updateLastBox(workerBox);            // aggiorno l'ultima box nel worker
