@@ -4,6 +4,7 @@ package it.polimi.ingsw.Client;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
+import it.polimi.ingsw.Observer.Observable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,12 +14,13 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Client {
+public class Client extends Observable {
 
     private final String ip;
     private final int port;
     private ClientBoard board;
     private ClientStatus status;
+    private CLI cli;
 
     public Client(String ip, int port) {
         this.ip = ip;
@@ -38,12 +40,14 @@ public class Client {
     public Thread asyncReadFromSocket(final ObjectInputStream socketIn) {
         Thread t = new Thread(() -> {
             try {
+                cli = new CLI();
+                this.addObserver(cli);
+
                 while (isActive()) {
                     Object inputObject = socketIn.readObject();
 
-                    //TODO: eliminare una volta creata la CLI
                     if(inputObject instanceof String){
-                        System.out.println(inputObject);
+                        notify(inputObject);
                     }
 
                     if (inputObject instanceof Exception) {
@@ -53,7 +57,11 @@ public class Client {
                         ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();
                         status = new ClientStatus(username, players.get(0));
                         board = new ClientBoard(players);
-                        //TODO: inserire observer tra cli e board e tra cli e status
+                        //if arg is cli
+                        cli.setClientBoard(board);
+                        cli.setClientStatus(status);
+                        status.addObserver(cli);
+                        board.addObserver(cli);
                     } else if (inputObject instanceof TurnUpdateMessage) {
                         String username = ((TurnUpdateMessage) inputObject).getUsername();
                         status.updateTurn(username);
@@ -69,11 +77,13 @@ public class Client {
                         Color player = ((BoardUpdatePlaceMessage) inputObject).getPlayer();
                         int worker = ((BoardUpdatePlaceMessage) inputObject).getWorker();
                         board.placePlayer(x, y, player, worker);
+                       // notify(1);
                     } else if (inputObject instanceof BoardUpdateBuildMessage) {
                         int x = ((BoardUpdateBuildMessage) inputObject).getX();
                         int y = ((BoardUpdateBuildMessage) inputObject).getY();
                         int level = ((BoardUpdateBuildMessage) inputObject).getLevel();
                         board.setLevel(x, y, level);
+                       // notify(1);
                     }else if(inputObject instanceof WinMessage){
                         String winUser = ((WinMessage) inputObject).getUsername();
                         status.setWinner(winUser);
@@ -93,9 +103,11 @@ public class Client {
                         int level=((BoardUndoMessage) inputObject).getLevel();
                         // ristabilisce la visione della board all'inizio del turno
                         board.restore(x,y,worker,player,level);
-                        if(worker!=null)
+                        if(worker!=null) {
                             board.placePlayer(x, y, player, worker);
-                        else board.print();
+                            //notify(1);
+                        }
+                        else notify(1);
 
                     }
                 }
