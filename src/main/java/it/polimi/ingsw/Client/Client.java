@@ -105,7 +105,7 @@ public class Client extends Observable {
                         board.restore(x,y,worker,player,level);
                         if(worker!=null) {
                             board.placePlayer(x, y, player, worker);
-                            //notify(1);
+                            notify(1);
                         }
                         else notify(1);
 
