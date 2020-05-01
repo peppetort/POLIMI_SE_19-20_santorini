@@ -69,10 +69,11 @@ public class PrometheusTurn extends DefaultTurn {
         canBuild = false;
         playerMenu.replace("start", false);
         playerMenu.replace("move", true);
+        playerMenu.replace("undo", true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction("move");
-
+        message.addAction("undo");
         if (!worker.moveGoUp()) {
             canMove = true;
             canBuild = true;
@@ -107,7 +108,7 @@ public class PrometheusTurn extends DefaultTurn {
         playerMenu.replace("end", true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-
+        message.addAction("undo");
 
         if (!startBuild) {
             startBuild = true;

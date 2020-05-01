@@ -66,6 +66,7 @@ public class Player extends Observable<Message> {
         playerMenu.put("move", false);
         playerMenu.put("build", false);
         playerMenu.put("end", false);
+        playerMenu.put("undo", false);
 
 
         //Modalità di gioco senza carte

@@ -29,7 +29,8 @@ public class AthenaTurn extends DefaultTurn {
         win = winAction.winChecker();
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("move");
+        message.addAction("build");
+        message.addAction("undo");
         player.notify(message);
 
         //se la box su cui mi sono mosso ha una costruzione > di

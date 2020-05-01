@@ -62,8 +62,10 @@ public class DefaultTurn implements Turn {
         canBuild = false;
         playerMenu.replace("start", false);
         playerMenu.replace("move", true);
+        playerMenu.replace("undo", true);
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction("move");
+        message.addAction("undo");
         player.notify(message);
 
     }
@@ -88,6 +90,7 @@ public class DefaultTurn implements Turn {
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction("build");
+        message.addAction("undo");
         player.notify(message);
 
         win = winAction.winChecker();
@@ -109,6 +112,7 @@ public class DefaultTurn implements Turn {
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction("end");
+        message.addAction("undo");
         player.notify(message);
 
     }
@@ -129,6 +133,7 @@ public class DefaultTurn implements Turn {
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction("end");
+        message.addAction("undo");
         player.notify(message);
     }
 

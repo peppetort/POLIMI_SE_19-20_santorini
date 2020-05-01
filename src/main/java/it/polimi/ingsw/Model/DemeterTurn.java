@@ -45,6 +45,7 @@ public class DemeterTurn extends DefaultTurn {
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction("end");
+            message.addAction("undo");
             player.notify(message);
         } catch (NullPointerException e) { // vuol dire che è la prima volta che costruisco poichè lastX lastY sono null
             buildAction.build(worker, x, y);
@@ -56,6 +57,7 @@ public class DemeterTurn extends DefaultTurn {
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction("build");
             message.addAction("end");
+            message.addAction("undo");
             player.notify(message);
         }
         playerMenu.replace("end", true);

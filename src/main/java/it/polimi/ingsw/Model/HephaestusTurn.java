@@ -44,6 +44,7 @@ public class HephaestusTurn extends DefaultTurn {
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction("end");
+            message.addAction("undo");
             player.notify(message);
         } catch (NullPointerException e) {
             buildAction.build(worker, x, y);
@@ -53,6 +54,7 @@ public class HephaestusTurn extends DefaultTurn {
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction("build");
             message.addAction("end");
+            message.addAction("undo");
             player.notify(message);
 
             //se la prima volta che costruisco, costruisco un livello

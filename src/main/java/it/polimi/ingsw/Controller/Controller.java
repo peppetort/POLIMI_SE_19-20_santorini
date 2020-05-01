@@ -9,9 +9,7 @@ import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class Controller extends Observable<Message> implements Observer<Message> {
 
@@ -20,10 +18,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
     private final ArrayList<Card> cards = new ArrayList<>();
     private final HashMap<Player, Boolean> turn = new HashMap<>();
     private final HashMap<Player, Boolean> outcome = new HashMap<>();
+    private Player playerUndo;
     private int loosingPlayers;
-    //thread di durata 5 secondi invocato dopo la build che permette la UNDO
-    private Thread t=new Thread();
-    private boolean canUndo=true;
+
+    //timer e task per il calcolo dei 5 secondi
+    private Timer timer=new Timer();
+    private TimerTask task;
+
     public Controller(Game game) {
         this.game = game;
         playersList = game.getPlayers();
@@ -165,7 +166,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
             try {
                 player.getTurn().start(worker);
-                canUndo=true;
+                //canUndo=true;
             } catch (PlayerLostException e1) {
                 outcome.replace(player, false);
                 loosingPlayers++;
@@ -186,6 +187,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
         if (turn.get(player) && player.getPlayerMenu().get("move") && outcome.get(player) == null) {
             playerTurn.move(x, y);
+
             if (playerTurn.won()) {
                 outcome.replaceAll((key, value) -> false);
                 outcome.replace(player, true);
@@ -208,26 +210,19 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
         if (turn.get(player) && player.getPlayerMenu().get("build") && outcome.get(player) == null) {
             playerTurn.build(x, y);
-            //thread di durata 5 secondi
-            canUndo=false;
-            try {
-                t = new Thread(() -> {
-                    try{
-                        long Time0 = System.currentTimeMillis();
-                        long Time1;
-                        long runTime = 0;
-                        while (runTime < 10000) { // 1000 milliseconds or 1 second
-                            Time1 = System.currentTimeMillis();
-                            runTime = Time1 - Time0;
-                        }
+           // canUndo=false;
+            playerUndo=player;
+            task = new TimerTask() {
 
-                    }catch(Exception e){
+                @Override
+                public void run() {
 
-                    }
-
-                });
-                t.start();
-            }catch (Exception e){ }
+                    performEnd(new PlayerEndMessage(playerUndo));
+                }
+            };
+            //solo se il player non può costruire e muovere
+            if(!player.getPlayerMenu().get("build")&&!player.getPlayerMenu().get("move"))
+                timer.schedule(task,5000);
 
         }
     }
@@ -241,25 +236,19 @@ public class Controller extends Observable<Message> implements Observer<Message>
         if(player.getCard().getName().equals(God.ATLAS)) {
             if (turn.get(player) && player.getPlayerMenu().get("build") && outcome.get(player) == null) {
                 playerTurn.buildDome(x, y);
-                canUndo=false;
-                try {
-                    t = new Thread(() -> {
-                        try{
-                            long Time0 = System.currentTimeMillis();
-                            long Time1;
-                            long runTime = 0;
-                            while (runTime < 10000) { // 1000 milliseconds or 1 second
-                                Time1 = System.currentTimeMillis();
-                                runTime = Time1 - Time0;
-                            }
 
-                        }catch(Exception e){
+                playerUndo=player;
+                task = new TimerTask() {
 
-                        }
+                    @Override
+                    public void run() {
 
-                    });
-                    t.start();
-                }catch (Exception e){ }
+                        performEnd(new PlayerEndMessage(playerUndo));
+                    }
+                };
+                //solo se il player non può costruire e muovere
+                if(!player.getPlayerMenu().get("build")&&!player.getPlayerMenu().get("move"))
+                    timer.schedule(task,5000);
             }
         }
     }
@@ -280,12 +269,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
     {
         Player player = message.getPlayer();
         Turn playerTurn = player.getTurn();
-        //controllo se il thread di durata 5 secondi è in esecuzione
+        try {
+            task.cancel();
+        }catch(Exception e){};
         if (turn.get(player) && outcome.get(player) == null && !player.getPlayerMenu().get("placePawns") && !player.getPlayerMenu().get("chooseCard") && !player.getPlayerMenu().get("buildDeck")) {
-            if(t.isAlive()||canUndo){
                 playerTurn.undo();
-        }else{throw new RuntimeException("Too late");}
-        }else{throw new RuntimeException("Invalid command");}
+
+        }//else{throw new RuntimeException("Invalid command");}
 
     }
     private void performDeckBuilding(PlayerDeckMessage message) {
