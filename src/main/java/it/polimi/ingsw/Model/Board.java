@@ -114,6 +114,7 @@ public class Board extends Observable<Message> {
                if(b.worker!=null) {
                    workerId = Integer.parseInt(b.worker.getId().substring(b.worker.getId().length() - 1));
                    color=b.worker.getPlayer().getColor();
+                   //TODO: usare board.placePawn perché fa la notify alla view
                    board[b.x][b.y].setPawn(b.worker);
                    b.worker.setPos(b.x,b.y);
                }

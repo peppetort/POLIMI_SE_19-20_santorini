@@ -95,4 +95,22 @@ public class PrometheusTurnTest {
         turn.end();
     }
 
+    @Test(expected = RuntimeException.class)
+    public void PrometheusBuildMoveCantBuild(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker = player.getWorker1();
+        board.placePawn(worker, 0, 0);
+        worker.updateLastBox(board.getBox(0, 0));
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new PrometheusTurn(player);
+        player.getPlayerMenu().replace("start", true);
+        turn.start(worker);
+        turn.build(0, 1);
+        turn.move(0, 1);
+        turn.build(0, 0);
+    }
+
 }
