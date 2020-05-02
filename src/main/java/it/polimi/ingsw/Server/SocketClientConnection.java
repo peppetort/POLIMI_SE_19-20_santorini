@@ -1,9 +1,14 @@
 package it.polimi.ingsw.Server;
 
 import it.polimi.ingsw.Exceptions.FullSessionException;
+import it.polimi.ingsw.Messages.PlayerCreateSessionMessage;
+import it.polimi.ingsw.Messages.PlayerRetrieveSessions;
+import it.polimi.ingsw.Messages.PlayerSelectSession;
+import it.polimi.ingsw.Messages.SessionListMessage;
 import it.polimi.ingsw.Observer.Observable;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
@@ -81,145 +86,34 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     @Override
     public void run() {
-        Scanner in;
-        String read;
-        int status = 0;
-
-
-        //TODO: creare messaggio di creazione partita
-        //TODO: creare messaggio di partecipazione a partita
-
-        //TODO: spostare in CLI
+        Object inputObject = null;
         try {
-            in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            send("Welcome to Santorini CLI Game!");
-
-            while (status == 0) {
-                send("1) To create a new game enter: create\n" +
-                        "2) To participate in an existing game enter: join");
-                read = in.nextLine().toUpperCase();
-
-                if (read.compareTo("CREATE") == 0) {
-                    status = 1;
-                } else if (read.compareTo("JOIN") == 0) {
-                    if (server.disponibleSession.isEmpty()) {
-                        send("No disponible session");
-                    } else {
-                        status = 2;
-                    }
-                } else {
-                    send("Invalid choice! Please try again");
+            inputObject = (new ObjectInputStream(socket.getInputStream())).readObject();;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        while (isActive()) {
+            try {
+                if(inputObject instanceof Object){
+                    System.out.println("Object received");
                 }
+                if (inputObject instanceof PlayerRetrieveSessions) {
+                    send(new SessionListMessage(server.getSessions()));
+                } else if (inputObject instanceof PlayerCreateSessionMessage) {
+
+                    String username = ((PlayerCreateSessionMessage) inputObject).getUsername();
+                    String sessionID = ((PlayerCreateSessionMessage) inputObject).getSession();
+                    int players = ((PlayerCreateSessionMessage) inputObject).getPlayers();
+                    boolean cards = ((PlayerCreateSessionMessage) inputObject).isCards();
+                    session = new Session(this, players, cards, server, sessionID);
+                    server.disponibleSession.put(sessionID, session);
+                    session.getWaitingConnection().put(username, this);
+                } else if (inputObject instanceof PlayerSelectSession) {
+                    server.disponibleSession.get(((PlayerSelectSession) inputObject).getSessionID()).addParticipant(this);
+                }
+            } catch (Exception e) {
             }
-
-
-            if (status == 1) {
-                String sessionName;
-                int participantsNumb;
-                boolean simple = true;
-                boolean valid;
-
-                do {
-                    valid = true;
-                    send("Name of Session:");
-                    sessionName = in.nextLine().toUpperCase();
-                    if (server.disponibleSession.containsKey(sessionName)) {
-                        valid = false;
-                        send("Session named " + sessionName + " already exists! Please insert another name.");
-                    }
-                } while (!valid);
-
-                do {
-                    valid = true;
-                    send("Number of competitors (2-3):");
-                    try {
-                        participantsNumb = Integer.parseInt(in.nextLine());
-                    }catch (NumberFormatException e){
-                        participantsNumb = -1;
-                    }
-                    if (participantsNumb != 2 && participantsNumb != 3) {
-                        valid = false;
-                        send("Invalid! Try again!");
-                    }
-                } while (!valid);
-
-                do {
-                    valid = true;
-                    send("Do you want to use cards? (y/n):");
-                    read = in.nextLine().toUpperCase();
-                    if (read.compareTo("Y") == 0) {
-                        simple = false;
-                    } else if (read.compareTo("N") == 0) {
-                        simple = true;
-                    } else {
-                        valid = false;
-                        send("Invalid! Try again!");
-                    }
-                } while (!valid);
-                setName(in);
-                session = new Session(this, participantsNumb, simple, server, sessionName);
-                server.disponibleSession.put(sessionName, session);
-            }
-
-            if (status == 2) {
-                String selected;
-                boolean valid;
-
-                do {
-                    valid = true;
-                    send("Select session to join:");
-                    StringBuilder name = new StringBuilder();
-                    StringBuilder cards = new StringBuilder();
-                    StringBuilder waitingPlayers = new StringBuilder();
-                    HashMap<String, Session> disponibleSession = server.disponibleSession;
-
-                    for (String session : disponibleSession.keySet()) {
-                        name.setLength(0);
-                        cards.setLength(0);
-                        waitingPlayers.setLength(0);
-                        name.append("Name: ");
-                        cards.append("Cards: ");
-                        waitingPlayers.append("Waiting Players: ");
-                        name.append(session);
-                        if (disponibleSession.get(session).isSimple()) {
-                            cards.append("NO");
-                        } else {
-                            cards.append("YES");
-                        }
-                        waitingPlayers.append(disponibleSession.get(session).getWaitingConnection().size());
-                        send(name.toString() + "\n" + cards.toString() + "\n" + waitingPlayers.toString() + "\n\n");
-                    }
-
-                    selected = in.nextLine().toUpperCase();
-                    session = server.disponibleSession.get(selected);
-
-                    if (session == null) {
-                        valid = false;
-                        send("Invalid! Try again!");
-                    } else {
-                        setName(in);
-                        try {
-                            session.addParticipant(this);
-                        } catch (FullSessionException e) {
-                            valid = false;
-                            send(e.getMessage());
-                        }
-
-
-                    }
-                } while (!valid);
-            }
-
-            while (isActive()) {
-                read = in.nextLine();
-                notify(read);
-            }
-
-        } catch (IOException | NoSuchElementException | InterruptedException e) {
-            System.err.println("Error!" + e.getMessage());
-        } finally {
-            close();
         }
     }
 }

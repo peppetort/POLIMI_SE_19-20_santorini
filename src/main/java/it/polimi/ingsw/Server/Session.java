@@ -14,19 +14,20 @@ import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.View.RemoteView;
 import it.polimi.ingsw.View.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Session extends Observable<Message>{
+public class Session extends Observable<Message> implements Serializable {
     private final String name;
     private final int participant;
     private final boolean simple;
-    private final Server server;
+    private transient final Server server;
 
-    private final Map<String, ClientConnection> waitingConnection = new HashMap<>();
-    private final Map<String, ClientConnection> playingConnection = new HashMap<>();
+    private transient final Map<String, ClientConnection> waitingConnection = new HashMap<>();
+    private transient final Map<String, ClientConnection> playingConnection = new HashMap<>();
 
 
     public Session(ClientConnection creatorConnection, int p, boolean simple, Server server, String sessionName) throws InterruptedException {
@@ -35,6 +36,14 @@ public class Session extends Observable<Message>{
         this.server = server;
         this.name = sessionName;
         addParticipant(creatorConnection);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getParticipant() {
+        return participant;
     }
 
     public boolean isSimple() {
