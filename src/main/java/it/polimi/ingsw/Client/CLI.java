@@ -2,17 +2,27 @@ package it.polimi.ingsw.Client;
 
 
 import it.polimi.ingsw.Client.Box;
+import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
+import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
+import it.polimi.ingsw.Server.Session;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
-public class CLI implements Observer {
+public class CLI extends Observable<Message> implements Observer {
     private ClientBoard clientBoard;
     private ClientStatus clientStatus;
     private final String lengthMarker = "-";
     private final String widthMarker = "+";
+    private static Scanner reader = new Scanner(System.in).useDelimiter("\n");
 
     public void setClientBoard(ClientBoard clientBoard) {
         this.clientBoard = clientBoard;
@@ -132,9 +142,9 @@ public class CLI implements Observer {
         System.out.print(" " + widthMarker);
         System.out.print("\n");
 
-        for (String act: actions){
+        for (String act : actions) {
             bodyFormat = "%-3s%s%" + (length + 1 - act.length() - 2) + "s%n";
-            System.out.printf(bodyFormat, widthMarker, "> "+act.toUpperCase(), widthMarker);
+            System.out.printf(bodyFormat, widthMarker, "> " + act.toUpperCase(), widthMarker);
         }
 
         System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
@@ -142,7 +152,7 @@ public class CLI implements Observer {
     }
 
     //TODO: spostare in una classe CLI
-    private synchronized void printMessages(int length){
+    private synchronized void printMessages(int length) {
         String messagesLabel = "MESSAGES";
         String bodyFormat;
 
@@ -161,7 +171,7 @@ public class CLI implements Observer {
         System.out.print(" " + widthMarker);
         System.out.print("\n");
 
-        for(String message: messages){
+        for (String message : messages) {
             bodyFormat = "%-3s%s%" + (length + 3 - message.length() - 2) + "s%n";
             System.out.printf(bodyFormat, widthMarker, message, widthMarker);
         }
@@ -170,7 +180,7 @@ public class CLI implements Observer {
     }
 
     //TODO: sposatre in una classe CLI
-    public synchronized void printAllCards(){
+    public synchronized void printAllCards() {
         String title = "ALL CARDS";
         String menuFormat;
         String bodyFormat;
@@ -201,7 +211,7 @@ public class CLI implements Observer {
         System.out.print(" " + widthMarker);
         System.out.print("\n");
 
-        for(God g: God.values()){
+        for (God g : God.values()) {
             String name = g.name();
             bodyFormat = "%-3s%s%" + (length + 3 - name.length() - 2) + "s%n";
             System.out.printf(bodyFormat, widthMarker, name, widthMarker);
@@ -216,7 +226,7 @@ public class CLI implements Observer {
     }
 
     //TODO: spostare in una classe CLI
-    public synchronized void printDeck(){
+    public synchronized void printDeck() {
         String title = "AVAILABLE CARDS";
         String menuFormat;
         String bodyFormat;
@@ -249,7 +259,7 @@ public class CLI implements Observer {
         System.out.print(" " + widthMarker);
         System.out.print("\n");
 
-        for(God name: deck){
+        for (God name : deck) {
             bodyFormat = "%-3s%s%" + (length + 3 - name.name().length() - 2) + "s%n";
             System.out.printf(bodyFormat, widthMarker, name, widthMarker);
         }
@@ -263,7 +273,7 @@ public class CLI implements Observer {
     }
 
     //TODO: spostare in classe CLI
-    public synchronized void printStatus(){
+    public synchronized void printStatus() {
         String title = "STATUS";
         String menuFormat;
         String bodyFormat;
@@ -306,7 +316,7 @@ public class CLI implements Observer {
             maxLength = cardLabel.length();
         }
 
-        if(actions != null) {
+        if (actions != null) {
             for (String act : actions) {
                 if (act.length() > maxLength) {
                     maxLength = act.length();
@@ -354,11 +364,11 @@ public class CLI implements Observer {
         }
         System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
 
-        if(turn != null && turn.equals(username) && actions!=null) {
+        if (turn != null && turn.equals(username) && actions != null) {
             printActions(length);
         }
 
-        if(messages.size() != 0) {
+        if (messages.size() != 0) {
             printMessages(length);
         }
 
@@ -373,10 +383,133 @@ public class CLI implements Observer {
 
     }
 
+    public void startMenu() {
+        while (true) {
+            try {
+                reader = new Scanner(System.in);
+
+                System.out.println("WELCOME TO SANTORINI");
+                System.out.println("list of commands:");
+                System.out.println("JOIN (join an existing session)");
+                System.out.println("CREATE (create a new game)");
+
+                String input = reader.nextLine();
+
+                switch (input.toUpperCase()) {
+                    case "JOIN":
+                        join();
+                        break;
+                    case "CREATE":
+                        create();
+                        break;
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void create() throws IOException {
+
+        String input;
+        int question = 0;
+        String username = null;
+        String session = null;
+        int players = 2;
+        boolean correct = true;
+        boolean cards = false;
+
+        do {
+            switch (question) {
+                case 0:
+                    System.out.println("Insert your name:");
+                    input = reader.nextLine();
+                    username = input;
+                    correct = true;
+                    break;
+                case 1:
+                    System.out.println("Insert name of the session:");
+                    input = reader.nextLine();
+                    session = input;
+                    correct = true;
+                    break;
+                case 2:
+                    System.out.println("Insert number of players:");
+                    input = reader.nextLine();
+                    players = Integer.valueOf(input);
+                    if (players < 2 || players > 3) {
+                        correct = false;
+                    } else {
+                        correct = true;
+                    }
+                    break;
+                case 3:
+                    System.out.println("Cards or no? Y/N");
+                    input = reader.nextLine();
+                    if (input.toUpperCase().equals("Y")) {
+                        cards = true;
+                        correct = true;
+                    } else if (input.toUpperCase().equals("N")) {
+                        cards = false;
+                        correct = true;
+                    } else {
+                        correct = false;
+                    }
+                    break;
+                default: throw new IllegalStateException();
+            }
+            if (correct) {
+                question++;
+            }
+        } while (input.toUpperCase() != "ESC" && input.toUpperCase() != "BACK" && question < 4);
+
+        if (input.toUpperCase() != "ESC" && input.toUpperCase() != "BACK") {
+            System.out.println("creating the match.....");
+            PlayerCreateSessionMessage createMessage = new PlayerCreateSessionMessage(username, session, players, cards);
+            notify(createMessage);
+        }
+    }
+
+    public void join() {
+        System.out.println("List of available session:");
+        //stampo tutte le sessioni disponibili
+        notify(new PlayerRetrieveSessions());
+    }
+
+    public void printAvailableSession(SessionListMessage message) {
+        HashMap<String, Session> availableSessions = message.getDisponibleSession();
+        String input;
+        boolean correct = false;
+
+        for(String s: availableSessions.keySet()){
+            System.out.println(s);
+            System.out.println("Number of players: "+availableSessions.get(s).getParticipant());
+            System.out.println("Simple game: "+availableSessions.get(s).isSimple());
+        }
+        System.out.println("Type the session to join || type esc/back to go back to start menu");
+        try {
+        input = reader.nextLine();
+            while (input.toUpperCase() != "BACK" && input.toUpperCase() != "ESC" && !correct) {
+                if (availableSessions.containsKey(input)) {
+                    correct = true;
+                    //posso inviare la sessione da joinare
+                    notify(new PlayerSelectSession(input));
+                } else {
+                    correct = false;
+                }
+                if (!correct) {
+                    input = reader.nextLine();
+                }
+            }
+        }catch (Exception e){}
+    }
+
     @Override
     public void update(Object message) {
-        if(message instanceof Integer) {
-            if (Integer.valueOf((Integer) message) == 1) {
+        if (message instanceof Integer) {
+            if (Integer.valueOf((Integer) message) == 0) {
+                this.startMenu();
+            }else if (Integer.valueOf((Integer) message) == 1) {
                 this.print();
             } else if (Integer.valueOf((Integer) message) == 2) {
                 this.printStatus();
@@ -385,8 +518,11 @@ public class CLI implements Observer {
             } else if (Integer.valueOf((Integer) message) == 4) {
                 this.printDeck();
             }
-        }else {
-           System.out.println(message);
-       }
+        }else if(message instanceof SessionListMessage){
+            printAvailableSession((SessionListMessage)message);
+        }
+        else {
+            System.out.println(message);
+        }
     }
 }

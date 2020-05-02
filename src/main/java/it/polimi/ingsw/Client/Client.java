@@ -5,22 +5,26 @@ import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
+import it.polimi.ingsw.Observer.Observer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Client extends Observable {
+public class Client extends Observable implements Observer<Message> {
 
     private final String ip;
     private final int port;
     private ClientBoard board;
     private ClientStatus status;
     private CLI cli;
+    private Socket socket;
+    private Message message;
 
     public Client(String ip, int port) {
         this.ip = ip;
@@ -42,26 +46,26 @@ public class Client extends Observable {
             try {
                 cli = new CLI();
                 this.addObserver(cli);
-
+                cli.addObserver(this);
+                notify(0);
                 while (isActive()) {
                     Object inputObject = socketIn.readObject();
 
                     if(inputObject instanceof String){
                         notify(inputObject);
-                    }
-
-                    if (inputObject instanceof Exception) {
+                    }else if (inputObject instanceof Exception) {
                         System.out.println(((Exception) inputObject).getMessage());
                     } else if (inputObject instanceof ClientInitMessage) {
                         String username = ((ClientInitMessage) inputObject).getUsername();
                         ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();
                         status = new ClientStatus(username, players.get(0));
                         board = new ClientBoard(players);
-                        //if arg is cli
                         cli.setClientBoard(board);
                         cli.setClientStatus(status);
                         status.addObserver(cli);
                         board.addObserver(cli);
+                    } else if (inputObject instanceof SessionListMessage){
+                        notify(inputObject);
                     } else if (inputObject instanceof TurnUpdateMessage) {
                         String username = ((TurnUpdateMessage) inputObject).getUsername();
                         status.updateTurn(username);
@@ -108,7 +112,6 @@ public class Client extends Observable {
                             notify(1);
                         }
                         else notify(1);
-
                     }
                 }
             } catch (Exception e) {
@@ -120,13 +123,29 @@ public class Client extends Observable {
         return t;
     }
 
-    public Thread asyncWriteToSocket(final Scanner stdin, final PrintWriter socketOut) {
+//    public Thread asyncWriteToSocket(final Scanner stdin, final PrintWriter socketOut) {
+//        Thread t = new Thread(() -> {
+//            try {
+//                while (isActive()) {
+//                    String inputLine = stdin.nextLine();
+//                    socketOut.println(inputLine);
+//                    socketOut.flush();
+//                }
+//            } catch (Exception e) {
+//                setActive(false);
+//            }
+//        });
+//        t.start();
+//        return t;
+//    }
+
+    public Thread asyncWriteToSocket(Object message,ObjectOutputStream out ){
         Thread t = new Thread(() -> {
             try {
                 while (isActive()) {
-                    String inputLine = stdin.nextLine();
-                    socketOut.println(inputLine);
-                    socketOut.flush();
+                    out.reset();
+                    out.writeObject(message);
+                    out.flush();
                 }
             } catch (Exception e) {
                 setActive(false);
@@ -137,23 +156,26 @@ public class Client extends Observable {
     }
 
     public void run() throws IOException {
-        Socket socket = new Socket(ip, port);
+        socket = new Socket(ip, port);
+
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-        Scanner stdin = new Scanner(System.in);
+        ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
 
         try {
             Thread t0 = asyncReadFromSocket(socketIn);
-            Thread t1 = asyncWriteToSocket(stdin, socketOut);
+            Thread t1 = asyncWriteToSocket(message,socketOut);
             t0.join();
             t1.join();
         } catch (InterruptedException | NoSuchElementException e) {
             System.out.println("Connection closed from the client side");
         } finally {
-            stdin.close();
             socketIn.close();
             socketOut.close();
             socket.close();
         }
+    }
+    @Override
+    public void update(Message message) {
+        this.message = message;
     }
 }
