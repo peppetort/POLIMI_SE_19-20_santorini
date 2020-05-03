@@ -33,6 +33,10 @@ public class SocketClientConnection extends Observable<String> implements Client
         this.server = server;
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
+
     private synchronized boolean isActive() {
         return active;
     }
@@ -59,18 +63,6 @@ public class SocketClientConnection extends Observable<String> implements Client
         return this.username;
     }
 
-    @Override
-    public synchronized void send(final Object message) {
-        try {
-            out.reset();
-            out.writeObject(message);
-            out.flush();
-
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
     private void setName(Scanner in) {
         boolean valid = false;
         do {
@@ -88,21 +80,38 @@ public class SocketClientConnection extends Observable<String> implements Client
         } while (!valid);
     }
 
+
+    @Override
+    public synchronized void send(final Object message) {
+        try {
+            out.reset();
+            out.writeObject(message);
+            out.flush();
+
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+
     @Override
     public void run() {
         Object inputObject = null;
+
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
 
-            send("connected to server\n");
+            send("message from server: connected");
 
             while (isActive()) {
+                //todo: provo ad inviare senza ricevere
 
                 inputObject = in.readObject();
 
                  if (inputObject instanceof PlayerRetrieveSessions) {
                      System.out.println("Player retrieve");
+                     send("server: join request arrived....");
                      try {
                          System.out.println("Sending the retrieval message");
                          send(new SessionListMessage(server.getAvailableSessions()));
@@ -113,19 +122,26 @@ public class SocketClientConnection extends Observable<String> implements Client
 
                  } else if (inputObject instanceof PlayerCreateSessionMessage) {
 
-                     System.out.println("creating the match");
+                     send("SERVER SAYS: CREATING MATCH");
+
                      String username = ((PlayerCreateSessionMessage) inputObject).getUsername();
                      String sessionID = ((PlayerCreateSessionMessage) inputObject).getSession();
+
                      int players = ((PlayerCreateSessionMessage) inputObject).getPlayers();
                      boolean cards = ((PlayerCreateSessionMessage) inputObject).isCards();
 
+                     this.username = username;
                      session = new Session(this, players, cards, server, sessionID);
                      server.availableSessions.put(sessionID, session);
-                     session.getWaitingConnection().put(username, this);
+
 
                 } else if (inputObject instanceof PlayerSelectSession) {
-                     server.availableSessions.get(((PlayerSelectSession) inputObject).getSessionID()).addParticipant(this);
-                }
+                     send("server: joining session");
+                     String sessionID;
+                     this.username = ((PlayerSelectSession) inputObject).getUsername();
+                     sessionID = ((PlayerSelectSession) inputObject).getSessionID();
+                     server.availableSessions.get(sessionID).addParticipant(this);
+                 }
 
             }
 

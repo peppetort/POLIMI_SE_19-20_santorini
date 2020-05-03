@@ -18,18 +18,17 @@ public class Server {
         this.serverSocket = new ServerSocket(PORT);
     }
 
-    //TODO: DA CAMBIARE
 
     public HashMap<String,Session> getAvailableSessions(){
         return availableSessions;
     }
 
-    public void run() {
+    public void startServer() {
         while (true) {
             try {
                 Socket newSocket = serverSocket.accept();
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
-                System.out.println("New socket connected:"+socketConnection.getUsername());
+                System.out.println("New socket connected:"+ socketConnection.getSocket().toString());
                 executor.submit(socketConnection);
             } catch (IOException e) {
                 System.out.println("Connection Error!");

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class CLI extends Observable<Message> implements Observer {
+public class CLI extends Observable<Object> implements Observer {
     private ClientBoard clientBoard;
     private ClientStatus clientStatus;
     private final String lengthMarker = "-";
@@ -225,7 +225,6 @@ public class CLI extends Observable<Message> implements Observer {
         System.out.print("\n");
     }
 
-    //TODO: spostare in una classe CLI
     public synchronized void printDeck() {
         String title = "AVAILABLE CARDS";
         String menuFormat;
@@ -384,7 +383,7 @@ public class CLI extends Observable<Message> implements Observer {
     }
 
     public void startMenu() {
-        while (true) {
+        //while (true) {
             try {
                 reader = new Scanner(System.in);
 
@@ -406,7 +405,7 @@ public class CLI extends Observable<Message> implements Observer {
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }
+        //}
     }
 
     public void create() throws IOException {
@@ -464,7 +463,6 @@ public class CLI extends Observable<Message> implements Observer {
         } while (input.toUpperCase() != "ESC" && input.toUpperCase() != "BACK" && question < 4);
 
         if (input.toUpperCase() != "ESC" && input.toUpperCase() != "BACK") {
-            System.out.println("creating the match.....");
             PlayerCreateSessionMessage createMessage = new PlayerCreateSessionMessage(username, session, players, cards);
             notify(createMessage);
         }
@@ -479,7 +477,8 @@ public class CLI extends Observable<Message> implements Observer {
     public void printAvailableSession(SessionListMessage message) {
         HashMap<String,Integer> partecipants = message.getPartecipants();
         HashMap<String,Boolean> cards = message.getCards();
-        String input;
+        String session;
+        String username;
         boolean correct = false;
 
         for(String s: partecipants.keySet()){
@@ -490,17 +489,18 @@ public class CLI extends Observable<Message> implements Observer {
 
         System.out.println("Type the session to join || type esc/back to go back to start menu");
         try {
-        input = reader.nextLine();
-            while (input.toUpperCase() != "BACK" && input.toUpperCase() != "ESC" && !correct) {
-                if (partecipants.containsKey(input)) {
+        session = reader.nextLine();
+            while (session.toUpperCase() != "BACK" && session.toUpperCase() != "ESC" && !correct) {
+                if (partecipants.containsKey(session)) {
                     correct = true;
-                    //posso inviare la sessione da joinare
-                    notify(new PlayerSelectSession(input));
+                    System.out.println("Insert your name:");
+                    username = reader.nextLine();
+                    notify(new PlayerSelectSession(session,username));
                 } else {
                     correct = false;
                 }
                 if (!correct) {
-                    input = reader.nextLine();
+                    session = reader.nextLine();
                 }
             }
         }catch (Exception e){}
@@ -508,6 +508,7 @@ public class CLI extends Observable<Message> implements Observer {
 
     @Override
     public void update(Object message) {
+
         if (message instanceof Integer) {
             if (Integer.valueOf((Integer) message) == 0) {
                 this.startMenu();

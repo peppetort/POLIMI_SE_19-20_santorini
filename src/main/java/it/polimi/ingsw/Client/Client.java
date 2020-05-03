@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Client;
 
-
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
@@ -10,58 +9,58 @@ import it.polimi.ingsw.Observer.Observer;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
-public class Client extends Observable implements Observer<Message> {
+public class Client extends Observable implements Observer<Object> {
 
-    private final String ip;
-    private final int port;
-    private ClientBoard board;
-    private ClientStatus status;
-    private CLI cli;
     private Socket socket;
-    private Message message;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
-    ObjectInputStream socketIn;
-    ObjectOutputStream socketOut;
+    private Object inputObject;
+    private Object outputObject;
 
-    public Client(String ip, int port) {
+    private String ip;
+    private int port;
+
+    private ClientStatus status;
+    private ClientBoard board;
+
+    private CLI cli;
+
+    public Client(String ip,int port){
         this.ip = ip;
         this.port = port;
     }
 
-    private boolean active = true;
+    public void startClient() throws IOException,ClassNotFoundException {
+        socket = new Socket(ip,port);
+        out = new ObjectOutputStream(socket.getOutputStream());
+        in = new ObjectInputStream(socket.getInputStream());
 
-    public synchronized boolean isActive() {
-        return active;
+        cli = new CLI();
+        cli.addObserver(this);
+        this.addObserver(cli);
+        notify(0);
+
+        Thread reader = asyncReadFromSocket();
+        reader.run();
+
     }
 
-    public synchronized void setActive(boolean active) {
-        this.active = active;
+    @Override
+    public void update(Object message) {
+        send(message);
     }
 
-    //TODO: NON RICEVO NULLA
-    public Thread asyncReadFromSocket(final ObjectInputStream socketIn) {
-        Thread t = new Thread(() -> {
-            try {
-                Object inputObject = null;
-
-                //if arg is CLI
-                cli = new CLI();
-                this.addObserver(cli);
-                cli.addObserver(this);
-                notify(0);
-
-
-                while (isActive()) {
-
-                    inputObject = socketIn.readObject();
-
-                    if(inputObject instanceof String){
+    public Thread asyncReadFromSocket(){
+        Thread reader = new Thread(() -> {
+            Object inputObject;
+            while(socket.isConnected()){
+                try {
+                    inputObject = in.readObject();
+                    if(inputObject instanceof String || inputObject instanceof SessionListMessage){
                         notify(inputObject);
                     }else if (inputObject instanceof Exception) {
                         System.out.println(((Exception) inputObject).getMessage());
@@ -74,8 +73,6 @@ public class Client extends Observable implements Observer<Message> {
                         cli.setClientStatus(status);
                         status.addObserver(cli);
                         board.addObserver(cli);
-                    } else if (inputObject instanceof SessionListMessage){
-                        notify(inputObject);
                     } else if (inputObject instanceof TurnUpdateMessage) {
                         String username = ((TurnUpdateMessage) inputObject).getUsername();
                         status.updateTurn(username);
@@ -123,60 +120,25 @@ public class Client extends Observable implements Observer<Message> {
                         }
                         else notify(1);
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                setActive(false);
             }
         });
-        t.start();
-        return t;
+        return reader;
     }
 
-    public Thread asyncWriteToSocket(ObjectOutputStream socketOut){
-        Thread t = new Thread(() -> {
-            try{
-                while(isActive()){
-                    socketOut.reset();
-                    socketOut.writeObject(message);
-                    socketOut.flush();
-                }
-            }catch (Exception e){};
-
-        });
-        t.start();
-        return t;
-    }
-
-    public synchronized void send(Object message)  {
-        try {
-            socketOut.reset();
-            socketOut.writeObject(message);
-            socketOut.flush();
-        }catch (IOException e){}
-    }
-
-    public void run() throws IOException {
-        socket = new Socket(ip, port);
-        socketOut = new ObjectOutputStream(socket.getOutputStream());
-        socketIn = new ObjectInputStream(socket.getInputStream());
-
-        try {
-            Thread t0 = asyncReadFromSocket(socketIn);
-            //Thread t1 = asyncWriteToSocket(socketOut);
-            t0.join();
-            //t1.join();
-        } catch (InterruptedException | NoSuchElementException e) {
-            System.out.println("Connection closed from the client side");
-        } finally {
-            socketIn.close();
-            socketOut.close();
-            socket.close();
+    public void send(Object message) {
+        synchronized (out) {
+            try {
+                out.reset();
+                out.writeObject(message);
+                out.flush();
+            }catch(Exception e){}
         }
     }
-    @Override
-    public void update(Message message){
-        this.message = message;
-        send(message);
-    }
+
+
 }

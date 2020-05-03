@@ -11,7 +11,7 @@ public class ServerApp
         Server server;
         try {
             server = new Server();
-            server.run();
+            server.startServer();
         } catch (IOException e) {
             System.err.println("Server initialization failed: " + e.getMessage() + "!");
         }
