@@ -128,7 +128,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                      String sessionID = ((PlayerCreateSessionMessage) inputObject).getSession();
 
                      int players = ((PlayerCreateSessionMessage) inputObject).getPlayers();
-                     boolean cards = ((PlayerCreateSessionMessage) inputObject).isCards();
+                     boolean cards = ((PlayerCreateSessionMessage) inputObject).isSimple();
 
                      this.username = username;
                      session = new Session(this, players, cards, server, sessionID);

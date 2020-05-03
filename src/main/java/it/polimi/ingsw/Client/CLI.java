@@ -416,7 +416,7 @@ public class CLI extends Observable<Object> implements Observer {
         String session = null;
         int players = 2;
         boolean correct = true;
-        boolean cards = false;
+        boolean simple = false;
 
         do {
             switch (question) {
@@ -443,13 +443,13 @@ public class CLI extends Observable<Object> implements Observer {
                     }
                     break;
                 case 3:
-                    System.out.println("Cards or no? Y/N");
+                    System.out.println("Simple game? Y/N");
                     input = reader.nextLine();
                     if (input.toUpperCase().equals("Y")) {
-                        cards = true;
+                        simple = true;
                         correct = true;
                     } else if (input.toUpperCase().equals("N")) {
-                        cards = false;
+                        simple = false;
                         correct = true;
                     } else {
                         correct = false;
@@ -463,7 +463,7 @@ public class CLI extends Observable<Object> implements Observer {
         } while (input.toUpperCase() != "ESC" && input.toUpperCase() != "BACK" && question < 4);
 
         if (input.toUpperCase() != "ESC" && input.toUpperCase() != "BACK") {
-            PlayerCreateSessionMessage createMessage = new PlayerCreateSessionMessage(username, session, players, cards);
+            PlayerCreateSessionMessage createMessage = new PlayerCreateSessionMessage(username, session, players, simple);
             notify(createMessage);
         }
     }
