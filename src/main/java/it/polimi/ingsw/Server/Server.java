@@ -12,15 +12,16 @@ public class Server {
     private static final int PORT = 12346;
     private final ServerSocket serverSocket;
     private final ExecutorService executor = Executors.newFixedThreadPool(128);
-    public HashMap<String, Session> disponibleSession = new HashMap<>();
+    public HashMap<String, Session> availableSessions = new HashMap<>();
 
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(PORT);
     }
 
-    public HashMap<String, Session> getSessions(){
-        HashMap<String, Session> sessions = (HashMap<String, Session>) disponibleSession.clone();
-        return sessions;
+    //TODO: DA CAMBIARE
+
+    public HashMap<String,Session> getAvailableSessions(){
+        return availableSessions;
     }
 
     public void run() {

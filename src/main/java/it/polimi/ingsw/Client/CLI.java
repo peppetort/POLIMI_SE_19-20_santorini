@@ -472,25 +472,27 @@ public class CLI extends Observable<Message> implements Observer {
 
     public void join() {
         System.out.println("List of available session:");
-        //stampo tutte le sessioni disponibili
-        notify(new PlayerRetrieveSessions());
+        notify(new PlayerRetrieveSessions("ciao"));
     }
 
+    //todo: sistemare
     public void printAvailableSession(SessionListMessage message) {
-        HashMap<String, Session> availableSessions = message.getDisponibleSession();
+        HashMap<String,Integer> partecipants = message.getPartecipants();
+        HashMap<String,Boolean> cards = message.getCards();
         String input;
         boolean correct = false;
 
-        for(String s: availableSessions.keySet()){
+        for(String s: partecipants.keySet()){
             System.out.println(s);
-            System.out.println("Number of players: "+availableSessions.get(s).getParticipant());
-            System.out.println("Simple game: "+availableSessions.get(s).isSimple());
+            System.out.println(partecipants.get(s));
+            System.out.println(cards.get(s));
         }
+
         System.out.println("Type the session to join || type esc/back to go back to start menu");
         try {
         input = reader.nextLine();
             while (input.toUpperCase() != "BACK" && input.toUpperCase() != "ESC" && !correct) {
-                if (availableSessions.containsKey(input)) {
+                if (partecipants.containsKey(input)) {
                     correct = true;
                     //posso inviare la sessione da joinare
                     notify(new PlayerSelectSession(input));
@@ -518,11 +520,26 @@ public class CLI extends Observable<Message> implements Observer {
             } else if (Integer.valueOf((Integer) message) == 4) {
                 this.printDeck();
             }
-        }else if(message instanceof SessionListMessage){
+        } else if(message instanceof SessionListMessage){
             printAvailableSession((SessionListMessage)message);
-        }
-        else {
+        } else {
             System.out.println(message);
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

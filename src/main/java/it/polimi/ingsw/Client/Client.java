@@ -26,6 +26,9 @@ public class Client extends Observable implements Observer<Message> {
     private Socket socket;
     private Message message;
 
+    ObjectInputStream socketIn;
+    ObjectOutputStream socketOut;
+
     public Client(String ip, int port) {
         this.ip = ip;
         this.port = port;
@@ -41,15 +44,22 @@ public class Client extends Observable implements Observer<Message> {
         this.active = active;
     }
 
+    //TODO: NON RICEVO NULLA
     public Thread asyncReadFromSocket(final ObjectInputStream socketIn) {
         Thread t = new Thread(() -> {
             try {
+                Object inputObject = null;
+
+                //if arg is CLI
                 cli = new CLI();
                 this.addObserver(cli);
                 cli.addObserver(this);
                 notify(0);
+
+
                 while (isActive()) {
-                    Object inputObject = socketIn.readObject();
+
+                    inputObject = socketIn.readObject();
 
                     if(inputObject instanceof String){
                         notify(inputObject);
@@ -81,13 +91,13 @@ public class Client extends Observable implements Observer<Message> {
                         Color player = ((BoardUpdatePlaceMessage) inputObject).getPlayer();
                         int worker = ((BoardUpdatePlaceMessage) inputObject).getWorker();
                         board.placePlayer(x, y, player, worker);
-                       // notify(1);
+
                     } else if (inputObject instanceof BoardUpdateBuildMessage) {
                         int x = ((BoardUpdateBuildMessage) inputObject).getX();
                         int y = ((BoardUpdateBuildMessage) inputObject).getY();
                         int level = ((BoardUpdateBuildMessage) inputObject).getLevel();
                         board.setLevel(x, y, level);
-                       // notify(1);
+
                     }else if(inputObject instanceof WinMessage){
                         String winUser = ((WinMessage) inputObject).getUsername();
                         status.setWinner(winUser);
@@ -123,49 +133,39 @@ public class Client extends Observable implements Observer<Message> {
         return t;
     }
 
-//    public Thread asyncWriteToSocket(final Scanner stdin, final PrintWriter socketOut) {
-//        Thread t = new Thread(() -> {
-//            try {
-//                while (isActive()) {
-//                    String inputLine = stdin.nextLine();
-//                    socketOut.println(inputLine);
-//                    socketOut.flush();
-//                }
-//            } catch (Exception e) {
-//                setActive(false);
-//            }
-//        });
-//        t.start();
-//        return t;
-//    }
-
-    public Thread asyncWriteToSocket(Object message,ObjectOutputStream out ){
+    public Thread asyncWriteToSocket(ObjectOutputStream socketOut){
         Thread t = new Thread(() -> {
-            try {
-                while (isActive()) {
-                    out.reset();
-                    out.writeObject(message);
-                    out.flush();
+            try{
+                while(isActive()){
+                    socketOut.reset();
+                    socketOut.writeObject(message);
+                    socketOut.flush();
                 }
-            } catch (Exception e) {
-                setActive(false);
-            }
+            }catch (Exception e){};
+
         });
         t.start();
         return t;
     }
 
+    public synchronized void send(Object message)  {
+        try {
+            socketOut.reset();
+            socketOut.writeObject(message);
+            socketOut.flush();
+        }catch (IOException e){}
+    }
+
     public void run() throws IOException {
         socket = new Socket(ip, port);
-
-        ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
-        ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
+        socketOut = new ObjectOutputStream(socket.getOutputStream());
+        socketIn = new ObjectInputStream(socket.getInputStream());
 
         try {
             Thread t0 = asyncReadFromSocket(socketIn);
-            Thread t1 = asyncWriteToSocket(message,socketOut);
+            //Thread t1 = asyncWriteToSocket(socketOut);
             t0.join();
-            t1.join();
+            //t1.join();
         } catch (InterruptedException | NoSuchElementException e) {
             System.out.println("Connection closed from the client side");
         } finally {
@@ -175,7 +175,8 @@ public class Client extends Observable implements Observer<Message> {
         }
     }
     @Override
-    public void update(Message message) {
+    public void update(Message message){
         this.message = message;
+        send(message);
     }
 }

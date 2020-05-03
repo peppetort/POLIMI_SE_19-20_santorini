@@ -59,7 +59,7 @@ public class Session extends Observable<Message> implements Serializable {
             waitingConnection.put(player.getUsername(), player);
 
             if (waitingConnection.size() == participant) {
-                server.disponibleSession.remove(name);
+                server.availableSessions.remove(name);
                 this.start();
             } else {
                 player.send("Wait participants");
@@ -74,7 +74,7 @@ public class Session extends Observable<Message> implements Serializable {
         if (playingConnection.isEmpty()) {
             waitingConnection.remove(username);
             if (getWaitingConnection().isEmpty()) {
-                server.disponibleSession.remove(name);
+                server.availableSessions.remove(name);
             }
         } else {
             Message remove = new PlayerRemoveMessage(username);
