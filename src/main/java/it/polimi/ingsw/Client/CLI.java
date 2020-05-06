@@ -9,6 +9,7 @@ import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Server.Session;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,12 +18,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class CLI extends Observable<Object> implements Observer {
+public class CLI extends Observable<Object> implements Observer{
     private ClientBoard clientBoard;
     private ClientStatus clientStatus;
     private final String lengthMarker = "-";
     private final String widthMarker = "+";
     private static Scanner reader = new Scanner(System.in).useDelimiter("\n");
+
+    private State state;
+
+    public CLI(){
+        this.state = State.START;
+    }
 
     public void setClientBoard(ClientBoard clientBoard) {
         this.clientBoard = clientBoard;
@@ -271,7 +278,6 @@ public class CLI extends Observable<Object> implements Observer {
         System.out.print("\n");
     }
 
-    //TODO: spostare in classe CLI
     public synchronized void printStatus() {
         String title = "STATUS";
         String menuFormat;
@@ -382,33 +388,48 @@ public class CLI extends Observable<Object> implements Observer {
 
     }
 
+    public void takeInput(){
+        String input ="";
+        input = reader.nextLine();
+        System.out.println(input);
+    }
+
     public void startMenu() {
-        //while (true) {
             try {
                 reader = new Scanner(System.in);
+                boolean correct = false;
 
                 System.out.println("WELCOME TO SANTORINI");
                 System.out.println("list of commands:");
                 System.out.println("JOIN (join an existing session)");
                 System.out.println("CREATE (create a new game)");
 
-                String input = reader.nextLine();
+                do {
 
-                switch (input.toUpperCase()) {
-                    case "JOIN":
-                        join();
-                        break;
-                    case "CREATE":
-                        create();
-                        break;
+                    String input = reader.nextLine();
+                    if (input.toUpperCase().equals("JOIN") || input.toUpperCase().equals("CREATE")) {
+                        correct = true;
+                        switch (input.toUpperCase()) {
+                            case "JOIN":
+                                System.out.println("List of available session:");
+                                notify(new PlayerRetrieveSessions("ciao"));
+                                break;
+                            case "CREATE":
+                                create();
+                                break;
+                        }
+                        correct = true;
+                    }else {
+                        System.out.println("Type a valid command");
+                        correct = false;
                 }
-            } catch (IOException e) {
+                }while(!correct);
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-        //}
     }
 
-    public void create() throws IOException {
+    public void create() {
 
         String input;
         int question = 0;
@@ -460,51 +481,64 @@ public class CLI extends Observable<Object> implements Observer {
             if (correct) {
                 question++;
             }
-        } while (input.toUpperCase() != "ESC" && input.toUpperCase() != "BACK" && question < 4);
+        } while (!input.toUpperCase().equals("ESC") && question < 4);
 
-        if (input.toUpperCase() != "ESC" && input.toUpperCase() != "BACK") {
+        if (!input.toUpperCase().equals("ESC")) {
             PlayerCreateSessionMessage createMessage = new PlayerCreateSessionMessage(username, session, players, simple);
+            state = State.WAIT;
             notify(createMessage);
+        }else{
+            state = State.START;
         }
     }
 
-    public void join() {
-        System.out.println("List of available session:");
-        notify(new PlayerRetrieveSessions("ciao"));
-    }
 
-    //todo: sistemare
     public void printAvailableSession(SessionListMessage message) {
         HashMap<String,Integer> partecipants = message.getPartecipants();
         HashMap<String,Boolean> cards = message.getCards();
-        String session;
+        String session = "";
         String username;
         boolean correct = false;
 
+        //stampo le sessioni
         for(String s: partecipants.keySet()){
             System.out.println(s);
             System.out.println(partecipants.get(s));
             System.out.println(cards.get(s));
+            System.out.println();
         }
+        if(partecipants.size() == 0)
+        {
+            System.out.println("No session available!");
 
-        System.out.println("Type the session to join || type esc/back to go back to start menu");
-        try {
-        session = reader.nextLine();
-            while (session.toUpperCase() != "BACK" && session.toUpperCase() != "ESC" && !correct) {
-                if (partecipants.containsKey(session)) {
-                    correct = true;
-                    System.out.println("Insert your name:");
-                    username = reader.nextLine();
-                    notify(new PlayerSelectSession(session,username));
-                } else {
-                    correct = false;
-                }
-                if (!correct) {
+        }else {
+            System.out.println("Insert your username (type esc to go back to startMenu):");
+            username = reader.nextLine().toUpperCase();
+
+            if (username.toUpperCase().equals("ESC")) {
+
+                startMenu();
+            } else {
+                System.out.println("Insert the name of the session you want to join:");
+
+                do {
                     session = reader.nextLine();
+                    if (partecipants.containsKey(session)) {
+                        correct = true;
+                        notify(new PlayerSelectSession(session, username));
+                    }
+                    if (!correct) {
+                        System.out.println("This session doesn't exists!");
+                    }
+                } while (!correct && !session.toUpperCase().equals("ESC"));
+
+                if (session.toUpperCase().equals("ESC")) {
+                    startMenu();
                 }
             }
-        }catch (Exception e){}
+        }
     }
+
 
     @Override
     public void update(Object message) {
@@ -514,12 +548,17 @@ public class CLI extends Observable<Object> implements Observer {
                 this.startMenu();
             }else if (Integer.valueOf((Integer) message) == 1) {
                 this.print();
+                System.out.println("print ");
             } else if (Integer.valueOf((Integer) message) == 2) {
                 this.printStatus();
+                this.takeInput();
+                System.out.println("print status");
             } else if (Integer.valueOf((Integer) message) == 3) {
                 this.printAllCards();
+                System.out.println("print all cards");
             } else if (Integer.valueOf((Integer) message) == 4) {
                 this.printDeck();
+                System.out.println("print deck");
             }
         } else if(message instanceof SessionListMessage){
             printAvailableSession((SessionListMessage)message);
@@ -527,6 +566,7 @@ public class CLI extends Observable<Object> implements Observer {
             System.out.println(message);
         }
     }
+
 }
 
 

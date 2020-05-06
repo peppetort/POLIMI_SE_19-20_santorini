@@ -73,6 +73,7 @@ public class Client extends Observable implements Observer<Object> {
                         cli.setClientStatus(status);
                         status.addObserver(cli);
                         board.addObserver(cli);
+
                     } else if (inputObject instanceof TurnUpdateMessage) {
                         String username = ((TurnUpdateMessage) inputObject).getUsername();
                         status.updateTurn(username);
