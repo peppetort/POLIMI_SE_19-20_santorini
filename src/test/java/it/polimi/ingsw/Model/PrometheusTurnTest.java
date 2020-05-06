@@ -41,7 +41,6 @@ public class PrometheusTurnTest {
         turn.start(worker);
         turn.build(0,1);
         turn.move(0,1);
-        turn.build(0,0);
         turn.end();
 
         util.setCanGoUp(tmp);

@@ -23,12 +23,6 @@ public class Player extends Observable<Message> {
     private Card card;
     private Turn turn;
 
-
-
-    public Color getColor() {
-        return color;
-    }
-
     /**
      * Represent the winning condition, it depends on the {@link Card} (if the {@link Game} is not simple)
      */
@@ -79,14 +73,6 @@ public class Player extends Observable<Message> {
         }
     }
 
-    public String getUsername() {
-        return this.username;
-    }
-
-    public HashMap<String, Boolean> getPlayerMenu() {
-        return this.playerMenu;
-    }
-
     public Card getCard() {
         if (session.isSimple()) {
             throw new SimpleGameException("No card!");
@@ -97,9 +83,9 @@ public class Player extends Observable<Message> {
     /**
      * Set the choosen {@link Card}
      *
-     * @param card
-     * @throws RuntimeException if the {@link Game} is simple
-     * @throws RuntimeException if the {@link Player} has already a {@link Card}
+     * @param card the card to be assigned to the player
+     * @throws SimpleGameException if the {@link Game} is simple
+     * @throws CardAlreadySetException if the {@link Player} has already a {@link Card}
      * @throws RuntimeException if the {@link Card} doesn't exist
      */
     public void setCard(Card card) throws NullPointerException {
@@ -173,6 +159,18 @@ public class Player extends Observable<Message> {
 
         CardUpdateMessage cardMessage = new CardUpdateMessage(card.getName());
         notify(cardMessage);
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public HashMap<String, Boolean> getPlayerMenu() {
+        return this.playerMenu;
     }
 
     public Worker getWorker1() {

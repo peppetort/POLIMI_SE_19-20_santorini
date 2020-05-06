@@ -1,22 +1,18 @@
 package it.polimi.ingsw.Messages;
 
-import it.polimi.ingsw.Server.Session;
-
 import java.util.HashMap;
 
 public class SessionListMessage implements Message {
-    private HashMap<String,Integer> partecipants = new HashMap<>();
-    private HashMap<String,Boolean> cards = new HashMap<>();
+    private final HashMap<String,Integer> participants = new HashMap<>();
+    private final HashMap<String,Boolean> cards = new HashMap<>();
 
-    public SessionListMessage(HashMap<String, Session> availableSession) {
-        for(String s: availableSession.keySet()){
-            partecipants.put(s,availableSession.get(s).getParticipant());
-            cards.put(s,availableSession.get(s).isSimple());
-        }
+    public void addSession(String name, int participants, boolean cards){
+        this.participants.put(name, participants);
+        this.cards.put(name, cards);
     }
 
-    public HashMap<String, Integer> getPartecipants() {
-        return partecipants;
+    public HashMap<String, Integer> getParticipants() {
+        return participants;
     }
 
     public HashMap<String, Boolean> getCards() {

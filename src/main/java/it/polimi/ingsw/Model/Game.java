@@ -78,16 +78,18 @@ public class Game extends Observable<Message> {
     /**
      * This method will remove the parameter {@link Player} from the {@link Game} and his {@link Worker} from the {@link Board}
      *
-     * @param player
-     * @throws NullPointerException
-     * @throws IndexOutOfBoundsException
+     * @param player player to remove
+     * @throws NullPointerException if player is not present in the list of players
      */
-    public void removePlayer(Player player) throws NullPointerException, IndexOutOfBoundsException {
+    public void removePlayer(Player player) throws NullPointerException{
         Worker worker1 = player.getWorker1();
         Worker worker2 = player.getWorker2();
 
-        board.getBox(worker1.getXPos(), worker1.getYPos()).removePawn();
-        board.getBox(worker2.getXPos(), worker2.getYPos()).removePawn();
+        try {
+            board.getBox(worker1.getXPos(), worker1.getYPos()).removePawn();
+            board.getBox(worker2.getXPos(), worker2.getYPos()).removePawn();
+        }catch (NullPointerException | IndexOutOfBoundsException ignored){}
+
         players.remove(player);
     }
 

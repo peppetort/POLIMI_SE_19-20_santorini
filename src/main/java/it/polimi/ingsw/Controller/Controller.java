@@ -22,7 +22,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     private int loosingPlayers;
 
     //timer e task per il calcolo dei 5 secondi
-    private Timer timer=new Timer();
+    private final Timer timer=new Timer();
     private TimerTask task;
 
     public Controller(Game game) {
@@ -271,7 +271,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         Turn playerTurn = player.getTurn();
         try {
             task.cancel();
-        }catch(Exception e){};
+        }catch(Exception ignored){};
         if (turn.get(player) && outcome.get(player) == null && !player.getPlayerMenu().get("placePawns") && !player.getPlayerMenu().get("chooseCard") && !player.getPlayerMenu().get("buildDeck")) {
                 playerTurn.undo();
 

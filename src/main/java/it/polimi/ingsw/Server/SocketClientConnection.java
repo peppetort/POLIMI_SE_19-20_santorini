@@ -1,10 +1,6 @@
 package it.polimi.ingsw.Server;
 
-import it.polimi.ingsw.Exceptions.FullSessionException;
-import it.polimi.ingsw.Messages.PlayerCreateSessionMessage;
-import it.polimi.ingsw.Messages.PlayerRetrieveSessions;
-import it.polimi.ingsw.Messages.PlayerSelectSession;
-import it.polimi.ingsw.Messages.SessionListMessage;
+import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Observer.Observable;
 
 import java.io.IOException;
@@ -12,15 +8,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SocketClientConnection extends Observable<String> implements ClientConnection, Runnable {
 
     private final Socket socket;
 
-    private  ObjectOutputStream out;
-    private  ObjectInputStream in;
+    private final ObjectOutputStream out;
+    private final ObjectInputStream in;
 
     private final Server server;
     private Session session;
@@ -28,9 +23,11 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     private boolean active = true;
 
-    public SocketClientConnection(Socket socket, Server server) {
+    public SocketClientConnection(Socket socket, Server server) throws IOException {
         this.socket = socket;
         this.server = server;
+        out = new ObjectOutputStream(socket.getOutputStream());
+        in = new ObjectInputStream(socket.getInputStream());
     }
 
     public Socket getSocket() {
@@ -40,6 +37,9 @@ public class SocketClientConnection extends Observable<String> implements Client
     private synchronized boolean isActive() {
         return active;
     }
+
+
+    //TODO: gestire bene cosa accade se il client si disconnette
 
     @Override
     public synchronized void closeConnection() {
@@ -63,6 +63,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         return this.username;
     }
 
+    //TODO: ?
     private void setName(Scanner in) {
         boolean valid = false;
         do {
@@ -96,12 +97,10 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     @Override
     public void run() {
-        Object inputObject = null;
-
+        Object inputObject;
         try {
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
 
+            //TODO: eliminare
             send("message from server: connected");
 
             while (isActive()) {
@@ -110,11 +109,21 @@ public class SocketClientConnection extends Observable<String> implements Client
                 inputObject = in.readObject();
 
                  if (inputObject instanceof PlayerRetrieveSessions) {
+                     //TODO: eliminare
                      System.out.println("Player retrieve");
                      send("server: join request arrived....");
+
                      try {
+                         //TODO:eliminare
                          System.out.println("Sending the retrieval message");
-                         send(new SessionListMessage(server.getAvailableSessions()));
+
+                         HashMap<String, Session> availableSessions = server.getAvailableSessions();
+                         SessionListMessage sessionListMessage = new SessionListMessage();
+
+                         for(String session: availableSessions.keySet()){
+                             sessionListMessage.addSession(session, availableSessions.get(session).getParticipant(), !availableSessions.get(session).isSimple());
+                         }
+                         send(sessionListMessage);
                      }catch(Exception e){
                          System.out.println("Exception occurred");
                          System.err.println(e.getMessage());
@@ -122,11 +131,14 @@ public class SocketClientConnection extends Observable<String> implements Client
 
                  } else if (inputObject instanceof PlayerCreateSessionMessage) {
 
+                     //TODO:eliminare
                      send("SERVER SAYS: CREATING MATCH");
 
                      String username = ((PlayerCreateSessionMessage) inputObject).getUsername();
                      String sessionID = ((PlayerCreateSessionMessage) inputObject).getSession();
 
+                     //TODO: controllare che non esista una sessione con lo stesso nome
+                     //TODO: controllare che players sia tra 2 e 3
                      int players = ((PlayerCreateSessionMessage) inputObject).getPlayers();
                      boolean cards = ((PlayerCreateSessionMessage) inputObject).isSimple();
 
@@ -134,8 +146,8 @@ public class SocketClientConnection extends Observable<String> implements Client
                      session = new Session(this, players, cards, server, sessionID);
                      server.availableSessions.put(sessionID, session);
 
-
                 } else if (inputObject instanceof PlayerSelectSession) {
+                     //TODO: eliminare
                      send("server: joining session");
                      String sessionID;
                      this.username = ((PlayerSelectSession) inputObject).getUsername();

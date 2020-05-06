@@ -27,7 +27,6 @@ public class ClientBoard extends Observable {
             playersLatestBoxes.put(p, new Box[2]);
         }
         notify(1);
-       // print();
     }
 
     public void lose(Color player) {
@@ -59,13 +58,11 @@ public class ClientBoard extends Observable {
             playersLatestBoxes.replace(player, newArray);
         }
 
-       // print();
         notify(1);
     }
 
     public void setLevel(int x, int y, int level) {
         board[x][y].setLevel(level);
-        //  print();
        notify(1);
     }
     public void restore(int x,int y,Integer worker,Color player,int level)

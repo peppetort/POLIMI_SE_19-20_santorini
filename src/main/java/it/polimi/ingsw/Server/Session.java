@@ -92,9 +92,10 @@ public class Session extends Observable<Message> implements Serializable {
         playingConnection.putAll(waitingConnection);
         waitingConnection.clear();
 
+        ClientConnection player1Connection = playingConnection.get(keys.get(0));
+        ClientConnection player2Connection = playingConnection.get(keys.get(1));
+
         if(participant == 2){
-            ClientConnection player1Connection = playingConnection.get(keys.get(0));
-            ClientConnection player2Connection = playingConnection.get(keys.get(1));
 
             Game model = new Game(keys.get(0), keys.get(1), board, simple);
             Controller controller = new Controller(model);
@@ -146,8 +147,6 @@ public class Session extends Observable<Message> implements Serializable {
 
         }else{
 
-            ClientConnection player1Connection = playingConnection.get(keys.get(0));
-            ClientConnection player2Connection = playingConnection.get(keys.get(1));
             ClientConnection player3Connection = playingConnection.get(keys.get(2));
 
             Game model = new Game(keys.get(0), keys.get(1), keys.get(2), board, simple);
