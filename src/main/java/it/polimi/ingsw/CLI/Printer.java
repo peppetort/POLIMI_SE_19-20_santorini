@@ -1,49 +1,35 @@
-package it.polimi.ingsw.Client;
-
+package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.Client.Box;
-import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Client.ClientBoard;
+import it.polimi.ingsw.Client.ClientStatus;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
-import it.polimi.ingsw.Observer.Observable;
-import it.polimi.ingsw.Observer.Observer;
-import it.polimi.ingsw.Server.Session;
 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
-public class CLI extends Observable<Object> implements Observer{
+class Printer {
+
     private ClientBoard clientBoard;
     private ClientStatus clientStatus;
+
+    private final String ANSI_RESET = "\u001B[0m";
+    private final String ANSI_RED = "\u001B[31m";
+    private final String ANSI_GREEN = "\u001B[32m";
+    private final String ANSI_BLUE = "\u001B[34m";
     private final String lengthMarker = "-";
     private final String widthMarker = "+";
-    private static Scanner reader = new Scanner(System.in).useDelimiter("\n");
 
-    private State state;
-
-    public CLI(){
-        this.state = State.START;
+    public void setClientBoard(ClientBoard board){
+        this.clientBoard = board;
     }
 
-    public void setClientBoard(ClientBoard clientBoard) {
-        this.clientBoard = clientBoard;
+    public void setClientStatus(ClientStatus status){
+        this.clientStatus = status;
     }
 
-    public void setClientStatus(ClientStatus clientStatus) {
-        this.clientStatus = clientStatus;
-    }
-
-    public void print() {
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_RED = "\u001B[31m";
-        final String ANSI_GREEN = "\u001B[32m";
-        final String ANSI_BLUE = "\u001B[34m";
+    public void printBoard() {
 
         String title = "BOARD";
         String menuFormat;
@@ -130,64 +116,106 @@ public class CLI extends Observable<Object> implements Observer{
 
     }
 
-    private synchronized void printActions(int length) {
 
-        String actionsLabel = "ACTION";
+    public void printAvailableSession(HashMap<String, Integer> participants, HashMap<String, Boolean> cards){
+        String menuFormat;
         String bodyFormat;
-        ArrayList<String> actions = clientStatus.getActions();
+        int maxLength;
+        int length;
 
-        int actionsLength = (length - actionsLabel.length()) / 2 - 1;
+        if(participants.size() != 0) {
 
-        System.out.print(widthMarker + " ");
-        for (int i = 0; i < actionsLength; i++) {
-            System.out.print(lengthMarker);
+            for (String name : participants.keySet()) {
+                StringBuilder sessionNameLabel = new StringBuilder();
+                StringBuilder participantsLabel = new StringBuilder("PARTICIPANTS: ");
+                StringBuilder cardsLabel = new StringBuilder("CARDS: ");
+
+                sessionNameLabel.append(name);
+                participantsLabel.append(participants.get(name));
+
+                boolean card = cards.get(name);
+
+                if (card) {
+                    cardsLabel.append("YES");
+                } else {
+                    cardsLabel.append("NO");
+                }
+
+                maxLength = sessionNameLabel.length();
+                if (participantsLabel.length() > maxLength) {
+                    maxLength = participantsLabel.length();
+                }
+
+                length = maxLength / 2 + maxLength / 2 + sessionNameLabel.length() + 6;
+
+                menuFormat = "%-";
+                menuFormat += Integer.toString(5 + maxLength / 2);
+                menuFormat += "s%s%";
+                menuFormat += Integer.toString(5 + maxLength / 2);
+                menuFormat += "s%n";
+
+                System.out.print(widthMarker + " ");
+                for (int i = 0; i < length; i++) {
+                    System.out.print(lengthMarker);
+                }
+                System.out.print(" " + widthMarker);
+                System.out.print("\n");
+
+                System.out.printf(menuFormat, widthMarker, sessionNameLabel, widthMarker);
+
+                System.out.print(widthMarker + " ");
+                for (int i = 0; i < length; i++) {
+                    System.out.print(lengthMarker);
+                }
+                System.out.print(" " + widthMarker);
+                System.out.print("\n");
+
+                bodyFormat = "%-3s%s%" + (maxLength / 2 + maxLength / 2 + 7 + sessionNameLabel.length() - participantsLabel.length()) + "s%n";
+                System.out.printf(bodyFormat, widthMarker, participantsLabel, widthMarker);
+                bodyFormat = "%-3s%s%" + (maxLength / 2 + maxLength / 2 + 7 + sessionNameLabel.length() - cardsLabel.length()) + "s%n";
+                System.out.printf(bodyFormat, widthMarker, cardsLabel, widthMarker);
+
+                System.out.print(widthMarker + " ");
+                for (int i = 0; i < length; i++) {
+                    System.out.print(lengthMarker);
+                }
+                System.out.print(" " + widthMarker);
+                System.out.print("\n");
+                System.out.print("\n");
+
+            }
+        }else {
+            String noSessionLabel = "No session available!";
+            maxLength = noSessionLabel.length();
+            length = maxLength / 2 + maxLength / 2 + noSessionLabel.length() + 6;
+
+            menuFormat = "%-";
+            menuFormat += Integer.toString(5 + maxLength / 2);
+            menuFormat += "s%s%";
+            menuFormat += Integer.toString(5 + maxLength / 2);
+            menuFormat += "s%n";
+
+            System.out.print(widthMarker + " ");
+            for (int i = 0; i < length; i++) {
+                System.out.print(lengthMarker);
+            }
+            System.out.print(" " + widthMarker);
+            System.out.print("\n");
+
+            System.out.printf(menuFormat, widthMarker, noSessionLabel, widthMarker);
+
+            System.out.print(widthMarker + " ");
+            for (int i = 0; i < length; i++) {
+                System.out.print(lengthMarker);
+            }
+            System.out.print(" " + widthMarker);
+            System.out.print("\n");
+            System.out.print("\n");
         }
-        System.out.print(" " + actionsLabel + " ");
-        for (int i = 0; i < actionsLength; i++) {
-            System.out.print(lengthMarker);
-        }
-        System.out.print(" " + widthMarker);
-        System.out.print("\n");
-
-        for (String act : actions) {
-            bodyFormat = "%-3s%s%" + (length + 1 - act.length() - 2) + "s%n";
-            System.out.printf(bodyFormat, widthMarker, "> " + act.toUpperCase(), widthMarker);
-        }
-
-        System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
-
     }
 
-    //TODO: spostare in una classe CLI
-    private synchronized void printMessages(int length) {
-        String messagesLabel = "MESSAGES";
-        String bodyFormat;
 
-        ArrayList<String> messages = clientStatus.getMessages();
-
-        int messagesLength = (length - messagesLabel.length()) / 2 - 1;
-
-        System.out.print(widthMarker + " ");
-        for (int i = 0; i < messagesLength; i++) {
-            System.out.print(lengthMarker);
-        }
-        System.out.print(" " + messagesLabel + " ");
-        for (int i = 0; i < messagesLength; i++) {
-            System.out.print(lengthMarker);
-        }
-        System.out.print(" " + widthMarker);
-        System.out.print("\n");
-
-        for (String message : messages) {
-            bodyFormat = "%-3s%s%" + (length + 3 - message.length() - 2) + "s%n";
-            System.out.printf(bodyFormat, widthMarker, message, widthMarker);
-        }
-
-        System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
-    }
-
-    //TODO: sposatre in una classe CLI
-    public synchronized void printAllCards() {
+    public void printAllCards() {
         String title = "ALL CARDS";
         String menuFormat;
         String bodyFormat;
@@ -232,7 +260,7 @@ public class CLI extends Observable<Object> implements Observer{
         System.out.print("\n");
     }
 
-    public synchronized void printDeck() {
+    public void printDeck() {
         String title = "AVAILABLE CARDS";
         String menuFormat;
         String bodyFormat;
@@ -278,7 +306,7 @@ public class CLI extends Observable<Object> implements Observer{
         System.out.print("\n");
     }
 
-    public synchronized void printStatus() {
+    public void printStatus() {
         String title = "STATUS";
         String menuFormat;
         String bodyFormat;
@@ -388,199 +416,59 @@ public class CLI extends Observable<Object> implements Observer{
 
     }
 
-    public void takeInput(){
-        String input ="";
-        input = reader.nextLine();
-        System.out.println(input);
+    private void printActions(int length) {
+
+        String actionsLabel = "ACTION";
+        String bodyFormat;
+        ArrayList<String> actions = clientStatus.getActions();
+
+        int actionsLength = (length - actionsLabel.length()) / 2 - 1;
+
+        System.out.print(widthMarker + " ");
+        for (int i = 0; i < actionsLength; i++) {
+            System.out.print(lengthMarker);
+        }
+        System.out.print(" " + actionsLabel + " ");
+        for (int i = 0; i < actionsLength; i++) {
+            System.out.print(lengthMarker);
+        }
+        System.out.print(" " + widthMarker);
+        System.out.print("\n");
+
+        for (String act : actions) {
+            bodyFormat = "%-3s%s%" + (length + 1 - act.length() - 2) + "s%n";
+            System.out.printf(bodyFormat, widthMarker, "> " + act.toUpperCase(), widthMarker);
+        }
+
+        System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
+
     }
 
-    public void startMenu() {
-            try {
-                reader = new Scanner(System.in);
-                boolean correct = false;
+    private void printMessages(int length) {
+        String messagesLabel = "MESSAGES";
+        String bodyFormat;
 
-                System.out.println("WELCOME TO SANTORINI");
-                System.out.println("list of commands:");
-                System.out.println("JOIN (join an existing session)");
-                System.out.println("CREATE (create a new game)");
+        ArrayList<String> messages = clientStatus.getMessages();
 
-                do {
+        int messagesLength = (length - messagesLabel.length()) / 2 - 1;
 
-                    String input = reader.nextLine();
-                    if (input.toUpperCase().equals("JOIN") || input.toUpperCase().equals("CREATE")) {
-                        correct = true;
-                        switch (input.toUpperCase()) {
-                            case "JOIN":
-                                System.out.println("List of available session:");
-                                notify(new PlayerRetrieveSessions("ciao"));
-                                break;
-                            case "CREATE":
-                                create();
-                                break;
-                        }
-                        correct = true;
-                    }else {
-                        System.out.println("Type a valid command");
-                        correct = false;
-                }
-                }while(!correct);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-    }
-
-    public void create() {
-
-        String input;
-        int question = 0;
-        String username = null;
-        String session = null;
-        int players = 2;
-        boolean correct = true;
-        boolean simple = false;
-
-        do {
-            switch (question) {
-                case 0:
-                    System.out.println("Insert your name:");
-                    input = reader.nextLine();
-                    username = input;
-                    correct = true;
-                    break;
-                case 1:
-                    System.out.println("Insert name of the session:");
-                    input = reader.nextLine();
-                    session = input;
-                    correct = true;
-                    break;
-                case 2:
-                    System.out.println("Insert number of players:");
-                    input = reader.nextLine();
-                    players = Integer.valueOf(input);
-                    if (players < 2 || players > 3) {
-                        correct = false;
-                    } else {
-                        correct = true;
-                    }
-                    break;
-                case 3:
-                    System.out.println("Simple game? Y/N");
-                    input = reader.nextLine();
-                    if (input.toUpperCase().equals("Y")) {
-                        simple = true;
-                        correct = true;
-                    } else if (input.toUpperCase().equals("N")) {
-                        simple = false;
-                        correct = true;
-                    } else {
-                        correct = false;
-                    }
-                    break;
-                default: throw new IllegalStateException();
-            }
-            if (correct) {
-                question++;
-            }
-        } while (!input.toUpperCase().equals("ESC") && question < 4);
-
-        if (!input.toUpperCase().equals("ESC")) {
-            PlayerCreateSessionMessage createMessage = new PlayerCreateSessionMessage(username, session, players, simple);
-            state = State.WAIT;
-            notify(createMessage);
-        }else{
-            state = State.START;
+        System.out.print(widthMarker + " ");
+        for (int i = 0; i < messagesLength; i++) {
+            System.out.print(lengthMarker);
         }
-    }
-
-
-    public void printAvailableSession(SessionListMessage message) {
-        HashMap<String,Integer> partecipants = message.getPartecipants();
-        HashMap<String,Boolean> cards = message.getCards();
-        String session = "";
-        String username;
-        boolean correct = false;
-
-        //stampo le sessioni
-        for(String s: partecipants.keySet()){
-            System.out.println(s);
-            System.out.println(partecipants.get(s));
-            System.out.println(cards.get(s));
-            System.out.println();
+        System.out.print(" " + messagesLabel + " ");
+        for (int i = 0; i < messagesLength; i++) {
+            System.out.print(lengthMarker);
         }
-        if(partecipants.size() == 0)
-        {
-            System.out.println("No session available!");
+        System.out.print(" " + widthMarker);
+        System.out.print("\n");
 
-        }else {
-            System.out.println("Insert your username (type esc to go back to startMenu):");
-            username = reader.nextLine().toUpperCase();
-
-            if (username.toUpperCase().equals("ESC")) {
-
-                startMenu();
-            } else {
-                System.out.println("Insert the name of the session you want to join:");
-
-                do {
-                    session = reader.nextLine();
-                    if (partecipants.containsKey(session)) {
-                        correct = true;
-                        notify(new PlayerSelectSession(session, username));
-                    }
-                    if (!correct) {
-                        System.out.println("This session doesn't exists!");
-                    }
-                } while (!correct && !session.toUpperCase().equals("ESC"));
-
-                if (session.toUpperCase().equals("ESC")) {
-                    startMenu();
-                }
-            }
+        for (String message : messages) {
+            bodyFormat = "%-3s%s%" + (length + 3 - message.length() - 2) + "s%n";
+            System.out.printf(bodyFormat, widthMarker, message, widthMarker);
         }
-    }
 
-
-    @Override
-    public void update(Object message) {
-
-        if (message instanceof Integer) {
-            if (Integer.valueOf((Integer) message) == 0) {
-                this.startMenu();
-            }else if (Integer.valueOf((Integer) message) == 1) {
-                this.print();
-                System.out.println("print ");
-            } else if (Integer.valueOf((Integer) message) == 2) {
-                this.printStatus();
-                this.takeInput();
-                System.out.println("print status");
-            } else if (Integer.valueOf((Integer) message) == 3) {
-                this.printAllCards();
-                System.out.println("print all cards");
-            } else if (Integer.valueOf((Integer) message) == 4) {
-                this.printDeck();
-                System.out.println("print deck");
-            }
-        } else if(message instanceof SessionListMessage){
-            printAvailableSession((SessionListMessage)message);
-        } else {
-            System.out.println(message);
-        }
+        System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
