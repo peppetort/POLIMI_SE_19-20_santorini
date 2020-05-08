@@ -1,5 +1,6 @@
 package it.polimi.ingsw.CLI;
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Client.Box;
 import it.polimi.ingsw.Client.ClientBoard;
 import it.polimi.ingsw.Client.ClientStatus;
@@ -315,7 +316,7 @@ class Printer {
         String card = clientStatus.getCard();
         String turn = clientStatus.getTurn();
         Color color = clientStatus.getColor();
-        ArrayList<String> actions = clientStatus.getActions();
+        ArrayList<Actions> actions = clientStatus.getActions();
         ArrayList<String> messages = clientStatus.getMessages();
 
 
@@ -350,9 +351,9 @@ class Printer {
         }
 
         if (actions != null) {
-            for (String act : actions) {
-                if (act.length() > maxLength) {
-                    maxLength = act.length();
+            for (Actions act : actions) {
+                if (String.valueOf(act).length() > maxLength) {
+                    maxLength = String.valueOf(act).length();
                 }
             }
         }
@@ -420,7 +421,7 @@ class Printer {
 
         String actionsLabel = "ACTION";
         String bodyFormat;
-        ArrayList<String> actions = clientStatus.getActions();
+        ArrayList<Actions> actions = clientStatus.getActions();
 
         int actionsLength = (length - actionsLabel.length()) / 2 - 1;
 
@@ -435,9 +436,9 @@ class Printer {
         System.out.print(" " + widthMarker);
         System.out.print("\n");
 
-        for (String act : actions) {
-            bodyFormat = "%-3s%s%" + (length + 1 - act.length() - 2) + "s%n";
-            System.out.printf(bodyFormat, widthMarker, "> " + act.toUpperCase(), widthMarker);
+        for (Actions act : actions) {
+            bodyFormat = "%-3s%s%" + (length + 1 - String.valueOf(act).length() - 2) + "s%n";
+            System.out.printf(bodyFormat, widthMarker, "> " + String.valueOf(act).toUpperCase(), widthMarker);
         }
 
         System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);

@@ -1,21 +1,27 @@
 package it.polimi.ingsw.CLI;
 
+import it.polimi.ingsw.Client.Actions;
+import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.Client.ClientBoard;
 import it.polimi.ingsw.Client.ClientStatus;
 import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class CLI extends Observable<Object> implements Observer{
     private final Printer printer;
-
+    private Client client;
     private static Scanner reader = new Scanner(System.in).useDelimiter("\n");
 
    // private State state;
-    public CLI(){
+    public CLI(Client client){
         printer = new Printer();
+        this.client = client;
         // this.state = State.START;
     }
 
@@ -28,9 +34,52 @@ public class CLI extends Observable<Object> implements Observer{
     }
 
     private void takeInput(){
-        String input;
+        //TODO IL CONTROLLO DELLA CORRETTEZZA DEVE ESSERE FATTO LATO SERVER
+        String input="";
+        String[] data;
+        Actions action;
+        System.out.println("Insert action:");
+        System.out.print(">");
         input = reader.nextLine();
-        System.out.println(input);
+        data = input.split(" ");
+        action = Actions.valueOf(data[0].toUpperCase());
+        System.out.println(action);
+        switch(action){
+            case UNDO:
+                notify(new PlayerUndoMessage());
+                break;
+            case BUILD:
+                notify(new PlayerBuildMessage(Integer.valueOf(data[1]),Integer.valueOf(data[2])));
+                break;
+            case END:
+                notify(new PlayerEndMessage());
+                break;
+            case MOVE:
+                notify(new PlayerMoveMessage(Integer.valueOf(data[1]),Integer.valueOf(data[2])));
+                break;
+            case PLACE:
+                notify(new PlayerPlacePawnsMessage(Integer.valueOf(data[1]),Integer.valueOf(data[2]),Integer.valueOf(data[3]),Integer.valueOf(data[4])));
+                break;
+            case SELECT:
+                notify(new PlayerSelectMessage(Integer.valueOf(data[1])));
+                break;
+            case CARD:
+                notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
+                break;
+            case DECK:
+                ArrayList<God> deck = new ArrayList<>();
+                for(String s: data){
+                    if(s!=data[0]){
+                        deck.add(God.valueOf(s.toUpperCase()));
+                    }
+                }
+                notify(new PlayerDeckMessage(deck));
+                break;
+            case BUILD_DOME:
+                notify(new PlayerBuildDomeMessage(Integer.valueOf(data[1]),Integer.valueOf(data[2])));
+                break;
+        }
+
     }
 
     public void startMenu() {
@@ -184,22 +233,16 @@ public class CLI extends Observable<Object> implements Observer{
                 this.startMenu();
             }else if ((Integer) message == 1) {
                 printer.printBoard();
-                //TODO:eliminare
-                System.out.println("print ");
             } else if ((Integer) message == 2) {
                 printer.printStatus();
-                this.takeInput();
-                printer.printStatus();
-                //TODO: eliminare
-                System.out.println("print status");
+                //TODO : ANDREBBE BENE SOLO SE HO USERNAME UNIVOCI
+                if(client.getStatus().myTurn()) {
+                    takeInput();
+                }
             } else if ((Integer) message == 3) {
                 printer.printAllCards();
-                //TODO: eliminare
-                System.out.println("print all cards");
             } else if ((Integer) message == 4) {
                 printer.printDeck();
-                //TODO:eliminare
-                System.out.println("print deck");
             }
         } else if(message instanceof SessionListMessage){
             join((SessionListMessage)message);
