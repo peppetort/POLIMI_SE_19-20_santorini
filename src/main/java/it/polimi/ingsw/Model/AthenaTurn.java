@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.InvalidMoveException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
@@ -29,9 +30,9 @@ public class AthenaTurn extends DefaultTurn {
         win = winAction.winChecker();
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("build");
+        message.addAction(Actions.BUILD);
         //TODO: verificare che l'UNDO riporti canGoUp a true nel caso il giocatore sia salito di livello
-        message.addAction("undo");
+        message.addAction(Actions.UNDO);
         player.notify(message);
 
         //se la box su cui mi sono mosso ha una costruzione > di

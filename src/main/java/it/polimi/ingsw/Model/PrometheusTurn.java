@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
@@ -47,15 +48,15 @@ public class PrometheusTurn extends DefaultTurn {
         playerMenu.replace("undo", true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("move");
+        message.addAction(Actions.MOVE);
 
-        message.addAction("undo");
+        message.addAction(Actions.MOVE);
         if (!worker.moveGoUp()) {
             canMove = true;
             canBuild = true;
             playerMenu.replace("build", true);
 
-            message.addAction("build");
+            message.addAction(Actions.BUILD);
         }
 
         player.notify(message);
@@ -95,10 +96,10 @@ public class PrometheusTurn extends DefaultTurn {
             playerMenu.replace("build", true);
             playerMenu.replace("end", true);
             message = new ActionsUpdateMessage();
-            message.addAction("build");
+            message.addAction(Actions.BUILD);
         }
-        message.addAction("undo");
-        message.addAction("end");
+        message.addAction(Actions.UNDO);
+        message.addAction(Actions.END);
 
         player.notify(message);
     }
@@ -117,14 +118,14 @@ public class PrometheusTurn extends DefaultTurn {
         playerMenu.replace("end", true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("undo");
+        message.addAction(Actions.UNDO);
 
         if (!startBuild) {
             startBuild = true;
             playerMenu.replace("build", false);
-            message.addAction("move");
+            message.addAction(Actions.MOVE);
         }else {
-            message.addAction("end");
+            message.addAction(Actions.END);
         }
 
         player.notify(message);

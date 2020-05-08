@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
@@ -43,8 +44,8 @@ public class HephaestusTurn extends DefaultTurn {
             playerMenu.replace("build", false);
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
-            message.addAction("end");
-            message.addAction("undo");
+            message.addAction(Actions.END);
+            message.addAction(Actions.UNDO);
             player.notify(message);
         } catch (NullPointerException e) {
             buildAction.build(worker, x, y);
@@ -52,9 +53,9 @@ public class HephaestusTurn extends DefaultTurn {
 
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
-            message.addAction("build");
-            message.addAction("end");
-            message.addAction("undo");
+            message.addAction(Actions.BUILD);
+            message.addAction(Actions.END);
+            message.addAction(Actions.UNDO);
             player.notify(message);
 
             //se la prima volta che costruisco, costruisco un livello

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.InvalidBuildException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
@@ -44,8 +45,8 @@ public class DemeterTurn extends DefaultTurn {
             playerMenu.replace("build", false);
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
-            message.addAction("end");
-            message.addAction("undo");
+            message.addAction(Actions.END);
+            message.addAction(Actions.UNDO);
             player.notify(message);
         } catch (NullPointerException e) { // vuol dire che è la prima volta che costruisco poichè lastX lastY sono null
             buildAction.build(worker, x, y);
@@ -55,9 +56,9 @@ public class DemeterTurn extends DefaultTurn {
             oneBuild = true; //indico che ho costruito almeno una volta
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
-            message.addAction("build");
-            message.addAction("end");
-            message.addAction("undo");
+            message.addAction(Actions.BUILD);
+            message.addAction(Actions.END);
+            message.addAction(Actions.UNDO);
             player.notify(message);
         }
         playerMenu.replace("end", true);

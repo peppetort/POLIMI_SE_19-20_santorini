@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
@@ -53,8 +54,8 @@ public class ArtemisTurn extends DefaultTurn {
                 playerMenu.replace("move", false);
 
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
-                message.addAction("build");
-                message.addAction("undo");
+                message.addAction(Actions.BUILD);
+                message.addAction(Actions.UNDO);
                 player.notify(message);
 
             } catch (NullPointerException e) {
@@ -64,9 +65,9 @@ public class ArtemisTurn extends DefaultTurn {
                 oneMove = true;
 
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
-                message.addAction("move");
-                message.addAction("build");
-                message.addAction("undo");
+                message.addAction(Actions.MOVE);
+                message.addAction(Actions.BUILD);
+                message.addAction(Actions.UNDO);
                 player.notify(message);
             }
         }

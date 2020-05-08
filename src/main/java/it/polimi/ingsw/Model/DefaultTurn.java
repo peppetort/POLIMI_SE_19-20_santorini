@@ -1,8 +1,12 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
 public class DefaultTurn implements Turn {
@@ -64,8 +68,8 @@ public class DefaultTurn implements Turn {
         playerMenu.replace("move", true);
         playerMenu.replace("undo", true);
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("move");
-        message.addAction("undo");
+        message.addAction(Actions.MOVE);
+        message.addAction(Actions.UNDO);
         player.notify(message);
 
     }
@@ -89,8 +93,8 @@ public class DefaultTurn implements Turn {
         playerMenu.replace("build", true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("build");
-        message.addAction("undo");
+        message.addAction(Actions.BUILD);
+        message.addAction(Actions.BUILD);
         player.notify(message);
 
         win = winAction.winChecker();
@@ -111,8 +115,8 @@ public class DefaultTurn implements Turn {
         playerMenu.replace("end", true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("end");
-        message.addAction("undo");
+        message.addAction(Actions.END);
+        message.addAction(Actions.UNDO);
         player.notify(message);
 
     }
@@ -132,8 +136,8 @@ public class DefaultTurn implements Turn {
         playerMenu.replace("end", true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("end");
-        message.addAction("undo");
+        message.addAction(Actions.END);
+        message.addAction(Actions.UNDO);
         player.notify(message);
     }
 
@@ -173,7 +177,7 @@ public class DefaultTurn implements Turn {
         this.win = false;
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("start");
+        message.addAction(Actions.SELECT);
         player.notify(message);
     }
     //TODO: gestione undo per le classi che ereditano da questa (solo alcune che non sono ancora state testate)
