@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Controller;
 
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.CardAlreadySetException;
 import it.polimi.ingsw.Exceptions.PlayerLostException;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
@@ -91,24 +92,24 @@ public class Controller extends Observable<Message> implements Observer<Message>
                                 playerMenu.replace("buildDeck", false);
                                 nextPlayerMenu.replace("chooseCard", true);
 
-                                message.addAction("card");
+                                message.addAction(Actions.CARD);
                                 nextPlayer.notify(message);
                             } else if (playerMenu.get("chooseCard")) {
                                 playerMenu.replace("chooseCard", false);
                                 nextPlayerMenu.replace("placePawns", true);
 
-                                message.addAction("place");
+                                message.addAction(Actions.PLACE);
                                 nextPlayer.notify(message);
                             } else if (playerMenu.get("placePawns")) {
                                 playerMenu.replace("placePawns", false);
                                 nextPlayerMenu.replace("start", true);
 
-                                message.addAction("start");
+                                message.addAction(Actions.SELECT);
                                 nextPlayer.notify(message);
                             } else {
                                 nextPlayerMenu.replace("start", true);
 
-                                message.addAction("start");
+                                message.addAction(Actions.SELECT);
                                 nextPlayer.notify(message);
                             }
                         } else {
@@ -116,18 +117,18 @@ public class Controller extends Observable<Message> implements Observer<Message>
                                 playerMenu.replace("chooseCard", false);
                                 nextPlayerMenu.replace("chooseCard", true);
 
-                                message.addAction("card");
+                                message.addAction(Actions.CARD);
                                 nextPlayer.notify(message);
                             } else if (playerMenu.get("placePawns")) {
                                 playerMenu.replace("placePawns", false);
                                 nextPlayerMenu.replace("placePawns", true);
 
-                                message.addAction("place");
+                                message.addAction(Actions.PLACE);
                                 nextPlayer.notify(message);
                             } else {
                                 nextPlayerMenu.replace("start", true);
 
-                                message.addAction("start");
+                                message.addAction(Actions.SELECT);
                                 nextPlayer.notify(message);
                             }
                         }
@@ -154,7 +155,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     //Actions
-    private void performStart(PlayerStartMessage message) throws RuntimeException {
+    private void performStart(PlayerSelectMessage message) throws RuntimeException {
         Player player = message.getPlayer();
         Worker worker = message.getWorker();
 
@@ -280,19 +281,19 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
     private void performDeckBuilding(PlayerDeckMessage message) {
         Player player = message.getPlayer();
-        Set<String> sCards = message.getCards();
+//        Set<String> sCards = message.getCards();
+        ArrayList<God> sCards = message.getDeck();
         ArrayList<God> deck = new ArrayList<>();
 
         if (turn.get(player) && player.getPlayerMenu().get("buildDeck") && player.equals(playersList.get(0))) {
             if (sCards.size() == playersList.size()) {
                 try {
-                    for (String c : sCards) {
-                        Card card = new Card(God.valueOf(c));
-                        deck.add(God.valueOf(c));
-                        cards.add(card);
+                    for(God g : sCards){
+                        Card card = new Card(g);
+                        this.cards.add(card);
                     }
                     game.addCards(cards);
-                    DeckUpdateMessage deckMessage = new DeckUpdateMessage(deck);
+                    DeckUpdateMessage deckMessage = new DeckUpdateMessage(sCards);
                     notify(deckMessage);
                     updateTurn();
                 } catch (SimpleGameException e1) {
@@ -301,21 +302,20 @@ public class Controller extends Observable<Message> implements Observer<Message>
                     cards.clear();
                     throw new IllegalArgumentException("Card inserted does not exist");
                 }
-
             }
         }
     }
 
     private void performCardChoice(PlayerCardChoiceMessage message) throws NullPointerException, IllegalArgumentException {
         Player player = message.getPlayer();
-        String cardName = message.getCard();
+        God cardName = message.getCard();
         ArrayList<God> deck = new ArrayList<>();
 
         if (player.getPlayerMenu().get("chooseCard") && turn.get(player)) {
             try {
                 Card card = null;
                 for (Card c : cards) {
-                    if (c.getName().equals(God.valueOf(cardName))) {
+                    if (c.getName().equals(cardName)) {
                         card = c;
                     }
                 }
@@ -402,8 +402,8 @@ public class Controller extends Observable<Message> implements Observer<Message>
         if (message instanceof PlayerDeckMessage) {
             performDeckBuilding((PlayerDeckMessage) message);
         }
-        if (message instanceof PlayerStartMessage) {
-            performStart((PlayerStartMessage) message);
+        if (message instanceof PlayerSelectMessage) {
+            performStart((PlayerSelectMessage) message);
         }
         if (message instanceof PlayerEndMessage) {
             performEnd((PlayerEndMessage) message);
