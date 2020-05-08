@@ -4,6 +4,7 @@ import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ClientStatus extends Observable {
@@ -11,9 +12,10 @@ public class ClientStatus extends Observable {
     private String card;
     private final Color color;
     private String turn;
-    private ArrayList<String> actions;
+    private ArrayList<Actions> actions;
     private final ArrayList<String> messages = new ArrayList<>();
     private ArrayList<God> deck;
+
 
 
     public ClientStatus(String username, Color color) {
@@ -29,7 +31,7 @@ public class ClientStatus extends Observable {
         return color;
     }
 
-    public ArrayList<String> getActions() {
+    public ArrayList<Actions> getActions() {
         return actions;
     }
 
@@ -55,7 +57,6 @@ public class ClientStatus extends Observable {
             this.card = card.toString();
             deck = null;
         }
-        //TODO: notify()
     }
 
     public synchronized void updateDeck(ArrayList<God> deck){
@@ -102,19 +103,24 @@ public class ClientStatus extends Observable {
 
     }
 
-    public synchronized void updateAction(ArrayList<String> actions){
+    public synchronized void updateAction(ArrayList<Actions> actions){
         this.actions = actions;
 
         //print();
-        notify(2);
 
-        if(actions.get(0).equals("deck")){
+        if(actions.get(0).equals(Actions.DECK)){
           //  printAllCards();
             notify(3);
-        }else if(actions.get(0).equals("card")){
+        }else if(actions.get(0).equals(Actions.CARD)){
           //  printDeck();
             notify(4);
         }
+        notify(2);
+    }
+
+    //TODO: DISCUTERE UNIVOCITA' DEI NOMI E GESTIONE
+    public boolean myTurn(){
+        return turn.equals(username);
     }
 
 }

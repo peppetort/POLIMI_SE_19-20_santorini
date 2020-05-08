@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 public class Client extends Observable implements Observer<Object> {
@@ -33,21 +34,27 @@ public class Client extends Observable implements Observer<Object> {
     }
 
     public void startClient() throws IOException {
+        Thread reader = asyncReadFromSocket();;
         socket = new Socket(ip, port);
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
-        cli = new CLI();
+        cli = new CLI(this);
         cli.addObserver(this);
         this.addObserver(cli);
         notify(0);
-        Thread reader = asyncReadFromSocket();
-        reader.start();
+        try {
+            reader.start();
+        }catch (RuntimeException e){
+            System.err.println(e.getMessage());
+        }
+
     }
 
     public Thread asyncReadFromSocket() {
         return new Thread(() -> {
             Object inputObject;
-            while (socket.isConnected()) {
+            boolean connected = true;
+            while (connected) {
                 try {
                     inputObject = in.readObject();
                     if (inputObject instanceof String || inputObject instanceof SessionListMessage) {
@@ -67,7 +74,7 @@ public class Client extends Observable implements Observer<Object> {
                         String username = ((TurnUpdateMessage) inputObject).getUsername();
                         status.updateTurn(username);
                     } else if (inputObject instanceof ActionsUpdateMessage) {
-                        ArrayList<String> actions = ((ActionsUpdateMessage) inputObject).getActions();
+                        ArrayList<Actions> actions = ((ActionsUpdateMessage) inputObject).getActions();
                         status.updateAction(actions);
                     } else if (inputObject instanceof CardUpdateMessage) {
                         God card = ((CardUpdateMessage) inputObject).getCard();
@@ -107,10 +114,12 @@ public class Client extends Observable implements Observer<Object> {
                         }
                         notify(1);
                     }
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    connected = false;
                 }
             }
+            //throw new RuntimeException("Server is not working, or maybe its you");
+
         });
     }
 
@@ -130,4 +139,11 @@ public class Client extends Observable implements Observer<Object> {
         send(message);
     }
 
+    public ClientStatus getStatus() {
+        return status;
+    }
+
+    public ClientBoard getBoard() {
+        return board;
+    }
 }
