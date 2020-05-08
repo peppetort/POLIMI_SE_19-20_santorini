@@ -3,12 +3,12 @@ package it.polimi.ingsw.Messages;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.Worker;
 
-public class PlayerStartMessage implements Message {
+public class PlayerSelectMessage implements Message {
     private Player player;
     private Worker worker;
     private int num;
 
-    public PlayerStartMessage(int num){
+    public PlayerSelectMessage(int num){
         this.num = num;
     }
 
@@ -32,7 +32,4 @@ public class PlayerStartMessage implements Message {
         return num;
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
 }

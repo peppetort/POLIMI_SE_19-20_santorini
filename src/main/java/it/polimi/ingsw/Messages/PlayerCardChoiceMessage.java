@@ -1,22 +1,25 @@
 package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Card;
+import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Model.Player;
 
 public class PlayerCardChoiceMessage implements Message {
 
-    Player player;
-    String card;
+    private God card;
+    private Player player;
 
-    public PlayerCardChoiceMessage(Player player, String card) {
-        this.player = player;
+    public PlayerCardChoiceMessage(God card) {
         this.card = card;
     }
 
-    public String getCard() {
+    public God getCard() {
         return card;
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     public Player getPlayer() {
         return player;
