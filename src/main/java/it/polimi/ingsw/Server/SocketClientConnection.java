@@ -3,6 +3,9 @@ package it.polimi.ingsw.Server;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Observer.Observable;
 
+
+import it.polimi.ingsw.Observer.Observer;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,7 +13,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class SocketClientConnection extends Observable<String> implements ClientConnection, Runnable {
+public class SocketClientConnection extends Observable<Message> implements ClientConnection, Runnable {
 
     private final Socket socket;
 
@@ -39,7 +42,7 @@ public class SocketClientConnection extends Observable<String> implements Client
     }
 
 
-    //TODO: gestire bene cosa accade se il client si disconnette
+    //TODO: testare disconnessione CLIENT e relativa gestione eccezioni (da aggiungere)
 
     @Override
     public synchronized void closeConnection() {
@@ -51,6 +54,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         }
         active = false;
     }
+
 
     private void close() {
         closeConnection();
@@ -64,22 +68,22 @@ public class SocketClientConnection extends Observable<String> implements Client
     }
 
     //TODO: ?
-    private void setName(Scanner in) {
-        boolean valid = false;
-        do {
-            send("Insert your name");
-            username = in.nextLine().toUpperCase();
-            try {
-                if (session.getWaitingConnection().get(username) == null) {
-                    valid = true;
-                } else {
-                    send(username + " already exists.\nTry again:");
-                }
-            } catch (NullPointerException e) {
-                valid = true;
-            }
-        } while (!valid);
-    }
+//    private void setName(Scanner in) {
+//        boolean valid = false;
+//        do {
+//            send("Insert your name");
+//            username = in.nextLine().toUpperCase();
+//            try {
+//                if (session.getWaitingConnection().get(username) == null) {
+//                    valid = true;
+//                } else {
+//                    send(username + " already exists.\nTry again:");
+//                }
+//            } catch (NullPointerException e) {
+//                valid = true;
+//            }
+//        } while (!valid);
+//    }
 
 
     @Override
@@ -100,22 +104,16 @@ public class SocketClientConnection extends Observable<String> implements Client
         Object inputObject;
         try {
 
-            //TODO: eliminare
             send("message from server: connected");
 
             while (isActive()) {
-                //todo: provo ad inviare senza ricevere
+                //todo: provo ad inviare senza ricevere (?)
 
                 inputObject = in.readObject();
 
                  if (inputObject instanceof PlayerRetrieveSessions) {
-                     //TODO: eliminare
-                     System.out.println("Player retrieve");
-                     send("server: join request arrived....");
 
                      try {
-                         //TODO:eliminare
-                         System.out.println("Sending the retrieval message");
 
                          HashMap<String, Session> availableSessions = server.getAvailableSessions();
                          SessionListMessage sessionListMessage = new SessionListMessage();
@@ -131,14 +129,13 @@ public class SocketClientConnection extends Observable<String> implements Client
 
                  } else if (inputObject instanceof PlayerCreateSessionMessage) {
 
-                     //TODO:eliminare
-                     send("SERVER SAYS: CREATING MATCH");
 
                      String username = ((PlayerCreateSessionMessage) inputObject).getUsername();
                      String sessionID = ((PlayerCreateSessionMessage) inputObject).getSession();
 
                      //TODO: controllare che non esista una sessione con lo stesso nome
                      //TODO: controllare che players sia tra 2 e 3
+
                      int players = ((PlayerCreateSessionMessage) inputObject).getPlayers();
                      boolean cards = ((PlayerCreateSessionMessage) inputObject).isSimple();
 
@@ -147,14 +144,14 @@ public class SocketClientConnection extends Observable<String> implements Client
                      server.availableSessions.put(sessionID, session);
 
                 } else if (inputObject instanceof PlayerSelectSession) {
-                     //TODO: eliminare
-                     send("server: joining session");
+
                      String sessionID;
                      this.username = ((PlayerSelectSession) inputObject).getUsername();
                      sessionID = ((PlayerSelectSession) inputObject).getSessionID();
                      server.availableSessions.get(sessionID).addParticipant(this);
+                 } else if (inputObject instanceof Message){
+                     notify((Message)inputObject);
                  }
-
             }
 
         } catch (Exception e) {

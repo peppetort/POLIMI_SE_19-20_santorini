@@ -1,14 +1,17 @@
 package it.polimi.ingsw.Server;
 
+
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
 
-public interface ClientConnection {
+public interface ClientConnection  {
 
     String getUsername();
 
     void closeConnection();
 
-    void addObserver(Observer<String> observer);
+    void addObserver(Observer<Message> observer);
 
     void send(Object message);
 }
