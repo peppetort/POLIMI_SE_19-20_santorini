@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Server;
 
 
+import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Controller.Controller;
 import it.polimi.ingsw.Exceptions.FullSessionException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
@@ -129,7 +130,7 @@ public class Session extends Observable<Message> implements Serializable {
                 player2Connection.send(turnMessage);
 
                 ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
-                actionMessage.addAction("place");
+                actionMessage.addAction(Actions.PLACE);
                 player2Connection.send(actionMessage);
 
             }else{
@@ -139,7 +140,7 @@ public class Session extends Observable<Message> implements Serializable {
                 player2Connection.send(turnMessage);
 
                 ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
-                actionMessage.addAction("deck");
+                actionMessage.addAction(Actions.DECK);
                 player1Connection.send(actionMessage);
 
             }
@@ -190,7 +191,7 @@ public class Session extends Observable<Message> implements Serializable {
                 player3Connection.send(turnMessage);
 
                 ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
-                actionMessage.addAction("place");
+                actionMessage.addAction(Actions.PLACE);
                 player2Connection.send(actionMessage);
 
             }else{
@@ -201,7 +202,7 @@ public class Session extends Observable<Message> implements Serializable {
                 player3Connection.send(turnMessage);
 
                 ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
-                actionMessage.addAction("deck");
+                actionMessage.addAction(Actions.DECK);
                 player1Connection.send(actionMessage);
 
             }
