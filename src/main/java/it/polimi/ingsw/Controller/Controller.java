@@ -12,11 +12,12 @@ import it.polimi.ingsw.Observer.Observer;
 
 import java.util.*;
 
+
 public class Controller extends Observable<Message> implements Observer<Message> {
 
     private final Game game;
     private final ArrayList<Player> playersList;
-    private final ArrayList<Card> cards = new ArrayList<>();
+    private final Set<Card> cards = new HashSet<>();
     private final HashMap<Player, Boolean> turn = new HashMap<>();
     private final HashMap<Player, Boolean> outcome = new HashMap<>();
     private Player playerUndo;
@@ -49,6 +50,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     }
 
+    //TODO: SAREBBE MEGLIO UTILIZZARE UN'ENUMERAZIONE PER LE AZIONI
     private void updateTurn() {
         int nextPlayerIndex;
         Player nextPlayer;
@@ -150,7 +152,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         return outcome;
     }
 
-    public ArrayList<Card> getCards() {
+    public Set<Card> getCards() {
         return cards;
     }
 
@@ -280,20 +282,24 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     }
     private void performDeckBuilding(PlayerDeckMessage message) {
+        //todo: sistemare le strutture dati e metodi
         Player player = message.getPlayer();
-//        Set<String> sCards = message.getCards();
-        ArrayList<God> sCards = message.getDeck();
-        ArrayList<God> deck = new ArrayList<>();
+        Set<God> sCards = message.getDeck();
+        ArrayList<Card> deck = new ArrayList<>();
+        ArrayList<God> gods = new ArrayList<>();
 
         if (turn.get(player) && player.getPlayerMenu().get("buildDeck") && player.equals(playersList.get(0))) {
+            //TODO: CONTROLLO DIMENSIONE DECK
             if (sCards.size() == playersList.size()) {
                 try {
                     for(God g : sCards){
                         Card card = new Card(g);
+                        gods.add(g);
+                        deck.add(card);
                         this.cards.add(card);
                     }
-                    game.addCards(cards);
-                    DeckUpdateMessage deckMessage = new DeckUpdateMessage(sCards);
+                    game.addCards(deck);
+                    DeckUpdateMessage deckMessage = new DeckUpdateMessage(gods);
                     notify(deckMessage);
                     updateTurn();
                 } catch (SimpleGameException e1) {
@@ -309,7 +315,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
     private void performCardChoice(PlayerCardChoiceMessage message) throws NullPointerException, IllegalArgumentException {
         Player player = message.getPlayer();
         God cardName = message.getCard();
+
         ArrayList<God> deck = new ArrayList<>();
+
 
         if (player.getPlayerMenu().get("chooseCard") && turn.get(player)) {
             try {
