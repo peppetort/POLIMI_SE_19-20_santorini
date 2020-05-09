@@ -118,7 +118,7 @@ public class ClientStatus extends Observable {
         notify(2);
     }
 
-    //TODO: DISCUTERE UNIVOCITA' DEI NOMI E GESTIONE
+
     public boolean myTurn(){
         return turn.equals(username);
     }

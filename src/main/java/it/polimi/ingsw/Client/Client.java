@@ -91,9 +91,11 @@ public class Client extends Observable implements Observer<Object> {
                         int level = ((BoardUpdateBuildMessage) inputObject).getLevel();
                         board.setLevel(x, y, level);
                     } else if (inputObject instanceof WinMessage) {
+                        //todo ritornare al menu principale
                         String winUser = ((WinMessage) inputObject).getUsername();
                         status.setWinner(winUser);
                     } else if (inputObject instanceof LostMessage) {
+                        //todo ritornare al menu principale
                         String loser = ((LostMessage) inputObject).getUsername();
                         Color loserColor = ((LostMessage) inputObject).getColor();
                         status.lose(loser);
@@ -124,6 +126,7 @@ public class Client extends Observable implements Observer<Object> {
     }
 
     public void send(Object message) {
+        //todo: provare senza il lock
         synchronized (out) {
             try {
                 out.reset();

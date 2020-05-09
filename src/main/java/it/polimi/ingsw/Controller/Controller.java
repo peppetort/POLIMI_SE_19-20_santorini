@@ -50,6 +50,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     }
 
+    //todo: fare la deregister in caso di vittoria o sconfitta
     //TODO: SAREBBE MEGLIO UTILIZZARE UN'ENUMERAZIONE PER LE AZIONI
     private void updateTurn() {
         int nextPlayerIndex;
@@ -157,6 +158,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     //Actions
+    //todo: deregister quando invio un lost message
     private void performStart(PlayerSelectMessage message) throws RuntimeException {
         Player player = message.getPlayer();
         Worker worker = message.getWorker();
@@ -283,13 +285,14 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
     private void performDeckBuilding(PlayerDeckMessage message) {
         //todo: sistemare le strutture dati e metodi
+        //todo: eliminare classe card
         Player player = message.getPlayer();
         Set<God> sCards = message.getDeck();
         ArrayList<Card> deck = new ArrayList<>();
         ArrayList<God> gods = new ArrayList<>();
 
         if (turn.get(player) && player.getPlayerMenu().get("buildDeck") && player.equals(playersList.get(0))) {
-            //TODO: CONTROLLO DIMENSIONE DECK
+            //TODO: CONTROLLO DIMENSIONE DECK lancio eccezione
             if (sCards.size() == playersList.size()) {
                 try {
                     for(God g : sCards){

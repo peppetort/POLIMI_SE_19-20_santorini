@@ -155,7 +155,9 @@ public class SocketClientConnection extends Observable<Message> implements Clien
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            close();
+        } finally {
+            close();
         }
     }
 

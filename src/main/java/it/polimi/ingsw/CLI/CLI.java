@@ -40,6 +40,7 @@ public class CLI extends Observable<Object> implements Observer{
         Actions action;
         System.out.println("Insert action:");
         System.out.print(">");
+
         input = reader.nextLine();
         data = input.split(" ");
         action = Actions.valueOf(data[0].toUpperCase());
