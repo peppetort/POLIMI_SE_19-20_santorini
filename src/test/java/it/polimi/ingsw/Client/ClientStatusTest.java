@@ -26,8 +26,8 @@ public class ClientStatusTest {
     public void printMenuMyTurnActions() throws InterruptedException {
         ClientStatus status = new ClientStatus("PIPPO", Color.BLUE);
         status.updateTurn("PIPPO");
-        ArrayList<String> actions = new ArrayList<>();
-        actions.add("place");
+        ArrayList<Actions> actions = new ArrayList<>();
+        actions.add(Actions.PLACE);
         status.updateAction(actions);
     }
 
@@ -35,8 +35,8 @@ public class ClientStatusTest {
     public void printMenuMyTurnNoneActions() throws InterruptedException {
         ClientStatus status = new ClientStatus("PIPPO", Color.BLUE);
         status.updateTurn("PIPPO");
-        ArrayList<String> actions = new ArrayList<>();
-        actions.add("none");
+        ArrayList<Actions> actions = new ArrayList<>();
+        actions.add(Actions.MOVE);
         status.updateAction(actions);
     }
 }
