@@ -134,10 +134,13 @@ public class ControllerTest {
 
         Message message = new PlayerDeckMessage(player1, cards);
         controller.update(message);
-        
+
         assertEquals(controller.getCards().size(),2);
-        assertEquals(game.getCards().get(0).getName(), God.APOLLO);
-        assertEquals(game.getCards().get(1).getName(), God.PAN);
+
+        for(Card c: game.getCards()){
+            assertTrue(((PlayerDeckMessage)message).getDeck().contains(c.getName()));
+        }
+
 
         message = new PlayerCardChoiceMessage(player2, God.PAN);
         controller.update(message);
