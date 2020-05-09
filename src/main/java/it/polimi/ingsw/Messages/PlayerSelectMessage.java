@@ -12,6 +12,11 @@ public class PlayerSelectMessage implements Message {
         this.num = num;
     }
 
+    public PlayerSelectMessage(Player player,Worker worker){
+        this.player = player;
+        this.worker = worker;
+    }
+
     public Player getPlayer() {
         return player;
     }

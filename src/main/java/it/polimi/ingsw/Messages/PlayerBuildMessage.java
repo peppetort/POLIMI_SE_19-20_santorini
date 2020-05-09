@@ -11,6 +11,11 @@ public class PlayerBuildMessage implements Message{
         this.x = x;
         this.y = y;
     }
+    public PlayerBuildMessage(Player player,int x, int y){
+        this.player = player;
+        this.x = x;
+        this.y = y;
+    }
 
     public void setPlayer(Player player) {
         this.player = player;

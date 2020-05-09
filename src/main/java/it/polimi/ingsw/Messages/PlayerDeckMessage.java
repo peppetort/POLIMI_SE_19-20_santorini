@@ -4,12 +4,13 @@ import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Model.Player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class PlayerDeckMessage implements Message{
 
     private Player player;
-    ArrayList<God> deck = new ArrayList<>();
+    private final Set<God> deck = new HashSet<>();
 
     public PlayerDeckMessage(ArrayList<God> deck){
         for(God g: deck){
@@ -33,7 +34,7 @@ public class PlayerDeckMessage implements Message{
         return player;
     }
 
-    public ArrayList<God> getDeck() {
+    public Set<God> getDeck() {
         return deck;
     }
 }

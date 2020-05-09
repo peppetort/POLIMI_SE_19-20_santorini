@@ -12,6 +12,12 @@ public class PlayerMoveMessage implements Message{
         this.y = y;
     }
 
+    public PlayerMoveMessage(Player player,int x, int y){
+        this.player = player;
+        this.x = x;
+        this.y = y;
+    }
+
     public void setPlayer(Player player){
         this.player = player;
     }

@@ -13,6 +13,11 @@ public class PlayerCardChoiceMessage implements Message {
         this.card = card;
     }
 
+    public PlayerCardChoiceMessage(Player player,God card) {
+        this.card = card;
+        this.player = player;
+    }
+
     public God getCard() {
         return card;
     }
