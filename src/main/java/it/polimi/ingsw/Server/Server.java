@@ -28,8 +28,6 @@ public class Server {
             try {
                 Socket newSocket = serverSocket.accept();
                 SocketClientConnection socketConnection = new SocketClientConnection(newSocket, this);
-                //TODO: eliminare System.out.print
-                System.out.println("New socket connected:"+ socketConnection.getSocket().toString());
                 executor.submit(socketConnection);
             } catch (IOException e) {
                 System.err.println("Connection Error! " + e);

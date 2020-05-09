@@ -33,7 +33,6 @@ public abstract class View extends Observable<Message> implements Observer<Messa
             case 2:
                 ((PlayerSelectMessage)message).setWorker(player.getWorker2());
                 break;
-                //TODO : devo lanciare un'eccezione in caso che io abbia selezionato piu di 3 player
         }
         notify(message);
     }

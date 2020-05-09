@@ -1,169 +1,129 @@
 package it.polimi.ingsw.Server;
 
+import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
+import it.polimi.ingsw.Exceptions.InvalidPlayersNumberException;
+import it.polimi.ingsw.Exceptions.InvalidUsernameException;
+import it.polimi.ingsw.Exceptions.SessionNotExistsException;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Observer.Observable;
-
-
-import it.polimi.ingsw.Observer.Observer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class SocketClientConnection extends Observable<Message> implements ClientConnection, Runnable {
 
-    private final Socket socket;
+	private final Socket socket;
 
-    private final ObjectOutputStream out;
-    private final ObjectInputStream in;
+	private final ObjectOutputStream out;
+	private final ObjectInputStream in;
 
-    private final Server server;
-    private Session session;
-    private String username;
+	private final Server server;
+	private Session session;
+	private String username;
 
-    private boolean active = true;
+	private boolean active = true;
 
-    public SocketClientConnection(Socket socket, Server server) throws IOException {
-        this.socket = socket;
-        this.server = server;
-        out = new ObjectOutputStream(socket.getOutputStream());
-        in = new ObjectInputStream(socket.getInputStream());
-    }
+	public SocketClientConnection(Socket socket, Server server) throws IOException {
+		this.socket = socket;
+		this.server = server;
+		out = new ObjectOutputStream(socket.getOutputStream());
+		in = new ObjectInputStream(socket.getInputStream());
+	}
 
-    public Socket getSocket() {
-        return socket;
-    }
+	private synchronized boolean isActive() {
+		return active;
+	}
 
-    private synchronized boolean isActive() {
-        return active;
-    }
+	@Override
+	public synchronized void closeConnection() {
+		send("Connection closed!");
+		try {
+			socket.close();
+		} catch (IOException e) {
+			System.err.println("Error when closing socket!");
+		}
+		active = false;
+		session.deregisterConnection(username);
+	}
 
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
 
-    //TODO: testare disconnessione CLIENT e relativa gestione eccezioni (da aggiungere)
+	@Override
+	public synchronized void send(final Object message) {
+		try {
+			out.reset();
+			out.writeObject(message);
+			out.flush();
 
-    @Override
-    public synchronized void closeConnection() {
-        send("Connection closed!");
-        try {
-            socket.close();
-        } catch (IOException e) {
-            System.err.println("Error when closing socket!");
-        }
-        active = false;
-    }
-
-
-    private void close() {
-        closeConnection();
-        System.out.println("Deregister client " + username + ":" + session);
-        session.deregisterConnection(username);
-    }
-
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
-
-    //TODO: ?
-//    private void setName(Scanner in) {
-//        boolean valid = false;
-//        do {
-//            send("Insert your name");
-//            username = in.nextLine().toUpperCase();
-//            try {
-//                if (session.getWaitingConnection().get(username) == null) {
-//                    valid = true;
-//                } else {
-//                    send(username + " already exists.\nTry again:");
-//                }
-//            } catch (NullPointerException e) {
-//                valid = true;
-//            }
-//        } while (!valid);
-//    }
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
 
 
-    @Override
-    public synchronized void send(final Object message) {
-        try {
-            out.reset();
-            out.writeObject(message);
-            out.flush();
+	@Override
+	public void run() {
+		Object inputObject;
+		try {
+			while (isActive()) {
+				inputObject = in.readObject();
 
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-    }
+				if (inputObject instanceof PlayerRetrieveSessions) {
 
+					HashMap<String, Session> availableSessions = server.getAvailableSessions();
+					SessionListMessage sessionListMessage = new SessionListMessage();
 
-    @Override
-    public void run() {
-        Object inputObject;
-        try {
+					for (String session : availableSessions.keySet()) {
+						sessionListMessage.addSession(session, availableSessions.get(session).getParticipant(), !availableSessions.get(session).isSimple());
+					}
+					send(sessionListMessage);
 
-            send("message from server: connected");
+				} else if (inputObject instanceof PlayerCreateSessionMessage) {
 
-            while (isActive()) {
-                //todo: provo ad inviare senza ricevere (?)
+					String username = ((PlayerCreateSessionMessage) inputObject).getUsername();
+					String sessionID = ((PlayerCreateSessionMessage) inputObject).getSession();
+					int players = ((PlayerCreateSessionMessage) inputObject).getPlayers();
+					boolean cards = ((PlayerCreateSessionMessage) inputObject).isSimple();
 
-                inputObject = in.readObject();
+					if (server.getAvailableSessions().get(sessionID) != null) {
+						send(new AlreadyExistingSessionException("A session with this name already exists"));
+					} else if (players != 2 && players != 3) {
+						send(new InvalidPlayersNumberException("It can be played in 2 or 3"));
+					} else {
+						this.username = username;
+						session = new Session(this, players, cards, server, sessionID);
+						server.availableSessions.put(sessionID, session);
+					}
+				} else if (inputObject instanceof PlayerSelectSession) {
+					this.username = ((PlayerSelectSession) inputObject).getUsername();
+					String sessionID = ((PlayerSelectSession) inputObject).getSessionID();
 
-                 if (inputObject instanceof PlayerRetrieveSessions) {
-
-                     try {
-
-                         HashMap<String, Session> availableSessions = server.getAvailableSessions();
-                         SessionListMessage sessionListMessage = new SessionListMessage();
-
-                         for(String session: availableSessions.keySet()){
-                             sessionListMessage.addSession(session, availableSessions.get(session).getParticipant(), !availableSessions.get(session).isSimple());
-                         }
-                         send(sessionListMessage);
-                     }catch(Exception e){
-                         System.out.println("Exception occurred");
-                         System.err.println(e.getMessage());
-                     }
-
-                 } else if (inputObject instanceof PlayerCreateSessionMessage) {
-
-
-                     String username = ((PlayerCreateSessionMessage) inputObject).getUsername();
-                     String sessionID = ((PlayerCreateSessionMessage) inputObject).getSession();
-
-                     //TODO: controllare che non esista una sessione con lo stesso nome
-                     //TODO: controllare che players sia tra 2 e 3
-
-                     int players = ((PlayerCreateSessionMessage) inputObject).getPlayers();
-                     boolean cards = ((PlayerCreateSessionMessage) inputObject).isSimple();
-
-                     this.username = username;
-                     session = new Session(this, players, cards, server, sessionID);
-                     server.availableSessions.put(sessionID, session);
-
-                } else if (inputObject instanceof PlayerSelectSession) {
-
-                     String sessionID;
-                     this.username = ((PlayerSelectSession) inputObject).getUsername();
-                     sessionID = ((PlayerSelectSession) inputObject).getSessionID();
-                     server.availableSessions.get(sessionID).addParticipant(this);
-                 } else if (inputObject instanceof Message){
-                     notify((Message)inputObject);
-                 }
-            }
-
-        } catch (Exception e) {
-            close();
-        } finally {
-            close();
-        }
-    }
-
-
-
-
-
+					try {
+						Session selectedSession = server.availableSessions.get(sessionID);
+						if (selectedSession.getWaitingConnection().containsKey(username)){
+							send(new InvalidUsernameException("The chosen name already exists in the selected session"));
+						}else {
+							this.session = selectedSession;
+							server.availableSessions.get(sessionID).addParticipant(this);
+						}
+					}catch (NullPointerException e){
+						send(new SessionNotExistsException("No session found"));
+					}
+				} else if (inputObject instanceof Message) {
+					notify((Message) inputObject);
+				}
+			}
+		} catch (InterruptedException | ClassNotFoundException | IOException e) {
+			System.err.println(e);
+		} finally {
+			closeConnection();
+		}
+	}
 }
 

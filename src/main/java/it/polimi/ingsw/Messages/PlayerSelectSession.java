@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Messages;
 
 public class PlayerSelectSession implements Message {
-    private String sessionID;
-    private String username;
+    private final String sessionID;
+    private final String username;
 
     public PlayerSelectSession(String sessionID,String username) {
         this.sessionID = sessionID;
