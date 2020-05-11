@@ -64,15 +64,15 @@ public class Client extends Observable implements Observer<Object> {
 					if (inputObject instanceof String || inputObject instanceof SessionListMessage) {
 						notify(inputObject);
 					} else if (inputObject instanceof Exception) {
-						System.out.println(((Exception) inputObject).getMessage());
+
 						if (inputObject instanceof AlreadyExistingSessionException) {
-							notify(0);
+							notify(inputObject);
 						} else if (inputObject instanceof InvalidPlayersNumberException) {
-							notify(0);
-						} else if (inputObject instanceof InvalidUsernameException) {
-							notify(0);
+							notify(inputObject);
 						} else if (inputObject instanceof SessionNotExistsException) {
-							notify(0);
+							notify(inputObject);
+						} else if (inputObject instanceof InvalidUsernameException) {
+							notify(inputObject);
 						}
 					} else if (inputObject instanceof ClientInitMessage) {
 						String username = ((ClientInitMessage) inputObject).getUsername();
@@ -104,15 +104,15 @@ public class Client extends Observable implements Observer<Object> {
 						int level = ((BoardUpdateBuildMessage) inputObject).getLevel();
 						board.setLevel(x, y, level);
 					} else if (inputObject instanceof WinMessage) {
-						//todo ritornare al menu principale
 						String winUser = ((WinMessage) inputObject).getUsername();
 						status.setWinner(winUser);
+						notify(5);
 					} else if (inputObject instanceof LostMessage) {
-						//todo ritornare al menu principale
 						String loser = ((LostMessage) inputObject).getUsername();
 						Color loserColor = ((LostMessage) inputObject).getColor();
 						status.lose(loser);
 						board.lose(loserColor);
+						notify(6);
 					} else if (inputObject instanceof DeckUpdateMessage) {
 						ArrayList<God> deck = ((DeckUpdateMessage) inputObject).getDeck();
 						status.updateDeck(deck);
@@ -129,7 +129,7 @@ public class Client extends Observable implements Observer<Object> {
 						}
 						notify(1);
 					}
-				} catch (Exception e) {
+				} catch (IOException | ClassNotFoundException e){
 					connected = false;
 				}
 			}
@@ -139,7 +139,6 @@ public class Client extends Observable implements Observer<Object> {
 	}
 
 	public void send(Object message) {
-		//todo: provare senza il lock
 		try {
 			out.reset();
 			out.writeObject(message);

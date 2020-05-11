@@ -4,6 +4,10 @@ import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.Client.ClientBoard;
 import it.polimi.ingsw.Client.ClientStatus;
+import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
+import it.polimi.ingsw.Exceptions.InvalidPlayersNumberException;
+import it.polimi.ingsw.Exceptions.InvalidUsernameException;
+import it.polimi.ingsw.Exceptions.SessionNotExistsException;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
@@ -97,8 +101,7 @@ public class CLI extends Observable<Object> implements Observer {
 					switch (input.toUpperCase()) {
 						case "JOIN":
 							System.out.println("List of available session:");
-							//TODO: rimuovere "ciao"
-							notify(new PlayerRetrieveSessions("ciao"));
+							notify(new PlayerRetrieveSessions());
 							break;
 						case "CREATE":
 							create();
@@ -112,6 +115,9 @@ public class CLI extends Observable<Object> implements Observer {
 				}
 			} while (!correct);
 
+		} catch (InvalidUsernameException e){
+			System.out.println(e.getMessage());
+			notify(new PlayerRetrieveSessions());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -190,7 +196,7 @@ public class CLI extends Observable<Object> implements Observer {
 
 		if (participants.size() != 0) {
 
-			//TODO: perché non chiederlo dopo aver scelto la sessione?
+
 			System.out.println("Insert your username (type esc to go back to startMenu):");
 			System.out.print("> ");
 			username = reader.nextLine().toUpperCase();
@@ -199,6 +205,7 @@ public class CLI extends Observable<Object> implements Observer {
 
 				startMenu();
 			} else {
+
 				do {
 					System.out.println("Insert the name of the session you want to join:");
 					System.out.print("> ");
@@ -218,6 +225,7 @@ public class CLI extends Observable<Object> implements Observer {
 				}
 			}
 		} else {
+			System.out.println("No sessions available");
 			startMenu();
 		}
 	}
@@ -233,7 +241,6 @@ public class CLI extends Observable<Object> implements Observer {
 				printer.printBoard();
 			} else if ((Integer) message == 2) {
 				printer.printStatus();
-				//TODO : ANDREBBE BENE SOLO SE HO USERNAME UNIVOCI
 				if (client.getStatus().myTurn()) {
 					takeInput();
 				}
@@ -241,14 +248,31 @@ public class CLI extends Observable<Object> implements Observer {
 				printer.printAllCards();
 			} else if ((Integer) message == 4) {
 				printer.printDeck();
+			} else if ((Integer) message == 5) {
+				System.out.println("YOU WON!");
+				startMenu();
+			}else if ((Integer) message == 6) {
+				System.out.println("YOU LOST.");
+				startMenu();
 			}
 		} else if (message instanceof SessionListMessage) {
 			join((SessionListMessage) message);
+		} else if (message instanceof InvalidUsernameException){
+			System.out.println(((InvalidUsernameException) message).getMessage());
+			notify(new PlayerRetrieveSessions());
+		} else if (message instanceof AlreadyExistingSessionException){
+			System.out.println(((AlreadyExistingSessionException) message).getMessage());
+			notify(new PlayerRetrieveSessions());
+		} else if (message instanceof SessionNotExistsException){
+			System.out.println(((SessionNotExistsException) message).getMessage());
+			notify(new PlayerRetrieveSessions());
+		}else if (message instanceof InvalidPlayersNumberException){
+			System.out.println(((InvalidPlayersNumberException) message).getMessage());
+			create();
 		} else {
 			System.out.println(message);
 		}
 	}
-
 }
 
 

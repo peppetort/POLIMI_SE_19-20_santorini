@@ -101,23 +101,29 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 						server.availableSessions.put(sessionID, session);
 					}
 				} else if (inputObject instanceof PlayerSelectSession) {
+
 					this.username = ((PlayerSelectSession) inputObject).getUsername();
 					String sessionID = ((PlayerSelectSession) inputObject).getSessionID();
 
-					try {
-						Session selectedSession = server.availableSessions.get(sessionID);
-						if (selectedSession.getWaitingConnection().containsKey(username)){
-							send(new InvalidUsernameException("The chosen name already exists in the selected session"));
-						}else {
-							this.session = selectedSession;
-							server.availableSessions.get(sessionID).addParticipant(this);
+					if (server.availableSessions.get(sessionID).getWaitingConnection().containsKey(username)) {
+						send(new InvalidUsernameException("This username is already in use, please insert another username."));
+					} else {
+						try {
+							Session selectedSession = server.availableSessions.get(sessionID);
+							if (selectedSession.getWaitingConnection().containsKey(username)) {
+								send(new InvalidUsernameException("The chosen name already exists in the selected session"));
+							} else {
+								this.session = selectedSession;
+								server.availableSessions.get(sessionID).addParticipant(this);
+							}
+						} catch (NullPointerException e) {
+							send(new SessionNotExistsException("No session found"));
 						}
-					}catch (NullPointerException e){
-						send(new SessionNotExistsException("No session found"));
 					}
 				} else if (inputObject instanceof Message) {
-					notify((Message) inputObject);
+						notify((Message) inputObject);
 				}
+
 			}
 		} catch (InterruptedException | ClassNotFoundException | IOException e) {
 			System.err.println(e);
