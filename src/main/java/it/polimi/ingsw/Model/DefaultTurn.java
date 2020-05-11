@@ -1,12 +1,8 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
 public class DefaultTurn implements Turn {
@@ -23,7 +19,7 @@ public class DefaultTurn implements Turn {
     Worker worker;
     Worker otherWorker;
     Player player;
-    HashMap<String, Boolean> playerMenu;
+    HashMap<Actions, Boolean> playerMenu;
 
     public DefaultTurn(Player player) {
         this.player = player;
@@ -45,7 +41,7 @@ public class DefaultTurn implements Turn {
             otherWorker = player.getWorker1();
         }
 
-        if (!playerMenu.get("start")) {
+        if (!playerMenu.get(Actions.SELECT)) {
             throw new RuntimeException("Can't start!");
         }
         if (running) { // controlla che il turno non è stato già iniziato
@@ -64,9 +60,9 @@ public class DefaultTurn implements Turn {
         this.worker = worker;
         canMove = true; // abilita la mossa
         canBuild = false;
-        playerMenu.replace("start", false);
-        playerMenu.replace("move", true);
-        playerMenu.replace("undo", true);
+        playerMenu.replace(Actions.SELECT, false);
+        playerMenu.replace(Actions.MOVE, true);
+        playerMenu.replace(Actions.UNDO, true);
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.MOVE);
         message.addAction(Actions.UNDO);
@@ -89,12 +85,12 @@ public class DefaultTurn implements Turn {
         }
         canMove = false;
         canBuild = true; // abilita la costruzione
-        playerMenu.replace("move", false);
-        playerMenu.replace("build", true);
+        playerMenu.replace(Actions.MOVE, false);
+        playerMenu.replace(Actions.BUILD, true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.BUILD);
-        message.addAction(Actions.BUILD);
+        message.addAction(Actions.UNDO);
         player.notify(message);
 
         win = winAction.winChecker();
@@ -111,8 +107,8 @@ public class DefaultTurn implements Turn {
         }
         buildAction.build(worker, x, y);
         canBuild = false;
-        playerMenu.replace("build", false);
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.BUILD, false);
+        playerMenu.replace(Actions.END, true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.END);
@@ -132,8 +128,8 @@ public class DefaultTurn implements Turn {
         //throw new RuntimeException("You can't build a dome!");
         ((AtlasBuild) buildAction).buildDome(worker, x, y);
         canBuild = false;
-        playerMenu.replace("build", false);
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.BUILD, false);
+        playerMenu.replace(Actions.END, true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.END);
@@ -158,7 +154,7 @@ public class DefaultTurn implements Turn {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false; // finisco il turno
-        playerMenu.replace("end", false);
+        playerMenu.replace(Actions.END, false);
     }
 
     //azione che ristabilisce la condizione all'inizio del turno della board
@@ -166,13 +162,13 @@ public class DefaultTurn implements Turn {
     public void undo()
     {
         board.restore();
-        playerMenu.replace("buildDeck", false);
-        playerMenu.replace("chooseCard", false);
-        playerMenu.replace("placePawns", false);
-        playerMenu.replace("start", true);
-        playerMenu.replace("move", false);
-        playerMenu.replace("build", false);
-        playerMenu.replace("end", false);
+        playerMenu.replace(Actions.DECK, false);
+        playerMenu.replace(Actions.CARD, false);
+        playerMenu.replace(Actions.PLACE, false);
+        playerMenu.replace(Actions.SELECT, true);
+        playerMenu.replace(Actions.MOVE, false);
+        playerMenu.replace(Actions.BUILD, false);
+        playerMenu.replace(Actions.END, false);
         this.running = false;
         this.win = false;
 

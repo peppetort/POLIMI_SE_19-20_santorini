@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
@@ -22,7 +21,7 @@ public class PrometheusTurn extends DefaultTurn {
             otherWorker = player.getWorker1();
         }
 
-        if(!playerMenu.get("start")){
+        if(!playerMenu.get(Actions.SELECT)){
             throw new RuntimeException("Can't start!");
         }
         if (running) { // controlla che il turno non è stato già iniziato
@@ -43,9 +42,9 @@ public class PrometheusTurn extends DefaultTurn {
         this.worker = worker;
         canMove = true; // abilita la mossa
         canBuild = false;
-        playerMenu.replace("start", false);
-        playerMenu.replace("move", true);
-        playerMenu.replace("undo", true);
+        playerMenu.replace(Actions.SELECT, false);
+        playerMenu.replace(Actions.MOVE, true);
+        playerMenu.replace(Actions.UNDO, true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.MOVE);
@@ -54,7 +53,7 @@ public class PrometheusTurn extends DefaultTurn {
         if (!worker.moveGoUp()) {
             canMove = true;
             canBuild = true;
-            playerMenu.replace("build", true);
+            playerMenu.replace(Actions.BUILD, true);
 
             message.addAction(Actions.BUILD);
         }
@@ -78,7 +77,7 @@ public class PrometheusTurn extends DefaultTurn {
             moveAction.move(worker, x, y);
         }
         canMove = false;
-        playerMenu.replace("move", false);
+        playerMenu.replace(Actions.MOVE, false);
         startBuild = true;
 
         win = winAction.winChecker();
@@ -88,13 +87,13 @@ public class PrometheusTurn extends DefaultTurn {
 
         if(startingBox != null && startingBox.getDifference(board.getBox(x, y)) < 0 ){
             canBuild = false;
-            playerMenu.replace("build", false);
-            playerMenu.replace("end", true);
+            playerMenu.replace(Actions.BUILD, false);
+            playerMenu.replace(Actions.END, true);
             message = new ActionsUpdateMessage();
         }else {
             canBuild = true; // abilita la costruzione
-            playerMenu.replace("build", true);
-            playerMenu.replace("end", true);
+            playerMenu.replace(Actions.BUILD, true);
+            playerMenu.replace(Actions.END, true);
             message = new ActionsUpdateMessage();
             message.addAction(Actions.BUILD);
         }
@@ -114,15 +113,15 @@ public class PrometheusTurn extends DefaultTurn {
         }
         buildAction.build(worker, x, y);
         canBuild = false;
-        playerMenu.replace("build", false);
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.BUILD, false);
+        playerMenu.replace(Actions.END, true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.UNDO);
 
         if (!startBuild) {
             startBuild = true;
-            playerMenu.replace("build", false);
+            playerMenu.replace(Actions.BUILD, false);
             message.addAction(Actions.MOVE);
         }else {
             message.addAction(Actions.END);

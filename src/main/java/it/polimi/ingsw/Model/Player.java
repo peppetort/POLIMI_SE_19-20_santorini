@@ -17,22 +17,22 @@ public class Player extends Observable<Message> {
     private final Worker worker1;
     private final Worker worker2;
 
-    private final HashMap<String, Boolean> playerMenu = new HashMap<>();
+    private final HashMap<Actions, Boolean> playerMenu = new HashMap<>();
     private final Game session;
     private final Color color;
-    private Card card;
+    private God card;
     private Turn turn;
 
     /**
-     * Represent the winning condition, it depends on the {@link Card} (if the {@link Game} is not simple)
+     * Represent the winning condition, it depends on the {@link God} (if the {@link Game} is not simple)
      */
     private Win winAction;
     /**
-     * Represent the possible moveset, it depends on the {@link Card} (if the {@link Game} is not simple)
+     * Represent the possible moveset, it depends on the {@link God} (if the {@link Game} is not simple)
      */
     private Move moveAction;
     /**
-     * Represent the possible buildset, it depends on the {@link Card} (if the {@link Game} is not simple)
+     * Represent the possible buildset, it depends on the {@link God} (if the {@link Game} is not simple)
      */
     private Build buildAction;
 
@@ -53,14 +53,14 @@ public class Player extends Observable<Message> {
         this.session = session;
         this.color = color;
 
-        playerMenu.put("buildDeck", false);
-        playerMenu.put("chooseCard", false);
-        playerMenu.put("placePawns", false);
-        playerMenu.put("start", false);
-        playerMenu.put("move", false);
-        playerMenu.put("build", false);
-        playerMenu.put("end", false);
-        playerMenu.put("undo", false);
+        playerMenu.put(Actions.DECK, false);
+        playerMenu.put(Actions.CARD, false);
+        playerMenu.put(Actions.PLACE, false);
+        playerMenu.put(Actions.SELECT, false);
+        playerMenu.put(Actions.MOVE, false);
+        playerMenu.put(Actions.BUILD, false);
+        playerMenu.put(Actions.END, false);
+        playerMenu.put(Actions.UNDO, false);
 
 
         //Modalità di gioco senza carte
@@ -73,7 +73,7 @@ public class Player extends Observable<Message> {
         }
     }
 
-    public Card getCard() {
+    public God getCard() {
         if (session.isSimple()) {
             throw new SimpleGameException("No card!");
         }
@@ -81,14 +81,14 @@ public class Player extends Observable<Message> {
     }
 
     /**
-     * Set the choosen {@link Card}
+     * Set the choosen {@link God}
      *
      * @param card the card to be assigned to the player
      * @throws SimpleGameException if the {@link Game} is simple
-     * @throws CardAlreadySetException if the {@link Player} has already a {@link Card}
-     * @throws RuntimeException if the {@link Card} doesn't exist
+     * @throws CardAlreadySetException if the {@link Player} has already a {@link God}
+     * @throws RuntimeException if the {@link God} doesn't exist
      */
-    public void setCard(Card card) throws NullPointerException {
+    public void setCard(God card) throws NullPointerException {
         if (session.isSimple()) {
             throw new SimpleGameException("Game mode: no cards!");
         } else if (this.card != null) {
@@ -97,7 +97,7 @@ public class Player extends Observable<Message> {
 
         this.card = card;
 
-        switch (card.getName()) {
+        switch (card) {
             case APOLLO:
                 winAction = new DefaultWin(this);
                 moveAction = new ApolloMove(this);
@@ -157,7 +157,7 @@ public class Player extends Observable<Message> {
         }
 
 
-        CardUpdateMessage cardMessage = new CardUpdateMessage(card.getName());
+        CardUpdateMessage cardMessage = new CardUpdateMessage(card);
         notify(cardMessage);
     }
 
@@ -169,7 +169,7 @@ public class Player extends Observable<Message> {
         return this.username;
     }
 
-    public HashMap<String, Boolean> getPlayerMenu() {
+    public HashMap<Actions, Boolean> getPlayerMenu() {
         return this.playerMenu;
     }
 

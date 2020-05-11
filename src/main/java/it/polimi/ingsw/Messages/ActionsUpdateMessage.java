@@ -1,9 +1,8 @@
 package it.polimi.ingsw.Messages;
 
-import it.polimi.ingsw.Client.Actions;
+import it.polimi.ingsw.Model.Actions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ActionsUpdateMessage implements Message{
 

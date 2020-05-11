@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
@@ -41,7 +40,7 @@ public class HephaestusTurn extends DefaultTurn {
             }
             buildAction.build(worker, x, y);
             canBuild = false;
-            playerMenu.replace("build", false);
+            playerMenu.replace(Actions.BUILD, false);
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction(Actions.END);
@@ -67,7 +66,7 @@ public class HephaestusTurn extends DefaultTurn {
                 lastY = y;
             }
         }
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.END, true);
 
     }
 
@@ -81,7 +80,7 @@ public class HephaestusTurn extends DefaultTurn {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
-        playerMenu.replace("end", false);
-        playerMenu.replace("build", false);
+        playerMenu.replace(Actions.END, false);
+        playerMenu.replace(Actions.BUILD, false);
     }
 }

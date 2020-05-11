@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
@@ -51,7 +50,7 @@ public class ArtemisTurn extends DefaultTurn {
                 }
                 moveAction.move(worker, x, y);
                 canMove = false;
-                playerMenu.replace("move", false);
+                playerMenu.replace(Actions.MOVE, false);
 
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
                 message.addAction(Actions.BUILD);
@@ -72,13 +71,13 @@ public class ArtemisTurn extends DefaultTurn {
             }
         }
         canBuild = true;
-        playerMenu.replace("build", true);
+        playerMenu.replace(Actions.BUILD, true);
     }
 
     @Override
     public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         canMove = false; //una volta costruito non posso più muovere
-        playerMenu.replace("move", false);
+        playerMenu.replace(Actions.MOVE, false);
         super.build(x, y);
     }
 
@@ -92,6 +91,6 @@ public class ArtemisTurn extends DefaultTurn {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
-        playerMenu.replace("end", false);
+        playerMenu.replace(Actions.END, false);
     }
 }

@@ -137,21 +137,21 @@ public class ControllerTest {
 
         assertEquals(controller.getCards().size(),2);
 
-        for(Card c: game.getCards()){
-            assertTrue(((PlayerDeckMessage)message).getDeck().contains(c.getName()));
+        for(God c: game.getCards()){
+            assertTrue(((PlayerDeckMessage)message).getDeck().contains(c));
         }
 
 
         message = new PlayerCardChoiceMessage(player2, God.PAN);
         controller.update(message);
 
-        assertEquals(God.PAN, player2.getCard().getName());
+        assertEquals(God.PAN, player2.getCard());
         assertEquals(controller.getCards().size(), 1);
 
         message = new PlayerCardChoiceMessage(player1, God.APOLLO);
         controller.update(message);
 
-        assertEquals(God.APOLLO, player1.getCard().getName());
+        assertEquals(God.APOLLO, player1.getCard());
         assertEquals(controller.getCards().size(), 0);
 
     }

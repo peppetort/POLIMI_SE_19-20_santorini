@@ -43,17 +43,17 @@ public class PlayerTest {
     @Test
     public void setCardSimpleGameTrue() {
         Board board = new Board();
-        Card pan = new Card(God.PAN);
+        God pan =God.PAN;
         Game session = new Game("Pippo", "Pluto", board, false);
         Player player = session.getPlayers().get(0);
         player.setCard(pan);
-        assertEquals(God.PAN, player.getCard().getName());
+        assertEquals(God.PAN, player.getCard());
     }
 
     @Test
     public void getSession(){
         Board board = new Board();
-        Card pan = new Card(God.PAN);
+        God pan =God.PAN;
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player1 = session.getPlayers().get(0);
         Player player2 = session.getPlayers().get(1);
@@ -64,7 +64,7 @@ public class PlayerTest {
     @Test(expected = RuntimeException.class)
     public void setCardSimpleGameFalse() {
         Board board = new Board();
-        Card pan = new Card(God.PAN);
+        God pan = God.PAN;
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         player.setCard(pan);
@@ -73,8 +73,8 @@ public class PlayerTest {
     @Test(expected = RuntimeException.class)
     public void setCardPlayerCardNotNull() {
         Board board = new Board();
-        Card pan = new Card(God.PAN);
-        Card Atlas = new Card(God.ATLAS);
+        God pan = God.PAN;
+        God Atlas = God.ATLAS;
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         player.setCard(pan);
@@ -84,7 +84,7 @@ public class PlayerTest {
     @Test(expected = RuntimeException.class)
     public void setCardUnexpectedCase() {
         Board board = new Board();
-        Card pan = null;
+        God pan = null;
         Game session = new Game("Pippo", "Pluto", board, true);
         Player player = session.getPlayers().get(0);
         player.setCard(pan);

@@ -11,18 +11,18 @@ public class GameTest {
     @Test(expected = RuntimeException.class)
     public void getCards() {
             Board board = new Board();
-            Card c1 = new Card(God.PAN);
-            Card c2 = new Card(God.APOLLO);
-            Card c3 = new Card(God.ARTEMIS);
-            ArrayList<Card> cards = new ArrayList<Card>();
-            ArrayList<Card> cards1;
+            God c1 = God.PAN;
+            God c2 = God.APOLLO;
+            God c3 = God.ARTEMIS;
+            ArrayList<God> cards = new ArrayList<God>();
+            ArrayList<God> cards1;
             Game game = new Game("Marco","Giuseppe",board,false);
             cards.add(c1);
             cards.add(c2);
             cards.add(c3);
             cards1 = game.getCards();
-            assertEquals(God.PAN,cards1.get(0).getName());
-            assertEquals(God.APOLLO,cards1.get(1).getName());
+            assertEquals(God.PAN,cards1.get(0));
+            assertEquals(God.APOLLO,cards1.get(1));
             assertFalse(cards1.contains(c3));
 
     }

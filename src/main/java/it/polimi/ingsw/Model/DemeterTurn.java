@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.InvalidBuildException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
@@ -42,7 +41,7 @@ public class DemeterTurn extends DefaultTurn {
             }
             buildAction.build(worker, x, y);
             canBuild = false; //non posso più costruire
-            playerMenu.replace("build", false);
+            playerMenu.replace(Actions.BUILD, false);
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction(Actions.END);
@@ -61,7 +60,7 @@ public class DemeterTurn extends DefaultTurn {
             message.addAction(Actions.UNDO);
             player.notify(message);
         }
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.BUILD ,true);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class DemeterTurn extends DefaultTurn {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
-        playerMenu.replace("end", false);
-        playerMenu.replace("build", false);
+        playerMenu.replace(Actions.END, false);
+        playerMenu.replace(Actions.BUILD, false);
     }
 }

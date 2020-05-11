@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Client.Actions;
 import it.polimi.ingsw.Exceptions.InvalidMoveException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
@@ -25,8 +24,8 @@ public class AthenaTurn extends DefaultTurn {
         moveAction.move(worker, x, y);
         canMove = false;
         canBuild = true;
-        playerMenu.replace("move", false);
-        playerMenu.replace("build", true);
+        playerMenu.replace(Actions.MOVE, false);
+        playerMenu.replace(Actions.BUILD, true);
         win = winAction.winChecker();
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.Client.Actions;
+import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Client.Box;
 import it.polimi.ingsw.Client.ClientBoard;
 import it.polimi.ingsw.Client.ClientStatus;

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Messages;
 
-import it.polimi.ingsw.Model.Card;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Model.Player;
 

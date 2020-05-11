@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Server;
 
 
-import it.polimi.ingsw.Client.Actions;
+import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Controller.Controller;
 import it.polimi.ingsw.Exceptions.FullSessionException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;

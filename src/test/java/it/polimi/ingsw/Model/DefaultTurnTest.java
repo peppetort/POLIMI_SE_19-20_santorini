@@ -31,7 +31,7 @@ public class DefaultTurnTest {
         board.build(1,0,Block.LTWO);
         board.build(1,1,Block.LTWO);
         Turn turn = new DefaultTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker);
    }
 
@@ -49,7 +49,7 @@ public class DefaultTurnTest {
         board.build(1,1,Block.LTWO);
         board.build(1,2,Block.LTWO);
         Turn turn = new DefaultTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker1);
     }
 
@@ -166,7 +166,7 @@ public class DefaultTurnTest {
         boolean tmp = util.getCanGoUp();
         util.setCanGoUp(true);
 
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker1);
         turn.move( 0,1);
         util.setCanGoUp(tmp);
@@ -183,7 +183,7 @@ public class DefaultTurnTest {
         board.placePawn(worker1, 0, 0);
         board.placePawn(worker2,4,4);
         Turn turn = new DefaultTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker1);
         turn.move(0, 1);
         turn.build(0,0);
@@ -200,12 +200,12 @@ public class DefaultTurnTest {
         board.placePawn(worker1, 0, 0);
         board.placePawn(worker2,4,4);
         Turn turn = new DefaultTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker1);
         turn.move(0, 1);
         turn.build(0,0);
         turn.end();
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker2);
         turn.move(4,3);
         turn.build(4,4);

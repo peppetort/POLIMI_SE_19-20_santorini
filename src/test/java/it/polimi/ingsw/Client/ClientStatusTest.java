@@ -1,11 +1,10 @@
 package it.polimi.ingsw.Client;
 
+import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
 import org.junit.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 public class ClientStatusTest {
 

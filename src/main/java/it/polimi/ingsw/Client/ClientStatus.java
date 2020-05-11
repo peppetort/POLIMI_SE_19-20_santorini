@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client;
 
+import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;

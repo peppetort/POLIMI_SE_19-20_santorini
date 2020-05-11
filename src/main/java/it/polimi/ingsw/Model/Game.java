@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+
 import it.polimi.ingsw.Exceptions.SimpleGameException;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Observer.Observable;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Game extends Observable<Message> {
     private final ArrayList<Player> players = new ArrayList<>();    //lista dei player
-    private ArrayList<Card> cards;          //list delle carte selezionate dai player
+    private ArrayList<God> cards;          //list delle carte selezionate dai player
     private final Board board;
     private final boolean simpleGame;
 
@@ -22,7 +23,7 @@ public class Game extends Observable<Message> {
      * @param player1    Player 1, the one which choose the deck
      * @param player2    Player 2
      * @param board      Board where the game is taken
-     * @param simpleGame true if the game is without any {@link Card}, false if each {@link Player} has a {@link Card}
+     * @param simpleGame true if the game is without any {@link God}, false if each {@link Player} has a {@link God}
      */
 
     public Game(String player1, String player2, Board board, boolean simpleGame) {
@@ -39,7 +40,7 @@ public class Game extends Observable<Message> {
      * @param player2    Player 2
      * @param player3    Player 3
      * @param board      Board where the game is taken
-     * @param simpleGame true if the game is without any {@link Card}, false if each {@link Player} has a {@link Card}
+     * @param simpleGame true if the game is without any {@link God}, false if each {@link Player} has a {@link God}
      */
     public Game(String player1, String player2, String player3, Board board, boolean simpleGame) {
         this.board = board;
@@ -49,7 +50,7 @@ public class Game extends Observable<Message> {
         players.add(new Player(player3, this, Color.GREEN));
     }
 
-    public void addCards(ArrayList<Card> cards) {
+    public void addCards(ArrayList<God> cards) {
         if (simpleGame) {
             throw new SimpleGameException("Game mode: no cards!");
         }
@@ -57,8 +58,8 @@ public class Game extends Observable<Message> {
     }
 
 
-    public ArrayList<Card> getCards() {
-        ArrayList<Card> clonedCards = new ArrayList<>(cards.size());
+    public ArrayList<God> getCards() {
+        ArrayList<God> clonedCards = new ArrayList<>(cards.size());
         clonedCards.addAll(cards);
         return clonedCards;
     }
