@@ -30,7 +30,7 @@ public class AthenaTurn extends DefaultTurn {
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.BUILD);
-        //TODO: verificare che l'UNDO riporti canGoUp a true nel caso il giocatore sia salito di livello
+
         message.addAction(Actions.UNDO);
         player.notify(message);
 

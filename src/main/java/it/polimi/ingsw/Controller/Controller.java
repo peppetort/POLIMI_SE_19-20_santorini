@@ -328,8 +328,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 	private void performUndo(PlayerUndoMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
-		task.cancel();
-
+		try {
+			task.cancel();
+		}catch(Exception e){}
 		if (turn.get(player) && outcome.get(player) == null) {
 			if (!player.getPlayerMenu().get(Actions.PLACE) && !player.getPlayerMenu().get(Actions.CARD) && !player.getPlayerMenu().get(Actions.DECK)) {
 				try {
