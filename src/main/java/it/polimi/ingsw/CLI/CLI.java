@@ -45,7 +45,7 @@ public class CLI extends Observable<Object> implements Observer {
 				String[] data;
 				Actions action;
 				System.out.println("Insert action:");
-				System.out.print(">");
+				System.out.print("> ");
 				try {
 					input = reader.nextLine();
 
@@ -86,11 +86,11 @@ public class CLI extends Observable<Object> implements Observer {
 							notify(new PlayerBuildDomeMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
 							break;
 						default:
-							System.out.println("\nInvalid command\n");
+							System.out.println("Invalid command");
 							valid = false;
 					}
 				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e){
-					System.out.println("\nInvalid command\n");
+					System.out.println("gInvalid command");
 					valid = false;
 				}catch (IndexOutOfBoundsException ignored){};
 			}while (!valid);
