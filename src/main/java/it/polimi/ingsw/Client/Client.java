@@ -62,19 +62,8 @@ public class Client extends Observable implements Observer<Object> {
 			while (connected) {
 				try {
 					inputObject = in.readObject();
-					if (inputObject instanceof String || inputObject instanceof SessionListMessage) {
+					if (inputObject instanceof String || inputObject instanceof SessionListMessage || inputObject instanceof  InvalidChoiceMessage || inputObject instanceof Exception) {
 						notify(inputObject);
-					} else if (inputObject instanceof Exception) {
-
-						if (inputObject instanceof AlreadyExistingSessionException) {
-							notify(inputObject);
-						} else if (inputObject instanceof InvalidPlayersNumberException) {
-							notify(inputObject);
-						} else if (inputObject instanceof SessionNotExistsException) {
-							notify(inputObject);
-						} else if (inputObject instanceof InvalidUsernameException) {
-							notify(inputObject);
-						}
 					} else if (inputObject instanceof ClientInitMessage) {
 						String username = ((ClientInitMessage) inputObject).getUsername();
 						ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();

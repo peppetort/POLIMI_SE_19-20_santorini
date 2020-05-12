@@ -97,7 +97,9 @@ public class RemoteView extends View {
             clientConnection.send(message);
         }else if(message instanceof LostMessage){
             clientConnection.send(message);
-        } else if(message instanceof BoardUndoMessage){
+        } else if(message instanceof BoardUndoMessage) {
+            clientConnection.send(message);
+        }else if(message instanceof InvalidChoiceMessage){
             clientConnection.send(message);
         }else {
             System.err.println("Malformed message: " + message.toString());

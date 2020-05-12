@@ -5,7 +5,6 @@ import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class ClientStatus extends Observable {
@@ -94,6 +93,8 @@ public class ClientStatus extends Observable {
     public synchronized void lose(String username){
         if(username.equals(this.username)){
             this.actions = null;
+            this.turn = null;
+
             messages.clear();
             messages.add("YOU LOSE :(");
             //print();
@@ -121,7 +122,11 @@ public class ClientStatus extends Observable {
 
 
     public boolean myTurn(){
-        return turn.equals(username);
+        try {
+            return turn.equals(username);
+        }catch (NullPointerException e){
+            return false;
+        }
     }
 
 }

@@ -366,6 +366,7 @@ class Printer {
 
         int length = maxLength / 2 + maxLength / 2 + title.length() + 6;
 
+        System.out.print("\n");
         System.out.print(widthMarker + " ");
         for (int i = 0; i < length; i++) {
             System.out.print(lengthMarker);

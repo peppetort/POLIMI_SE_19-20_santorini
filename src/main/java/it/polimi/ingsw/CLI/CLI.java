@@ -1,6 +1,5 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.Client.ClientBoard;
 import it.polimi.ingsw.Client.ClientStatus;
@@ -9,6 +8,7 @@ import it.polimi.ingsw.Exceptions.InvalidPlayersNumberException;
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
 import it.polimi.ingsw.Exceptions.SessionNotExistsException;
 import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CLI extends Observable<Object> implements Observer {
 	private final Printer printer;
 	private final Client client;
-	private static Scanner reader = new Scanner(System.in).useDelimiter("\n");
+	public static Scanner reader = new Scanner(System.in);
 
 	public CLI(Client client) {
 		printer = new Printer();
@@ -37,61 +37,65 @@ public class CLI extends Observable<Object> implements Observer {
 
 	private void takeInput() {
 		//TODO IL CONTROLLO DELLA CORRETTEZZA DEVE ESSERE FATTO LATO SERVER
-		new Thread(()-> {
-			String input = "";
-			String[] data;
-			Actions action;
-			System.out.println("Insert action:");
-			System.out.print(">");
-			try {
-				input = reader.nextLine();
-			}catch(IndexOutOfBoundsException e){}
-
-				data = input.split(" ");
+		new Thread(() -> {
+			boolean valid;
+			do {
+				valid = true;
+				String input;
+				String[] data;
+				Actions action;
+				System.out.println("Insert action:");
+				System.out.print(">");
 				try {
-					action = Actions.valueOf(data[0].toUpperCase());
-				}catch(IllegalArgumentException e){action=Actions.ERROR;}
-				//System.out.println(action);
+					input = reader.nextLine();
 
-				switch (action) {
-					case UNDO:
-						notify(new PlayerUndoMessage());
-						break;
-					case BUILD:
-						notify(new PlayerBuildMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-						break;
-					case END:
-						notify(new PlayerEndMessage());
-						break;
-					case MOVE:
-						notify(new PlayerMoveMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-						break;
-					case PLACE:
-						notify(new PlayerPlacePawnsMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])));
-						break;
-					case SELECT:
-						notify(new PlayerSelectMessage(Integer.parseInt(data[1])));
-						break;
-					case CARD:
-						notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
-						break;
-					case DECK:
-						ArrayList<God> deck = new ArrayList<>();
-						for (String s : data) {
-							if (!s.equals(data[0])) {
-								deck.add(God.valueOf(s.toUpperCase()));
+					data = input.split(" ");
+					action = Actions.valueOf(data[0].toUpperCase());
+					switch (action) {
+						case UNDO:
+							notify(new PlayerUndoMessage());
+							break;
+						case BUILD:
+							notify(new PlayerBuildMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+							break;
+						case END:
+							notify(new PlayerEndMessage());
+							break;
+						case MOVE:
+							notify(new PlayerMoveMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+							break;
+						case PLACE:
+							notify(new PlayerPlacePawnsMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])));
+							break;
+						case SELECT:
+							notify(new PlayerSelectMessage(Integer.parseInt(data[1])));
+							break;
+						case CARD:
+							notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
+							break;
+						case DECK:
+							ArrayList<God> deck = new ArrayList<>();
+							for (String s : data) {
+								if (!s.equals(data[0])) {
+									deck.add(God.valueOf(s.toUpperCase()));
+								}
 							}
-						}
-						notify(new PlayerDeckMessage(deck));
-						break;
-					case BUILD_DOME:
-						notify(new PlayerBuildDomeMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-						break;
-					case ERROR:
-				}
+							notify(new PlayerDeckMessage(deck));
+							break;
+						case BUILD_DOME:
+							notify(new PlayerBuildDomeMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+							break;
+						default:
+							System.out.println("\nInvalid command\n");
+							valid = false;
+					}
+				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e){
+					System.out.println("\nInvalid command\n");
+					valid = false;
+				}catch (IndexOutOfBoundsException ignored){};
+			}while (!valid);
 
 		}).start();
-
 	}
 
 	public void startMenu() {
@@ -124,7 +128,7 @@ public class CLI extends Observable<Object> implements Observer {
 				}
 			} while (!correct);
 
-		} catch (InvalidUsernameException e){
+		} catch (InvalidUsernameException e) {
 			System.out.println(e.getMessage());
 			notify(new PlayerRetrieveSessions());
 		} catch (Exception e) {
@@ -261,26 +265,27 @@ public class CLI extends Observable<Object> implements Observer {
 			} else if ((Integer) message == 4) {
 				printer.printDeck();
 			} else if ((Integer) message == 5) {
-				System.out.println("YOU WON!");
 				startMenu();
-			}else if ((Integer) message == 6) {
-				System.out.println("YOU LOST.");
+			} else if ((Integer) message == 6) {
 				startMenu();
 			}
 		} else if (message instanceof SessionListMessage) {
 			join((SessionListMessage) message);
-		} else if (message instanceof InvalidUsernameException){
+		} else if (message instanceof InvalidUsernameException) {
 			System.out.println(((InvalidUsernameException) message).getMessage());
 			notify(new PlayerRetrieveSessions());
-		} else if (message instanceof AlreadyExistingSessionException){
+		} else if (message instanceof AlreadyExistingSessionException) {
 			System.out.println(((AlreadyExistingSessionException) message).getMessage());
 			notify(new PlayerRetrieveSessions());
-		} else if (message instanceof SessionNotExistsException){
+		} else if (message instanceof SessionNotExistsException) {
 			System.out.println(((SessionNotExistsException) message).getMessage());
 			notify(new PlayerRetrieveSessions());
-		}else if (message instanceof InvalidPlayersNumberException){
+		} else if (message instanceof InvalidPlayersNumberException) {
 			System.out.println(((InvalidPlayersNumberException) message).getMessage());
 			create();
+		}else if(message instanceof InvalidChoiceMessage){
+			System.out.println(((InvalidChoiceMessage) message).getMessage());
+			takeInput();
 		} else {
 			System.out.println(message);
 		}

@@ -10,5 +10,4 @@ public enum Actions {
     BUILD,
     END,
     BUILD_DOME,
-    ERROR
 }
