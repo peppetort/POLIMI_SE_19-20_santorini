@@ -171,10 +171,12 @@ public class DefaultTurn implements Turn {
         playerMenu.replace(Actions.END, false);
         this.running = false;
         this.win = false;
-        if(player.getCard().equals(God.ATHENA))
-        {
-            canGoUp=true;
-        }
+            try {
+                if (player.getCard().equals(God.ATHENA)) {
+                    canGoUp = true;
+                }
+            }catch(Exception e){}
+
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.SELECT);
         player.notify(message);
