@@ -90,7 +90,7 @@ public class CLI extends Observable<Object> implements Observer {
 							valid = false;
 					}
 				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e){
-					System.out.println("gInvalid command");
+					System.out.println("Invalid command");
 					valid = false;
 				}catch (IndexOutOfBoundsException ignored){};
 			}while (!valid);

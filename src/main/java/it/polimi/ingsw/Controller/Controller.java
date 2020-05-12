@@ -162,29 +162,31 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Player player = message.getPlayer();
 		Worker worker = message.getWorker();
 
-		if (turn.get(player) && player.getPlayerMenu().get(Actions.SELECT) && outcome.get(player) == null) {
+		if (turn.get(player) && outcome.get(player) == null) {
+			if (player.getPlayerMenu().get(Actions.SELECT)) {
 
-			if (outcome.get(player) == null && loosingPlayers == playersList.size() - 1) {
-				outcome.replace(player, true);
-			}
+				if (outcome.get(player) == null && loosingPlayers == playersList.size() - 1) {
+					outcome.replace(player, true);
+				}
 
-			try {
-				player.getTurn().start(worker);
-				//canUndo=true;
-			} catch (PlayerLostException e1) {
-				outcome.replace(player, false);
-				loosingPlayers++;
+				try {
+					player.getTurn().start(worker);
+					//canUndo=true;
+				} catch (PlayerLostException e1) {
+					outcome.replace(player, false);
+					loosingPlayers++;
 
-				LostMessage lostMessage = new LostMessage(player.getUsername(), player.getColor());
-				notify(lostMessage);
-				updateTurn();
-			} catch (RuntimeException e2) {
-				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e2.getMessage());
+					LostMessage lostMessage = new LostMessage(player.getUsername(), player.getColor());
+					notify(lostMessage);
+					updateTurn();
+				} catch (RuntimeException e2) {
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e2.getMessage());
+					player.notify(invalidMessage);
+				}
+			} else {
+				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't start");
 				player.notify(invalidMessage);
 			}
-		} else {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't start");
-			player.notify(invalidMessage);
 		}
 
 	}
@@ -195,28 +197,31 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		int x = message.getX();
 		int y = message.getY();
 
-		try {
-			if (turn.get(player) && player.getPlayerMenu().get(Actions.MOVE) && outcome.get(player) == null) {
-				playerTurn.move(x, y);
+		if (turn.get(player) && outcome.get(player) == null) {
+			if (player.getPlayerMenu().get(Actions.MOVE)) {
 
-				if (playerTurn.won()) {
-					outcome.replaceAll((key, value) -> false);
-					outcome.replace(player, true);
-					loosingPlayers = playersList.size() - 1;
+				try {
+					playerTurn.move(x, y);
 
-					WinMessage winMessage = new WinMessage(player.getUsername());
+					if (playerTurn.won()) {
+						outcome.replaceAll((key, value) -> false);
+						outcome.replace(player, true);
+						loosingPlayers = playersList.size() - 1;
 
-					for (Player p : playersList) {
-						p.notify(winMessage);
+						WinMessage winMessage = new WinMessage(player.getUsername());
+
+						for (Player p : playersList) {
+							p.notify(winMessage);
+						}
 					}
+				} catch (RuntimeException e) {
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+					player.notify(invalidMessage);
 				}
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't move");
 				player.notify(invalidMessage);
 			}
-		} catch (RuntimeException e) {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
-			player.notify(invalidMessage);
 		}
 	}
 
@@ -226,45 +231,11 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		int x = message.getX();
 		int y = message.getY();
 
-		try {
-			if (turn.get(player) && player.getPlayerMenu().get(Actions.BUILD) && outcome.get(player) == null) {
-				playerTurn.build(x, y);
-				// canUndo=false;
-				playerUndo = player;
-				task = new TimerTask() {
-
-					@Override
-					public void run() {
-
-						performEnd(new PlayerEndMessage(playerUndo));
-					}
-				};
-				//solo se il player non può costruire e muovere
-				if (!player.getPlayerMenu().get(Actions.BUILD) && !player.getPlayerMenu().get(Actions.MOVE)) {
-					timer.schedule(task, 5000);
-				}
-
-			} else {
-				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't build");
-				player.notify(invalidMessage);
-			}
-		} catch (RuntimeException e) {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
-			player.notify(invalidMessage);
-		}
-	}
-
-	private void performBuildDome(PlayerBuildDomeMessage message) {
-		Player player = message.getPlayer();
-		Turn playerTurn = player.getTurn();
-		int x = message.getX();
-		int y = message.getY();
-
-		try {
-			if (player.getCard().equals(God.ATLAS)) {
-				if (turn.get(player) && player.getPlayerMenu().get(Actions.BUILD) && outcome.get(player) == null) {
-					playerTurn.buildDome(x, y);
-
+		if (turn.get(player) && outcome.get(player) == null) {
+			if (player.getPlayerMenu().get(Actions.BUILD)) {
+				try {
+					playerTurn.build(x, y);
+					// canUndo=false;
 					playerUndo = player;
 					task = new TimerTask() {
 
@@ -278,58 +249,100 @@ public class Controller extends Observable<Message> implements Observer<Message>
 					if (!player.getPlayerMenu().get(Actions.BUILD) && !player.getPlayerMenu().get(Actions.MOVE)) {
 						timer.schedule(task, 5000);
 					}
+
+				} catch (RuntimeException e) {
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+					player.notify(invalidMessage);
 				}
+
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't build");
 				player.notify(invalidMessage);
 			}
-		} catch (RuntimeException e) {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+		}
+	}
+
+	private void performBuildDome(PlayerBuildDomeMessage message) {
+		Player player = message.getPlayer();
+		Turn playerTurn = player.getTurn();
+		int x = message.getX();
+		int y = message.getY();
+
+		if (player.getCard().equals(God.ATLAS)) {
+			if (turn.get(player) && outcome.get(player) == null) {
+				if (player.getPlayerMenu().get(Actions.BUILD)) {
+					try {
+						playerTurn.buildDome(x, y);
+
+						playerUndo = player;
+						task = new TimerTask() {
+
+							@Override
+							public void run() {
+
+								performEnd(new PlayerEndMessage(playerUndo));
+							}
+						};
+						//solo se il player non può costruire e muovere
+						if (!player.getPlayerMenu().get(Actions.BUILD) && !player.getPlayerMenu().get(Actions.MOVE)) {
+							timer.schedule(task, 5000);
+						}
+					} catch (RuntimeException e) {
+						InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+						player.notify(invalidMessage);
+					}
+				} else {
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't build");
+					player.notify(invalidMessage);
+				}
+			}
+		} else {
+			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't build a dome");
 			player.notify(invalidMessage);
 		}
+
 	}
 
 
 	private void performEnd(PlayerEndMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
+		task.cancel();
 
-		try {
-			if (turn.get(player) && player.getPlayerMenu().get(Actions.END) && outcome.get(player) == null) {
-				playerTurn.end();
-				updateTurn();
+		if (turn.get(player) && outcome.get(player) == null) {
+			if (player.getPlayerMenu().get(Actions.END)) {
+				try {
+					playerTurn.end();
+					updateTurn();
+				} catch (RuntimeException e) {
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+					player.notify(invalidMessage);
+				}
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't end");
 				player.notify(invalidMessage);
 			}
-		} catch (RuntimeException e) {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
-			player.notify(invalidMessage);
 		}
 	}
 
 	private void performUndo(PlayerUndoMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
-		try {
-			task.cancel();
-		} catch (Exception ignored) {
-		}
+		task.cancel();
 
-		try {
-			if (turn.get(player) && outcome.get(player) == null && !player.getPlayerMenu().get(Actions.PLACE) && !player.getPlayerMenu().get(Actions.CARD) && !player.getPlayerMenu().get(Actions.DECK)) {
-				playerTurn.undo();
+		if (turn.get(player) && outcome.get(player) == null) {
+			if (!player.getPlayerMenu().get(Actions.PLACE) && !player.getPlayerMenu().get(Actions.CARD) && !player.getPlayerMenu().get(Actions.DECK)) {
+				try {
+					playerTurn.undo();
+				} catch (RuntimeException e) {
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+					player.notify(invalidMessage);
+				}
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't undo");
 				player.notify(invalidMessage);
 			}
-		} catch (RuntimeException e) {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
-			player.notify(invalidMessage);
 		}
-
-		//else{throw new RuntimeException("Invalid command");}
-
 	}
 
 	private void performDeckBuilding(PlayerDeckMessage message) {
@@ -340,31 +353,35 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		ArrayList<God> deck = new ArrayList<>();
 		ArrayList<God> gods = new ArrayList<>();
 
-		if (turn.get(player) && player.getPlayerMenu().get(Actions.DECK) && player.equals(playersList.get(0))) {
-			//TODO: CONTROLLO DIMENSIONE DECK lancio eccezione
-			if (sCards.size() == playersList.size()) {
-				try {
-					for (God g : sCards) {
-
-						gods.add(g);
-						deck.add(g);
-						this.cards.add(g);
+		if (turn.get(player) && player.equals(playersList.get(0))) {
+			if (player.getPlayerMenu().get(Actions.DECK)) {
+				if (sCards.size() == playersList.size()) {
+					try {
+						for (God g : sCards) {
+							gods.add(g);
+							deck.add(g);
+							this.cards.add(g);
+						}
+						game.addCards(deck);
+						DeckUpdateMessage deckMessage = new DeckUpdateMessage(gods);
+						notify(deckMessage);
+						updateTurn();
+					} catch (SimpleGameException e1) {
+						e1.printStackTrace();
+					} catch (IllegalArgumentException e2) {
+						cards.clear();
+						InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e2.getMessage());
+						player.notify(invalidMessage);
 					}
-					game.addCards(deck);
-					DeckUpdateMessage deckMessage = new DeckUpdateMessage(gods);
-					notify(deckMessage);
-					updateTurn();
-				} catch (SimpleGameException e1) {
-					e1.printStackTrace();
-				} catch (IllegalArgumentException e2) {
+				} else {
 					cards.clear();
-					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e2.getMessage());
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("The number of cards chosen differs from the number of players");
 					player.notify(invalidMessage);
 				}
+			} else {
+				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't build deck");
+				player.notify(invalidMessage);
 			}
-		} else {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't build deck");
-			player.notify(invalidMessage);
 		}
 	}
 
@@ -372,33 +389,30 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Player player = message.getPlayer();
 		God cardName = message.getCard();
 
-		ArrayList<God> deck = new ArrayList<>();
-
-		try {
-			if (player.getPlayerMenu().get(Actions.CARD) && turn.get(player)) {
-				God card = null;
-				for (God c : cards) {
-					if (c.equals(cardName)) {
-						card = c;
+		if (turn.get(player)) {
+			if (player.getPlayerMenu().get(Actions.CARD)) {
+				try {
+					God card = null;
+					for (God c : cards) {
+						if (c.equals(cardName)) {
+							card = c;
+						}
 					}
-				}
-				player.setCard(card);
-				cards.remove(card);
+					player.setCard(card);
+					cards.remove(card);
+					ArrayList<God> deck = new ArrayList<>(cards);
+					DeckUpdateMessage deckMessage = new DeckUpdateMessage(deck);
+					notify(deckMessage);
 
-				for (God c : cards) {
-					deck.add(c);
+					updateTurn();
+				} catch (NullPointerException | IllegalArgumentException | SimpleGameException | CardAlreadySetException e) {
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+					player.notify(invalidMessage);
 				}
-				DeckUpdateMessage deckMessage = new DeckUpdateMessage(deck);
-				notify(deckMessage);
-
-				updateTurn();
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't choose card");
 				player.notify(invalidMessage);
 			}
-		} catch (NullPointerException | IllegalArgumentException | SimpleGameException | CardAlreadySetException e) {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
-			player.notify(invalidMessage);
 		}
 	}
 
@@ -413,20 +427,23 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Worker worker1 = player.getWorker1();
 		Worker worker2 = player.getWorker2();
 
-		try {
-			if (turn.get(player) && player.getPlayerMenu().get(Actions.PLACE)) {
+		if (turn.get(player)) {
+			if (player.getPlayerMenu().get(Actions.PLACE)) {
 				if (!board.getBox(worker1X, worker1Y).isFree() || !board.getBox(worker2X, worker2Y).isFree()) {
-					throw new RuntimeException("Can't place pawns here! The positions chosen are already occupied");
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("Can't place pawns here! The positions chosen are already occupied");
+					player.notify(invalidMessage);
 				}
-				board.initializePawn(worker1, worker2, worker1X, worker1Y, worker2X, worker2Y);
-				updateTurn();
+				try {
+					board.initializePawn(worker1, worker2, worker1X, worker1Y, worker2X, worker2Y);
+					updateTurn();
+				} catch (IndexOutOfBoundsException e) {
+					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+					player.notify(invalidMessage);
+				}
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't place your pawns");
 				player.notify(invalidMessage);
 			}
-		} catch (IndexOutOfBoundsException e) {
-			InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
-			player.notify(invalidMessage);
 		}
 	}
 
