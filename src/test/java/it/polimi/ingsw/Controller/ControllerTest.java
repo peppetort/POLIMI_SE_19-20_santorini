@@ -111,8 +111,8 @@ public class ControllerTest {
         message = new PlayerEndMessage(player2);
         controller.update(message);
 
-        assertFalse(player2.getPlayerMenu().get("start"));
-        assertTrue(player1.getPlayerMenu().get("start"));
+        assertFalse(player2.getPlayerMenu().get(Actions.SELECT));
+        assertTrue(player1.getPlayerMenu().get(Actions.SELECT));
 
     }
 
