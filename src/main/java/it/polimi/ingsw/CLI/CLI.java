@@ -37,51 +37,60 @@ public class CLI extends Observable<Object> implements Observer {
 
 	private void takeInput() {
 		//TODO IL CONTROLLO DELLA CORRETTEZZA DEVE ESSERE FATTO LATO SERVER
-		String input = "";
-		String[] data;
-		Actions action;
-		System.out.println("Insert action:");
-		System.out.print(">");
+		new Thread(()-> {
+			String input = "";
+			String[] data;
+			Actions action;
+			System.out.println("Insert action:");
+			System.out.print(">");
+			try {
+				input = reader.nextLine();
+			}catch(IndexOutOfBoundsException e){}
 
-		input = reader.nextLine();
-		data = input.split(" ");
-		action = Actions.valueOf(data[0].toUpperCase());
-		System.out.println(action);
-		switch (action) {
-			case UNDO:
-				notify(new PlayerUndoMessage());
-				break;
-			case BUILD:
-				notify(new PlayerBuildMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-				break;
-			case END:
-				notify(new PlayerEndMessage());
-				break;
-			case MOVE:
-				notify(new PlayerMoveMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-				break;
-			case PLACE:
-				notify(new PlayerPlacePawnsMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])));
-				break;
-			case SELECT:
-				notify(new PlayerSelectMessage(Integer.parseInt(data[1])));
-				break;
-			case CARD:
-				notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
-				break;
-			case DECK:
-				ArrayList<God> deck = new ArrayList<>();
-				for (String s : data) {
-					if (!s.equals(data[0])) {
-						deck.add(God.valueOf(s.toUpperCase()));
-					}
+				data = input.split(" ");
+				try {
+					action = Actions.valueOf(data[0].toUpperCase());
+				}catch(IllegalArgumentException e){action=Actions.ERROR;}
+				//System.out.println(action);
+
+				switch (action) {
+					case UNDO:
+						notify(new PlayerUndoMessage());
+						break;
+					case BUILD:
+						notify(new PlayerBuildMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+						break;
+					case END:
+						notify(new PlayerEndMessage());
+						break;
+					case MOVE:
+						notify(new PlayerMoveMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+						break;
+					case PLACE:
+						notify(new PlayerPlacePawnsMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])));
+						break;
+					case SELECT:
+						notify(new PlayerSelectMessage(Integer.parseInt(data[1])));
+						break;
+					case CARD:
+						notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
+						break;
+					case DECK:
+						ArrayList<God> deck = new ArrayList<>();
+						for (String s : data) {
+							if (!s.equals(data[0])) {
+								deck.add(God.valueOf(s.toUpperCase()));
+							}
+						}
+						notify(new PlayerDeckMessage(deck));
+						break;
+					case BUILD_DOME:
+						notify(new PlayerBuildDomeMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+						break;
+					case ERROR:
 				}
-				notify(new PlayerDeckMessage(deck));
-				break;
-			case BUILD_DOME:
-				notify(new PlayerBuildDomeMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-				break;
-		}
+
+		}).start();
 
 	}
 
@@ -240,7 +249,10 @@ public class CLI extends Observable<Object> implements Observer {
 			} else if ((Integer) message == 1) {
 				printer.printBoard();
 			} else if ((Integer) message == 2) {
+
 				printer.printStatus();
+
+
 				if (client.getStatus().myTurn()) {
 					takeInput();
 				}
