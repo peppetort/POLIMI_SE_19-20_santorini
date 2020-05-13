@@ -65,12 +65,14 @@ public class ClientStatus extends Observable {
 
     public synchronized void updateTurn(String player){
         this.turn = player;
-        messages.clear();
 
         if(!turn.equals(username)){
+            messages.clear();
             messages.add("Wait your turn");
             //print();
             notify(2);
+        }else {
+            messages.clear();
         }
     }
 
@@ -97,10 +99,9 @@ public class ClientStatus extends Observable {
             messages.add("YOU LOSE :(");
             //print();
             notify(2);
-
+            notify(0);
         }else {
             System.out.println(username + " lost");
-            notify(1);
         }
 
     }
@@ -116,8 +117,6 @@ public class ClientStatus extends Observable {
         }else if(actions.get(0).equals(Actions.CARD)){
           //  printDeck();
             notify(4);
-        }else if(actions.get(0).equals(Actions.PLACE)){
-            notify(1);
         }
         notify(2);
     }

@@ -18,7 +18,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
 	private final ArrayList<Player> playersList;
 	private final Set<God> cards = new HashSet<>();
 	private final HashMap<Player, Boolean> turn = new HashMap<>();
-	private Player playerUndo;
 
 	//timer e task per il calcolo dei 5 secondi
 	private final Timer timer = new Timer();
@@ -45,16 +44,10 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
 	}
 
-	//todo: fare la deregister in caso di vittoria o sconfitta
-
 	private void removePlayer(Player player) {
 		playersList.remove(player);
 		turn.remove(player);
 		game.removePlayer(player);
-
-		if (playersList.isEmpty()) {
-			notify(new EndSessionMessage());
-		}
 	}
 
 	private void updateTurn() {
@@ -62,6 +55,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Player nextPlayer;
 		HashMap<Actions, Boolean> playerMenu;
 		HashMap<Actions, Boolean> nextPlayerMenu;
+
 
 		ActionsUpdateMessage message = new ActionsUpdateMessage();
 
@@ -71,6 +65,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 				nextPlayerIndex = (playersList.indexOf(player) + 1) % (playersList.size());
 				nextPlayer = playersList.get(nextPlayerIndex);
 				nextPlayerMenu = nextPlayer.getPlayerMenu();
+
 
 				TurnUpdateMessage turnMessage = new TurnUpdateMessage(nextPlayer.getUsername());
 				notify(turnMessage);
@@ -138,18 +133,15 @@ public class Controller extends Observable<Message> implements Observer<Message>
 	}
 
 	//Actions
-	//todo: deregister quando invio un lost message
 	private void performStart(PlayerSelectMessage message) {
 		Player player = message.getPlayer();
 		Worker worker = message.getWorker();
 
 		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.SELECT)) {
-
 				try {
 					player.getTurn().start(worker);
 				} catch (PlayerLostException e1) {
-
 					LostMessage lostMessage = new LostMessage(player.getUsername(), player.getColor());
 					notify(lostMessage);
 					updateTurn();
@@ -187,18 +179,16 @@ public class Controller extends Observable<Message> implements Observer<Message>
 					playerTurn.move(x, y);
 
 					if (playerTurn.won()) {
-
 						WinMessage winMessage = new WinMessage(player.getUsername());
 						notify(winMessage);
-
-						while (!playersList.isEmpty()){
-							removePlayer(playersList.get(0));
-						}
-
 					}
 				} catch (RuntimeException e) {
 					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
 					player.notify(invalidMessage);
+
+					while (!playersList.isEmpty()) {
+						removePlayer(playersList.get(0));
+					}
 				}
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't move");
@@ -217,15 +207,15 @@ public class Controller extends Observable<Message> implements Observer<Message>
 			if (player.getPlayerMenu().get(Actions.BUILD)) {
 				try {
 					playerTurn.build(x, y);
-					playerUndo = player;
 					task = new TimerTask() {
 
 						@Override
 						public void run() {
 
-							performEnd(new PlayerEndMessage(playerUndo));
+							performEnd(new PlayerEndMessage(player));
 						}
 					};
+					//solo se il player non può costruire e muovere
 					if (!player.getPlayerMenu().get(Actions.BUILD) && !player.getPlayerMenu().get(Actions.MOVE)) {
 						timer.schedule(task, 5000);
 					}
@@ -254,13 +244,12 @@ public class Controller extends Observable<Message> implements Observer<Message>
 					try {
 						playerTurn.buildDome(x, y);
 
-						playerUndo = player;
 						task = new TimerTask() {
 
 							@Override
 							public void run() {
 
-								performEnd(new PlayerEndMessage(playerUndo));
+								performEnd(new PlayerEndMessage(player));
 							}
 						};
 						//solo se il player non può costruire e muovere
@@ -310,8 +299,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Turn playerTurn = player.getTurn();
 		try {
 			task.cancel();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
+
 		if (turn.get(player)) {
 			if (!player.getPlayerMenu().get(Actions.PLACE) && !player.getPlayerMenu().get(Actions.CARD) && !player.getPlayerMenu().get(Actions.DECK)) {
 				try {
@@ -411,13 +401,15 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
 		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.PLACE)) {
-				if (!board.getBox(worker1X, worker1Y).isFree() || !board.getBox(worker2X, worker2Y).isFree()) {
-					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("Can't place pawns here! The positions chosen are already occupied");
-					player.notify(invalidMessage);
-				}
 				try {
-					board.initializePawn(worker1, worker2, worker1X, worker1Y, worker2X, worker2Y);
-					updateTurn();
+					if (!board.getBox(worker1X, worker1Y).isFree() || !board.getBox(worker2X, worker2Y).isFree()) {
+						InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("Can't place pawns here! The positions chosen are already occupied");
+						player.notify(invalidMessage);
+					} else {
+
+						board.initializePawn(worker1, worker2, worker1X, worker1Y, worker2X, worker2Y);
+						updateTurn();
+					}
 				} catch (IndexOutOfBoundsException e) {
 					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
 					player.notify(invalidMessage);
@@ -448,12 +440,16 @@ public class Controller extends Observable<Message> implements Observer<Message>
 					firstPlayer.getPlayerMenu().replace(Actions.DECK, true);
 					turn.replace(firstPlayer, true);
 				} else {
-					updateTurn();
-					removePlayer(player);
+					if(playersList.size() == 3) {
+						updateTurn();
+					}
 				}
 			}
 
-			if(playersList.size() == 1){
+			if (playersList.size() == 3) {
+				removePlayer(player);
+			} else {
+				removePlayer(player);
 				WinMessage winMessage = new WinMessage(playersList.get(0).getUsername());
 				notify(winMessage);
 				removePlayer(playersList.get(0));
@@ -495,7 +491,5 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		if (message instanceof PlayerUndoMessage) {
 			performUndo((PlayerUndoMessage) message);
 		}
-
-
 	}
 }

@@ -30,39 +30,41 @@ public class ArtemisTurn extends DefaultTurn {
             throw new RuntimeException("You can't move!");
         }
 
-        if (!canGoUp) {
-            try {
-                if (startX == x && startY == y) {
-                    throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
-                }
-                moveAction.moveNoGoUp(worker, x, y);
-                canMove = false;
-            } catch (NullPointerException e) {
-                startX = worker.getXPos();
-                startY = worker.getYPos();
-                moveAction.moveNoGoUp(worker, x, y);
-                oneMove = true;
-            }
-        } else {
-            try {
-                if (startX == x && startY == y) {
-                    throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
-                }
-                moveAction.move(worker, x, y);
-                canMove = false;
-                playerMenu.replace(Actions.MOVE, false);
 
+        try {
+            if (startX == x && startY == y) {
+                throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
+            }
+            if(!canGoUp){
+                moveAction.moveNoGoUp(worker, x, y);
+            }else {
+                moveAction.move(worker, x, y);
+            }
+            canMove = false;
+            win = winAction.winChecker();
+
+            playerMenu.replace(Actions.MOVE, false);
+
+            if(!win) {
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
                 message.addAction(Actions.BUILD);
                 message.addAction(Actions.UNDO);
                 player.notify(message);
+            }
 
-            } catch (NullPointerException e) {
-                startX = worker.getXPos();
-                startY = worker.getYPos();
+        } catch (NullPointerException e) {
+            startX = worker.getXPos();
+            startY = worker.getYPos();
+            if(!canGoUp){
+                moveAction.moveNoGoUp(worker, x, y);
+            }else {
                 moveAction.move(worker, x, y);
-                oneMove = true;
+            }
+            oneMove = true;
 
+            win = winAction.winChecker();
+
+            if(!win) {
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
                 message.addAction(Actions.MOVE);
                 message.addAction(Actions.BUILD);
@@ -70,6 +72,7 @@ public class ArtemisTurn extends DefaultTurn {
                 player.notify(message);
             }
         }
+
         canBuild = true;
         playerMenu.replace(Actions.BUILD, true);
     }

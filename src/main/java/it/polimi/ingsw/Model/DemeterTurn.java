@@ -33,6 +33,7 @@ public class DemeterTurn extends DefaultTurn {
         if (!canBuild) {
             throw new RuntimeException("You can't build!");
         }
+
         try {
             // controllo che quando voglio costruire la seconda volta
             // non costruisco sulla stessa posizione della prima

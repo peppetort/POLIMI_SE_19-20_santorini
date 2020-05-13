@@ -66,11 +66,6 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 		}
 	}
 
-	@Override
-	public void endSession(){
-		this.session = null;
-		this.username = null;
-	}
 
 	@Override
 	public void run() {

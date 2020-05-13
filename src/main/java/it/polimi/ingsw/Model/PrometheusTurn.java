@@ -34,33 +34,33 @@ public class PrometheusTurn extends DefaultTurn {
             throw new PlayerLostException("Your workers cannot make any moves!");
         }else if(!canMoveSelected){
             throw new RuntimeException("Selected worker cannot make any moves");
+        }else {
+
+            startingBox = board.getBox(worker.getXPos(), worker.getYPos());
+
+            running = true;
+            this.worker = worker;
+            canMove = true; // abilita la mossa
+            canBuild = false;
+            playerMenu.replace(Actions.SELECT, false);
+            playerMenu.replace(Actions.MOVE, true);
+            playerMenu.replace(Actions.UNDO, true);
+
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction(Actions.MOVE);
+
+            message.addAction(Actions.MOVE);
+            if (!worker.moveGoUp()) {
+                canMove = true;
+                canBuild = true;
+                playerMenu.replace(Actions.BUILD, true);
+
+                message.addAction(Actions.BUILD);
+            }
+
+            player.notify(message);
+            startBuild = false;
         }
-
-        startingBox = board.getBox(worker.getXPos(), worker.getYPos());
-
-        running = true;
-        this.worker = worker;
-        canMove = true; // abilita la mossa
-        canBuild = false;
-        playerMenu.replace(Actions.SELECT, false);
-        playerMenu.replace(Actions.MOVE, true);
-        playerMenu.replace(Actions.UNDO, true);
-
-        ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction(Actions.MOVE);
-
-        message.addAction(Actions.MOVE);
-        if (!worker.moveGoUp()) {
-            canMove = true;
-            canBuild = true;
-            playerMenu.replace(Actions.BUILD, true);
-
-            message.addAction(Actions.BUILD);
-        }
-
-        player.notify(message);
-        startBuild = false;
-
     }
 
     @Override
@@ -97,10 +97,12 @@ public class PrometheusTurn extends DefaultTurn {
             message = new ActionsUpdateMessage();
             message.addAction(Actions.BUILD);
         }
-        message.addAction(Actions.UNDO);
-        message.addAction(Actions.END);
 
-        player.notify(message);
+        if(!win) {
+            message.addAction(Actions.UNDO);
+            message.addAction(Actions.END);
+            player.notify(message);
+        }
     }
 
     @Override

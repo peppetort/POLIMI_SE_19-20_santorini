@@ -1,10 +1,6 @@
 package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.CLI.CLI;
-import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
-import it.polimi.ingsw.Exceptions.InvalidPlayersNumberException;
-import it.polimi.ingsw.Exceptions.InvalidUsernameException;
-import it.polimi.ingsw.Exceptions.SessionNotExistsException;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
@@ -39,7 +35,7 @@ public class Client extends Observable implements Observer<Object> {
 
 	public void startClient() throws IOException {
 		Thread reader = asyncReadFromSocket();
-
+		;
 		socket = new Socket(ip, port);
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
@@ -96,11 +92,12 @@ public class Client extends Observable implements Observer<Object> {
 					} else if (inputObject instanceof WinMessage) {
 						String winUser = ((WinMessage) inputObject).getUsername();
 						status.setWinner(winUser);
+						notify(0);
 					} else if (inputObject instanceof LostMessage) {
 						String loser = ((LostMessage) inputObject).getUsername();
 						Color loserColor = ((LostMessage) inputObject).getColor();
-						board.lose(loserColor);
 						status.lose(loser);
+						board.lose(loserColor);
 					} else if (inputObject instanceof DeckUpdateMessage) {
 						ArrayList<God> deck = ((DeckUpdateMessage) inputObject).getDeck();
 						status.updateDeck(deck);
@@ -116,18 +113,11 @@ public class Client extends Observable implements Observer<Object> {
 							board.placePlayer(x, y, player, worker);
 						}
 						notify(1);
-					}else if(inputObject instanceof EndSessionMessage){
-						this.status = null;
-						this.board = null;
-						cli.reset();
-						notify(0);
 					}
 				} catch (IOException | ClassNotFoundException e){
 					connected = false;
-				}catch (NullPointerException ignored){}
+				}
 			}
-			//throw new RuntimeException("Server is not working, or maybe its you");
-
 		});
 	}
 

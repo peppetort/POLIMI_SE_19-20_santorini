@@ -185,36 +185,34 @@ class Printer {
                 System.out.print("\n");
 
             }
+        }else {
+            String noSessionLabel = "No session available!";
+            maxLength = noSessionLabel.length();
+            length = maxLength / 2 + maxLength / 2 + noSessionLabel.length() + 6;
+
+            menuFormat = "%-";
+            menuFormat += Integer.toString(5 + maxLength / 2);
+            menuFormat += "s%s%";
+            menuFormat += Integer.toString(5 + maxLength / 2);
+            menuFormat += "s%n";
+
+            System.out.print(widthMarker + " ");
+            for (int i = 0; i < length; i++) {
+                System.out.print(lengthMarker);
+            }
+            System.out.print(" " + widthMarker);
+            System.out.print("\n");
+
+            System.out.printf(menuFormat, widthMarker, noSessionLabel, widthMarker);
+
+            System.out.print(widthMarker + " ");
+            for (int i = 0; i < length; i++) {
+                System.out.print(lengthMarker);
+            }
+            System.out.print(" " + widthMarker);
+            System.out.print("\n");
+            System.out.print("\n");
         }
-    }
-
-    public void printTitle(String title){
-
-        int maxLength = title.length();
-        int length = maxLength / 2 + maxLength / 2 + title.length() + 6;
-
-        String menuFormat = "%-";
-        menuFormat += Integer.toString(5 + maxLength / 2);
-        menuFormat += "s%s%";
-        menuFormat += Integer.toString(5 + maxLength / 2);
-        menuFormat += "s%n";
-
-        System.out.print(widthMarker + " ");
-        for (int i = 0; i < length; i++) {
-            System.out.print(lengthMarker);
-        }
-        System.out.print(" " + widthMarker);
-        System.out.print("\n");
-
-        System.out.printf(menuFormat, widthMarker, title, widthMarker);
-
-        System.out.print(widthMarker + " ");
-        for (int i = 0; i < length; i++) {
-            System.out.print(lengthMarker);
-        }
-        System.out.print(" " + widthMarker);
-        System.out.print("\n");
-        System.out.print("\n");
     }
 
 

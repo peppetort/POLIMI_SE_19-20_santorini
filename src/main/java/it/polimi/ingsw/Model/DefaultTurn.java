@@ -54,19 +54,20 @@ public class DefaultTurn implements Turn {
             throw new PlayerLostException("Your workers cannot make any moves!");
         }else if(!canMoveSelected){
             throw new RuntimeException("Selected worker cannot make any moves");
+        }else {
+            board.removeAction();
+            running = true;
+            this.worker = worker;
+            canMove = true; // abilita la mossa
+            canBuild = false;
+            playerMenu.replace(Actions.SELECT, false);
+            playerMenu.replace(Actions.MOVE, true);
+            playerMenu.replace(Actions.UNDO, true);
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction(Actions.MOVE);
+            message.addAction(Actions.UNDO);
+            player.notify(message);
         }
-        board.removeAction();
-        running = true;
-        this.worker = worker;
-        canMove = true; // abilita la mossa
-        canBuild = false;
-        playerMenu.replace(Actions.SELECT, false);
-        playerMenu.replace(Actions.MOVE, true);
-        playerMenu.replace(Actions.UNDO, true);
-        ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction(Actions.MOVE);
-        message.addAction(Actions.UNDO);
-        player.notify(message);
 
     }
 
@@ -88,12 +89,14 @@ public class DefaultTurn implements Turn {
         playerMenu.replace(Actions.MOVE, false);
         playerMenu.replace(Actions.BUILD, true);
 
-        ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction(Actions.BUILD);
-        message.addAction(Actions.UNDO);
-        player.notify(message);
-
         win = winAction.winChecker();
+
+        if(!win) {
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction(Actions.BUILD);
+            message.addAction(Actions.UNDO);
+            player.notify(message);
+        }
 
     }
 
@@ -171,12 +174,10 @@ public class DefaultTurn implements Turn {
         playerMenu.replace(Actions.END, false);
         this.running = false;
         this.win = false;
-            try {
-                if (player.getCard().equals(God.ATHENA)) {
-                    canGoUp = true;
-                }
-            }catch(Exception e){}
-
+        if(player.getCard().equals(God.ATHENA))
+        {
+            canGoUp=true;
+        }
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.SELECT);
         player.notify(message);

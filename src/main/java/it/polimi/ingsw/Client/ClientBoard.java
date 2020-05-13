@@ -34,6 +34,7 @@ public class ClientBoard extends Observable {
         workers[0].clear();
         workers[1].clear();
         playersLatestBoxes.remove(player);
+        notify(1);
     }
 
     public void placePlayer(int x, int y, Color player, int worker) {
