@@ -35,6 +35,10 @@ public class CLI extends Observable<Object> implements Observer {
 		printer.setClientStatus(clientStatus);
 	}
 
+	private boolean isEmptyInput(String input) {
+		return input.replaceAll("\\s+","").equals("");
+	}
+
 	private void takeInput() {
 		new Thread(() -> {
 			boolean valid;
@@ -43,68 +47,75 @@ public class CLI extends Observable<Object> implements Observer {
 				String input;
 				String[] data;
 				Actions action;
-				System.out.println("Insert action || type help for the list of commands:");
-				System.out.print("> ");
-				try {
-					input = reader.nextLine();
-					if(input.toUpperCase().equals("HELP")){
-						System.out.println("> DECK GOD1 GOD2 [GOD33] to choose the available cards for the players (GOD3 only if this is a 3 players match).");
-						System.out.println("> CARD GOD to choose your card. (Choose from the available cards selected by player one).");
-						System.out.println("> PLACE x1 y1 x2 y2 to place your two pawns: pawn 1 will be placed in column number x1 and row y1 (same for the second pawn).");
-						System.out.println("> SELECT 1||2 to select the pawn that will act: you can only choose one pawn.");
-						System.out.println("> MOVE x y to move the selected pawn in the spot x (column) - y (row). It has to be a legal move or you will have to redo.");
-						System.out.println("> BUILD x y to build in the spot x (column) - y (row). It has to be a legal move or you will have to redo.");
-						System.out.println("> END to pass the turn.");
-						System.out.println("> UNDO to redo your turn: you will be thrown to select your pawn. If you have built something you have to UNDO your move before the 5-seconds timer ends or you will" +
-								"pass the turn automatically.");
-						input = reader.nextLine();
-					}
-						data = input.split(" ");
-						action = Actions.valueOf(data[0].toUpperCase());
-						switch (action) {
-							case UNDO:
-								notify(new PlayerUndoMessage());
-								break;
-							case BUILD:
-								notify(new PlayerBuildMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-								break;
-							case END:
-								notify(new PlayerEndMessage());
-								break;
-							case MOVE:
-								notify(new PlayerMoveMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-								break;
-							case PLACE:
-								notify(new PlayerPlacePawnsMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])));
-								break;
-							case SELECT:
-								notify(new PlayerSelectMessage(Integer.parseInt(data[1])));
-								break;
-							case CARD:
-								notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
-								break;
-							case DECK:
-								ArrayList<God> deck = new ArrayList<>();
-								for (String s : data) {
-									if (!s.equals(data[0])) {
-										deck.add(God.valueOf(s.toUpperCase()));
-									}
-								}
-								notify(new PlayerDeckMessage(deck));
-								break;
-							case BUILD_DOME:
-								notify(new PlayerBuildDomeMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-								break;
-							default:
-								System.out.println("Invalid command");
-								valid = false;
-						}
 
-				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e){
-					System.out.println("Invalid command");
+				try {
+
+					System.out.println("Insert action || type help for the list of commands:");
+					System.out.print("> ");
+					input = reader.nextLine();
+
+					if (!isEmptyInput(input)) {
+						if (input.toUpperCase().equals("HELP")) {
+							System.out.print("\n");
+							System.out.println("- DECK GOD1 GOD2 [GOD3] to choose the available cards for the players (GOD3 only if this is a 3 players match).");
+							System.out.println("- CARD GOD to choose your card. (Choose from the available cards selected by player one).");
+							System.out.println("- PLACE x1 y1 x2 y2 to place your two pawns: pawn 1 will be placed in column number x1 and row y1 (same for the second pawn).");
+							System.out.println("- SELECT 1||2 to select the pawn that will act: you can only choose one pawn.");
+							System.out.println("- MOVE x y to move the selected pawn in the spot x (column) - y (row). It has to be a legal move or you will have to redo.");
+							System.out.println("- BUILD x y to build in the spot x (column) - y (row). It has to be a legal move or you will have to redo.");
+							System.out.println("- END to pass the turn.");
+							System.out.println("- UNDO to redo your turn: you will be thrown to select your pawn. If you have built something you have to UNDO your move before the 5-seconds timer ends or you will" +
+									"pass the turn automatically.");
+							System.out.print("\n");
+							valid = false;
+						} else {
+							data = input.split(" ");
+							action = Actions.valueOf(data[0].toUpperCase());
+							switch (action) {
+								case UNDO:
+									notify(new PlayerUndoMessage());
+									break;
+								case BUILD:
+									notify(new PlayerBuildMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+									break;
+								case END:
+									notify(new PlayerEndMessage());
+									break;
+								case MOVE:
+									notify(new PlayerMoveMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+									break;
+								case PLACE:
+									notify(new PlayerPlacePawnsMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])));
+									break;
+								case SELECT:
+									notify(new PlayerSelectMessage(Integer.parseInt(data[1])));
+									break;
+								case CARD:
+									notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
+									break;
+								case DECK:
+									ArrayList<God> deck = new ArrayList<>();
+									for (String s : data) {
+										if (!s.equals(data[0])) {
+											deck.add(God.valueOf(s.toUpperCase()));
+										}
+									}
+									notify(new PlayerDeckMessage(deck));
+									break;
+								case BUILD_DOME:
+									notify(new PlayerBuildDomeMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+									break;
+								default:
+									valid = false;
+							}
+						}
+					}else {
+						valid = false;
+					}
+				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
 					valid = false;
-				}catch (IndexOutOfBoundsException ignored){};
-			}while (!valid);
+				} catch (IndexOutOfBoundsException ignored) {}
+			} while (!valid);
 
 		}).start();
 	}
@@ -114,28 +125,32 @@ public class CLI extends Observable<Object> implements Observer {
 			reader = new Scanner(System.in);
 			boolean correct;
 
-			System.out.println("List of commands:");
+			printer.printTitle("List of commands");
 			System.out.println("JOIN (join an existing session)");
-			System.out.println("CREATE (create a new game)");
-			System.out.print("\n> ");
+			System.out.println("CREATE (create a new game)\n");
 
 			do {
+				System.out.print("> ");
+				correct = false;
 				String input = reader.nextLine();
-				if (input.toUpperCase().equals("JOIN") || input.toUpperCase().equals("CREATE")) {
-					switch (input.toUpperCase()) {
-						case "JOIN":
-							System.out.println("List of available session:");
-							notify(new PlayerRetrieveSessions());
-							break;
-						case "CREATE":
-							create();
-							break;
+
+				if(!isEmptyInput(input)) {
+					if (input.toUpperCase().equals("JOIN") || input.toUpperCase().equals("CREATE")) {
+						switch (input.toUpperCase()) {
+							case "JOIN":
+								notify(new PlayerRetrieveSessions());
+								correct = true;
+								break;
+							case "CREATE":
+								create();
+								correct = true;
+								break;
+							default:
+								correct = false;
+						}
+					} else {
+						correct = false;
 					}
-					correct = true;
-				} else {
-					System.out.println("Type a valid command");
-					System.out.print("> ");
-					correct = false;
 				}
 			} while (!correct);
 
@@ -157,28 +172,46 @@ public class CLI extends Observable<Object> implements Observer {
 		boolean correct;
 		boolean simple = false;
 
+		printer.printTitle("CREATE");
+
 		do {
 			switch (question) {
 				case 0:
 					System.out.println("Insert your name:");
 					System.out.print("> ");
 					input = reader.nextLine();
-					username = input.toUpperCase();
-					correct = true;
+					if (isEmptyInput(input)) {
+						correct = false;
+					} else {
+						username = input.toUpperCase();
+						correct = true;
+					}
 					break;
 				case 1:
 					System.out.println("Insert name of the session:");
 					System.out.print("> ");
 					input = reader.nextLine();
-					session = input;
-					correct = true;
+					if (isEmptyInput(input)) {
+						correct = false;
+					} else {
+						session = input;
+						correct = true;
+					}
 					break;
 				case 2:
 					System.out.println("Insert number of players:");
 					System.out.print("> ");
 					input = reader.nextLine();
-					players = Integer.parseInt(input);
-					correct = players >= 2 && players <= 3;
+					if (isEmptyInput(input)) {
+						correct = false;
+					} else {
+						try {
+							players = Integer.parseInt(input);
+							correct = players >= 2 && players <= 3;
+						}catch (NumberFormatException e){
+							correct = false;
+						}
+					}
 					break;
 				case 3:
 					System.out.println("Do you want to use cards? Y/N");
@@ -205,6 +238,8 @@ public class CLI extends Observable<Object> implements Observer {
 		if (!input.toUpperCase().equals("ESC")) {
 			PlayerCreateSessionMessage createMessage = new PlayerCreateSessionMessage(username, session, players, simple);
 			notify(createMessage);
+		}else{
+			startMenu();
 		}
 	}
 
@@ -213,34 +248,48 @@ public class CLI extends Observable<Object> implements Observer {
 		HashMap<String, Integer> participants = message.getParticipants();
 		HashMap<String, Boolean> cards = message.getCards();
 		String session;
-		String username;
-		boolean correct = false;
-
-		printer.printAvailableSession(participants, cards);
+		String username = null;
+		boolean correct;
 
 		if (participants.size() != 0) {
-
+			printer.printTitle("Available sessions");
+			printer.printAvailableSession(participants, cards);
+			printer.printTitle("JOIN");
 
 			System.out.println("Insert your username (type esc to go back to startMenu):");
-			System.out.print("> ");
-			username = reader.nextLine().toUpperCase();
+
+			do {
+				System.out.print("> ");
+				String input = reader.nextLine();
+
+				if (!isEmptyInput(input)) {
+					username = input.toUpperCase();
+					correct = true;
+				} else {
+					correct = false;
+				}
+			} while (!correct);
+
 
 			if (username.toUpperCase().equals("ESC")) {
-
 				startMenu();
 			} else {
 
+				System.out.println("Insert the name of the session you want to join:");
 				do {
-					System.out.println("Insert the name of the session you want to join:");
 					System.out.print("> ");
 
+					correct = false;
 					session = reader.nextLine();
-					if (participants.containsKey(session)) {
-						correct = true;
-						notify(new PlayerSelectSession(session, username));
-					}
-					if (!correct) {
-						System.out.println("This session doesn't exists!");
+
+					if(!isEmptyInput(session)) {
+						if (participants.containsKey(session)) {
+							correct = true;
+							notify(new PlayerSelectSession(session, username));
+						}
+						if (!correct) {
+							System.out.println("This session doesn't exists!");
+						}
 					}
 				} while (!correct && !session.toUpperCase().equals("ESC"));
 
@@ -249,7 +298,7 @@ public class CLI extends Observable<Object> implements Observer {
 				}
 			}
 		} else {
-			System.out.println("No sessions available");
+			printer.printTitle("No available sessions");
 			startMenu();
 		}
 	}
@@ -291,7 +340,7 @@ public class CLI extends Observable<Object> implements Observer {
 		} else if (message instanceof InvalidPlayersNumberException) {
 			System.out.println(((InvalidPlayersNumberException) message).getMessage());
 			create();
-		}else if(message instanceof InvalidChoiceMessage){
+		} else if (message instanceof InvalidChoiceMessage) {
 			System.out.println(((InvalidChoiceMessage) message).getMessage());
 			takeInput();
 		} else {
