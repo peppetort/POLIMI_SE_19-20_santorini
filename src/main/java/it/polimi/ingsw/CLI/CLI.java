@@ -20,11 +20,17 @@ import java.util.Scanner;
 public class CLI extends Observable<Object> implements Observer {
 	private final Printer printer;
 	private final Client client;
-	public static Scanner reader = new Scanner(System.in);
+	private Scanner reader;
+	private Thread actionsInput;
 
 	public CLI(Client client) {
 		printer = new Printer();
 		this.client = client;
+		reader = new Scanner(System.in);
+	}
+
+	public void reset(){
+		actionsInput.interrupt();
 	}
 
 	public void setClientBoard(ClientBoard clientBoard) {
@@ -36,11 +42,16 @@ public class CLI extends Observable<Object> implements Observer {
 	}
 
 	private boolean isEmptyInput(String input) {
-		return input.replaceAll("\\s+","").equals("");
+		return input.replaceAll("\\s+", "").equals("");
 	}
 
 	private void takeInput() {
-		new Thread(() -> {
+
+		if(actionsInput != null){
+			actionsInput.interrupt();
+		}
+
+		actionsInput = new Thread(() -> {
 			boolean valid;
 			do {
 				valid = true;
@@ -109,15 +120,18 @@ public class CLI extends Observable<Object> implements Observer {
 									valid = false;
 							}
 						}
-					}else {
+					} else {
 						valid = false;
 					}
 				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
 					valid = false;
-				} catch (IndexOutOfBoundsException ignored) {}
+				} catch (IndexOutOfBoundsException ignored) {
+				}
 			} while (!valid);
 
-		}).start();
+		});
+
+		actionsInput.start();
 	}
 
 	public void startMenu() {
@@ -134,7 +148,7 @@ public class CLI extends Observable<Object> implements Observer {
 				correct = false;
 				String input = reader.nextLine();
 
-				if(!isEmptyInput(input)) {
+				if (!isEmptyInput(input)) {
 					if (input.toUpperCase().equals("JOIN") || input.toUpperCase().equals("CREATE")) {
 						switch (input.toUpperCase()) {
 							case "JOIN":
@@ -208,7 +222,7 @@ public class CLI extends Observable<Object> implements Observer {
 						try {
 							players = Integer.parseInt(input);
 							correct = players >= 2 && players <= 3;
-						}catch (NumberFormatException e){
+						} catch (NumberFormatException e) {
 							correct = false;
 						}
 					}
@@ -238,7 +252,7 @@ public class CLI extends Observable<Object> implements Observer {
 		if (!input.toUpperCase().equals("ESC")) {
 			PlayerCreateSessionMessage createMessage = new PlayerCreateSessionMessage(username, session, players, simple);
 			notify(createMessage);
-		}else{
+		} else {
 			startMenu();
 		}
 	}
@@ -282,7 +296,7 @@ public class CLI extends Observable<Object> implements Observer {
 					correct = false;
 					session = reader.nextLine();
 
-					if(!isEmptyInput(session)) {
+					if (!isEmptyInput(session)) {
 						if (participants.containsKey(session)) {
 							correct = true;
 							notify(new PlayerSelectSession(session, username));
@@ -321,10 +335,6 @@ public class CLI extends Observable<Object> implements Observer {
 				printer.printAllCards();
 			} else if ((Integer) message == 4) {
 				printer.printDeck();
-			} else if ((Integer) message == 5) {
-				startMenu();
-			} else if ((Integer) message == 6) {
-				startMenu();
 			}
 		} else if (message instanceof SessionListMessage) {
 			join((SessionListMessage) message);

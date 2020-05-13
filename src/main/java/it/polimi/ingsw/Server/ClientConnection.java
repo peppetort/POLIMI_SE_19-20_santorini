@@ -14,4 +14,6 @@ public interface ClientConnection  {
     void addObserver(Observer<Message> observer);
 
     void send(Object message);
+
+    void endSession();
 }

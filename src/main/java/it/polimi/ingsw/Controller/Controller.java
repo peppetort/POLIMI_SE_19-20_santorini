@@ -18,9 +18,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 	private final ArrayList<Player> playersList;
 	private final Set<God> cards = new HashSet<>();
 	private final HashMap<Player, Boolean> turn = new HashMap<>();
-	private final HashMap<Player, Boolean> outcome = new HashMap<>();
 	private Player playerUndo;
-	private int loosingPlayers;
 
 	//timer e task per il calcolo dei 5 secondi
 	private final Timer timer = new Timer();
@@ -29,12 +27,10 @@ public class Controller extends Observable<Message> implements Observer<Message>
 	public Controller(Game game) {
 		this.game = game;
 		playersList = game.getPlayers();
-		loosingPlayers = 0;
 		Player startPlayer;
 
 		for (Player p : game.getPlayers()) {
 			turn.put(p, false);
-			outcome.put(p, null);
 		}
 
 		if (game.isSimple()) {
@@ -51,105 +47,90 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
 	//todo: fare la deregister in caso di vittoria o sconfitta
 
+	private void removePlayer(Player player) {
+		playersList.remove(player);
+		turn.remove(player);
+		game.removePlayer(player);
+
+		if (playersList.isEmpty()) {
+			notify(new EndSessionMessage());
+		}
+	}
+
 	private void updateTurn() {
 		int nextPlayerIndex;
 		Player nextPlayer;
 		HashMap<Actions, Boolean> playerMenu;
 		HashMap<Actions, Boolean> nextPlayerMenu;
 
-		//Unico giocatore rimasto vince
-		if (outcome.size() == 1) {
-			outcome.replaceAll((key, value) -> true);
+		ActionsUpdateMessage message = new ActionsUpdateMessage();
 
-			Player winner = playersList.get(0);
+		for (Player player : playersList) {
+			if (turn.get(player)) {
+				playerMenu = player.getPlayerMenu();
+				nextPlayerIndex = (playersList.indexOf(player) + 1) % (playersList.size());
+				nextPlayer = playersList.get(nextPlayerIndex);
+				nextPlayerMenu = nextPlayer.getPlayerMenu();
 
-			WinMessage winMessage = new WinMessage(winner.getUsername());
-			notify(winMessage);
-		} else {
+				TurnUpdateMessage turnMessage = new TurnUpdateMessage(nextPlayer.getUsername());
+				notify(turnMessage);
 
-			ActionsUpdateMessage message = new ActionsUpdateMessage();
+				//Finito il giro
+				if (nextPlayerIndex == 1) {
+					if (playerMenu.get(Actions.DECK)) {
+						playerMenu.replace(Actions.DECK, false);
+						nextPlayerMenu.replace(Actions.CARD, true);
 
-			for (Player player : playersList) {
-				if (turn.get(player)) {
-					playerMenu = player.getPlayerMenu();
-					nextPlayerIndex = (playersList.indexOf(player) + 1) % (playersList.size());
-					nextPlayer = playersList.get(nextPlayerIndex);
-					nextPlayerMenu = nextPlayer.getPlayerMenu();
+						message.addAction(Actions.CARD);
+						nextPlayer.notify(message);
+					} else if (playerMenu.get(Actions.CARD)) {
+						playerMenu.replace(Actions.CARD, false);
+						nextPlayerMenu.replace(Actions.PLACE, true);
 
-					//Altri giocatori hanno perso -> il rimanente vince
-					if (playersList.size() == loosingPlayers + 1 && outcome.get(nextPlayer) == null) {
-						outcome.replace(nextPlayer, true);
+						message.addAction(Actions.PLACE);
+						nextPlayer.notify(message);
+					} else if (playerMenu.get(Actions.PLACE)) {
+						playerMenu.replace(Actions.PLACE, false);
+						nextPlayerMenu.replace(Actions.SELECT, true);
 
-						WinMessage winMessage = new WinMessage(nextPlayer.getUsername());
-						notify(winMessage);
-
+						message.addAction(Actions.SELECT);
+						nextPlayer.notify(message);
 					} else {
+						nextPlayerMenu.replace(Actions.SELECT, true);
 
-						TurnUpdateMessage turnMessage = new TurnUpdateMessage(nextPlayer.getUsername());
-						notify(turnMessage);
+						message.addAction(Actions.SELECT);
+						nextPlayer.notify(message);
+					}
+				} else {
+					if (playerMenu.get(Actions.CARD)) {
+						playerMenu.replace(Actions.CARD, false);
+						nextPlayerMenu.replace(Actions.CARD, true);
 
-						//Finito il giro
-						if (nextPlayerIndex == 1) {
-							if (playerMenu.get(Actions.DECK)) {
-								playerMenu.replace(Actions.DECK, false);
-								nextPlayerMenu.replace(Actions.CARD, true);
+						message.addAction(Actions.CARD);
+						nextPlayer.notify(message);
+					} else if (playerMenu.get(Actions.PLACE)) {
+						playerMenu.replace(Actions.PLACE, false);
+						nextPlayerMenu.replace(Actions.PLACE, true);
 
-								message.addAction(Actions.CARD);
-								nextPlayer.notify(message);
-							} else if (playerMenu.get(Actions.CARD)) {
-								playerMenu.replace(Actions.CARD, false);
-								nextPlayerMenu.replace(Actions.PLACE, true);
+						message.addAction(Actions.PLACE);
+						nextPlayer.notify(message);
+					} else {
+						nextPlayerMenu.replace(Actions.SELECT, true);
 
-								message.addAction(Actions.PLACE);
-								nextPlayer.notify(message);
-							} else if (playerMenu.get(Actions.PLACE)) {
-								playerMenu.replace(Actions.PLACE, false);
-								nextPlayerMenu.replace(Actions.SELECT, true);
-
-								message.addAction(Actions.SELECT);
-								nextPlayer.notify(message);
-							} else {
-								nextPlayerMenu.replace(Actions.SELECT, true);
-
-								message.addAction(Actions.SELECT);
-								nextPlayer.notify(message);
-							}
-						} else {
-							if (playerMenu.get(Actions.CARD)) {
-								playerMenu.replace(Actions.CARD, false);
-								nextPlayerMenu.replace(Actions.CARD, true);
-
-								message.addAction(Actions.CARD);
-								nextPlayer.notify(message);
-							} else if (playerMenu.get(Actions.PLACE)) {
-								playerMenu.replace(Actions.PLACE, false);
-								nextPlayerMenu.replace(Actions.PLACE, true);
-
-								message.addAction(Actions.PLACE);
-								nextPlayer.notify(message);
-							} else {
-								nextPlayerMenu.replace(Actions.SELECT, true);
-
-								message.addAction(Actions.SELECT);
-								nextPlayer.notify(message);
-							}
-						}
-
-						turn.replace(player, false);
-						turn.replace(nextPlayer, true);
-						break;
+						message.addAction(Actions.SELECT);
+						nextPlayer.notify(message);
 					}
 				}
+
+				turn.replace(player, false);
+				turn.replace(nextPlayer, true);
+				break;
 			}
 		}
 	}
 
 	public HashMap<Player, Boolean> getTurn() {
 		return turn;
-	}
-
-	public HashMap<Player, Boolean> getOutcome() {
-		return outcome;
 	}
 
 	public Set<God> getCards() {
@@ -162,23 +143,25 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Player player = message.getPlayer();
 		Worker worker = message.getWorker();
 
-		if (turn.get(player) && outcome.get(player) == null) {
+		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.SELECT)) {
-
-				if (outcome.get(player) == null && loosingPlayers == playersList.size() - 1) {
-					outcome.replace(player, true);
-				}
 
 				try {
 					player.getTurn().start(worker);
-					//canUndo=true;
 				} catch (PlayerLostException e1) {
-					outcome.replace(player, false);
-					loosingPlayers++;
 
 					LostMessage lostMessage = new LostMessage(player.getUsername(), player.getColor());
 					notify(lostMessage);
 					updateTurn();
+					removePlayer(player);
+
+					if (playersList.size() == 1) {
+						Player winner = playersList.get(0);
+						WinMessage winMessage = new WinMessage(winner.getUsername());
+						notify(winMessage);
+						removePlayer(winner);
+					}
+
 				} catch (RuntimeException e2) {
 					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e2.getMessage());
 					player.notify(invalidMessage);
@@ -197,22 +180,21 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		int x = message.getX();
 		int y = message.getY();
 
-		if (turn.get(player) && outcome.get(player) == null) {
+		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.MOVE)) {
 
 				try {
 					playerTurn.move(x, y);
 
 					if (playerTurn.won()) {
-						outcome.replaceAll((key, value) -> false);
-						outcome.replace(player, true);
-						loosingPlayers = playersList.size() - 1;
 
 						WinMessage winMessage = new WinMessage(player.getUsername());
+						notify(winMessage);
 
-						for (Player p : playersList) {
-							p.notify(winMessage);
+						while (!playersList.isEmpty()){
+							removePlayer(playersList.get(0));
 						}
+
 					}
 				} catch (RuntimeException e) {
 					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
@@ -231,11 +213,10 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		int x = message.getX();
 		int y = message.getY();
 
-		if (turn.get(player) && outcome.get(player) == null) {
+		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.BUILD)) {
 				try {
 					playerTurn.build(x, y);
-					// canUndo=false;
 					playerUndo = player;
 					task = new TimerTask() {
 
@@ -245,7 +226,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
 							performEnd(new PlayerEndMessage(playerUndo));
 						}
 					};
-					//solo se il player non può costruire e muovere
 					if (!player.getPlayerMenu().get(Actions.BUILD) && !player.getPlayerMenu().get(Actions.MOVE)) {
 						timer.schedule(task, 5000);
 					}
@@ -269,7 +249,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		int y = message.getY();
 
 		if (player.getCard().equals(God.ATLAS)) {
-			if (turn.get(player) && outcome.get(player) == null) {
+			if (turn.get(player)) {
 				if (player.getPlayerMenu().get(Actions.BUILD)) {
 					try {
 						playerTurn.buildDome(x, y);
@@ -309,7 +289,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Turn playerTurn = player.getTurn();
 		task.cancel();
 
-		if (turn.get(player) && outcome.get(player) == null) {
+		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.END)) {
 				try {
 					playerTurn.end();
@@ -330,8 +310,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Turn playerTurn = player.getTurn();
 		try {
 			task.cancel();
-		}catch(Exception e){}
-		if (turn.get(player) && outcome.get(player) == null) {
+		} catch (Exception e) {
+		}
+		if (turn.get(player)) {
 			if (!player.getPlayerMenu().get(Actions.PLACE) && !player.getPlayerMenu().get(Actions.CARD) && !player.getPlayerMenu().get(Actions.DECK)) {
 				try {
 					playerTurn.undo();
@@ -460,21 +441,17 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		}
 
 		if (player != null) {
-			outcome.remove(player);
 			if (turn.get(player)) {
 				if (player.getPlayerMenu().get(Actions.DECK)) {
-					playersList.remove(player);
-					turn.remove(player);
+					removePlayer(player);
 					Player firstPlayer = playersList.get(0);
 					firstPlayer.getPlayerMenu().replace(Actions.DECK, true);
 					turn.replace(firstPlayer, true);
 				} else {
 					updateTurn();
-					playersList.remove(player);
-					turn.remove(player);
+					removePlayer(player);
 				}
 			}
-			game.removePlayer(player);
 		}
 
 	}

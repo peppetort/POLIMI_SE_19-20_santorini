@@ -39,7 +39,7 @@ public class Client extends Observable implements Observer<Object> {
 
 	public void startClient() throws IOException {
 		Thread reader = asyncReadFromSocket();
-		;
+
 		socket = new Socket(ip, port);
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
@@ -96,13 +96,11 @@ public class Client extends Observable implements Observer<Object> {
 					} else if (inputObject instanceof WinMessage) {
 						String winUser = ((WinMessage) inputObject).getUsername();
 						status.setWinner(winUser);
-						notify(5);
 					} else if (inputObject instanceof LostMessage) {
 						String loser = ((LostMessage) inputObject).getUsername();
 						Color loserColor = ((LostMessage) inputObject).getColor();
-						status.lose(loser);
 						board.lose(loserColor);
-						notify(6);
+						status.lose(loser);
 					} else if (inputObject instanceof DeckUpdateMessage) {
 						ArrayList<God> deck = ((DeckUpdateMessage) inputObject).getDeck();
 						status.updateDeck(deck);
@@ -118,10 +116,15 @@ public class Client extends Observable implements Observer<Object> {
 							board.placePlayer(x, y, player, worker);
 						}
 						notify(1);
+					}else if(inputObject instanceof EndSessionMessage){
+						this.status = null;
+						this.board = null;
+						cli.reset();
+						notify(0);
 					}
 				} catch (IOException | ClassNotFoundException e){
 					connected = false;
-				}
+				}catch (NullPointerException ignored){}
 			}
 			//throw new RuntimeException("Server is not working, or maybe its you");
 
