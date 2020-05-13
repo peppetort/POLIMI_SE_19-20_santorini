@@ -452,8 +452,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
 					removePlayer(player);
 				}
 			}
-		}
 
+			if(playersList.size() == 1){
+				WinMessage winMessage = new WinMessage(playersList.get(0).getUsername());
+				notify(winMessage);
+				removePlayer(playersList.get(0));
+			}
+		}
 	}
 
 

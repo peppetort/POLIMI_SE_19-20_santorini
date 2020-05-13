@@ -13,6 +13,7 @@ import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -29,7 +30,9 @@ public class CLI extends Observable<Object> implements Observer {
 		reader = new Scanner(System.in);
 	}
 
-	public void reset(){
+	public void reset() throws IOException {
+		reader.close();
+		reader = new Scanner(System.in);
 		actionsInput.interrupt();
 	}
 
