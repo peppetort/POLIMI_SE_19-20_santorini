@@ -181,14 +181,14 @@ public class Controller extends Observable<Message> implements Observer<Message>
 					if (playerTurn.won()) {
 						WinMessage winMessage = new WinMessage(player.getUsername());
 						notify(winMessage);
+
+						while (!playersList.isEmpty()) {
+							removePlayer(playersList.get(0));
+						}
 					}
 				} catch (RuntimeException e) {
 					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
 					player.notify(invalidMessage);
-
-					while (!playersList.isEmpty()) {
-						removePlayer(playersList.get(0));
-					}
 				}
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't move");
