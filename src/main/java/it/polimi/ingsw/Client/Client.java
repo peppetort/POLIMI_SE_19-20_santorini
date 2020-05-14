@@ -35,7 +35,6 @@ public class Client extends Observable implements Observer<Object> {
 
 	public void startClient() throws IOException {
 		Thread reader = asyncReadFromSocket();
-		;
 		socket = new Socket(ip, port);
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
@@ -92,7 +91,6 @@ public class Client extends Observable implements Observer<Object> {
 					} else if (inputObject instanceof WinMessage) {
 						String winUser = ((WinMessage) inputObject).getUsername();
 						status.setWinner(winUser);
-						notify(0);
 					} else if (inputObject instanceof LostMessage) {
 						String loser = ((LostMessage) inputObject).getUsername();
 						Color loserColor = ((LostMessage) inputObject).getColor();
