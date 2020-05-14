@@ -299,8 +299,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Turn playerTurn = player.getTurn();
 		try {
 			task.cancel();
-		} catch (Exception ignored) {
-		}
+		} catch (Exception ignored) {}
 
 		if (turn.get(player)) {
 			if (!player.getPlayerMenu().get(Actions.PLACE) && !player.getPlayerMenu().get(Actions.CARD) && !player.getPlayerMenu().get(Actions.DECK)) {
@@ -407,8 +406,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
 						player.notify(invalidMessage);
 					} else {
 
-						board.initializePawn(worker1, worker2, worker1X, worker1Y, worker2X, worker2Y);
-						updateTurn();
+						try {
+							board.initializePawn(worker1, worker2, worker1X, worker1Y, worker2X, worker2Y);
+							updateTurn();
+						}catch (RuntimeException e){
+							InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
+							player.notify(invalidMessage);
+						}
 					}
 				} catch (IndexOutOfBoundsException e) {
 					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());

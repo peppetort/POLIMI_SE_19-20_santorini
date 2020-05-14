@@ -109,8 +109,6 @@ public class ClientStatus extends Observable {
 	public synchronized void updateAction(ArrayList<Actions> actions) {
 		this.actions = actions;
 
-		//print();
-
 		if (actions.get(0).equals(Actions.DECK)) {
 			//  printAllCards();
 			notify(3);

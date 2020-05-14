@@ -55,6 +55,7 @@ public class CLI extends Observable<Object> implements Observer {
 						input = reader.nextLine();
 						if(!isEmptyInput(input)) {
 							if (input.toUpperCase().equals("HELP")) {
+								System.out.print("\n");
 								System.out.println("> DECK GOD1 GOD2 [GOD33] to choose the available cards for the players (GOD3 only if this is a 3 players match).");
 								System.out.println("> CARD GOD to choose your card. (Choose from the available cards selected by player one).");
 								System.out.println("> PLACE x1 y1 x2 y2 to place your two pawns: pawn 1 will be placed in column number x1 and row y1 (same for the second pawn).");
@@ -64,7 +65,9 @@ public class CLI extends Observable<Object> implements Observer {
 								System.out.println("> END to pass the turn.");
 								System.out.println("> UNDO to redo your turn: you will be thrown to select your pawn. If you have built something you have to UNDO your move before the 5-seconds timer ends or you will" +
 										"pass the turn automatically.");
+								System.out.print("\n");
 								input = reader.nextLine();
+								System.out.print("> ");
 							}
 							data = input.split(" ");
 							action = Actions.valueOf(data[0].toUpperCase());
@@ -189,7 +192,7 @@ public class CLI extends Observable<Object> implements Observer {
 					if (isEmptyInput(input)) {
 						correct = false;
 					} else {
-						session = input;
+						session = input.toUpperCase();
 						correct = true;
 					}
 					break;
@@ -271,13 +274,14 @@ public class CLI extends Observable<Object> implements Observer {
 			} else {
 
 				System.out.println("Insert the name of the session you want to join:");
+				String input;
 				do {
 					System.out.print("> ");
-
 					correct = false;
-					session = reader.nextLine();
+					input = reader.nextLine();
 
-					if (!isEmptyInput(session)) {
+					if (!isEmptyInput(input)) {
+						session = input.toUpperCase();
 						if (participants.containsKey(session)) {
 							correct = true;
 							notify(new PlayerSelectSession(session, username));
@@ -286,9 +290,9 @@ public class CLI extends Observable<Object> implements Observer {
 							System.out.println("This session doesn't exists!");
 						}
 					}
-				} while (!correct && !session.toUpperCase().equals("ESC"));
+				} while (!correct && !input.toUpperCase().equals("ESC"));
 
-				if (session.toUpperCase().equals("ESC")) {
+				if (input.toUpperCase().equals("ESC")) {
 					startMenu();
 				}
 			}

@@ -162,8 +162,7 @@ public class DefaultTurn implements Turn {
 
     //azione che ristabilisce la condizione all'inizio del turno della board
     //inizializzazione del turno a start, il turno ricomincia
-    public void undo()
-    {
+    public void undo() {
         board.restore();
         playerMenu.replace(Actions.DECK, false);
         playerMenu.replace(Actions.CARD, false);
@@ -174,10 +173,13 @@ public class DefaultTurn implements Turn {
         playerMenu.replace(Actions.END, false);
         this.running = false;
         this.win = false;
-        if(player.getCard().equals(God.ATHENA))
-        {
-            canGoUp=true;
-        }
+
+        try {
+            if (player.getCard().equals(God.ATHENA)) {
+                canGoUp = true;
+            }
+        }catch (SimpleGameException ignored){}
+
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.SELECT);
         player.notify(message);

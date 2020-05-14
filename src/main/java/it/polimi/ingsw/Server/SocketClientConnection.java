@@ -60,10 +60,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 			out.reset();
 			out.writeObject(message);
 			out.flush();
-
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		}
+		} catch (IOException ignored) {}
 	}
 
 

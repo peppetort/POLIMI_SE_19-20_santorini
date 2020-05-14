@@ -57,7 +57,7 @@ public class Client extends Observable implements Observer<Object> {
 			while (connected) {
 				try {
 					inputObject = in.readObject();
-					if (inputObject instanceof String || inputObject instanceof SessionListMessage || inputObject instanceof  InvalidChoiceMessage || inputObject instanceof Exception) {
+					if (inputObject instanceof String || inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof Exception) {
 						notify(inputObject);
 					} else if (inputObject instanceof ClientInitMessage) {
 						String username = ((ClientInitMessage) inputObject).getUsername();
@@ -106,13 +106,9 @@ public class Client extends Observable implements Observer<Object> {
 						Integer worker = ((BoardUndoMessage) inputObject).getWorker();
 						int level = ((BoardUndoMessage) inputObject).getLevel();
 						// ristabilisce la visione della board all'inizio del turno
-						board.restore(x, y, worker, player, level);
-						if (worker != null) {
-							board.placePlayer(x, y, player, worker);
-						}
-						notify(1);
+						board.restore(x, y, player, worker, level);
 					}
-				} catch (IOException | ClassNotFoundException e){
+				} catch (IOException | ClassNotFoundException e) {
 					connected = false;
 				}
 			}

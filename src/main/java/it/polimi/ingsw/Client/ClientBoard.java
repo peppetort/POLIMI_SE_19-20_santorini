@@ -9,9 +9,7 @@ import java.util.HashMap;
 public class ClientBoard extends Observable {
 
     private final Box[][] board = new Box[5][5];
-
     HashMap<Color, Box[]> playersLatestBoxes = new HashMap<>();
-
     public Box[][] getBoard() {
         return board;
     }
@@ -66,10 +64,13 @@ public class ClientBoard extends Observable {
         board[x][y].setLevel(level);
        notify(1);
     }
-    public void restore(int x,int y,Integer worker,Color player,int level)
-    {
+
+    public void restore(int x,int y,Color player, Integer worker, int level) {
         //ristabilisce il livello della costruzione a quello dell'inizio del turno
         board[x][y].setLevel(level);
+		if (worker != null) {
+			placePlayer(x, y, player, worker);
+		}
     }
 
 }

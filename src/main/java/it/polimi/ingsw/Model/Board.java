@@ -29,7 +29,7 @@ public class Board extends Observable<Message> {
      * Matrix 5 x 5 that represents the field.
      */
     private final Box[][] board = new Box[5][5];
-    //arraylist che tiene in momoria lo stato delle celle che vengono cabiate durante la mossa
+    //arraylist che tiene in memoria lo stato delle celle che vengono cabiate durante la mossa
     private final ArrayList<boxChanged> action = new ArrayList<>();
 
     /**
@@ -82,6 +82,11 @@ public class Board extends Observable<Message> {
     }
 
     public void initializePawn(Worker worker1,Worker worker2, int x1, int y1,int x2,int y2) throws IndexOutOfBoundsException {
+
+        if(x1 == x2 && y1 == y2){
+            throw new RuntimeException("You cannot place the pawns in the same position");
+        }
+
         board[x1][y1].setPawn(worker1);
         board[x2][y2].setPawn(worker2);
         worker1.setPos(x1, y1);
