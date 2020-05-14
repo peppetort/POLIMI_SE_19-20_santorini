@@ -19,7 +19,7 @@ public class DefaultTurn implements Turn {
     Worker worker;
     Worker otherWorker;
     Player player;
-    HashMap<String, Boolean> playerMenu;
+    HashMap<Actions, Boolean> playerMenu;
 
     public DefaultTurn(Player player) {
         this.player = player;
@@ -41,7 +41,7 @@ public class DefaultTurn implements Turn {
             otherWorker = player.getWorker1();
         }
 
-        if (!playerMenu.get("start")) {
+        if (!playerMenu.get(Actions.SELECT)) {
             throw new RuntimeException("Can't start!");
         }
         if (running) { // controlla che il turno non è stato già iniziato
@@ -54,19 +54,20 @@ public class DefaultTurn implements Turn {
             throw new PlayerLostException("Your workers cannot make any moves!");
         }else if(!canMoveSelected){
             throw new RuntimeException("Selected worker cannot make any moves");
+        }else {
+            board.removeAction();
+            running = true;
+            this.worker = worker;
+            canMove = true; // abilita la mossa
+            canBuild = false;
+            playerMenu.replace(Actions.SELECT, false);
+            playerMenu.replace(Actions.MOVE, true);
+            playerMenu.replace(Actions.UNDO, true);
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction(Actions.MOVE);
+            message.addAction(Actions.UNDO);
+            player.notify(message);
         }
-        board.removeAction();
-        running = true;
-        this.worker = worker;
-        canMove = true; // abilita la mossa
-        canBuild = false;
-        playerMenu.replace("start", false);
-        playerMenu.replace("move", true);
-        playerMenu.replace("undo", true);
-        ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("move");
-        message.addAction("undo");
-        player.notify(message);
 
     }
 
@@ -85,15 +86,17 @@ public class DefaultTurn implements Turn {
         }
         canMove = false;
         canBuild = true; // abilita la costruzione
-        playerMenu.replace("move", false);
-        playerMenu.replace("build", true);
-
-        ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("build");
-        message.addAction("undo");
-        player.notify(message);
+        playerMenu.replace(Actions.MOVE, false);
+        playerMenu.replace(Actions.BUILD, true);
 
         win = winAction.winChecker();
+
+        if(!win) {
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction(Actions.BUILD);
+            message.addAction(Actions.UNDO);
+            player.notify(message);
+        }
 
     }
 
@@ -107,12 +110,12 @@ public class DefaultTurn implements Turn {
         }
         buildAction.build(worker, x, y);
         canBuild = false;
-        playerMenu.replace("build", false);
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.BUILD, false);
+        playerMenu.replace(Actions.END, true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("end");
-        message.addAction("undo");
+        message.addAction(Actions.END);
+        message.addAction(Actions.UNDO);
         player.notify(message);
 
     }
@@ -128,12 +131,12 @@ public class DefaultTurn implements Turn {
         //throw new RuntimeException("You can't build a dome!");
         ((AtlasBuild) buildAction).buildDome(worker, x, y);
         canBuild = false;
-        playerMenu.replace("build", false);
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.BUILD, false);
+        playerMenu.replace(Actions.END, true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("end");
-        message.addAction("undo");
+        message.addAction(Actions.END);
+        message.addAction(Actions.UNDO);
         player.notify(message);
     }
 
@@ -154,26 +157,31 @@ public class DefaultTurn implements Turn {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false; // finisco il turno
-        playerMenu.replace("end", false);
+        playerMenu.replace(Actions.END, false);
     }
 
     //azione che ristabilisce la condizione all'inizio del turno della board
     //inizializzazione del turno a start, il turno ricomincia
-    public void undo()
-    {
+    public void undo() {
         board.restore();
-        playerMenu.replace("buildDeck", false);
-        playerMenu.replace("chooseCard", false);
-        playerMenu.replace("placePawns", false);
-        playerMenu.replace("start", true);
-        playerMenu.replace("move", false);
-        playerMenu.replace("build", false);
-        playerMenu.replace("end", false);
+        playerMenu.replace(Actions.DECK, false);
+        playerMenu.replace(Actions.CARD, false);
+        playerMenu.replace(Actions.PLACE, false);
+        playerMenu.replace(Actions.SELECT, true);
+        playerMenu.replace(Actions.MOVE, false);
+        playerMenu.replace(Actions.BUILD, false);
+        playerMenu.replace(Actions.END, false);
         this.running = false;
         this.win = false;
 
+        try {
+            if (player.getCard().equals(God.ATHENA)) {
+                canGoUp = true;
+            }
+        }catch (SimpleGameException ignored){}
+
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("start");
+        message.addAction(Actions.SELECT);
         player.notify(message);
     }
     //TODO: gestione undo per le classi che ereditano da questa (solo alcune che non sono ancora state testate)

@@ -30,54 +30,57 @@ public class ArtemisTurn extends DefaultTurn {
             throw new RuntimeException("You can't move!");
         }
 
-        if (!canGoUp) {
-            try {
-                if (startX == x && startY == y) {
-                    throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
-                }
-                moveAction.moveNoGoUp(worker, x, y);
-                canMove = false;
-            } catch (NullPointerException e) {
-                startX = worker.getXPos();
-                startY = worker.getYPos();
-                moveAction.moveNoGoUp(worker, x, y);
-                oneMove = true;
+
+        try {
+            if (startX == x && startY == y) {
+                throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
             }
-        } else {
-            try {
-                if (startX == x && startY == y) {
-                    throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
-                }
+            if(!canGoUp){
+                moveAction.moveNoGoUp(worker, x, y);
+            }else {
                 moveAction.move(worker, x, y);
-                canMove = false;
-                playerMenu.replace("move", false);
+            }
+            canMove = false;
+            win = winAction.winChecker();
 
+            playerMenu.replace(Actions.MOVE, false);
+
+            if(!win) {
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
-                message.addAction("build");
-                message.addAction("undo");
+                message.addAction(Actions.BUILD);
+                message.addAction(Actions.UNDO);
                 player.notify(message);
+            }
 
-            } catch (NullPointerException e) {
-                startX = worker.getXPos();
-                startY = worker.getYPos();
+        } catch (NullPointerException e) {
+            startX = worker.getXPos();
+            startY = worker.getYPos();
+            if(!canGoUp){
+                moveAction.moveNoGoUp(worker, x, y);
+            }else {
                 moveAction.move(worker, x, y);
-                oneMove = true;
+            }
+            oneMove = true;
 
+            win = winAction.winChecker();
+
+            if(!win) {
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
-                message.addAction("move");
-                message.addAction("build");
-                message.addAction("undo");
+                message.addAction(Actions.MOVE);
+                message.addAction(Actions.BUILD);
+                message.addAction(Actions.UNDO);
                 player.notify(message);
             }
         }
+
         canBuild = true;
-        playerMenu.replace("build", true);
+        playerMenu.replace(Actions.BUILD, true);
     }
 
     @Override
     public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         canMove = false; //una volta costruito non posso più muovere
-        playerMenu.replace("move", false);
+        playerMenu.replace(Actions.MOVE, false);
         super.build(x, y);
     }
 
@@ -91,6 +94,6 @@ public class ArtemisTurn extends DefaultTurn {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
-        playerMenu.replace("end", false);
+        playerMenu.replace(Actions.END, false);
     }
 }

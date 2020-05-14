@@ -36,12 +36,11 @@ public class PrometheusTurnTest {
         boolean tmp = util.getCanGoUp();
         util.setCanGoUp(true);
 
-       player.getPlayerMenu().replace("start", true);
+       player.getPlayerMenu().replace(Actions.SELECT, true);
 
         turn.start(worker);
         turn.build(0,1);
         turn.move(0,1);
-        turn.build(0,0);
         turn.end();
 
         util.setCanGoUp(tmp);
@@ -88,7 +87,7 @@ public class PrometheusTurnTest {
         Worker worker2 = player.getWorker2();
         board.placePawn(worker2, 4, 4);
         Turn turn = new PrometheusTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker);
         turn.move(0,1);
         turn.build(1,1);
@@ -106,7 +105,7 @@ public class PrometheusTurnTest {
         Worker worker2 = player.getWorker2();
         board.placePawn(worker2, 4, 4);
         Turn turn = new PrometheusTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker);
         turn.build(0, 1);
         turn.move(0, 1);

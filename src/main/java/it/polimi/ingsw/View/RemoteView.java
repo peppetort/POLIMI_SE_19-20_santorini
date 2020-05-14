@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View;
 
+
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
@@ -12,53 +13,33 @@ import java.util.ArrayList;
 public class RemoteView extends View {
 
 
-    private class MessageReceiver implements Observer<String> {
+    private class MessageReceiver implements Observer<Message> {
 
         @Override
-        public void update(String message) {
+        public void update(Message message) {
             try {
-                message = message.toUpperCase();
 
-                String[] inputs = message.split(" ");
-                String[] card;
-
-                if (inputs[0].compareTo("DECK") == 0) {
-                    card = inputs[1].split(",");
-                    if (card.length == 2) {
-                        handleDeck(card[0], card[1]);
-                    } else {
-                        handleDeck(card[0], card[1], card[2]);
-                    }
-                } else if (inputs[0].compareTo("CARD") == 0) {
-                    handleCard(inputs[1]);
-                } else if (inputs[0].compareTo("MOVE") == 0) {
-                    handleMove(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
-                } else if (inputs[0].compareTo("BUILD") == 0) {
-                    if (inputs[1].compareTo("DOME") == 0) {
-                        if (player.getCard().getName().equals(God.ATLAS)) {
-                            handleBuildDome(Integer.parseInt(inputs[2]), Integer.parseInt(inputs[3]));
-                        }else {
-                            throw new IllegalArgumentException("Can't build a dome directly");
-                        }
-                    } else {
-                        handleBuild(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]));
-                    }
-                } else if (inputs[0].compareTo("END") == 0) {
-                    handleEnd();
-                } else if (inputs[0].compareTo("START") == 0) {
-                    handleStart(Integer.parseInt(inputs[1]));
-                } else if (inputs[0].compareTo("PLACE") == 0) {
-                    handlePlacing(Integer.parseInt(inputs[1]), Integer.parseInt(inputs[2]), Integer.parseInt(inputs[3]), Integer.parseInt(inputs[4]));
-                } else if (inputs[0].compareTo("UNDO") == 0) {
-                    handleUndo();
-                }
-                else {
-                    throw new IllegalArgumentException();
+                if(message instanceof PlayerPlacePawnsMessage){
+                    handlePlacing(message);
+                }else if(message instanceof PlayerMoveMessage){
+                    handleMove(message);
+                }else if(message instanceof PlayerBuildMessage){
+                    handleBuild(message);
+                }else if(message instanceof PlayerSelectMessage){
+                    handleSelect(message);
+                }else if(message instanceof PlayerEndMessage){
+                    handleEnd(message);
+                }else if(message instanceof PlayerCardChoiceMessage){
+                    handleCardChoice(message);
+                }else if(message instanceof PlayerDeckMessage){
+                    handleDeck(message);
+                }else if(message instanceof PlayerUndoMessage){
+                    handleUndo(message);
+                }else if(message instanceof PlayerBuildDomeMessage){
+                    handleBuildDome(message);
                 }
 
-            } catch (IllegalArgumentException e) {
 
-                clientConnection.send("Input Error! Please try again");
             } catch (Exception e) {
                 clientConnection.send(e.getMessage());
             }
@@ -116,7 +97,9 @@ public class RemoteView extends View {
             clientConnection.send(message);
         }else if(message instanceof LostMessage){
             clientConnection.send(message);
-        } else if(message instanceof BoardUndoMessage){
+        } else if(message instanceof BoardUndoMessage) {
+            clientConnection.send(message);
+        }else if(message instanceof InvalidChoiceMessage){
             clientConnection.send(message);
         }else {
             System.err.println("Malformed message: " + message.toString());

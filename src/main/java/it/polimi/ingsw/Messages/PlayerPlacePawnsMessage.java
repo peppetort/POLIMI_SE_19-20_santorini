@@ -7,7 +7,14 @@ public class PlayerPlacePawnsMessage implements Message {
     private int x2, y2;
     private Player player;
 
-    public PlayerPlacePawnsMessage(Player player, int x1, int y1, int x2, int y2) {
+    public PlayerPlacePawnsMessage(int x1, int y1, int x2, int y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+
+    public PlayerPlacePawnsMessage(Player player,int x1, int y1, int x2, int y2) {
         this.player = player;
         this.x1 = x1;
         this.y1 = y1;
@@ -29,6 +36,10 @@ public class PlayerPlacePawnsMessage implements Message {
 
     public int getY2() {
         return y2;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
     }
 
     public Player getPlayer() {

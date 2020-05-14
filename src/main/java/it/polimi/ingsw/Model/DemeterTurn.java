@@ -33,6 +33,7 @@ public class DemeterTurn extends DefaultTurn {
         if (!canBuild) {
             throw new RuntimeException("You can't build!");
         }
+
         try {
             // controllo che quando voglio costruire la seconda volta
             // non costruisco sulla stessa posizione della prima
@@ -41,11 +42,11 @@ public class DemeterTurn extends DefaultTurn {
             }
             buildAction.build(worker, x, y);
             canBuild = false; //non posso più costruire
-            playerMenu.replace("build", false);
+            playerMenu.replace(Actions.BUILD, false);
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
-            message.addAction("end");
-            message.addAction("undo");
+            message.addAction(Actions.END);
+            message.addAction(Actions.UNDO);
             player.notify(message);
         } catch (NullPointerException e) { // vuol dire che è la prima volta che costruisco poichè lastX lastY sono null
             buildAction.build(worker, x, y);
@@ -55,12 +56,12 @@ public class DemeterTurn extends DefaultTurn {
             oneBuild = true; //indico che ho costruito almeno una volta
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
-            message.addAction("build");
-            message.addAction("end");
-            message.addAction("undo");
+            message.addAction(Actions.BUILD);
+            message.addAction(Actions.END);
+            message.addAction(Actions.UNDO);
             player.notify(message);
         }
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.BUILD ,true);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class DemeterTurn extends DefaultTurn {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
-        playerMenu.replace("end", false);
-        playerMenu.replace("build", false);
+        playerMenu.replace(Actions.END, false);
+        playerMenu.replace(Actions.BUILD, false);
     }
 }

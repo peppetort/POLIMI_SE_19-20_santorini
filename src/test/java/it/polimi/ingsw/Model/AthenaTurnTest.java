@@ -23,14 +23,14 @@ public class AthenaTurnTest {
         board.placePawn(otherWorker2, 1, 4);
         board.build(0,1,Block.LONE);
         board.build(4,3,Block.LONE);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
         turn.move(0,1);
         turn.build(0,2);
         turn.end();
         Turn otherTurn = new DefaultTurn(otherPlayer);
-        otherPlayer.getPlayerMenu().replace("start", true);
+        otherPlayer.getPlayerMenu().replace(Actions.SELECT, true);
         otherTurn.start(otherWorker);
         otherTurn.move(4,3);
     }
@@ -51,14 +51,14 @@ public class AthenaTurnTest {
         board.placePawn(otherWorker2, 1, 4);
         board.build(0, 1,Block.LONE);
         board.build(4, 3,Block.LONE);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
         Turn otherTurn = new DemeterTurn(otherPlayer);
-        otherPlayer.getPlayerMenu().replace("start", true);
+        otherPlayer.getPlayerMenu().replace(Actions.SELECT, true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
     }
@@ -79,14 +79,14 @@ public class AthenaTurnTest {
         board.placePawn(otherWorker2, 1, 4);
         board.build(0, 1,Block.LONE);
         board.build(4, 3,Block.LONE);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         Turn turn = new AthenaTurn(player);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
         Turn otherTurn = new HephaestusTurn(otherPlayer);
-        otherPlayer.getPlayerMenu().replace("start", true);
+        otherPlayer.getPlayerMenu().replace(Actions.SELECT, true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
     }
@@ -108,13 +108,13 @@ public class AthenaTurnTest {
         board.build(0, 1,Block.LONE);
         board.build(4, 3,Block.LONE);
         Turn turn = new AthenaTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
         Turn otherTurn = new ArtemisTurn(otherPlayer);
-        otherPlayer.getPlayerMenu().replace("start", true);
+        otherPlayer.getPlayerMenu().replace(Actions.SELECT, true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
     }
@@ -136,13 +136,13 @@ public class AthenaTurnTest {
         board.build(0, 1,Block.LONE);
         board.build(4, 3,Block.LONE);
         Turn turn = new AthenaTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 2);
         turn.end();
         Turn otherTurn = new PrometheusTurn(otherPlayer);
-        otherPlayer.getPlayerMenu().replace("start", true);
+        otherPlayer.getPlayerMenu().replace(Actions.SELECT, true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
     }
@@ -164,18 +164,18 @@ public class AthenaTurnTest {
         board.build(0, 1,Block.LONE);
         board.build(4, 3,Block.LONE);
         Turn turn = new AthenaTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0, 0);
         turn.end();
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker);
         turn.move(0, 0);
         turn.build(0, 1);
         turn.end();
         Turn otherTurn = new DemeterTurn(otherPlayer);
-        otherPlayer.getPlayerMenu().replace("start", true);
+        otherPlayer.getPlayerMenu().replace(Actions.SELECT, true);
         otherTurn.start(otherWorker);
         otherTurn.move(4, 3);
         otherTurn.build(4,4);

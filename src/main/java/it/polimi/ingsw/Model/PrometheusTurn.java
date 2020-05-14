@@ -21,7 +21,7 @@ public class PrometheusTurn extends DefaultTurn {
             otherWorker = player.getWorker1();
         }
 
-        if(!playerMenu.get("start")){
+        if(!playerMenu.get(Actions.SELECT)){
             throw new RuntimeException("Can't start!");
         }
         if (running) { // controlla che il turno non è stato già iniziato
@@ -34,33 +34,33 @@ public class PrometheusTurn extends DefaultTurn {
             throw new PlayerLostException("Your workers cannot make any moves!");
         }else if(!canMoveSelected){
             throw new RuntimeException("Selected worker cannot make any moves");
+        }else {
+
+            startingBox = board.getBox(worker.getXPos(), worker.getYPos());
+
+            running = true;
+            this.worker = worker;
+            canMove = true; // abilita la mossa
+            canBuild = false;
+            playerMenu.replace(Actions.SELECT, false);
+            playerMenu.replace(Actions.MOVE, true);
+            playerMenu.replace(Actions.UNDO, true);
+
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction(Actions.MOVE);
+
+            message.addAction(Actions.MOVE);
+            if (!worker.moveGoUp()) {
+                canMove = true;
+                canBuild = true;
+                playerMenu.replace(Actions.BUILD, true);
+
+                message.addAction(Actions.BUILD);
+            }
+
+            player.notify(message);
+            startBuild = false;
         }
-
-        startingBox = board.getBox(worker.getXPos(), worker.getYPos());
-
-        running = true;
-        this.worker = worker;
-        canMove = true; // abilita la mossa
-        canBuild = false;
-        playerMenu.replace("start", false);
-        playerMenu.replace("move", true);
-        playerMenu.replace("undo", true);
-
-        ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("move");
-
-        message.addAction("undo");
-        if (!worker.moveGoUp()) {
-            canMove = true;
-            canBuild = true;
-            playerMenu.replace("build", true);
-
-            message.addAction("build");
-        }
-
-        player.notify(message);
-        startBuild = false;
-
     }
 
     @Override
@@ -77,7 +77,7 @@ public class PrometheusTurn extends DefaultTurn {
             moveAction.move(worker, x, y);
         }
         canMove = false;
-        playerMenu.replace("move", false);
+        playerMenu.replace(Actions.MOVE, false);
         startBuild = true;
 
         win = winAction.winChecker();
@@ -87,20 +87,22 @@ public class PrometheusTurn extends DefaultTurn {
 
         if(startingBox != null && startingBox.getDifference(board.getBox(x, y)) < 0 ){
             canBuild = false;
-            playerMenu.replace("build", false);
-            playerMenu.replace("end", true);
+            playerMenu.replace(Actions.BUILD, false);
+            playerMenu.replace(Actions.END, true);
             message = new ActionsUpdateMessage();
         }else {
             canBuild = true; // abilita la costruzione
-            playerMenu.replace("build", true);
-            playerMenu.replace("end", true);
+            playerMenu.replace(Actions.BUILD, true);
+            playerMenu.replace(Actions.END, true);
             message = new ActionsUpdateMessage();
-            message.addAction("build");
+            message.addAction(Actions.BUILD);
         }
-        message.addAction("undo");
-        message.addAction("end");
 
-        player.notify(message);
+        if(!win) {
+            message.addAction(Actions.UNDO);
+            message.addAction(Actions.END);
+            player.notify(message);
+        }
     }
 
     @Override
@@ -113,18 +115,18 @@ public class PrometheusTurn extends DefaultTurn {
         }
         buildAction.build(worker, x, y);
         canBuild = false;
-        playerMenu.replace("build", false);
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.BUILD, false);
+        playerMenu.replace(Actions.END, true);
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("undo");
+        message.addAction(Actions.UNDO);
 
         if (!startBuild) {
             startBuild = true;
-            playerMenu.replace("build", false);
-            message.addAction("move");
+            playerMenu.replace(Actions.BUILD, false);
+            message.addAction(Actions.MOVE);
         }else {
-            message.addAction("end");
+            message.addAction(Actions.END);
         }
 
         player.notify(message);

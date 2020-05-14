@@ -24,14 +24,16 @@ public class AthenaTurn extends DefaultTurn {
         moveAction.move(worker, x, y);
         canMove = false;
         canBuild = true;
-        playerMenu.replace("move", false);
-        playerMenu.replace("build", true);
+        playerMenu.replace(Actions.MOVE, false);
+        playerMenu.replace(Actions.BUILD, true);
         win = winAction.winChecker();
 
-        ActionsUpdateMessage message = new ActionsUpdateMessage();
-        message.addAction("build");
-        message.addAction("undo");
-        player.notify(message);
+        if(!win) {
+            ActionsUpdateMessage message = new ActionsUpdateMessage();
+            message.addAction(Actions.BUILD);
+            message.addAction(Actions.UNDO);
+            player.notify(message);
+        }
 
         //se la box su cui mi sono mosso ha una costruzione > di
         //quella da cui sono partito, la differenza è > 0.

@@ -40,11 +40,11 @@ public class HephaestusTurn extends DefaultTurn {
             }
             buildAction.build(worker, x, y);
             canBuild = false;
-            playerMenu.replace("build", false);
+            playerMenu.replace(Actions.BUILD, false);
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
-            message.addAction("end");
-            message.addAction("undo");
+            message.addAction(Actions.END);
+            message.addAction(Actions.UNDO);
             player.notify(message);
         } catch (NullPointerException e) {
             buildAction.build(worker, x, y);
@@ -52,9 +52,9 @@ public class HephaestusTurn extends DefaultTurn {
 
 
             ActionsUpdateMessage message = new ActionsUpdateMessage();
-            message.addAction("build");
-            message.addAction("end");
-            message.addAction("undo");
+            message.addAction(Actions.BUILD);
+            message.addAction(Actions.END);
+            message.addAction(Actions.UNDO);
             player.notify(message);
 
             //se la prima volta che costruisco, costruisco un livello
@@ -66,7 +66,7 @@ public class HephaestusTurn extends DefaultTurn {
                 lastY = y;
             }
         }
-        playerMenu.replace("end", true);
+        playerMenu.replace(Actions.END, true);
 
     }
 
@@ -80,7 +80,7 @@ public class HephaestusTurn extends DefaultTurn {
             throw new RuntimeException("Can't end turn! You have to build!");
         }
         running = false;
-        playerMenu.replace("end", false);
-        playerMenu.replace("build", false);
+        playerMenu.replace(Actions.END, false);
+        playerMenu.replace(Actions.BUILD, false);
     }
 }

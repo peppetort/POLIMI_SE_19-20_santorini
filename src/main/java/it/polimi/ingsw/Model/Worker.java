@@ -163,7 +163,7 @@ public class Worker {
 
         if (card) {
             try {
-                return canMove(player.getCard().getName(), canGoUp);
+                return canMove(player.getCard(), canGoUp);
             } catch (RuntimeException e) {
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {

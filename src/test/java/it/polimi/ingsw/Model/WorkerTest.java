@@ -136,7 +136,7 @@ public class WorkerTest {
         Game session = new Game("Pippo", "Pluto", board, false);
         Player player1 = session.getPlayers().get(0);
         Player player2 = session.getPlayers().get(1);
-        Card apollo = new Card(God.APOLLO);
+        God apollo = God.APOLLO;
         player1.setCard(apollo);
         Worker wp1 = player1.getWorker1();
         Worker wp2 = player2.getWorker2();
@@ -153,7 +153,7 @@ public class WorkerTest {
         Game session = new Game("Pippo", "Pluto", board, false);
         Player player1 = session.getPlayers().get(0);
         Player player2 = session.getPlayers().get(1);
-        Card apollo = new Card(God.APOLLO);
+        God apollo = God.APOLLO;
         player1.setCard(apollo);
         Worker wp1 = player1.getWorker1();
         Worker wp2 = player2.getWorker2();
@@ -175,7 +175,7 @@ public class WorkerTest {
         Game session = new Game("Pippo", "Pluto", board, false);
         Player player1 = session.getPlayers().get(0);
         Player player2 = session.getPlayers().get(1);
-        Card minotaur = new Card(God.MINOTAUR);
+        God minotaur = God.MINOTAUR;
         player1.setCard(minotaur);
         Worker wp1 = player1.getWorker1();
         Worker wp2 = player2.getWorker1();
@@ -192,7 +192,7 @@ public class WorkerTest {
         Game session = new Game("Pippo", "Pluto", board, false);
         Player player1 = session.getPlayers().get(0);
         Player player2 = session.getPlayers().get(1);
-        Card minotaur = new Card(God.MINOTAUR);
+        God minotaur =God.MINOTAUR;
         player1.setCard(minotaur);
         Worker wp1 = player1.getWorker1();
         Worker wp2 = player2.getWorker2();
@@ -214,8 +214,8 @@ public class WorkerTest {
         Game session = new Game("Pippo", "Pluto", board, false);
         Player player1 = session.getPlayers().get(0);
         Player player2 = session.getPlayers().get(1);
-        Card minotaur = new Card(God.MINOTAUR);
-        Card apollo = new Card(God.APOLLO);
+        God minotaur = God.MINOTAUR;
+        God apollo = God.APOLLO;
         player1.setCard(minotaur);
         player2.setCard(apollo);
         Worker wp1 = player1.getWorker1();

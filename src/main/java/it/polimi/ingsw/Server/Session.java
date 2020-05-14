@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Server;
 
 
+import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Controller.Controller;
 import it.polimi.ingsw.Exceptions.FullSessionException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
@@ -14,19 +15,20 @@ import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.View.RemoteView;
 import it.polimi.ingsw.View.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Session extends Observable<Message>{
+public class Session extends Observable<Message> implements Serializable {
     private final String name;
     private final int participant;
     private final boolean simple;
-    private final Server server;
+    private transient final Server server;
 
-    private final Map<String, ClientConnection> waitingConnection = new HashMap<>();
-    private final Map<String, ClientConnection> playingConnection = new HashMap<>();
+    private transient final Map<String, ClientConnection> waitingConnection = new HashMap<>();
+    private transient final Map<String, ClientConnection> playingConnection = new HashMap<>();
 
 
     public Session(ClientConnection creatorConnection, int p, boolean simple, Server server, String sessionName) throws InterruptedException {
@@ -35,6 +37,14 @@ public class Session extends Observable<Message>{
         this.server = server;
         this.name = sessionName;
         addParticipant(creatorConnection);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getParticipant() {
+        return participant;
     }
 
     public boolean isSimple() {
@@ -50,7 +60,7 @@ public class Session extends Observable<Message>{
             waitingConnection.put(player.getUsername(), player);
 
             if (waitingConnection.size() == participant) {
-                server.disponibleSession.remove(name);
+                server.availableSessions.remove(name);
                 this.start();
             } else {
                 player.send("Wait participants");
@@ -65,7 +75,7 @@ public class Session extends Observable<Message>{
         if (playingConnection.isEmpty()) {
             waitingConnection.remove(username);
             if (getWaitingConnection().isEmpty()) {
-                server.disponibleSession.remove(name);
+                server.availableSessions.remove(name);
             }
         } else {
             Message remove = new PlayerRemoveMessage(username);
@@ -83,9 +93,10 @@ public class Session extends Observable<Message>{
         playingConnection.putAll(waitingConnection);
         waitingConnection.clear();
 
+        ClientConnection player1Connection = playingConnection.get(keys.get(0));
+        ClientConnection player2Connection = playingConnection.get(keys.get(1));
+
         if(participant == 2){
-            ClientConnection player1Connection = playingConnection.get(keys.get(0));
-            ClientConnection player2Connection = playingConnection.get(keys.get(1));
 
             Game model = new Game(keys.get(0), keys.get(1), board, simple);
             Controller controller = new Controller(model);
@@ -119,7 +130,7 @@ public class Session extends Observable<Message>{
                 player2Connection.send(turnMessage);
 
                 ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
-                actionMessage.addAction("place");
+                actionMessage.addAction(Actions.PLACE);
                 player2Connection.send(actionMessage);
 
             }else{
@@ -129,7 +140,7 @@ public class Session extends Observable<Message>{
                 player2Connection.send(turnMessage);
 
                 ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
-                actionMessage.addAction("deck");
+                actionMessage.addAction(Actions.DECK);
                 player1Connection.send(actionMessage);
 
             }
@@ -137,8 +148,6 @@ public class Session extends Observable<Message>{
 
         }else{
 
-            ClientConnection player1Connection = playingConnection.get(keys.get(0));
-            ClientConnection player2Connection = playingConnection.get(keys.get(1));
             ClientConnection player3Connection = playingConnection.get(keys.get(2));
 
             Game model = new Game(keys.get(0), keys.get(1), keys.get(2), board, simple);
@@ -182,7 +191,7 @@ public class Session extends Observable<Message>{
                 player3Connection.send(turnMessage);
 
                 ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
-                actionMessage.addAction("place");
+                actionMessage.addAction(Actions.PLACE);
                 player2Connection.send(actionMessage);
 
             }else{
@@ -193,7 +202,7 @@ public class Session extends Observable<Message>{
                 player3Connection.send(turnMessage);
 
                 ActionsUpdateMessage actionMessage = new ActionsUpdateMessage();
-                actionMessage.addAction("deck");
+                actionMessage.addAction(Actions.DECK);
                 player1Connection.send(actionMessage);
 
             }

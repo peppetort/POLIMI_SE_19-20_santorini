@@ -4,13 +4,22 @@ import it.polimi.ingsw.Model.Player;
 
 public class PlayerBuildDomeMessage implements Message{
 
-    Player player;
-    int x,y;
+    private Player player;
+    private int x,y;
+
+    public PlayerBuildDomeMessage(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 
     public PlayerBuildDomeMessage(Player player, int x, int y){
         this.player = player;
         this.x = x;
         this.y = y;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public Player getPlayer() {

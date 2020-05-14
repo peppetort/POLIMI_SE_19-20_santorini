@@ -16,7 +16,7 @@ public class HephaestusTurnTest {
         board.placePawn(worker, 0, 0);
         Worker worker2 = player.getWorker2();
         board.placePawn(worker2, 4, 4);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         Turn turn = new HephaestusTurn(player);
         turn.start(worker);
         turn.move(0, 1);
@@ -36,7 +36,7 @@ public class HephaestusTurnTest {
         board.placePawn(worker, 0, 0);
         Worker worker2 = player.getWorker2();
         board.placePawn(worker2, 4, 4);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         Turn turn = new HephaestusTurn(player);
         turn.start(worker);
         turn.move(0, 1);
@@ -73,7 +73,7 @@ public class HephaestusTurnTest {
         Worker worker2 = player.getWorker2();
         board.placePawn(worker2, 4, 4);
         Turn turn = new HephaestusTurn(player);
-        player.getPlayerMenu().replace("start", true);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker);
         turn.move(0, 1);
         turn.build(0,0);

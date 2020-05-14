@@ -24,12 +24,13 @@ public class Board extends Observable<Message> {
             this.y=y;
         }
     }
+
     /**
      * Matrix 5 x 5 that represents the field.
      */
     private final Box[][] board = new Box[5][5];
-    //arraylist che tiene in momoria lo stato delle celle che vengono cabiate durante la mossa
-    private ArrayList<boxChanged> action = new ArrayList<>();
+    //arraylist che tiene in memoria lo stato delle celle che vengono cabiate durante la mossa
+    private final ArrayList<boxChanged> action = new ArrayList<>();
 
     /**
      * Constructor which initializes each {@link Box} at TERRAIN level
@@ -79,7 +80,13 @@ public class Board extends Observable<Message> {
         BoardUpdatePlaceMessage message = new BoardUpdatePlaceMessage(player.getColor(), workerId, x, y);
         notify(message);
     }
+
     public void initializePawn(Worker worker1,Worker worker2, int x1, int y1,int x2,int y2) throws IndexOutOfBoundsException {
+
+        if(x1 == x2 && y1 == y2){
+            throw new RuntimeException("You cannot place the pawns in the same position");
+        }
+
         board[x1][y1].setPawn(worker1);
         board[x2][y2].setPawn(worker2);
         worker1.setPos(x1, y1);
@@ -95,38 +102,36 @@ public class Board extends Observable<Message> {
         BoardUpdatePlaceMessage message2 = new BoardUpdatePlaceMessage(player.getColor(), worker2Id, x2, y2);
         notify(message2);
     }
-    public void addAction(Worker w,int x,int y,Block b)
-    {
-        action.add(0,new boxChanged(x,y,b,w));
+
+    public void addAction(Worker w,int x,int y,Block b) {
+        action.add(0, new boxChanged(x, y, b, w));
     }
-    public void removeAction()
-    {
+
+    public void removeAction() {
         action.clear();
     }
 
     //metodo che fa ritornare la board all'inizio del turno
     //notify per aggiornare il client
-    public void restore()
-    {
+    public void restore() {
            for (boxChanged b : action) {
                Integer workerId=null;
                Color color=null;
                if(b.worker!=null) {
                    workerId = Integer.parseInt(b.worker.getId().substring(b.worker.getId().length() - 1));
                    color=b.worker.getPlayer().getColor();
-                   //TODO: usare board.placePawn perché fa la notify alla view
                    board[b.x][b.y].setPawn(b.worker);
                    b.worker.setPos(b.x,b.y);
                }
-               else
+               else {
                    board[b.x][b.y].removePawn();
+               }
                BoardUndoMessage message = new BoardUndoMessage(color,workerId, b.x, b.y, b.building.getValue());
                board[b.x][b.y].setBlock(b.building);
                notify(message);
 
            }
            action.clear();
-
     }
 
 }
