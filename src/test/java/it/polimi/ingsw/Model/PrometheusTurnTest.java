@@ -21,31 +21,6 @@ public class PrometheusTurnTest {
         turn.build(0,1);
     }
 
-    @Test
-    public void PrometheusCanTGoUpThenCanBuildBeforeAndAfterMove(){
-        Board board = new Board();
-        Game session = new Game("Pippo", "Pluto", board, true);
-        Player player = session.getPlayers().get(0);
-        Worker worker = player.getWorker1();
-        board.placePawn(worker, 0, 0);
-        Worker worker2 = player.getWorker2();
-        board.placePawn(worker2, 4, 4);
-        Turn turn = new PrometheusTurn(player);
-
-        TurnUtils util = new TurnUtils(player);
-        boolean tmp = util.getCanGoUp();
-        util.setCanGoUp(true);
-
-       player.getPlayerMenu().replace(Actions.SELECT, true);
-
-        turn.start(worker);
-        turn.build(0,1);
-        turn.move(0,1);
-        turn.end();
-
-        util.setCanGoUp(tmp);
-    }
-
     @Test(expected = RuntimeException.class)
     public void PrometheusCanTGoUpTryBuildTwoTimesBeforeMove(){
         Board board = new Board();
