@@ -16,7 +16,7 @@ public class HephaestusTurn extends DefaultTurn {
     }
 
     @Override
-    public void start(Worker worker) throws IndexOutOfBoundsException, NullPointerException, AthenaGoUpException, InvalidMoveException {
+    public void start(Worker worker) throws IndexOutOfBoundsException, NullPointerException, CantGoUpException, InvalidMoveException {
         super.start(worker);
         lastX = null;
         lastY = null;

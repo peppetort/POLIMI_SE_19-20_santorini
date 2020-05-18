@@ -9,5 +9,5 @@ public enum Actions {
     MOVE,
     BUILD,
     END,
-    BUILD_DOME,
+    DOME,
 }

@@ -72,7 +72,7 @@ public class DefaultTurn implements Turn {
     }
 
     @Override
-    public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, AthenaGoUpException, InvalidMoveException {
+    public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, CantGoUpException, InvalidMoveException {
         if (!running) {
             throw new TurnNotStartedException("Turn not started!");
         }
@@ -80,7 +80,11 @@ public class DefaultTurn implements Turn {
             throw new RuntimeException("You can't move!");
         }
         if (!canGoUp) { // se è true un giocatore avversario ha usato ATHENA
-            moveAction.moveNoGoUp(worker, x, y);
+            try {
+                moveAction.moveNoGoUp(worker, x, y);
+            }catch (CantGoUpException e){
+                throw new CantGoUpException(e.getMessage() + " Opponent used Athena's power");
+            }
         } else {
             moveAction.move(worker, x, y);
         }
@@ -94,6 +98,11 @@ public class DefaultTurn implements Turn {
         if(!win) {
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction(Actions.BUILD);
+
+            if(!player.getSession().isSimple() &&  player.getCard().equals(God.ATLAS)){
+                message.addAction(Actions.DOME);
+            }
+
             message.addAction(Actions.UNDO);
             player.notify(message);
         }

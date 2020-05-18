@@ -1,13 +1,11 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Exceptions.AthenaGoUpException;
+import it.polimi.ingsw.Exceptions.CantGoUpException;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class AthenaTurnTest {
 
-    @Test(expected = AthenaGoUpException.class)
+    @Test(expected = CantGoUpException.class)
     public void athenaGoUpDefaultNo(){
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
@@ -35,7 +33,7 @@ public class AthenaTurnTest {
         otherTurn.move(4,3);
     }
 
-    @Test(expected = AthenaGoUpException.class)
+    @Test(expected = CantGoUpException.class)
     public void athenaGoUpDemeterNo() {
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
@@ -63,7 +61,7 @@ public class AthenaTurnTest {
         otherTurn.move(4, 3);
     }
 
-    @Test(expected = AthenaGoUpException.class)
+    @Test(expected = CantGoUpException.class)
     public void athenaGoUpHaphestusNo() {
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
@@ -91,7 +89,7 @@ public class AthenaTurnTest {
         otherTurn.move(4, 3);
     }
 
-    @Test(expected = AthenaGoUpException.class)
+    @Test(expected = CantGoUpException.class)
     public void athenaGoUpArtemisNo() {
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);
@@ -119,7 +117,7 @@ public class AthenaTurnTest {
         otherTurn.move(4, 3);
     }
 
-    @Test(expected = AthenaGoUpException.class)
+    @Test(expected = CantGoUpException.class)
     public void athenaGoUpPrometheusNo() {
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, true);

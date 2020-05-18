@@ -22,7 +22,7 @@ public class ArtemisTurn extends DefaultTurn {
     }
 
     @Override
-    public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, AthenaGoUpException, InvalidMoveException {
+    public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, CantGoUpException, InvalidMoveException {
         if (!running) {
             throw new TurnNotStartedException("Turn not started!");
         }
@@ -36,7 +36,11 @@ public class ArtemisTurn extends DefaultTurn {
                 throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
             }
             if(!canGoUp){
-                moveAction.moveNoGoUp(worker, x, y);
+                try {
+                    moveAction.moveNoGoUp(worker, x, y);
+                }catch (CantGoUpException e){
+                    throw new CantGoUpException(e.getMessage() + " Opponent used Athena's power");
+                }
             }else {
                 moveAction.move(worker, x, y);
             }

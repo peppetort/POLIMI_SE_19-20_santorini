@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Exceptions.AthenaGoUpException;
+import it.polimi.ingsw.Exceptions.CantGoUpException;
 import it.polimi.ingsw.Exceptions.InvalidMoveException;
 
 /**
@@ -71,7 +71,7 @@ public class DefaultMove implements Move {
         Box nextBox = board.getBox(x, y);
 
         if (workerBox.getDifference(nextBox) < 0) {
-            throw new AthenaGoUpException("Can't go up! Opponent used Athena.");
+            throw new CantGoUpException("Can't go up!");
         }
 
         move(worker, x, y);

@@ -234,25 +234,4 @@ public class Worker {
         return false;
     }
 
-    public boolean moveGoUp() {
-        Board board = player.getSession().getBoard();
-        Box otherBox;
-        Box box = board.getBox(x, y);
-
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                try {
-                    if (i != 0 || j != 0) {
-                        otherBox = board.getBox(x + i, y + j);
-                        if (otherBox.getBlock() != Block.DOME && otherBox.isFree() && otherBox.getDifference(box) == 1) {
-                            return true;
-                        }
-                    }
-                } catch (IndexOutOfBoundsException ignored) {
-                }
-            }
-        }
-        return false;
-    }
-
 }

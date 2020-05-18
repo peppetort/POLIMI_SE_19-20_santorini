@@ -55,13 +55,15 @@ public class DemeterTurn extends DefaultTurn {
             lastY = y;
             oneBuild = true; //indico che ho costruito almeno una volta
 
+            playerMenu.replace(Actions.BUILD ,true);
+
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction(Actions.BUILD);
             message.addAction(Actions.END);
             message.addAction(Actions.UNDO);
             player.notify(message);
         }
-        playerMenu.replace(Actions.BUILD ,true);
+        playerMenu.replace(Actions.END ,true);
     }
 
     @Override

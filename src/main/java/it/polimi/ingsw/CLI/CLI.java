@@ -65,9 +65,10 @@ public class CLI extends Observable<Object> implements Observer {
 							System.out.println("- END to pass the turn.");
 							System.out.println("- UNDO to redo your turn: you will be thrown to select your pawn. If you have built something you have to UNDO your move before the 5-seconds timer ends or you will" +
 									"pass the turn automatically.");
+							//TODO: aggiungere DOME
 							System.out.print("\n");
-							input = reader.nextLine().trim();
 							System.out.print("> ");
+							input = reader.nextLine().trim();
 						}
 						data = input.split(" ");
 						action = Actions.valueOf(data[0].toUpperCase());
@@ -102,12 +103,14 @@ public class CLI extends Observable<Object> implements Observer {
 								}
 								notify(new PlayerDeckMessage(deck));
 								break;
-							case BUILD_DOME:
+							case DOME:
 								notify(new PlayerBuildDomeMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
 								break;
 							default:
 								valid = false;
 						}
+					}else{
+						valid = false;
 					}
 				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
 					valid = false;
