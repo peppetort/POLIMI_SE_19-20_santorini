@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class ClientBoard extends Observable {
 
     private final Box[][] board = new Box[5][5];
-    HashMap<Color, Box[]> playersLatestBoxes = new HashMap<>();
+    private final HashMap<Color, Box[]> playersLatestBoxes = new HashMap<>();
     public Box[][] getBoard() {
         return board;
     }

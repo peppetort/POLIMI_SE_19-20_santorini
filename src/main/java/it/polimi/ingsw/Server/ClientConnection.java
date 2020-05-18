@@ -2,7 +2,6 @@ package it.polimi.ingsw.Server;
 
 
 import it.polimi.ingsw.Messages.Message;
-import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
 
 public interface ClientConnection  {

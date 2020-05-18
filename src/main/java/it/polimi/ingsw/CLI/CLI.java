@@ -121,7 +121,7 @@ public class CLI extends Observable<Object> implements Observer {
 		inputThread.start();
 	}
 
-	public void startMenu() {
+	private void startMenu() {
 		try {
 			reader = new Scanner(System.in);
 			boolean correct;
@@ -163,7 +163,7 @@ public class CLI extends Observable<Object> implements Observer {
 		}
 	}
 
-	public void create() {
+	private void create() {
 
 		String input;
 		int question = 0;
@@ -245,7 +245,7 @@ public class CLI extends Observable<Object> implements Observer {
 	}
 
 
-	public void join(SessionListMessage message) {
+	private void join(SessionListMessage message) {
 		HashMap<String, Integer> participants = message.getParticipants();
 		HashMap<String, Boolean> cards = message.getCards();
 		String session;
