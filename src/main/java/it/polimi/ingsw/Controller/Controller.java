@@ -77,24 +77,27 @@ public class Controller extends Observable<Message> implements Observer<Message>
 						nextPlayerMenu.replace(Actions.CARD, true);
 
 						message.addAction(Actions.CARD);
-						nextPlayer.notify(message);
+						//nextPlayer.notify(message);
+						notify(message);
 					} else if (playerMenu.get(Actions.CARD)) {
 						playerMenu.replace(Actions.CARD, false);
 						nextPlayerMenu.replace(Actions.PLACE, true);
-
 						message.addAction(Actions.PLACE);
-						nextPlayer.notify(message);
+						//nextPlayer.notify(message);
+						notify(message);
 					} else if (playerMenu.get(Actions.PLACE)) {
 						playerMenu.replace(Actions.PLACE, false);
 						nextPlayerMenu.replace(Actions.SELECT, true);
 
 						message.addAction(Actions.SELECT);
-						nextPlayer.notify(message);
+						//nextPlayer.notify(message);
+						notify(message);
 					} else {
 						nextPlayerMenu.replace(Actions.SELECT, true);
 
 						message.addAction(Actions.SELECT);
-						nextPlayer.notify(message);
+						//nextPlayer.notify(message);
+						notify(message);
 					}
 				} else {
 					if (playerMenu.get(Actions.CARD)) {
@@ -102,18 +105,21 @@ public class Controller extends Observable<Message> implements Observer<Message>
 						nextPlayerMenu.replace(Actions.CARD, true);
 
 						message.addAction(Actions.CARD);
-						nextPlayer.notify(message);
+						//nextPlayer.notify(message);
+						notify(message);
 					} else if (playerMenu.get(Actions.PLACE)) {
 						playerMenu.replace(Actions.PLACE, false);
 						nextPlayerMenu.replace(Actions.PLACE, true);
 
 						message.addAction(Actions.PLACE);
-						nextPlayer.notify(message);
+						//nextPlayer.notify(message);
+						notify(message);
 					} else {
 						nextPlayerMenu.replace(Actions.SELECT, true);
 
 						message.addAction(Actions.SELECT);
-						nextPlayer.notify(message);
+						//nextPlayer.notify(message);
+						notify(message);
 					}
 				}
 

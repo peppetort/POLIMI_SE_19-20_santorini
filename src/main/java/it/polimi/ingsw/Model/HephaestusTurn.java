@@ -45,7 +45,8 @@ public class HephaestusTurn extends DefaultTurn {
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction(Actions.END);
             message.addAction(Actions.UNDO);
-            player.notify(message);
+            player.getSession().notify(message);
+            //player.notify(message);
         } catch (NullPointerException e) {
             buildAction.build(worker, x, y);
             oneBuild = true;
@@ -55,8 +56,8 @@ public class HephaestusTurn extends DefaultTurn {
             message.addAction(Actions.BUILD);
             message.addAction(Actions.END);
             message.addAction(Actions.UNDO);
-            player.notify(message);
-
+           // player.notify(message);
+            player.getSession().notify(message);
             //se la prima volta che costruisco, costruisco un livello
             //tre, allora non posso usare il potere della carta => disabilito la costruzione
             if (board.getBox(x, y).getBlock() == Block.LTHREE) {

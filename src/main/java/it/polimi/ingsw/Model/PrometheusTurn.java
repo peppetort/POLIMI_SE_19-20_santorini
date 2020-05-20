@@ -101,7 +101,8 @@ public class PrometheusTurn extends DefaultTurn {
 
         if(!win) {
             message.addAction(Actions.UNDO);
-            player.notify(message);
+           // player.notify(message);
+            player.getSession().notify(message);
         }
     }
 
@@ -129,7 +130,8 @@ public class PrometheusTurn extends DefaultTurn {
         }
 
         message.addAction(Actions.UNDO);
-        player.notify(message);
+        //player.notify(message);
+        player.getSession().notify(message);
 
     }
 

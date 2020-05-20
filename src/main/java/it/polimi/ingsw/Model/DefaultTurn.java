@@ -2,10 +2,12 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Observer.Observable;
 
 import java.util.HashMap;
 
-public class DefaultTurn implements Turn {
+public class DefaultTurn implements Turn  {
 
     static boolean canGoUp = true;
     final Move moveAction;
@@ -21,7 +23,7 @@ public class DefaultTurn implements Turn {
     Player player;
     HashMap<Actions, Boolean> playerMenu;
 
-    public DefaultTurn(Player player) {
+    public DefaultTurn(Player player)  {
         this.player = player;
         this.running = false;
         this.win = false;
@@ -66,7 +68,10 @@ public class DefaultTurn implements Turn {
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction(Actions.MOVE);
             message.addAction(Actions.UNDO);
-            player.notify(message);
+
+            //player.notify(message);
+            player.getSession().notify(message);
+
         }
 
     }
@@ -104,7 +109,9 @@ public class DefaultTurn implements Turn {
             }
 
             message.addAction(Actions.UNDO);
-            player.notify(message);
+
+            //player.notify(message);
+            player.getSession().notify(message);
         }
 
     }
@@ -125,7 +132,9 @@ public class DefaultTurn implements Turn {
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.END);
         message.addAction(Actions.UNDO);
-        player.notify(message);
+
+        //player.notify(message);
+        player.getSession().notify(message);
 
     }
 
@@ -146,7 +155,8 @@ public class DefaultTurn implements Turn {
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.END);
         message.addAction(Actions.UNDO);
-        player.notify(message);
+       // player.notify(message);
+        player.getSession().notify(message);
     }
 
 
@@ -191,7 +201,8 @@ public class DefaultTurn implements Turn {
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.SELECT);
-        player.notify(message);
+        //player.notify(message);
+        player.getSession().notify(message);
     }
     //TODO: gestione undo per le classi che ereditano da questa (solo alcune che non sono ancora state testate)
 }

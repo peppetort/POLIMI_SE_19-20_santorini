@@ -53,7 +53,8 @@ public class ArtemisTurn extends DefaultTurn {
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
                 message.addAction(Actions.BUILD);
                 message.addAction(Actions.UNDO);
-                player.notify(message);
+                //player.notify(message);
+                player.getSession().notify(message);
             }
 
         } catch (NullPointerException e) {
@@ -73,7 +74,8 @@ public class ArtemisTurn extends DefaultTurn {
                 message.addAction(Actions.MOVE);
                 message.addAction(Actions.BUILD);
                 message.addAction(Actions.UNDO);
-                player.notify(message);
+                //player.notify(message);
+                player.getSession().notify(message);
             }
         }
 

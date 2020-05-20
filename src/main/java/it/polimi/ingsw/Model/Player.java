@@ -18,7 +18,7 @@ public class Player extends Observable<Message> {
     private final Worker worker2;
 
     private final HashMap<Actions, Boolean> playerMenu = new HashMap<>();
-    private final Game session;
+    private Game session;
     private final Color color;
     private God card;
     private Turn turn;
@@ -203,6 +203,10 @@ public class Player extends Observable<Message> {
 
     public Turn getTurn() {
         return this.turn;
+    }
+    public void setSession(Game g)
+    {
+        session=g;
     }
 
 }

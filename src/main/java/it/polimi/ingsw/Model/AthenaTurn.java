@@ -32,7 +32,8 @@ public class AthenaTurn extends DefaultTurn {
             ActionsUpdateMessage message = new ActionsUpdateMessage();
             message.addAction(Actions.BUILD);
             message.addAction(Actions.UNDO);
-            player.notify(message);
+            //player.notify(message);
+            player.getSession().notify(message);
         }
 
         //se la box su cui mi sono mosso ha una costruzione > di

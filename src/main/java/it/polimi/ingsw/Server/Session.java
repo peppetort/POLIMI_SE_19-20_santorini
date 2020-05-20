@@ -103,16 +103,20 @@ public class Session extends Observable<Message> implements Serializable {
 
             Player player1 = model.getPlayers().get(0);
             View player1View = new RemoteView(player1, player1Connection);
+
             player1.addObserver(player1View);
             board.addObserver(player1View);
             controller.addObserver(player1View);
             player1View.addObserver(controller);
             model.addObserver(player1View);
-
+            player1.setSession(model);
 
             Player player2 = model.getPlayers().get(1);
             View player2View = new RemoteView(player2, player2Connection);
+
             player2.addObserver(player2View);
+            player2.setSession(model);
+
             board.addObserver(player2View);
             controller.addObserver(player2View);
             player2View.addObserver(controller);
@@ -155,7 +159,9 @@ public class Session extends Observable<Message> implements Serializable {
 
             Player player1 = model.getPlayers().get(0);
             View player1View = new RemoteView(player1, player1Connection);
+
             player1.addObserver(player1View);
+            player1.setSession(model);
             board.addObserver(player1View);
             controller.addObserver(player1View);
             player1View.addObserver(controller);
@@ -164,7 +170,9 @@ public class Session extends Observable<Message> implements Serializable {
 
             Player player2 = model.getPlayers().get(1);
             View player2View = new RemoteView(player2, player2Connection);
+
             player2.addObserver(player2View);
+            player2.setSession(model);
             board.addObserver(player2View);
             controller.addObserver(player2View);
             player2View.addObserver(controller);
@@ -172,7 +180,9 @@ public class Session extends Observable<Message> implements Serializable {
 
             Player player3 = model.getPlayers().get(2);
             View player3View = new RemoteView(player3, player3Connection);
+
             player3.addObserver(player3View);
+            player3.setSession(model);
             board.addObserver(player3View);
             controller.addObserver(player3View);
             player3View.addObserver(controller);

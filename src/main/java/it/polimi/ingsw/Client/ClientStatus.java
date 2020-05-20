@@ -117,10 +117,15 @@ public class ClientStatus extends Observable {
 			notify(4);
 		} else if (actions.get(0).equals(Actions.PLACE)) {
 			notify(1);
-		}else if(!actions.get(0).equals(Actions.SELECT)){
-		    messages.clear();
-        }
-		notify(2);
+		}else if(!actions.get(0).equals(Actions.SELECT)) {
+			messages.clear();
+		}
+		try {
+			if (turn.equals(username)) {
+				notify(2);
+			}
+		}catch(NullPointerException e){notify(2);}
+
 	}
 
 
