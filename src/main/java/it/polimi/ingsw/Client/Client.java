@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.CLI.CLI;
+import it.polimi.ingsw.GUI.CreateMenuController;
+import it.polimi.ingsw.GUI.JoinMenuController;
+import it.polimi.ingsw.GUI.MainController;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
@@ -13,6 +16,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+
+//TODO: BISOGNA FARE IL CONTROLLO CLI / GUI PER VEDERE QUALI OBSERVER FARE O MENO
 
 public class Client extends Observable implements Observer<Object> {
 
@@ -38,16 +43,23 @@ public class Client extends Observable implements Observer<Object> {
 		socket = new Socket(ip, port);
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
-		cli = new CLI(this);
-		cli.addObserver(this);
-		this.addObserver(cli);
-		notify(0);
+
+		MainController mc = new MainController();
+		mc.addObserver(this);
+		this.addObserver(mc);
+		JoinMenuController.setMainController(mc);
+		CreateMenuController.setMainController(mc);
+
+//		cli = new CLI(this);
+//		cli.addObserver(this);
+//		this.addObserver(cli);
+//		notify(0);
+
 		try {
 			reader.start();
 		} catch (RuntimeException e) {
 			System.err.println(e.getMessage());
 		}
-
 	}
 
 	public Thread asyncReadFromSocket() {
@@ -57,17 +69,17 @@ public class Client extends Observable implements Observer<Object> {
 			while (connected) {
 				try {
 					inputObject = in.readObject();
-					if (inputObject instanceof String || inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof Exception) {
+					if (inputObject instanceof String || inputObject instanceof SuccessfulJoin|| inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof Exception || inputObject instanceof SuccessfulCreate) {
 						notify(inputObject);
 					} else if (inputObject instanceof ClientInitMessage) {
 						String username = ((ClientInitMessage) inputObject).getUsername();
 						ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();
 						status = new ClientStatus(username, players.get(0));
 						board = new ClientBoard(players);
-						cli.setClientBoard(board);
-						cli.setClientStatus(status);
-						status.addObserver(cli);
-						board.addObserver(cli);
+//						cli.setClientBoard(board);
+//						cli.setClientStatus(status);
+//						status.addObserver(cli);
+//						board.addObserver(cli);
 					} else if (inputObject instanceof TurnUpdateMessage) {
 						String username = ((TurnUpdateMessage) inputObject).getUsername();
 						status.updateTurn(username);
