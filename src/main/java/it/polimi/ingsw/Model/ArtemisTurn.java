@@ -61,7 +61,13 @@ public class ArtemisTurn extends DefaultTurn {
             startX = worker.getXPos();
             startY = worker.getYPos();
             if(!canGoUp){
-                moveAction.moveNoGoUp(worker, x, y);
+                try {
+                    moveAction.moveNoGoUp(worker, x, y);
+                }catch (CantGoUpException e1){
+                    startX=null;
+                    startY=null;
+                    throw new CantGoUpException(e1.getMessage() + " Opponent used Athena's power");
+                }
             }else {
                 moveAction.move(worker, x, y);
             }
