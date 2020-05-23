@@ -37,6 +37,10 @@ public class PlayingStageController implements Initializable {
 
 
     ImageView[][] terrain;
+    ImageView[][] levelOne;
+    ImageView[][] levelTwo;
+    ImageView[][] levelThree;
+    ImageView[][] dome;
 
 
     static ObservableList<Actions> list = FXCollections.observableArrayList();
@@ -49,18 +53,63 @@ public class PlayingStageController implements Initializable {
 
 
         try {
-            Image image = new Image(this.getClass().getClassLoader().getResourceAsStream("img/terrain.png"));
+            Image terrainImg = new Image(this.getClass().getClassLoader().getResourceAsStream("img/terrain.png"));
+            Image levelOneImg = new Image(this.getClass().getClassLoader().getResourceAsStream("img/level1.png"));
+            Image levelTwoImg = new Image(this.getClass().getClassLoader().getResourceAsStream("img/level2.png"));
+            Image levelThreeImg = new Image(this.getClass().getClassLoader().getResourceAsStream("img/level3.png"));
+            Image domeImg = new Image(this.getClass().getClassLoader().getResourceAsStream("img/dome.png"));
+
             terrain = new ImageView[5][5];
+            levelOne = new ImageView[5][5];
+            levelTwo = new ImageView[5][5];
+            levelThree = new ImageView[5][5];
+            dome = new ImageView[5][5];
+
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
+
                     terrain[i][j] = new ImageView();
-                    terrain[i][j].setImage(image);
+                    terrain[i][j].setImage(terrainImg);
                     terrain[i][j].setFitHeight(80);
                     terrain[i][j].setFitWidth(80);
                     terrain[i][j].setPreserveRatio(true);
                     terrain[i][j].setSmooth(true);
+
+                    levelOne[i][j] = new ImageView();
+                    levelOne[i][j].setImage(levelOneImg);
+                    levelOne[i][j].setFitHeight(80);
+                    levelOne[i][j].setFitWidth(80);
+                    levelOne[i][j].setPreserveRatio(true);
+                    levelOne[i][j].setSmooth(true);
+
+                    levelTwo[i][j] = new ImageView();
+                    levelTwo[i][j].setImage(levelTwoImg);
+                    levelTwo[i][j].setFitHeight(80);
+                    levelTwo[i][j].setFitWidth(80);
+                    levelTwo[i][j].setPreserveRatio(true);
+                    levelTwo[i][j].setSmooth(true);
+
+                    levelThree[i][j] = new ImageView();
+                    levelThree[i][j].setImage(levelThreeImg);
+                    levelThree[i][j].setFitHeight(80);
+                    levelThree[i][j].setFitWidth(80);
+                    levelThree[i][j].setPreserveRatio(true);
+                    levelThree[i][j].setSmooth(true);
+
+                    dome[i][j] = new ImageView();
+                    dome[i][j].setImage(domeImg);
+                    dome[i][j].setFitHeight(80);
+                    dome[i][j].setFitWidth(80);
+                    dome[i][j].setPreserveRatio(true);
+                    dome[i][j].setSmooth(true);
+
                     GridPane.setConstraints(terrain[i][j], i, j);
-                    boardPane.getChildren().add(terrain[i][j]);
+                    GridPane.setConstraints(levelOne[i][j], i, j);
+                    GridPane.setConstraints(levelTwo[i][j], i, j);
+                    GridPane.setConstraints(levelThree[i][j], i, j);
+                    GridPane.setConstraints(dome[i][j], i, j);
+
+                    boardPane.getChildren().addAll(terrain[i][j],levelOne[i][j],levelTwo[i][j],levelThree[i][j],dome[i][j]);
                 }
             }
         }catch (Exception e){

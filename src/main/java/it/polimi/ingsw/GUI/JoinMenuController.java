@@ -27,6 +27,7 @@ public class JoinMenuController implements Initializable {
 
     private static MainController mainController;
 
+    private static String session;
 
     public AnchorPane anchorTable;
 
@@ -68,10 +69,11 @@ public class JoinMenuController implements Initializable {
     }
 
     public void handleJoin() {
-        SessionObject obj;
-        obj = sessionsTable.getSelectionModel().getSelectedItem();
+        this.session = sessionsTable.getSelectionModel().getSelectedItem().name;
         String username = UsernameDialog.display("Insert your username");
-        mainController.notify(new PlayerSelectSession(obj.name,username));
+        if(username != null && username.length() >= 1) {
+            mainController.notify(new PlayerSelectSession(session, username));
+        }
     }
 
     public void handleStart(){
@@ -86,10 +88,13 @@ public class JoinMenuController implements Initializable {
 
     public void handleException(Exception e){
         if(e instanceof InvalidUsernameException){
-            SessionObject obj;
-            obj = sessionsTable.getSelectionModel().getSelectedItem();
-            String username = UsernameDialog.display("Username invalid, please re-insert the username");
-            mainController.notify(new PlayerSelectSession(obj.name,username));
+            System.out.println("Invalid username");
+//            SessionObject obj;
+//            obj = sessionsTable.getSelectionModel().getSelectedItem();
+            Platform.runLater(() -> {
+                String username = UsernameDialog.display("Username invalid, please re-insert the username");
+                mainController.notify(new PlayerSelectSession(session,username));
+            });
         }
     }
 
