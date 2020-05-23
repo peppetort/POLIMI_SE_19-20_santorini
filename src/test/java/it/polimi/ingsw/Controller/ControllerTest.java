@@ -6,12 +6,10 @@ import it.polimi.ingsw.Model.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class ControllerTest {
+public class GUIControllerTest {
 
     @Test
     public void DefaultTurnSimpleGamePawnPlacing() {
