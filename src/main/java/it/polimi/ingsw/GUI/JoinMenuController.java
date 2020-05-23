@@ -27,6 +27,7 @@ public class JoinMenuController implements Initializable {
 
     private static MainController mainController;
 
+
     public AnchorPane anchorTable;
 
     public TableView<SessionObject> sessionsTable;

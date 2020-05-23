@@ -25,6 +25,8 @@ public class Client extends Observable implements Observer<Object> {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 
+	MainController mc;
+
 	private final String ip;
 	private final int port;
 
@@ -44,9 +46,10 @@ public class Client extends Observable implements Observer<Object> {
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 
-		MainController mc = new MainController();
+		mc = new MainController();
 		mc.addObserver(this);
 		this.addObserver(mc);
+		mc.setClient(this);
 		JoinMenuController.setMainController(mc);
 		CreateMenuController.setMainController(mc);
 
@@ -80,6 +83,11 @@ public class Client extends Observable implements Observer<Object> {
 //						cli.setClientStatus(status);
 //						status.addObserver(cli);
 //						board.addObserver(cli);
+
+						status.addObserver(mc);
+						board.addObserver(mc);
+
+
 					} else if (inputObject instanceof TurnUpdateMessage) {
 						String username = ((TurnUpdateMessage) inputObject).getUsername();
 						status.updateTurn(username);
