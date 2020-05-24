@@ -4,7 +4,10 @@ import it.polimi.ingsw.Model.Actions;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +22,7 @@ import java.util.ResourceBundle;
 public class PlayingStageController implements Initializable {
 
     public GridPane boardPane;
+    public GridPane actionPane;
 
     //todo trasformare le label in button -> lo switch funziona :)
     public VBox vBox;
@@ -265,4 +269,21 @@ public class PlayingStageController implements Initializable {
     public static void setActionLabel(ArrayList<Actions> act) {
         list.addAll(act);
     }
+
+    @FXML
+    public void handleAction(javafx.scene.input.MouseEvent e){
+        System.out.println(actionPane.getRowIndex((Node)e.getSource())+" "+actionPane.getColumnIndex((Node)e.getSource()));
+    }
+
+    @FXML
+    public void handleMouseOver(javafx.scene.input.MouseEvent e){
+        ((Button)e.getSource()).setOpacity(0.4);
+    }
+
+    @FXML
+    public void handleMouseExit(javafx.scene.input.MouseEvent e){
+        ((Button)e.getSource()).setOpacity(0);
+    }
+
+
 }
