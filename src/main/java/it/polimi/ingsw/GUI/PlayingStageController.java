@@ -4,11 +4,13 @@ import it.polimi.ingsw.Model.Actions;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -38,13 +40,14 @@ public class PlayingStageController implements Initializable {
     public Label selectLabel;
     public Label undoLabel;
 
-
-
+    MenuButton[][] menu;
     ImageView[][] terrain;
     ImageView[][] levelOne;
     ImageView[][] levelTwo;
     ImageView[][] levelThree;
     ImageView[][] dome;
+
+    MenuItem[][] place;
 
 
     static ObservableList<Actions> list = FXCollections.observableArrayList();
@@ -54,6 +57,14 @@ public class PlayingStageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        place = new MenuItem[5][5];
+        for(int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                place[i][j] = new MenuItem("Place");
+                place[i][j].setOnAction(this::handlePlace);
+            }
+        }
 
 
         try {
@@ -68,6 +79,8 @@ public class PlayingStageController implements Initializable {
             levelTwo = new ImageView[5][5];
             levelThree = new ImageView[5][5];
             dome = new ImageView[5][5];
+            menu = new MenuButton[5][5];
+
 
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
@@ -107,12 +120,24 @@ public class PlayingStageController implements Initializable {
                     dome[i][j].setPreserveRatio(true);
                     dome[i][j].setSmooth(true);
 
-                    GridPane.setConstraints(terrain[i][j], i, j);
-                    GridPane.setConstraints(levelOne[i][j], i, j);
-                    GridPane.setConstraints(levelTwo[i][j], i, j);
-                    GridPane.setConstraints(levelThree[i][j], i, j);
-                    GridPane.setConstraints(dome[i][j], i, j);
+                    menu[i][j] = new MenuButton();
+                    menu[i][j].setPrefHeight(80);
+                    menu[i][j].setPrefWidth(80);
+                    menu[i][j].setOpacity(0);
+                    menu[i][j].setPopupSide(Side.RIGHT);
+                    menu[i][j].setOnMouseEntered(this::handleMouseOver);
+                    menu[i][j].setOnMouseExited(this::handleMouseExit);
+                    menu[i][j].setOnMouseClicked(this::handleAction);
 
+                    actionPane.setConstraints(menu[i][j],i,j);
+
+                    boardPane.setConstraints(terrain[i][j], i, j);
+                    boardPane.setConstraints(levelOne[i][j], i, j);
+                    boardPane.setConstraints(levelTwo[i][j], i, j);
+                    boardPane.setConstraints(levelThree[i][j], i, j);
+                    boardPane.setConstraints(dome[i][j], i, j);
+
+                    actionPane.getChildren().add(menu[i][j]);
                     boardPane.getChildren().addAll(terrain[i][j],levelOne[i][j],levelTwo[i][j],levelThree[i][j],dome[i][j]);
                 }
             }
@@ -130,6 +155,11 @@ public class PlayingStageController implements Initializable {
                 switch(a){
                     case PLACE:
                         placeLabel.setStyle("-fx-background-color: yellow");
+                        for(int i=0;i<5;i++){
+                            for(int j=0;j<5;j++){
+                                menu[i][j].getItems().add(place[i][j]);
+                            }
+                        }
                         break;
                     case BUILD:
                         buildLabel.setStyle("-fx-background-color: yellow");
@@ -266,24 +296,30 @@ public class PlayingStageController implements Initializable {
 
     }
 
+    private void handlePlace(ActionEvent actionEvent) {
+        System.out.println("handling place");
+    }
+
     public static void setActionLabel(ArrayList<Actions> act) {
         list.addAll(act);
     }
 
-    @FXML
     public void handleAction(javafx.scene.input.MouseEvent e){
         System.out.println(actionPane.getRowIndex((Node)e.getSource())+" "+actionPane.getColumnIndex((Node)e.getSource()));
+        //clicco sul menuButton
+
     }
 
-    @FXML
+
     public void handleMouseOver(javafx.scene.input.MouseEvent e){
-        ((Button)e.getSource()).setOpacity(0.4);
+        ((MenuButton)e.getSource()).setOpacity(0.4);
     }
 
-    @FXML
+
     public void handleMouseExit(javafx.scene.input.MouseEvent e){
-        ((Button)e.getSource()).setOpacity(0);
+        ((MenuButton)e.getSource()).setOpacity(0);
     }
+
 
 
 }
