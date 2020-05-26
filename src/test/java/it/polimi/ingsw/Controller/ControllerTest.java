@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class GUIControllerTest {
+public class ControllerTest {
 
     @Test
     public void DefaultTurnSimpleGamePawnPlacing() {

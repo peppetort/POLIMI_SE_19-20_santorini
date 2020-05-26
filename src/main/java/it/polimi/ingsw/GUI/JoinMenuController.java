@@ -64,7 +64,7 @@ public class JoinMenuController implements Initializable {
 
     public void handleBack() throws IOException{
             AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("StartMenu.fxml"));
-            Scene scene = new Scene(pane, 1280, 720);
+        Scene scene = new Scene(pane, 715, 776);
             ClientGUIApp.window.setScene(scene);
     }
 

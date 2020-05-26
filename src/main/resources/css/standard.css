@@ -1,0 +1,17 @@
+
+
+.main-button{
+    -fx-background-image: url("../img/btn_blue.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.main-button:pressed{
+    -fx-background-image: url("../img/btn_blue_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}

@@ -23,8 +23,9 @@ public class ClientGUIApp extends Application {
 
             client.startClient();
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("StartMenu.fxml"));
-            Scene scene = new Scene(root,1280,720);
+            Scene scene = new Scene(root, 715, 776);
             window.setScene(scene);
+           window.setResizable(false);
             //window.setFullScreen(true);
             //window.setMaximized(true);
             window.setTitle("Santorini");
