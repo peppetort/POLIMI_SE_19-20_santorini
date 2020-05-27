@@ -1,103 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.CreateMenuController">
-    <children>
-        <VBox alignment="TOP_CENTER" style="-fx-background-color: #999919;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <Label alignment="CENTER" prefHeight="95.0" prefWidth="557.0" text="Create Match">
-                    <font>
-                        <Font size="25.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                    </VBox.margin>
-                </Label>
-                <Label alignment="CENTER" prefHeight="35.0" prefWidth="340.0" style="-fx-background-color: white;" text="Session name:">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="50.0" />
-                    </VBox.margin>
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
-                <TextField fx:id="sessionName" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="340.0">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="20.0" />
-                    </VBox.margin>
-                </TextField>
-                <Label alignment="CENTER" prefHeight="35.0" prefWidth="340.0" style="-fx-background-color: white;" text="Your name:">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="20.0" />
-                    </VBox.margin>
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
-                <TextField fx:id="username" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="340.0">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="20.0" />
-                    </VBox.margin>
-                </TextField>
-                <Label alignment="CENTER" prefHeight="35.0" prefWidth="340.0" style="-fx-background-color: white;" text="Cards?">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="20.0" />
-                    </VBox.margin>
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
-                <ComboBox fx:id="cardBox" prefWidth="150.0">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="20.0" />
-                    </VBox.margin>
-                </ComboBox>
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="340.0" style="-fx-background-color: white;" text="Players number?">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="715.0" stylesheets="@css/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.CreateMenuController">
+   <children>
+      <ImageView fitHeight="758.0" fitWidth="715.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_sky.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="509.0" fitWidth="715.0" layoutY="315.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_water.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="26.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_FG_cloud.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="529.0" layoutY="204.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_FG_cloud2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="499.0" fitWidth="373.0" layoutX="177.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/clp_bg.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="91.0" fitWidth="249.0" layoutX="236.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/santorini-logo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="276.0" fitWidth="715.0" layoutY="504.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="504.0">
+         <image>
+            <Image url="@img/title_FG_grass.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="186.0" layoutY="126.0" prefHeight="499.0" prefWidth="346.0">
+         <children>
+            <Label layoutX="75.0" layoutY="64.0" text="Session name">
                <font>
-                  <Font size="18.0" />
+                  <Font size="28.0" />
                </font>
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="20.0" />
-               </VBox.margin>
             </Label>
-            <ComboBox fx:id="playerBox" prefWidth="150.0">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="20.0" />
-               </VBox.margin>
-            </ComboBox>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                    <children>
-                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" prefHeight="40.0" prefWidth="250.0" text="Back">
-                            <HBox.margin>
-                                <Insets left="10.0" right="50.0" top="20.0" />
-                            </HBox.margin>
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </Button>
-                        <Button fx:id="createButton" mnemonicParsing="false" onAction="#handleCreate" prefHeight="40.0" prefWidth="250.0" text="Create">
-                            <HBox.margin>
-                                <Insets left="50.0" right="10.0" top="20.0" />
-                            </HBox.margin>
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </Button>
-                    </children>
-                </HBox>
-            </children>
-            <padding>
-                <Insets left="10.0" right="10.0" />
-            </padding>
-        </VBox>
-    </children>
+            <ImageView fitHeight="61.0" fitWidth="228.0" layoutX="59.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/clp_textbar.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="sessionName" layoutX="68.0" layoutY="104.0" prefHeight="30.0" prefWidth="208.0" styleClass="main-input">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <Label layoutX="96.0" layoutY="151.0" text="Your name">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="61.0" fitWidth="228.0" layoutX="59.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/clp_textbar.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="username" layoutX="69.0" layoutY="194.0" prefHeight="27.0" prefWidth="208.0" styleClass="main-input">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <Label layoutX="91.0" layoutY="252.0" text="Cards">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Label layoutX="66.0" layoutY="325.0" text="Players number">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <ToggleButton fx:id="cardBox" layoutX="197.0" layoutY="249.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="42.0" />
+            <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="161.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/Toggle_Background.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="playerButton2" graphicTextGap="0.0" layoutX="163.0" layoutY="362.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="0.0" styleClass="def-radio-button" text="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="players" />
+               </toggleGroup>
+            </RadioButton>
+            <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="161.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/Toggle_Background.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="playerButton3" graphicTextGap="0.0" layoutX="163.0" layoutY="399.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="0.0" styleClass="def-radio-button" text="3" toggleGroup="$players">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </RadioButton>
+         </children>
+      </AnchorPane>
+      <Button onAction="#handleBack" layoutX="46.0" layoutY="676.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="62.0" styleClass="back-button" />
+      <Button onAction="#handleCreate" layoutX="233.0" layoutY="676.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="249.0" styleClass="create-button" text="Create" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Button>
+   </children>
 </AnchorPane>

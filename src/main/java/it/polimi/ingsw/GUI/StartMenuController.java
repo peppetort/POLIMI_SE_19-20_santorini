@@ -23,15 +23,17 @@ public class StartMenuController implements Initializable {
     public void handleCreate() {
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("CreateMenu.fxml"));
-            Scene scene = new Scene(pane, 1280, 720);
+            Scene scene = new Scene(pane, 715, 776);
             ClientGUIApp.window.setScene(scene);
-        }catch(IOException e){}
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void handleJoin() {
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("JoinMenu.fxml"));
-            Scene scene = new Scene(pane, 1280, 720);
+            Scene scene = new Scene(pane, 715, 776);
             ClientGUIApp.window.setScene(scene);
         }catch (IOException e){}
     }

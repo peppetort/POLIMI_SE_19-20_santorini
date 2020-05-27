@@ -15,3 +15,78 @@
     -fx-background-position: center;
     -fx-background-size: contain;
 }
+
+
+.main-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.back-button {
+    -fx-background-image: url("../img/btn_back.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.back-button:pressed {
+    -fx-background-image: url("../img/btn_back_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.create-button {
+    -fx-background-image: url("../img/btn_green.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.create-button:pressed {
+    -fx-background-image: url("../img/btn_green_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.toggle-button {
+    -fx-background-image: url("../img/om_btnInactive.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.toggle-button:selected {
+    -fx-background-image: url("../img/om_btnActive.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.def-radio-button .radio {
+    -fx-background-image: url("../img/toggle.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 20px;
+}
+
+.def-radio-button:selected .radio {
+    -fx-background-image: url("../img/toggle_on.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 20px;
+}
+
+
+.def-radio-button .dot{
+    -fx-mark-color: trasparent;
+}
