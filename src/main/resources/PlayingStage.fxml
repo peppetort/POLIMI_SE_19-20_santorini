@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.PlayingStageController">
    <children>
       <VBox fx:id="vBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -112,47 +119,63 @@
                               <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
+                        <GridPane fx:id="pawnPane" maxHeight="400" maxWidth="400" minHeight="400" minWidth="400" prefHeight="400.0" prefWidth="400.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
                         <GridPane fx:id="actionPane" maxHeight="400" maxWidth="400" minHeight="400" minWidth="400" prefHeight="400.0" prefWidth="400.0">
                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                             <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                             <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                             <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                             <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+                             <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
                           </columnConstraints>
                           <rowConstraints>
-                              <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                             <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                             <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                             <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                             <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                             <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
                           </rowConstraints>
 <!--                           <children>-->
-<!--                              <MenuButton fx:id="menuButton0" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
-<!--                              <MenuButton fx:id="menuButton1" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
-<!--                              <MenuButton fx:id="menuButton2" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
-<!--                              <MenuButton fx:id="menuButton3" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="0" GridPane.rowIndex="3" />-->
-<!--                              <MenuButton fx:id="menuButton4" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="0" GridPane.rowIndex="4" />-->
-<!--                              <MenuButton fx:id="menuButton5" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
-<!--                              <MenuButton fx:id="menuButton6" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
-<!--                              <MenuButton fx:id="menuButton7" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
-<!--                              <MenuButton fx:id="menuButton8" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
-<!--                              <MenuButton fx:id="menuButton9" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
-<!--                              <MenuButton fx:id="menuButton10" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />-->
-<!--                              <MenuButton fx:id="menuButton11" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />-->
-<!--                              <MenuButton fx:id="menuButton12" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />-->
-<!--                              <MenuButton fx:id="menuButton13" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />-->
-<!--                              <MenuButton fx:id="menuButton14" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />-->
-<!--                              <MenuButton fx:id="menuButton15" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />-->
-<!--                              <MenuButton fx:id="menuButton16" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />-->
-<!--                              <MenuButton fx:id="menuButton17" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />-->
-<!--                              <MenuButton fx:id="menuButton18" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />-->
-<!--                              <MenuButton fx:id="menuButton19" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />-->
-<!--                              <MenuButton fx:id="menuButton20" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4" GridPane.rowIndex="0" />-->
-<!--                              <MenuButton fx:id="menuButton21" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />-->
-<!--                              <MenuButton fx:id="menuButton22" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />-->
-<!--                              <MenuButton fx:id="menuButton23" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />-->
-<!--                              <MenuButton fx:id="menuButton24" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />-->
+<!--                              <MenuButton fx:id="menuButton0" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="0" GridPane.xIndex="0" />-->
+<!--                              <MenuButton fx:id="menuButton1" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="0" GridPane.xIndex="1" />-->
+<!--                              <MenuButton fx:id="menuButton2" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="0" GridPane.xIndex="2" />-->
+<!--                              <MenuButton fx:id="menuButton3" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="0" GridPane.xIndex="3" />-->
+<!--                              <MenuButton fx:id="menuButton4" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="0" GridPane.xIndex="4" />-->
+<!--                              <MenuButton fx:id="menuButton5" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="1" GridPane.xIndex="0" />-->
+<!--                              <MenuButton fx:id="menuButton6" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="1" GridPane.xIndex="1" />-->
+<!--                              <MenuButton fx:id="menuButton7" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="1" GridPane.xIndex="2" />-->
+<!--                              <MenuButton fx:id="menuButton8" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="1" GridPane.xIndex="3" />-->
+<!--                              <MenuButton fx:id="menuButton9" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="1" GridPane.xIndex="4" />-->
+<!--                              <MenuButton fx:id="menuButton10" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="2" GridPane.xIndex="0" />-->
+<!--                              <MenuButton fx:id="menuButton11" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="2" GridPane.xIndex="1" />-->
+<!--                              <MenuButton fx:id="menuButton12" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="2" GridPane.xIndex="2" />-->
+<!--                              <MenuButton fx:id="menuButton13" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="2" GridPane.xIndex="3" />-->
+<!--                              <MenuButton fx:id="menuButton14" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="2" GridPane.xIndex="4" />-->
+<!--                              <MenuButton fx:id="menuButton15" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="3" GridPane.xIndex="0" />-->
+<!--                              <MenuButton fx:id="menuButton16" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="3" GridPane.xIndex="1" />-->
+<!--                              <MenuButton fx:id="menuButton17" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="3" GridPane.xIndex="2" />-->
+<!--                              <MenuButton fx:id="menuButton18" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="3" GridPane.xIndex="3" />-->
+<!--                              <MenuButton fx:id="menuButton19" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="3" GridPane.xIndex="4" />-->
+<!--                              <MenuButton fx:id="menuButton20" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="4" GridPane.xIndex="0" />-->
+<!--                              <MenuButton fx:id="menuButton21" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="4" GridPane.xIndex="1" />-->
+<!--                              <MenuButton fx:id="menuButton22" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="4" GridPane.xIndex="2" />-->
+<!--                              <MenuButton fx:id="menuButton23" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="4" GridPane.xIndex="3" />-->
+<!--                              <MenuButton fx:id="menuButton24" mnemonicParsing="false" onMouseExited="#handleMouseExit" onMouseEntered="#handleMouseOver" onMouseClicked="#handleAction" opacity="0.0" prefHeight="80.0" prefWidth="80.0" GridPane.yIndex="4" GridPane.xIndex="4" />-->
 
 <!--                           </children>-->
                         </GridPane>
