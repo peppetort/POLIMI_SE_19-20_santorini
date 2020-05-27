@@ -37,7 +37,7 @@ public class PlayerTest {
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, false);
         Player player = session.getPlayers().get(0);
-        assertNotEquals(player.getWorker1(), player.getWorker2());
+        assertNotSame(player.getWorker1(), player.getWorker2());
     }
 
     @Test

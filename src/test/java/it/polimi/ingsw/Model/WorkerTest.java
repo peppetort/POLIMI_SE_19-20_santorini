@@ -61,7 +61,7 @@ public class WorkerTest {
         Worker worker=new Worker(1, player);
         Box box = new Box();
         worker.updateLastBox(box);
-        assertNotEquals(box, worker.getLastBox());
+        assertNotSame(box, worker.getLastBox());
     }
 
     @Test

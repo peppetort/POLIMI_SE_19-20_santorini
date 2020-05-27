@@ -107,7 +107,7 @@
     -fx-mark-color: trasparent;
 }
 
-.main-scroll-pane{
+.scroll-pane{
     -fx-background: trasparent;
 }
 
@@ -135,4 +135,45 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: cover;
+}
+
+.god-toggle{
+    -fx-background-image: url("../img/clp_frame_white.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 100%;
+}
+
+.god-toggle:selected, .god-selected:selected{
+    -fx-background-image: url("../img/frame_blue.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 80px;
+}
+
+.god-selected{
+    -fx-background-image: url("../img/frame_yellow.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 80px;
+}
+
+
+.play-button{
+    -fx-background-image: url("../img/button-play-normal.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.play-button:pressed{
+    -fx-background-image: url("../img/button-play-down.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
 }
