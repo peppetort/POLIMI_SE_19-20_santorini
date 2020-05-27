@@ -3,6 +3,7 @@ package it.polimi.ingsw.GUI;
 import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
+import it.polimi.ingsw.Messages.InvalidChoiceMessage;
 import it.polimi.ingsw.Messages.SessionListMessage;
 import it.polimi.ingsw.Messages.SuccessfulCreate;
 import it.polimi.ingsw.Messages.SuccessfulJoin;
@@ -45,11 +46,13 @@ public class MainController extends Observable<Object> implements Observer<Objec
             } else if (msg instanceof Integer){
                 if((int)msg == 2 ){
                     try {
-                        PlayingStageController.setActionLabel(client.getStatus().getActions());
+                        playingStageController.setActionLabel(client.getStatus().getActions());
                     }catch(NullPointerException e){}
                 }else if((int)msg == 1){
                     playingStageController.updateBoard();
                 }
+            } else if (msg instanceof InvalidChoiceMessage){
+                playingStageController.handleException((InvalidChoiceMessage)msg);
             }
     }
 

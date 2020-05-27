@@ -51,7 +51,7 @@ public class CreateMenuController implements Initializable {
 
 		simple = !cardBox.isSelected();
 
-		if (playerButton2.isArmed()) {
+		if (playerButton2.isSelected()) {
 			playersNumber = 2;
 		} else {
 			playersNumber = 3;

@@ -2,17 +2,17 @@ package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.Client.Box;
 import it.polimi.ingsw.Client.Client;
+import it.polimi.ingsw.Messages.InvalidChoiceMessage;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -42,7 +42,14 @@ public class PlayingStageController implements Initializable {
     public Label selectLabel;
     public Label undoLabel;
 
+    public Button endButton;
+    public Button undoButton;
+
+    public TextArea chatField;
+
     private static MainController mainController;
+
+    private static StringBuilder messages = new StringBuilder();
 
     static MenuButton[][] menu = new MenuButton[5][5];
 
@@ -56,12 +63,12 @@ public class PlayingStageController implements Initializable {
     static Pawn[][] bluePawns;
     static Pawn[][] redPawns;
 
-    MenuItem[][] place;
-    MenuItem[][] build;
-    MenuItem[][] select;
-    MenuItem[][] move;
+    static MenuItem[][] place;
+    static MenuItem[][] build;
+    static MenuItem[][] select;
+    static MenuItem[][] move;
 
-    protected int x,y;
+    protected static int x,y;
 
     ActionsHandler actionsHandler = new ActionsHandler(this.mainController,this);
 
@@ -74,6 +81,8 @@ public class PlayingStageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        undoButton.setOnAction(actionsHandler::handleUndo);
+        endButton.setOnAction(actionsHandler::handleEnd);
 
         place = new MenuItem[5][5];
         move = new MenuItem[5][5];
@@ -289,7 +298,11 @@ public class PlayingStageController implements Initializable {
 
 
         list.addListener((ListChangeListener.Change<? extends Actions> change) -> {
-            System.out.println(list);
+            for(int i=0;i<5;i++){
+                for(int j=0;j<5;j++){
+                    menu[i][j].getItems().clear();
+                }
+            }
                 if (change.next()){
                     for(Actions a: Actions.values()){
                         if(list.contains(a)){
@@ -385,18 +398,12 @@ public class PlayingStageController implements Initializable {
 
 
     public static void setActionLabel(ArrayList<Actions> act) {
-        try{
-            for(int i=0;i<5;i++){
-                for(int j=0;j<5;j++){
-                    menu[i][j].getItems().clear();
-                }
-            }
-        }catch(NullPointerException e){}
-
-        try {
-            list.clear();
-            list.addAll(act);
-        }catch(NullPointerException e){System.out.print("lista vuota");}
+        Platform.runLater(() -> {
+            try {
+                list.clear();
+                list.addAll(act);
+            }catch(NullPointerException e){System.out.print("lista vuota");}
+        });
     }
 
     public void handleAction(javafx.scene.input.MouseEvent e){
@@ -481,6 +488,9 @@ public class PlayingStageController implements Initializable {
             System.out.print(e.getMessage());
         }
 
+    }
+
+    public void handleException(InvalidChoiceMessage message){
     }
 
 }

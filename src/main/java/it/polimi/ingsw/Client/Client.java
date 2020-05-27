@@ -76,7 +76,7 @@ public class Client extends Observable implements Observer<Object> {
 			while (connected) {
 				try {
 					inputObject = in.readObject();
-					if (inputObject instanceof String || inputObject instanceof SuccessfulJoin|| inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof Exception || inputObject instanceof SuccessfulCreate) {
+					if (inputObject instanceof String || inputObject instanceof SuccessfulJoin|| inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof SuccessfulCreate) {
 						notify(inputObject);
 					} else if (inputObject instanceof ClientInitMessage) {
 						String username = ((ClientInitMessage) inputObject).getUsername();
@@ -94,11 +94,9 @@ public class Client extends Observable implements Observer<Object> {
 
 					} else if (inputObject instanceof TurnUpdateMessage) {
 						String username = ((TurnUpdateMessage) inputObject).getUsername();
-						System.out.print(((TurnUpdateMessage)inputObject).getUsername());
 						status.updateTurn(username);
 					} else if (inputObject instanceof ActionsUpdateMessage) {
 						ArrayList<Actions> actions = ((ActionsUpdateMessage) inputObject).getActions();
-						System.out.println(((ActionsUpdateMessage) inputObject).getActions());
 						status.updateAction(actions);
 					} else if (inputObject instanceof CardUpdateMessage) {
 						God card = ((CardUpdateMessage) inputObject).getCard();

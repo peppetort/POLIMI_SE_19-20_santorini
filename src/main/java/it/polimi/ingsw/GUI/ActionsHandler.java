@@ -1,10 +1,8 @@
 package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.Client.Box;
-import it.polimi.ingsw.Messages.PlayerBuildMessage;
-import it.polimi.ingsw.Messages.PlayerMoveMessage;
-import it.polimi.ingsw.Messages.PlayerPlacePawnsMessage;
-import it.polimi.ingsw.Messages.PlayerSelectMessage;
+import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Model.Actions;
 import javafx.event.ActionEvent;
 
 public class ActionsHandler {
@@ -56,8 +54,8 @@ public class ActionsHandler {
     }
 
     public void handleSelect(ActionEvent actionEvent){
-        int x = playingStageController.x;
-        int y = playingStageController.y;
+        int x = PlayingStageController.x;
+        int y = PlayingStageController.y;
 
         Box[][] board = mainController.client.getBoard().getBoard();
 
@@ -74,4 +72,15 @@ public class ActionsHandler {
         mainController.notify(new PlayerMoveMessage(playingStageController.x,playingStageController.y));
     }
 
+    public void handleUndo(ActionEvent e){
+        if(PlayingStageController.list.contains(Actions.UNDO)){
+            mainController.notify(new PlayerUndoMessage());
+        }
+    }
+
+    public void handleEnd(ActionEvent e){
+        if(PlayingStageController.list.contains(Actions.END)){
+            mainController.notify(new PlayerEndMessage());
+        }
+    }
 }
