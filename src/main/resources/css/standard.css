@@ -54,6 +54,22 @@
     -fx-background-size: contain;
 }
 
+.join-button {
+    -fx-background-image: url("../img/btn_coral.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.join-button:pressed {
+    -fx-background-image: url("../img/btn_coral_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
 .toggle-button {
     -fx-background-image: url("../img/om_btnInactive.png");
     -fx-background-color: transparent;
@@ -89,4 +105,34 @@
 
 .def-radio-button .dot{
     -fx-mark-color: trasparent;
+}
+
+.main-scroll-pane{
+    -fx-background: trasparent;
+}
+
+.table-view{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-image: url("../img/om_nameTagActive.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: auto;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane {
+    -fx-background-image: url("../img/bg_panelMid.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: cover;
 }

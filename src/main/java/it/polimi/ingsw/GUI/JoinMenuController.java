@@ -29,8 +29,6 @@ public class JoinMenuController implements Initializable {
 
     private static String session;
 
-    public AnchorPane anchorTable;
-
     public TableView<SessionObject> sessionsTable;
     public TableColumn<SessionObject,String> name;
     public TableColumn<SessionObject,Integer> players;
@@ -51,9 +49,9 @@ public class JoinMenuController implements Initializable {
         players.setCellValueFactory(new PropertyValueFactory<>("players"));
         cards.setCellValueFactory(new PropertyValueFactory<>("cards"));
 
-        name.setStyle( "-fx-alignment: CENTER;");
+/*        name.setStyle( "-fx-alignment: CENTER;");
         players.setStyle( "-fx-alignment: CENTER;");
-        cards.setStyle( "-fx-alignment: CENTER;");
+        cards.setStyle( "-fx-alignment: CENTER;");*/
 
         list.addListener((ListChangeListener<SessionObject>) change -> {
             while(change.next()) {
@@ -68,9 +66,10 @@ public class JoinMenuController implements Initializable {
             ClientGUIApp.window.setScene(scene);
     }
 
-    public void handleJoin() {
+    public void handleJoin() throws IOException {
         this.session = sessionsTable.getSelectionModel().getSelectedItem().name;
-        String username = UsernameDialog.display("Insert your username");
+        UsernameDialog dialog = new UsernameDialog();
+        String username = dialog.display();
         if(username != null && username.length() >= 1) {
             mainController.notify(new PlayerSelectSession(session, username));
         }
@@ -92,8 +91,12 @@ public class JoinMenuController implements Initializable {
 //            SessionObject obj;
 //            obj = sessionsTable.getSelectionModel().getSelectedItem();
             Platform.runLater(() -> {
-                String username = UsernameDialog.display("Username invalid, please re-insert the username");
-                mainController.notify(new PlayerSelectSession(session,username));
+                try {
+                    String username = new UsernameDialog().display();
+                    mainController.notify(new PlayerSelectSession(session,username));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             });
         }
     }

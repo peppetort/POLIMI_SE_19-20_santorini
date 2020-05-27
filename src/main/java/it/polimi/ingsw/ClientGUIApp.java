@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class ClientGUIApp extends Application {
 
     Client client = new Client("127.0.0.1", 12346);
@@ -20,16 +22,13 @@ public class ClientGUIApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try{
-
             client.startClient();
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("StartMenu.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
             Scene scene = new Scene(root, 715, 776);
             window.setScene(scene);
-            window.setWidth(715);
-            window.setHeight(776);
-            window.setResizable(false);
             //window.setFullScreen(true);
             //window.setMaximized(true);
+            //window.setResizable(false);
             window.setTitle("Santorini");
             window.show();
 

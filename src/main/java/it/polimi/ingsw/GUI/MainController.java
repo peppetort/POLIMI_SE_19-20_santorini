@@ -8,20 +8,8 @@ import it.polimi.ingsw.Messages.SuccessfulCreate;
 import it.polimi.ingsw.Messages.SuccessfulJoin;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
 public class MainController extends Observable<Object> implements Observer<Object> {
-
-    FXMLLoader loaderStart;
-    FXMLLoader loaderCreate;
-    FXMLLoader loaderJoin;
-    FXMLLoader loaderPlaying;
-
-    Parent startRoot;
-    Parent joinRoot;
-    Parent createRoot;
-    Parent playingRoot;
 
     StartMenuController startController;
     JoinMenuController joinController;
@@ -55,10 +43,12 @@ public class MainController extends Observable<Object> implements Observer<Objec
             } else if (msg instanceof InvalidUsernameException) {
                 joinController.handleException((Exception)msg);
             } else if (msg instanceof Integer){
-                if((int)msg == 2){
+                if((int)msg == 2 ){
                     try {
                         PlayingStageController.setActionLabel(client.getStatus().getActions());
                     }catch(NullPointerException e){}
+                }else if((int)msg == 1){
+                    playingStageController.updateBoard();
                 }
             }
     }

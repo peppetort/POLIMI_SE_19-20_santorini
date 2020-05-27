@@ -20,6 +20,7 @@ public class ClientStatus extends Observable {
 	public ClientStatus(String username, Color color) {
 		this.username = username;
 		this.color = color;
+		this.actions = new ArrayList<>();
 	}
 
 	public String getCard() {
@@ -64,10 +65,9 @@ public class ClientStatus extends Observable {
 
 	public synchronized void updateTurn(String player) {
 		this.turn = player;
-
 		if (!turn.equals(username)) {
 			messages.add("Wait your turn");
-			//print();
+			actions.clear();
 			notify(2);
             messages.clear();
 		}
@@ -107,19 +107,17 @@ public class ClientStatus extends Observable {
 	}
 
 	public synchronized void updateAction(ArrayList<Actions> actions) {
-		this.actions = actions;
 
-		if (actions.get(0).equals(Actions.DECK)) {
-			//  printAllCards();
-			notify(3);
-		} else if (actions.get(0).equals(Actions.CARD)) {
-			//  printDeck();
-			notify(4);
-		} else if (actions.get(0).equals(Actions.PLACE)) {
-			notify(1);
-		}else if(!actions.get(0).equals(Actions.SELECT)){
-		    messages.clear();
-        }
+			this.actions = actions;
+			if (actions.get(0).equals(Actions.DECK)) {
+				notify(3);
+			} else if (actions.get(0).equals(Actions.CARD)) {
+				notify(4);
+			} else if (actions.get(0).equals(Actions.PLACE)) {
+				notify(1);
+			} else if (!actions.get(0).equals(Actions.SELECT)) {
+				messages.clear();
+			}
 		notify(2);
 	}
 
