@@ -1,10 +1,12 @@
 package it.polimi.ingsw.GUI;
 
+import it.polimi.ingsw.Client.Box;
+import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.Model.Actions;
+import it.polimi.ingsw.Model.Color;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.Node;
@@ -25,8 +27,8 @@ public class PlayingStageController implements Initializable {
 
     public GridPane boardPane;
     public GridPane actionPane;
+    public GridPane pawnPane;
 
-    //todo trasformare le label in button -> lo switch funziona :)
     public VBox vBox;
     public HBox actionsBox;
 
@@ -40,29 +42,69 @@ public class PlayingStageController implements Initializable {
     public Label selectLabel;
     public Label undoLabel;
 
-    MenuButton[][] menu;
-    ImageView[][] terrain;
-    ImageView[][] levelOne;
-    ImageView[][] levelTwo;
-    ImageView[][] levelThree;
-    ImageView[][] dome;
+    private static MainController mainController;
+
+    static MenuButton[][] menu = new MenuButton[5][5];
+
+    static ImageView[][] terrain;
+    static ImageView[][] levelOne;
+    static ImageView[][] levelTwo;
+    static ImageView[][] levelThree;
+    static ImageView[][] dome;
+
+    static Pawn[][] greenPawns;
+    static Pawn[][] bluePawns;
+    static Pawn[][] redPawns;
 
     MenuItem[][] place;
+    MenuItem[][] build;
+    MenuItem[][] select;
+    MenuItem[][] move;
 
+    protected int x,y;
+
+    ActionsHandler actionsHandler = new ActionsHandler(this.mainController,this);
 
     static ObservableList<Actions> list = FXCollections.observableArrayList();
 
-    public PlayingStageController(){
+    public static void setMainController(MainController mc){
+        mainController = mc;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
         place = new MenuItem[5][5];
+        move = new MenuItem[5][5];
+        build = new MenuItem[5][5];
+        select = new MenuItem[5][5];
+
+        redPawns = new Pawn[5][5];
+        bluePawns = new Pawn[5][5];
+        greenPawns = new Pawn[5][5];
+
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
                 place[i][j] = new MenuItem("Place");
-                place[i][j].setOnAction(this::handlePlace);
+                place[i][j].setOnAction(actionsHandler::handlePlace);
+
+                build[i][j] = new MenuItem("Build");
+                build[i][j].setOnAction(actionsHandler::handleBuild);
+
+                select[i][j] = new MenuItem("Select");
+                select[i][j].setOnAction(actionsHandler::handleSelect);
+
+                move[i][j] = new MenuItem("Move");
+                move[i][j].setOnAction(actionsHandler::handleMove);
+
+                redPawns[i][j] = new Pawn(Color.RED);
+                redPawns[i][j].setOpacity(0);
+                greenPawns[i][j] = new Pawn(Color.GREEN);
+                greenPawns[i][j].setOpacity(0);
+                bluePawns[i][j] = new Pawn(Color.BLUE);
+                bluePawns[i][j].setOpacity(0);
+
             }
         }
 
@@ -79,7 +121,8 @@ public class PlayingStageController implements Initializable {
             levelTwo = new ImageView[5][5];
             levelThree = new ImageView[5][5];
             dome = new ImageView[5][5];
-            menu = new MenuButton[5][5];
+
+
 
 
             for (int i = 0; i < 5; i++) {
@@ -98,6 +141,7 @@ public class PlayingStageController implements Initializable {
                     levelOne[i][j].setFitWidth(80);
                     levelOne[i][j].setPreserveRatio(true);
                     levelOne[i][j].setSmooth(true);
+                    levelOne[i][j].setOpacity(0);
 
                     levelTwo[i][j] = new ImageView();
                     levelTwo[i][j].setImage(levelTwoImg);
@@ -105,6 +149,7 @@ public class PlayingStageController implements Initializable {
                     levelTwo[i][j].setFitWidth(80);
                     levelTwo[i][j].setPreserveRatio(true);
                     levelTwo[i][j].setSmooth(true);
+                    levelTwo[i][j].setOpacity(0);
 
                     levelThree[i][j] = new ImageView();
                     levelThree[i][j].setImage(levelThreeImg);
@@ -112,6 +157,7 @@ public class PlayingStageController implements Initializable {
                     levelThree[i][j].setFitWidth(80);
                     levelThree[i][j].setPreserveRatio(true);
                     levelThree[i][j].setSmooth(true);
+                    levelThree[i][j].setOpacity(0);
 
                     dome[i][j] = new ImageView();
                     dome[i][j].setImage(domeImg);
@@ -119,6 +165,7 @@ public class PlayingStageController implements Initializable {
                     dome[i][j].setFitWidth(80);
                     dome[i][j].setPreserveRatio(true);
                     dome[i][j].setSmooth(true);
+                    dome[i][j].setOpacity(0);
 
                     menu[i][j] = new MenuButton();
                     menu[i][j].setPrefHeight(80);
@@ -129,26 +176,31 @@ public class PlayingStageController implements Initializable {
                     menu[i][j].setOnMouseExited(this::handleMouseExit);
                     menu[i][j].setOnMouseClicked(this::handleAction);
 
-                    actionPane.setConstraints(menu[i][j],i,j);
+                    actionPane.setConstraints(menu[i][j],j,i);
 
-                    boardPane.setConstraints(terrain[i][j], i, j);
-                    boardPane.setConstraints(levelOne[i][j], i, j);
-                    boardPane.setConstraints(levelTwo[i][j], i, j);
-                    boardPane.setConstraints(levelThree[i][j], i, j);
-                    boardPane.setConstraints(dome[i][j], i, j);
+                    pawnPane.setConstraints(redPawns[i][j],j,i);
+                    pawnPane.setConstraints(bluePawns[i][j],j,i);
+                    pawnPane.setConstraints(greenPawns[i][j],j,i);
+
+                    boardPane.setConstraints(terrain[i][j], j,i);
+                    boardPane.setConstraints(levelOne[i][j], j,i);
+                    boardPane.setConstraints(levelTwo[i][j], j,i);
+                    boardPane.setConstraints(levelThree[i][j], j,i);
+                    boardPane.setConstraints(dome[i][j],j,i);
 
                     actionPane.getChildren().add(menu[i][j]);
+
+                    pawnPane.getChildren().addAll(redPawns[i][j],greenPawns[i][j],bluePawns[i][j]);
+
                     boardPane.getChildren().addAll(terrain[i][j],levelOne[i][j],levelTwo[i][j],levelThree[i][j],dome[i][j]);
                 }
             }
         }catch (Exception e){
-            System.out.print(e.getMessage());
+            System.err.print(e.getMessage());
         }
 //        actionLabel.textProperty().bind(action);
 
         //serve :) purtroppo ho un valore che si aggiorna troppo presto e quindi devo effettuare questo initialize
-
-        //todo : trovare una forma piu elegante per gli switch
 
         for(Actions a: Actions.values()){
             if(list.contains(a)){
@@ -163,9 +215,19 @@ public class PlayingStageController implements Initializable {
                         break;
                     case BUILD:
                         buildLabel.setStyle("-fx-background-color: yellow");
+                        for(int i=0;i<5;i++){
+                            for(int j=0;j<5;j++){
+                                menu[i][j].getItems().add(build[i][j]);
+                            }
+                        }
                         break;
                     case MOVE:
                         moveLabel.setStyle("-fx-background-color: yellow");
+                        for(int i=0;i<5;i++){
+                            for(int j=0;j<5;j++){
+                                menu[i][j].getItems().add(move[i][j]);
+                            }
+                        }
                         break;
                     case DECK:
                         deckLabel.setStyle("-fx-background-color: yellow");
@@ -178,6 +240,11 @@ public class PlayingStageController implements Initializable {
                         break;
                     case SELECT:
                         selectLabel.setStyle("-fx-background-color: yellow");
+                        for(int i=0;i<5;i++){
+                            for(int j=0;j<5;j++){
+                                menu[i][j].getItems().add(select[i][j]);
+                            }
+                        }
                         break;
                     case UNDO:
                         undoLabel.setStyle("-fx-background-color: yellow");
@@ -221,22 +288,37 @@ public class PlayingStageController implements Initializable {
         }
 
 
-        list.addListener(new ListChangeListener<Actions>() {
-            @Override
-            public void onChanged(Change<? extends Actions> change) {
+        list.addListener((ListChangeListener.Change<? extends Actions> change) -> {
+            System.out.println(list);
                 if (change.next()){
-                    System.out.print(change.getList());
                     for(Actions a: Actions.values()){
                         if(list.contains(a)){
                             switch(a){
                                 case PLACE:
                                     placeLabel.setStyle("-fx-background-color: yellow");
+
+                                    for(int i=0;i<5;i++){
+                                        for(int j=0;j<5;j++){
+                                            menu[i][j].getItems().add(place[i][j]);
+                                        }
+                                    }
+
                                     break;
                                 case BUILD:
                                     buildLabel.setStyle("-fx-background-color: yellow");
+                                    for(int i=0;i<5;i++){
+                                        for(int j=0;j<5;j++){
+                                            menu[i][j].getItems().add(build[i][j]);
+                                        }
+                                    }
                                     break;
                                 case MOVE:
                                     moveLabel.setStyle("-fx-background-color: yellow");
+                                    for(int i=0;i<5;i++){
+                                        for(int j=0;j<5;j++){
+                                            menu[i][j].getItems().add(move[i][j]);
+                                        }
+                                    }
                                     break;
                                 case DECK:
                                     deckLabel.setStyle("-fx-background-color: yellow");
@@ -249,6 +331,11 @@ public class PlayingStageController implements Initializable {
                                     break;
                                 case SELECT:
                                     selectLabel.setStyle("-fx-background-color: yellow");
+                                    for(int i=0;i<5;i++){
+                                        for(int j=0;j<5;j++){
+                                            menu[i][j].getItems().add(select[i][j]);
+                                        }
+                                    }
                                     break;
                                 case UNDO:
                                     undoLabel.setStyle("-fx-background-color: yellow");
@@ -291,23 +378,35 @@ public class PlayingStageController implements Initializable {
                         }
                     }
                 }
-            }
         });
 
     }
 
-    private void handlePlace(ActionEvent actionEvent) {
-        System.out.println("handling place");
-    }
+
 
     public static void setActionLabel(ArrayList<Actions> act) {
-        list.addAll(act);
+        try{
+            for(int i=0;i<5;i++){
+                for(int j=0;j<5;j++){
+                    menu[i][j].getItems().clear();
+                }
+            }
+        }catch(NullPointerException e){}
+
+        try {
+            list.clear();
+            list.addAll(act);
+        }catch(NullPointerException e){System.out.print("lista vuota");}
     }
 
     public void handleAction(javafx.scene.input.MouseEvent e){
-        System.out.println(actionPane.getRowIndex((Node)e.getSource())+" "+actionPane.getColumnIndex((Node)e.getSource()));
-        //clicco sul menuButton
 
+        //NEL MODEL LA X E' LA RIGA E Y LA COLONNA
+
+        x = actionPane.getRowIndex((Node)e.getSource());
+        y = actionPane.getColumnIndex((Node)e.getSource());
+
+        e.consume();
     }
 
 
@@ -320,6 +419,68 @@ public class PlayingStageController implements Initializable {
         ((MenuButton)e.getSource()).setOpacity(0);
     }
 
+    public static void updateBoard(){
+        Client client = mainController.client;
 
+        //box ha il livello e il colore della pedina
+        // box get level e get player
+        try {
+            Box[][] boardModel = client.getBoard().getBoard();
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    switch (boardModel[i][j].getLevel()) {
+                        case 1:
+                            terrain[i][j].setOpacity(0);
+                            levelOne[i][j].setOpacity(1);
+                            break;
+                        case 2:
+                            levelOne[i][j].setOpacity(0);
+                            levelTwo[i][j].setOpacity(1);
+                            break;
+                        case 3:
+                            levelTwo[i][j].setOpacity(0);
+                            levelThree[i][j].setOpacity(1);
+                            break;
+                        case 4:
+                            levelThree[i][j].setOpacity(0);
+                            dome[i][j].setOpacity(1);
+                            break;
+                    }
+                    if(boardModel[i][j].getPlayer() != null) {
+                        switch (boardModel[i][j].getPlayer()) {
+                            case BLUE:
+                                bluePawns[i][j].setOpacity(1);
+                                redPawns[i][j].setOpacity(0);
+                                greenPawns[i][j].setOpacity(0);
+                                break;
+                            case RED:
+                                bluePawns[i][j].setOpacity(0);
+                                redPawns[i][j].setOpacity(1);
+                                greenPawns[i][j].setOpacity(0);
+                                break;
+                            case GREEN:
+                                bluePawns[i][j].setOpacity(0);
+                                redPawns[i][j].setOpacity(0);
+                                greenPawns[i][j].setOpacity(1);
+                                break;
+                            default:
+                                bluePawns[i][j].setOpacity(0);
+                                redPawns[i][j].setOpacity(0);
+                                greenPawns[i][j].setOpacity(0);
+                                break;
+                        }
+                    }else{
+                        bluePawns[i][j].setOpacity(0);
+                        redPawns[i][j].setOpacity(0);
+                        greenPawns[i][j].setOpacity(0);
+                    }
+
+                }
+            }
+        }catch (NullPointerException e){
+            System.out.print(e.getMessage());
+        }
+
+    }
 
 }

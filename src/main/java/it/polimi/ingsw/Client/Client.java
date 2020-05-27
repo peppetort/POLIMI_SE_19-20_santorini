@@ -4,6 +4,7 @@ import it.polimi.ingsw.CLI.CLI;
 import it.polimi.ingsw.GUI.CreateMenuController;
 import it.polimi.ingsw.GUI.JoinMenuController;
 import it.polimi.ingsw.GUI.MainController;
+import it.polimi.ingsw.GUI.PlayingStageController;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
@@ -49,9 +50,12 @@ public class Client extends Observable implements Observer<Object> {
 		mc = new MainController();
 		mc.addObserver(this);
 		this.addObserver(mc);
+
 		mc.setClient(this);
+
 		JoinMenuController.setMainController(mc);
 		CreateMenuController.setMainController(mc);
+		PlayingStageController.setMainController(mc);
 
 //		cli = new CLI(this);
 //		cli.addObserver(this);
@@ -90,9 +94,11 @@ public class Client extends Observable implements Observer<Object> {
 
 					} else if (inputObject instanceof TurnUpdateMessage) {
 						String username = ((TurnUpdateMessage) inputObject).getUsername();
+						System.out.print(((TurnUpdateMessage)inputObject).getUsername());
 						status.updateTurn(username);
 					} else if (inputObject instanceof ActionsUpdateMessage) {
 						ArrayList<Actions> actions = ((ActionsUpdateMessage) inputObject).getActions();
+						System.out.println(((ActionsUpdateMessage) inputObject).getActions());
 						status.updateAction(actions);
 					} else if (inputObject instanceof CardUpdateMessage) {
 						God card = ((CardUpdateMessage) inputObject).getCard();
