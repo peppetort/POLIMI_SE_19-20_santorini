@@ -185,10 +185,10 @@ public class Controller extends Observable<Message> implements Observer<Message>
 				} catch (RuntimeException e) {
 					InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage(e.getMessage());
 					player.notify(invalidMessage);
-
-					while (!playersList.isEmpty()) {
-						removePlayer(playersList.get(0));
-					}
+					//TODO: (?)
+//					while (!playersList.isEmpty()) {
+//						removePlayer(playersList.get(0));
+//					}
 				}
 			} else {
 				InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("You can't move");
@@ -405,7 +405,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
 						InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("Can't place pawns here! The positions chosen are already occupied");
 						player.notify(invalidMessage);
 					} else {
-
 						try {
 							board.initializePawn(worker1, worker2, worker1X, worker1Y, worker2X, worker2Y);
 							updateTurn();

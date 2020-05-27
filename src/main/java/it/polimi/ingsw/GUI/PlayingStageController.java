@@ -49,8 +49,6 @@ public class PlayingStageController implements Initializable {
 
     private static MainController mainController;
 
-    private static StringBuilder messages = new StringBuilder();
-
     static MenuButton[][] menu = new MenuButton[5][5];
 
     static ImageView[][] terrain;
@@ -73,6 +71,7 @@ public class PlayingStageController implements Initializable {
     ActionsHandler actionsHandler = new ActionsHandler(this.mainController,this);
 
     static ObservableList<Actions> list = FXCollections.observableArrayList();
+    static ObservableList<String> messages = FXCollections.observableArrayList();
 
     public static void setMainController(MainController mc){
         mainController = mc;
@@ -80,6 +79,12 @@ public class PlayingStageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        messages.addListener((ListChangeListener.Change<? extends String> change) -> {
+            if(change.next()){
+                chatField.appendText(change.toString());
+            }
+        });
 
         undoButton.setOnAction(actionsHandler::handleUndo);
         endButton.setOnAction(actionsHandler::handleEnd);
@@ -485,12 +490,13 @@ public class PlayingStageController implements Initializable {
                 }
             }
         }catch (NullPointerException e){
-            System.out.print(e.getMessage());
         }
 
     }
 
-    public void handleException(InvalidChoiceMessage message){
+    public static void handleException(InvalidChoiceMessage message){
+        updateBoard();
+        messages.add("Error: "+message.getMessage()+"\n");
     }
 
 }

@@ -43,6 +43,7 @@ public class ActionsHandler {
             indexForPlace[1] = y;    //y1
         }
         if(placeCounter == 2){
+            placeCounter = 0;
             try {
                 mainController.notify(new PlayerPlacePawnsMessage(indexForPlace[0], indexForPlace[1], x, y));
             }catch(Exception e){System.err.print(e.getMessage());}
@@ -56,31 +57,28 @@ public class ActionsHandler {
     public void handleSelect(ActionEvent actionEvent){
         int x = PlayingStageController.x;
         int y = PlayingStageController.y;
-
         Box[][] board = mainController.client.getBoard().getBoard();
-
-        try {
-            if (board[x][y].getPlayer() == mainController.client.getStatus().getColor()) {
-                mainController.notify(new PlayerSelectMessage(board[x][y].getWorker()));
-            }
-        }catch(NullPointerException e){
-            //in questa cella non c'è nessuna pedina
+        if(board[x][y].getPlayer() != null && board[x][y].getPlayer() == mainController.client.getStatus().getColor()){
+            mainController.notify(new PlayerSelectMessage(board[x][y].getWorker()));
         }
     }
 
     public void handleMove(ActionEvent e){
         mainController.notify(new PlayerMoveMessage(playingStageController.x,playingStageController.y));
+        e.consume();
     }
 
     public void handleUndo(ActionEvent e){
         if(PlayingStageController.list.contains(Actions.UNDO)){
             mainController.notify(new PlayerUndoMessage());
         }
+        e.consume();
     }
 
     public void handleEnd(ActionEvent e){
         if(PlayingStageController.list.contains(Actions.END)){
             mainController.notify(new PlayerEndMessage());
         }
+        e.consume();
     }
 }
