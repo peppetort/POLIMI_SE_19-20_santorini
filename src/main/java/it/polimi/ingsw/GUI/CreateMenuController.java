@@ -8,12 +8,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CreateMenuController implements Initializable {
@@ -67,7 +69,6 @@ public class CreateMenuController implements Initializable {
 
 		if (msg instanceof AlreadyExistingSessionException) {
 
-			//TODO : SEPARARE IN UNA CLASSE :)
 			Platform.runLater(() -> {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setTitle("Error Dialog");
@@ -81,7 +82,7 @@ public class CreateMenuController implements Initializable {
 	public void handleStart() {
 		Platform.runLater(() -> {
 			try {
-				AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("PlayingStage.fxml"));
+				AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("Wait.fxml"));
 				Scene scene = new Scene(pane, 1280, 720);
 				ClientGUIApp.window.setScene(scene);
 			} catch (IOException e) {

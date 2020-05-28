@@ -1,10 +1,7 @@
 package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.CLI.CLI;
-import it.polimi.ingsw.GUI.CreateMenuController;
-import it.polimi.ingsw.GUI.JoinMenuController;
-import it.polimi.ingsw.GUI.MainController;
-import it.polimi.ingsw.GUI.PlayingStageController;
+import it.polimi.ingsw.GUI.*;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
@@ -56,6 +53,9 @@ public class Client extends Observable implements Observer<Object> {
 		JoinMenuController.setMainController(mc);
 		CreateMenuController.setMainController(mc);
 		PlayingStageController.setMainController(mc);
+		WaitController.setMainController(mc);
+		AllCardsMenuController.setMainController(mc);
+		SelectCardMenuController.setMainController(mc);
 
 //		cli = new CLI(this);
 //		cli.addObserver(this);
@@ -79,6 +79,7 @@ public class Client extends Observable implements Observer<Object> {
 					if (inputObject instanceof String || inputObject instanceof SuccessfulJoin|| inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof SuccessfulCreate) {
 						notify(inputObject);
 					} else if (inputObject instanceof ClientInitMessage) {
+						notify(0);
 						String username = ((ClientInitMessage) inputObject).getUsername();
 						ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();
 						status = new ClientStatus(username, players.get(0));
@@ -87,13 +88,15 @@ public class Client extends Observable implements Observer<Object> {
 //						cli.setClientStatus(status);
 //						status.addObserver(cli);
 //						board.addObserver(cli);
-
+						System.out.print("CLIENT INIT");
 						status.addObserver(mc);
 						board.addObserver(mc);
 
 
+
 					} else if (inputObject instanceof TurnUpdateMessage) {
 						String username = ((TurnUpdateMessage) inputObject).getUsername();
+						System.out.print("turn update");
 						status.updateTurn(username);
 					} else if (inputObject instanceof ActionsUpdateMessage) {
 						ArrayList<Actions> actions = ((ActionsUpdateMessage) inputObject).getActions();

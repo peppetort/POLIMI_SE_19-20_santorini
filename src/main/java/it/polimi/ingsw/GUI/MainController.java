@@ -16,20 +16,28 @@ public class MainController extends Observable<Object> implements Observer<Objec
     JoinMenuController joinController;
     CreateMenuController createController;
     PlayingStageController playingStageController;
+    WaitController waitController;
 
     Client client;
 
-    public MainController(){
+    private boolean playing;
 
+    public MainController(){
         startController = new StartMenuController();
         joinController = new JoinMenuController();
         createController = new CreateMenuController();
         playingStageController = new PlayingStageController();
+        waitController = new WaitController();
+        playing = false;
     }
 
     public void setClient(Client client) {
         this.client = client;
     }
+
+    public void setPlaying(boolean playing){this.playing=playing; }
+
+    public boolean isPlaying(){return playing;}
 
     @Override
     public void update(Object msg) {
@@ -44,7 +52,10 @@ public class MainController extends Observable<Object> implements Observer<Objec
             } else if (msg instanceof InvalidUsernameException) {
                 joinController.handleException((Exception)msg);
             } else if (msg instanceof Integer){
-                if((int)msg == 2 ){
+                if((int)msg == 0){
+                    waitController.handleStart();
+                }
+                else if((int)msg == 2 ){
                     try {
                         playingStageController.setActionLabel(client.getStatus().getActions());
                     }catch(NullPointerException e){}

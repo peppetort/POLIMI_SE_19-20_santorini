@@ -1,7 +1,11 @@
 package it.polimi.ingsw.GUI;
 
+import it.polimi.ingsw.ClientGUIApp;
+import it.polimi.ingsw.Messages.PlayerDeckMessage;
 import it.polimi.ingsw.Model.God;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,16 +13,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -45,9 +51,11 @@ public class AllCardsMenuController implements Initializable {
 	private JSONObject jsonObject;
 
 	public God selected;
-	public List<God> added = new ArrayList<>();
+	public ArrayList<God> added = new ArrayList<>();
 	//TODO: trovare modo per passare il numero di giocatori
 	public final int playersNumber = 2;
+
+	private static MainController mainController = new MainController();
 
 	public Scene scene;
 
@@ -65,6 +73,10 @@ public class AllCardsMenuController implements Initializable {
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void setMainController(MainController mc){
+		mainController = mc;
 	}
 
 
@@ -203,6 +215,13 @@ public class AllCardsMenuController implements Initializable {
 
 
 	public void handleConfirm(ActionEvent actionEvent) {
-		//TODO: implementare la logica
+		mainController.notify(new PlayerDeckMessage(added));
+		Platform.runLater(() -> {
+			try {
+				AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("PlayingStage.fxml"));
+				Scene scene = new Scene(pane,1280,720);
+				ClientGUIApp.window.setScene(scene);
+			}catch(IOException e){}
+		});
 	}
 }

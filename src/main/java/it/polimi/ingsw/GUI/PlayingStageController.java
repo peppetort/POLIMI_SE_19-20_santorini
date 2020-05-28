@@ -2,6 +2,7 @@ package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.Client.Box;
 import it.polimi.ingsw.Client.Client;
+import it.polimi.ingsw.ClientGUIApp;
 import it.polimi.ingsw.Messages.InvalidChoiceMessage;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
@@ -9,16 +10,20 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -68,6 +73,7 @@ public class PlayingStageController implements Initializable {
 
     protected static int x,y;
 
+
     ActionsHandler actionsHandler = new ActionsHandler(this.mainController,this);
 
     static ObservableList<Actions> list = FXCollections.observableArrayList();
@@ -79,6 +85,8 @@ public class PlayingStageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        mainController.setPlaying(true);
 
         messages.addListener((ListChangeListener.Change<? extends String> change) -> {
             if(change.next()){
@@ -148,6 +156,7 @@ public class PlayingStageController implements Initializable {
                     terrain[i][j].setFitWidth(80);
                     terrain[i][j].setPreserveRatio(true);
                     terrain[i][j].setSmooth(true);
+                    terrain[i][j].setOpacity(1);
 
                     levelOne[i][j] = new ImageView();
                     levelOne[i][j].setImage(levelOneImg);
@@ -216,90 +225,97 @@ public class PlayingStageController implements Initializable {
 
         //serve :) purtroppo ho un valore che si aggiorna troppo presto e quindi devo effettuare questo initialize
 
-        for(Actions a: Actions.values()){
-            if(list.contains(a)){
-                switch(a){
-                    case PLACE:
-                        placeLabel.setStyle("-fx-background-color: yellow");
-                        for(int i=0;i<5;i++){
-                            for(int j=0;j<5;j++){
-                                menu[i][j].getItems().add(place[i][j]);
-                            }
-                        }
-                        break;
-                    case BUILD:
-                        buildLabel.setStyle("-fx-background-color: yellow");
-                        for(int i=0;i<5;i++){
-                            for(int j=0;j<5;j++){
-                                menu[i][j].getItems().add(build[i][j]);
-                            }
-                        }
-                        break;
-                    case MOVE:
-                        moveLabel.setStyle("-fx-background-color: yellow");
-                        for(int i=0;i<5;i++){
-                            for(int j=0;j<5;j++){
-                                menu[i][j].getItems().add(move[i][j]);
-                            }
-                        }
-                        break;
-                    case DECK:
-                        deckLabel.setStyle("-fx-background-color: yellow");
-                        break;
-                    case CARD:
-                        cardLabel.setStyle("-fx-background-color: yellow");
-                        break;
-                    case END:
-                        endLabel.setStyle("-fx-background-color: yellow");
-                        break;
-                    case SELECT:
-                        selectLabel.setStyle("-fx-background-color: yellow");
-                        for(int i=0;i<5;i++){
-                            for(int j=0;j<5;j++){
-                                menu[i][j].getItems().add(select[i][j]);
-                            }
-                        }
-                        break;
-                    case UNDO:
-                        undoLabel.setStyle("-fx-background-color: yellow");
-                        break;
-                    case BUILD_DOME:
-                        buildDomeLabel.setStyle("-fx-background-color: yellow");
-                        break;
-                }
-            }else{
-                switch(a){
-                    case PLACE:
-                        placeLabel.setStyle("-fx-background-color: white");
-                        break;
-                    case BUILD:
-                        buildLabel.setStyle("-fx-background-color: white");
-                        break;
-                    case MOVE:
-                        moveLabel.setStyle("-fx-background-color: white");
-                        break;
-                    case DECK:
-                        deckLabel.setStyle("-fx-background-color: white");
-                        break;
-                    case CARD:
-                        cardLabel.setStyle("-fx-background-color: white");
-                        break;
-                    case END:
-                        endLabel.setStyle("-fx-background-color: white");
-                        break;
-                    case SELECT:
-                        selectLabel.setStyle("-fx-background-color: white");
-                        break;
-                    case UNDO:
-                        undoLabel.setStyle("-fx-background-color: white;");
-                        break;
-                    case BUILD_DOME:
-                        buildDomeLabel.setStyle("-fx-background-color: white");
-                        break;
-                }
-
-            }
-        }
+//        for(Actions a: Actions.values()){
+//            if(list.contains(a)){
+//                switch(a){
+//                    case PLACE:
+//                        placeLabel.setStyle("-fx-background-color: yellow");
+//                        for(int i=0;i<5;i++){
+//                            for(int j=0;j<5;j++){
+//                                menu[i][j].getItems().add(place[i][j]);
+//                            }
+//                        }
+//                        break;
+//                    case BUILD:
+//                        buildLabel.setStyle("-fx-background-color: yellow");
+//                        for(int i=0;i<5;i++){
+//                            for(int j=0;j<5;j++){
+//                                menu[i][j].getItems().add(build[i][j]);
+//                            }
+//                        }
+//                        break;
+//                    case MOVE:
+//                        moveLabel.setStyle("-fx-background-color: yellow");
+//                        for(int i=0;i<5;i++){
+//                            for(int j=0;j<5;j++){
+//                                menu[i][j].getItems().add(move[i][j]);
+//                            }
+//                        }
+//                        break;
+//                    case DECK:
+//                        deckLabel.setStyle("-fx-background-color: yellow");
+//                        Platform.runLater(() ->{
+//                            try {
+//                                AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("AllCardsMenu.fxml"));
+//                                Scene scene = new Scene(pane, 1280, 720);
+//                                ClientGUIApp.window.setScene(scene);
+//                            }catch (IOException e){}
+//                        });
+//                        break;
+//                    case CARD:
+//                        cardLabel.setStyle("-fx-background-color: yellow");
+//                        break;
+//                    case END:
+//                        endLabel.setStyle("-fx-background-color: yellow");
+//                        break;
+//                    case SELECT:
+//                        selectLabel.setStyle("-fx-background-color: yellow");
+//                        for(int i=0;i<5;i++){
+//                            for(int j=0;j<5;j++){
+//                                menu[i][j].getItems().add(select[i][j]);
+//                            }
+//                        }
+//                        break;
+//                    case UNDO:
+//                        undoLabel.setStyle("-fx-background-color: yellow");
+//                        break;
+//                    case BUILD_DOME:
+//                        buildDomeLabel.setStyle("-fx-background-color: yellow");
+//                        break;
+//                }
+//            }else{
+//                switch(a){
+//                    case PLACE:
+//                        placeLabel.setStyle("-fx-background-color: white");
+//                        break;
+//                    case BUILD:
+//                        buildLabel.setStyle("-fx-background-color: white");
+//                        break;
+//                    case MOVE:
+//                        moveLabel.setStyle("-fx-background-color: white");
+//                        break;
+//                    case DECK:
+//                        deckLabel.setStyle("-fx-background-color: white");
+//                        break;
+//                    case CARD:
+//                        cardLabel.setStyle("-fx-background-color: white");
+//                        break;
+//                    case END:
+//                        endLabel.setStyle("-fx-background-color: white");
+//                        break;
+//                    case SELECT:
+//                        selectLabel.setStyle("-fx-background-color: white");
+//                        break;
+//                    case UNDO:
+//                        undoLabel.setStyle("-fx-background-color: white;");
+//                        break;
+//                    case BUILD_DOME:
+//                        buildDomeLabel.setStyle("-fx-background-color: white");
+//                        break;
+//                }
+//
+//            }
+//        }
 
 
         list.addListener((ListChangeListener.Change<? extends Actions> change) -> {
@@ -310,7 +326,7 @@ public class PlayingStageController implements Initializable {
             }
                 if (change.next()){
                     for(Actions a: Actions.values()){
-                        if(list.contains(a)){
+                        if(list.contains(a)  && change.wasAdded()){
                             switch(a){
                                 case PLACE:
                                     placeLabel.setStyle("-fx-background-color: yellow");
@@ -340,9 +356,23 @@ public class PlayingStageController implements Initializable {
                                     break;
                                 case DECK:
                                     deckLabel.setStyle("-fx-background-color: yellow");
+                                    Platform.runLater(() ->{
+                                        try {
+                                            AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("AllCardsMenu.fxml"));
+                                            Scene scene = new Scene(pane, 1280, 720);
+                                            ClientGUIApp.window.setScene(scene);
+                                        }catch (IOException e){}
+                                    });
                                     break;
                                 case CARD:
                                     cardLabel.setStyle("-fx-background-color: yellow");
+                                    Platform.runLater(() ->{
+                                        try {
+                                            AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("SelectCardMenu.fxml"));
+                                            Scene scene = new Scene(pane, 1280, 720);
+                                            ClientGUIApp.window.setScene(scene);
+                                        }catch (IOException e){}
+                                    });
                                     break;
                                 case END:
                                     endLabel.setStyle("-fx-background-color: yellow");
@@ -362,7 +392,7 @@ public class PlayingStageController implements Initializable {
                                     buildDomeLabel.setStyle("-fx-background-color: yellow");
                                     break;
                             }
-                        }else{
+                        }else if(change.wasRemoved() || !list.contains(a)){
                             switch(a){
                                 case PLACE:
                                     placeLabel.setStyle("-fx-background-color: white");
@@ -441,17 +471,24 @@ public class PlayingStageController implements Initializable {
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
                     switch (boardModel[i][j].getLevel()) {
+                        case 0:
+                            terrain[i][j].setOpacity(1);
+                            levelOne[i][j].setOpacity(0);
+                            break;
                         case 1:
                             terrain[i][j].setOpacity(0);
                             levelOne[i][j].setOpacity(1);
+                            levelTwo[i][j].setOpacity(0);
                             break;
                         case 2:
                             levelOne[i][j].setOpacity(0);
                             levelTwo[i][j].setOpacity(1);
+                            levelThree[i][j].setOpacity(0);
                             break;
                         case 3:
                             levelTwo[i][j].setOpacity(0);
                             levelThree[i][j].setOpacity(1);
+                            dome[i][j].setOpacity(0);
                             break;
                         case 4:
                             levelThree[i][j].setOpacity(0);

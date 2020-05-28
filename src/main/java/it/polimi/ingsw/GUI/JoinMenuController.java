@@ -78,9 +78,11 @@ public class JoinMenuController implements Initializable {
     public void handleStart(){
         Platform.runLater(() ->{
             try {
-                AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("PlayingStage.fxml"));
-                Scene scene = new Scene(pane, 1280, 720);
-                ClientGUIApp.window.setScene(scene);
+                if(!mainController.isPlaying()) {
+                    AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("Wait.fxml"));
+                    Scene scene = new Scene(pane, 1280, 720);
+                    ClientGUIApp.window.setScene(scene);
+                }
             }catch (IOException e){}
         });
     }

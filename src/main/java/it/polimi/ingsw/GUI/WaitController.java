@@ -1,11 +1,17 @@
 package it.polimi.ingsw.GUI;
 
 
+import it.polimi.ingsw.ClientGUIApp;
 import javafx.animation.*;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 
 import java.util.ResourceBundle;
@@ -16,6 +22,8 @@ public class WaitController implements Initializable {
 	public ImageView rightCloud;
 	public ImageView hourGlass1;
 	public ImageView hourGlass2;
+
+	private static MainController mainController;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,5 +60,21 @@ public class WaitController implements Initializable {
 		rt2.play();
 
 	}
+
+	public static void setMainController(MainController mc){
+		mainController = mc;
+	}
+
+	public void handleStart(){
+		Platform.runLater(() ->{
+			try {
+					AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("PlayingStage.fxml"));
+					Scene scene = new Scene(pane, 1280, 720);
+					ClientGUIApp.window.setScene(scene);
+			}catch (IOException e){}
+		});
+	}
+
+
 
 }

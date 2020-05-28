@@ -1,7 +1,11 @@
 package it.polimi.ingsw.GUI;
 
+import it.polimi.ingsw.ClientGUIApp;
+import it.polimi.ingsw.Messages.PlayerCardChoiceMessage;
 import it.polimi.ingsw.Model.God;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -58,11 +63,21 @@ public class SelectCardMenuController implements Initializable {
 	private God chosen;
 	private final HashMap<God, Boolean> godsChosen = new HashMap<>();
 
+	private static MainController mainController = new MainController();
+
+	public static void setMainController(MainController mc){mainController = mc;}
+
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		godsChosen.put(God.APOLLO, true);
-		godsChosen.put(God.PAN, false);
-		godsChosen.put(God.ATHENA, false);
+//		godsChosen.put(God.APOLLO, true);
+//		godsChosen.put(God.PAN, false);
+//		godsChosen.put(God.ATHENA, false);
+
+
+		ArrayList<God> deck = mainController.client.getStatus().getDeck();
+		for(God g: deck){
+			godsChosen.put(g, false);
+		}
 
 		JSONParser parser = new JSONParser();
 
@@ -295,8 +310,14 @@ public class SelectCardMenuController implements Initializable {
 	}
 
 
-	public God handleConfirm(ActionEvent actionEvent) {
-		return chosen;
-		//TODO: implementare la logica
+	public void handleConfirm(ActionEvent actionEvent) {
+		mainController.notify(new PlayerCardChoiceMessage(selected));
+		Platform.runLater(() -> {
+			try{
+				AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("PlayingStage.fxml"));
+				Scene scene = new Scene(pane,1280,720);
+				ClientGUIApp.window.setScene(scene);
+			}catch (IOException e){}
+		});
 	}
 }
