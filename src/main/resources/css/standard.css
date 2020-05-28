@@ -145,12 +145,29 @@
     -fx-background-size: 100%;
 }
 
-.god-toggle:selected, .god-selected:selected{
+.god-toggle-chosen{
+    -fx-background-image: url("../img/frame_coral.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 75px;
+}
+
+.god-toggle:selected, .god-selected:selected, .god-toggle-chosen:selected{
     -fx-background-image: url("../img/frame_blue.png");
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: 80px;
+}
+
+.god-toggle:disabled{
+    -fx-background-image: url("../img/clp_frame_white.png");
+    -fx-opacity: 1;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 100%;
 }
 
 .god-selected{
@@ -162,18 +179,22 @@
 }
 
 
-.play-button{
-    -fx-background-image: url("../img/button-play-normal.png");
+.confirm-button{
+    -fx-background-image: url("../img/btn_purple.png");
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: contain;
 }
 
-.play-button:pressed{
-    -fx-background-image: url("../img/button-play-down.png");
+.confirm-button:pressed{
+    -fx-background-image: url("../img/btn_purple_pressed.png");
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: contain;
+}
+
+.obscure {
+    -fx-background-color: rgba(54, 54, 54, 0.75);
 }

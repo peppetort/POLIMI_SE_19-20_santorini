@@ -9,51 +9,63 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-public class AllCardsMenuController implements Initializable {
+public class SelectCardMenuController implements Initializable {
 	public ImageView godImage;
 	public Label godName;
 	public ToggleButton apollo;
+	public AnchorPane apolloObscure;
 	public ToggleButton artemis;
+	public AnchorPane artemisObscure;
 	public ToggleButton athena;
+	public AnchorPane athenaObscure;
 	public ToggleButton atlas;
+	public AnchorPane atlasObscure;
 	public ToggleButton demeter;
+	public AnchorPane demeterObscure;
 	public ToggleButton hephaestus;
+	public AnchorPane hephaestusObscure;
 	public ToggleButton minotaur;
+	public AnchorPane minotaurObscure;
 	public ToggleButton pan;
+	public AnchorPane panObscure;
 	public ToggleButton prometheus;
+	public AnchorPane prometheusObscure;
 	public Button addRemoveButton;
 	public Button confirmButton;
 	public Label actionType;
 	public Text actionDescription;
 	public ImageView powerIcon;
 
-
-	private JSONObject jsonObject;
-
-	public God selected;
-	public List<God> added = new ArrayList<>();
-	//TODO: trovare modo per passare il numero di giocatori
-	public final int playersNumber = 2;
-
 	public Scene scene;
+	private JSONObject jsonObject;
+	private God selected;
+	private God chosen;
+	private final HashMap<God, Boolean> godsChosen = new HashMap<>();
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		godsChosen.put(God.APOLLO, true);
+		godsChosen.put(God.PAN, false);
+		godsChosen.put(God.ATHENA, false);
+
 		JSONParser parser = new JSONParser();
+
 		try {
 			URL jsonURL = getClass().getClassLoader().getResource("gods.json");
 			assert jsonURL != null;
@@ -65,6 +77,85 @@ public class AllCardsMenuController implements Initializable {
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}
+
+
+		for (God god : godsChosen.keySet()) {
+			switch (god) {
+				case APOLLO:
+					apollo.setDisable(false);
+					apolloObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						apollo.getStyleClass().remove("god-toggle");
+						apollo.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+				case ARTEMIS:
+					artemis.setDisable(false);
+					artemisObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						artemis.getStyleClass().remove("god-toggle");
+						artemis.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+				case ATHENA:
+					athena.setDisable(false);
+					athenaObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						athena.getStyleClass().remove("god-toggle");
+						athena.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+				case ATLAS:
+					atlas.setDisable(false);
+					atlasObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						atlas.getStyleClass().remove("god-toggle");
+						atlas.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+				case DEMETER:
+					demeter.setDisable(false);
+					demeterObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						demeter.getStyleClass().remove("god-toggle");
+						demeter.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+				case HEPHAESTUS:
+					hephaestus.setDisable(false);
+					hephaestusObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						hephaestus.getStyleClass().remove("god-toggle");
+						hephaestus.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+				case MINOTAUR:
+					minotaur.setDisable(false);
+					minotaurObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						minotaur.getStyleClass().remove("god-toggle");
+						minotaur.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+				case PAN:
+					pan.setDisable(false);
+					panObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						pan.getStyleClass().remove("god-toggle");
+						pan.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+				case PROMETHEUS:
+					prometheus.setDisable(false);
+					prometheusObscure.setVisible(false);
+					if (godsChosen.get(god)) {
+						prometheus.getStyleClass().remove("god-toggle");
+						prometheus.getStyleClass().add("god-toggle-chosen");
+					}
+					break;
+			}
+		}
+
 	}
 
 
@@ -122,22 +213,24 @@ public class AllCardsMenuController implements Initializable {
 				powerIcon = null;
 		}
 
-		if (added.contains(selected)) {
-			addRemoveButton.setVisible(true);
-			addRemoveButton.getStyleClass().remove("create-button");
-			addRemoveButton.getStyleClass().remove("join-button");
-			addRemoveButton.getStyleClass().add("join-button");
-			addRemoveButton.setText("Remove");
-		} else {
-			if (added.size() == playersNumber) {
-				addRemoveButton.setVisible(false);
-			} else {
+		if(!godsChosen.get(selected)) {
+			if (chosen == null) {
 				addRemoveButton.setVisible(true);
 				addRemoveButton.getStyleClass().remove("join-button");
 				addRemoveButton.getStyleClass().remove("create-button");
 				addRemoveButton.getStyleClass().add("create-button");
-				addRemoveButton.setText("Add");
+				addRemoveButton.setText("Chose");
+			} else if (selected.equals(chosen)) {
+				addRemoveButton.setVisible(true);
+				addRemoveButton.getStyleClass().remove("create-button");
+				addRemoveButton.getStyleClass().remove("join-button");
+				addRemoveButton.getStyleClass().add("join-button");
+				addRemoveButton.setText("Remove");
+			} else {
+				addRemoveButton.setVisible(false);
 			}
+		}else {
+			addRemoveButton.setVisible(false);
 		}
 
 		this.godImage.setImage(godImage);
@@ -180,16 +273,16 @@ public class AllCardsMenuController implements Initializable {
 				godButton = null;
 		}
 
-		if (added.contains(selected)) {
-			added.remove(selected);
+		if (chosen != null && chosen.equals(selected)) {
+			chosen = null;
 			godButton.getStyleClass().remove("god-selected");
 			godButton.getStyleClass().add("god-toggle");
 			addRemoveButton.getStyleClass().remove("join-button");
 			addRemoveButton.getStyleClass().remove("create-button");
 			addRemoveButton.getStyleClass().add("create-button");
-			addRemoveButton.setText("Add");
+			addRemoveButton.setText("Chose");
 		} else {
-			added.add(selected);
+			chosen = selected;
 			godButton.getStyleClass().remove("god-toggle");
 			godButton.getStyleClass().add("god-selected");
 			addRemoveButton.getStyleClass().remove("create-button");
@@ -198,11 +291,12 @@ public class AllCardsMenuController implements Initializable {
 			addRemoveButton.setText("Remove");
 		}
 
-		confirmButton.setVisible(added.size() == playersNumber);
+		confirmButton.setVisible(chosen != null);
 	}
 
 
-	public void handleConfirm(ActionEvent actionEvent) {
+	public God handleConfirm(ActionEvent actionEvent) {
+		return chosen;
 		//TODO: implementare la logica
 	}
 }

@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CreateMenuController implements Initializable {
@@ -45,8 +46,8 @@ public class CreateMenuController implements Initializable {
 		ClientGUIApp.window.setScene(scene);
 	}
 
-	public void handleCreate() {
-		boolean simple;
+	public void handleCreate() throws IOException {
+/*		boolean simple;
 		int playersNumber;
 
 		simple = !cardBox.isSelected();
@@ -59,7 +60,10 @@ public class CreateMenuController implements Initializable {
 
 
 		Message msg = new PlayerCreateSessionMessage(username.getText(), sessionName.getText(), playersNumber, simple);
-		mainController.notify(msg);
+		mainController.notify(msg);*/
+		AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("AllCardsMenu.fxml")));
+		Scene scene = new Scene(pane, 953, 511);
+		ClientGUIApp.window.setScene(scene);
 	}
 
 	public static void handleException(Exception msg) {
