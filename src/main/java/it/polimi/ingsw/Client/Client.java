@@ -118,11 +118,19 @@ public class Client extends Observable implements Observer<Object> {
 					} else if (inputObject instanceof WinMessage) {
 						String winUser = ((WinMessage) inputObject).getUsername();
 						status.setWinner(winUser);
+						if(this.getStatus().getUsername().equals(winUser)) {
+							notify(Status.WON);
+						}else{
+							notify(Status.LOST);
+						}
 					} else if (inputObject instanceof LostMessage) {
 						String loser = ((LostMessage) inputObject).getUsername();
 						Color loserColor = ((LostMessage) inputObject).getColor();
 						status.lose(loser);
 						board.lose(loserColor);
+						if(this.getStatus().getUsername().equals(loser)) {
+							notify(Status.LOST);
+						}
 					} else if (inputObject instanceof DeckUpdateMessage) {
 						ArrayList<God> deck = ((DeckUpdateMessage) inputObject).getDeck();
 						status.updateDeck(deck);
