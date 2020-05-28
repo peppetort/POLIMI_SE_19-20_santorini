@@ -89,4 +89,84 @@ public class PlayerTest {
         Player player = session.getPlayers().get(0);
         player.setCard(pan);
     }
+
+    @Test
+    public void setCardPlayer1() {
+        Board board = new Board();
+        God god1 = God.ARTEMIS;
+        God god2 = God.ATHENA;
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        Player player1 = session.getPlayers().get(1);
+        player.setCard(god1);
+        player1.setCard(god2);
+        assertTrue(player.getBuildAction() instanceof DefaultBuild);
+        assertTrue(player1.getBuildAction() instanceof DefaultBuild);
+
+        assertTrue(player1.getMoveAction() instanceof DefaultMove);
+        assertTrue(player.getMoveAction() instanceof DefaultMove);
+
+        assertTrue(player1.getTurn() instanceof AthenaTurn);
+        assertTrue(player.getTurn() instanceof ArtemisTurn);
+
+        assertTrue(player.getWinAction() instanceof DefaultWin);
+        assertTrue(player1.getWinAction() instanceof DefaultWin);
+    }
+
+    @Test
+    public void setCardPlayer2() {
+        Board board = new Board();
+        God god1 = God.PROMETHEUS;
+        God god2 = God.MINOTAUR;
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        Player player1 = session.getPlayers().get(1);
+        player.setCard(god1);
+        player1.setCard(god2);
+
+        assertTrue(player.getBuildAction() instanceof DefaultBuild);
+        assertTrue(player1.getBuildAction() instanceof DefaultBuild);
+
+        assertTrue(player1.getMoveAction() instanceof MinotaurMove);
+        assertTrue(player.getMoveAction() instanceof DefaultMove);
+
+        assertTrue(player1.getTurn() instanceof DefaultTurn);
+        assertTrue(player.getTurn() instanceof PrometheusTurn);
+
+        assertTrue(player.getWinAction() instanceof DefaultWin);
+        assertTrue(player1.getWinAction() instanceof DefaultWin);
+
+    }
+
+    @Test
+    public void setCardPlayer3() {
+        Board board = new Board();
+        God god1 = God.HEPHAESTUS;
+        God god2 = God.DEMETER;
+        God god3 = God.ATLAS;
+        Game session = new Game("Pippo", "Pluto","Pino", board, false);
+        Player player = session.getPlayers().get(0);
+        Player player1 = session.getPlayers().get(1);
+        Player player2 = session.getPlayers().get(2);
+        player.setCard(god1);
+        player1.setCard(god2);
+        player2.setCard(god3);
+        assertTrue(player.getBuildAction() instanceof DefaultBuild);
+        assertTrue(player1.getBuildAction() instanceof DefaultBuild);
+        assertTrue(player2.getBuildAction() instanceof AtlasBuild);
+
+        assertTrue(player.getMoveAction() instanceof DefaultMove);
+        assertTrue(player1.getMoveAction() instanceof DefaultMove);
+        assertTrue(player2.getMoveAction() instanceof DefaultMove);
+
+        assertTrue(player.getTurn() instanceof HephaestusTurn);
+        assertTrue(player1.getTurn() instanceof DemeterTurn);
+        assertTrue(player2.getTurn() instanceof DefaultTurn);
+
+        assertTrue(player.getWinAction() instanceof DefaultWin);
+        assertTrue(player1.getWinAction() instanceof DefaultWin);
+        assertTrue(player2.getWinAction() instanceof DefaultWin);
+    }
+
+
 }

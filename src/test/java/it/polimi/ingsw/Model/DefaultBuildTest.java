@@ -26,6 +26,7 @@ public class DefaultBuildTest {
         assertEquals(3,board.getBox(1,0).getBlock().getValue());
         builder.build(worker,1,0);
         assertEquals(4,board.getBox(1,0).getBlock().getValue());
+        assertEquals(player.getColor().getValue(),1);
     }
     @Test (expected = RuntimeException.class)
     public void noBuildOverDome() {

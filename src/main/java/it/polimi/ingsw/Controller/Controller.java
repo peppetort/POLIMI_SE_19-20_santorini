@@ -276,7 +276,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 	private void performEnd(PlayerEndMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
-		task.cancel();
+		try {
+			task.cancel();
+		}catch(NullPointerException e){}
 
 		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.END)) {

@@ -95,6 +95,26 @@ public class ApolloMoveTest {
         assertEquals((int)worker2.getYPos(), 3);
     }
 
+    @Test(expected = RuntimeException.class)
+    public void moveApolloTooFar() {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Worker workerPlayer1 = player1.getWorker1();
+        Worker workerPlayer2 = player2.getWorker1();
+        Box boxPlayer1 = board.getBox(2,2);
+        Box boxPlayer2 = board.getBox(2, 3);
+        boxPlayer1.setPawn(workerPlayer1);
+        workerPlayer1.setPos(2,2);
+        boxPlayer2.setPawn(workerPlayer2);
+        workerPlayer2.setPos(2,3);
+        Move moveAction = new ApolloMove(player1);
+        moveAction.move(workerPlayer1, 4, 4);
+
+
+    }
+
     @Test
     public void movePawnNotPlaced() {
         Board board = new Board();
