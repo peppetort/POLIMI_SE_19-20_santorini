@@ -1,14 +1,19 @@
 package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.Client.Client;
+import it.polimi.ingsw.Client.Status;
+import it.polimi.ingsw.ClientGUIApp;
 import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
-import it.polimi.ingsw.Messages.InvalidChoiceMessage;
-import it.polimi.ingsw.Messages.SessionListMessage;
-import it.polimi.ingsw.Messages.SuccessfulCreate;
-import it.polimi.ingsw.Messages.SuccessfulJoin;
+import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+
+import java.io.IOException;
 
 public class MainController extends Observable<Object> implements Observer<Object> {
 
@@ -64,6 +69,24 @@ public class MainController extends Observable<Object> implements Observer<Objec
                 }
             } else if (msg instanceof InvalidChoiceMessage){
                 playingStageController.handleException((InvalidChoiceMessage)msg);
+            }else if (msg instanceof Status){
+                if(msg.equals(Status.WON)){
+                    Platform.runLater(() ->{
+                        try{
+                            AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("Win.fxml"));
+                            Scene scene = new Scene(pane,1280,720);
+                            ClientGUIApp.window.setScene(scene);
+                        }catch (IOException e){}
+                    });
+                } else{
+                    Platform.runLater(() ->{
+                        try{
+                            AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("Lose.fxml"));
+                            Scene scene = new Scene(pane,1280,720);
+                            ClientGUIApp.window.setScene(scene);
+                        }catch (IOException e){}
+                    });
+                }
             }
     }
 
