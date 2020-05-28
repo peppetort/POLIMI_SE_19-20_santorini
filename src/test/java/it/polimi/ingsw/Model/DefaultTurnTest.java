@@ -216,4 +216,22 @@ public class DefaultTurnTest {
         assertEquals(board.getBox(4,4).getBlock(), Block.LONE);
     }
 
+    @Test
+    public void Undo(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.move(0, 1);
+        turn.build(0,0);
+        turn.undo();
+        assertEquals(player.getPlayerMenu().get(Actions.SELECT),true);
+    }
+
 }
