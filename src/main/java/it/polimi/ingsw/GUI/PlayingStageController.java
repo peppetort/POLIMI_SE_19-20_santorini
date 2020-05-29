@@ -28,15 +28,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -67,11 +61,11 @@ public class PlayingStageController implements Initializable {
 	public Label actionType;
 	public Text actionDescription;
 
-	private String godNameLabel;
-	private Image podiumGodImage;
-	private Image powerIconImage;
-	private String actionTypeLabel;
-	private String actionDescriptionLabel;
+	private static String godNameLabel;
+	private static Image podiumGodImage;
+	private static Image powerIconImage;
+	private static String actionTypeLabel;
+	private static String actionDescriptionLabel;
 
 	private boolean open = false;
 
@@ -79,7 +73,7 @@ public class PlayingStageController implements Initializable {
 	public TextField chatText;
 	public Button sendButton;
 
-	private JSONObject jsonObject;
+
 
 	private static MainController mainController;
 
@@ -449,69 +443,15 @@ public class PlayingStageController implements Initializable {
 		messages.add("Error: " + message.getMessage() + "\n");
 	}
 
-	public void handleCardChoice(God selected) {
-		JSONParser parser = new JSONParser();
+	public static void handleCardChoice(God selected) {
 
-		try {
-			URL jsonURL = getClass().getClassLoader().getResource("gods.json");
-			assert jsonURL != null;
-			File file = new File(jsonURL.getFile());
-			String path = URLDecoder.decode(file.toString(), "UTF-8");
+		GodObject god = new GodObject(selected);
+		godNameLabel = god.getGodNameLabel();
+		podiumGodImage = god.getPodiumGodImage();
+		powerIconImage = god.getPowerIconImage();
+		actionTypeLabel = god.getActionTypeLabel();
+		actionDescriptionLabel = god.getActionDescriptionLabel();
 
-			jsonObject = (JSONObject) parser.parse(new FileReader(path));
-
-		} catch (ParseException | IOException e) {
-			e.printStackTrace();
-		}
-
-		JSONObject actionType = (JSONObject) jsonObject.get(selected.toString());
-		JSONObject actionDescription = (JSONObject) jsonObject.get(selected.toString());
-
-		godNameLabel = selected.toString();
-		actionTypeLabel = actionType.get("type").toString();
-		actionDescriptionLabel = actionDescription.get("description").toString();
-
-		switch (selected) {
-			case APOLLO:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Apolo.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0044_god_and_hero_powers0014.png")).toExternalForm());
-				break;
-			case ARTEMIS:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Artemis.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0048_god_and_hero_powers0010.png")).toExternalForm());
-				break;
-			case ATHENA:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Athena.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0050_god_and_hero_powers0008.png")).toExternalForm());
-				break;
-			case ATLAS:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Atlas.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0049_god_and_hero_powers0009.png")).toExternalForm());
-				break;
-			case DEMETER:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Demeter.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0052_god_and_hero_powers0006.png")).toExternalForm());
-				break;
-			case HEPHAESTUS:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Hephaestus.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0052_god_and_hero_powers0006.png")).toExternalForm());
-				break;
-			case MINOTAUR:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Minotaur.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0009_god_and_hero_powers0049.png")).toExternalForm());
-				break;
-			case PAN:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Pan.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0056_god_and_hero_powers0002.png")).toExternalForm());
-				break;
-			case PROMETHEUS:
-				podiumGodImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/podium-characters-Prometheus.png")).toExternalForm());
-				powerIconImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0005_god_and_hero_powers0053.png")).toExternalForm());
-				break;
-			default:
-				podiumGodImage = null;
-				powerIconImage = null;
-		}
 	}
 
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Client.Client;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,6 +32,10 @@ public class ClientGUIApp extends Application {
             //window.setResizable(false);
             window.setTitle("Santorini");
             window.show();
+            window.setOnCloseRequest(e -> {
+                Platform.exit();
+                System.exit(0);
+            });
 
         }catch (Exception e){
             System.err.println(e.getMessage());

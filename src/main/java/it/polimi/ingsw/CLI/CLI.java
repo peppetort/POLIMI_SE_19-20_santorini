@@ -58,12 +58,12 @@ public class CLI extends Observable<Object> implements Observer {
 								System.out.print("\n");
 								System.out.println("> DECK GOD1 GOD2 [GOD33] to choose the available cards for the players (GOD3 only if this is a 3 players match).");
 								System.out.println("> CARD GOD to choose your card. (Choose from the available cards selected by player one).");
-								System.out.println("> PLACE x1 y1 x2 y2 to place your two pawns: pawn 1 will be placed in column number x1 and row y1 (same for the second pawn).");
+								System.out.println("> PLACE x1 y1 x2 y2 to place your two pawns: pawn 1 will be placed in y number x1 and x y1 (same for the second pawn).");
 								System.out.println("> SELECT 1||2 to select the pawn that will act: you can only choose one pawn.");
-								System.out.println("> MOVE x y to move the selected pawn in the spot x (column) - y (row). It has to be a legal move or you will have to redo.");
-								System.out.println("> BUILD x y to build in the spot x (column) - y (row). It has to be a legal move or you will have to redo.");
+								System.out.println("> MOVE x y to move the selected pawn in the spot x (y) - y (x). It has to be a legal move or you will have to redo.");
+								System.out.println("> BUILD x y to build in the spot x (y) - y (x). It has to be a legal move or you will have to redo.");
 								System.out.println("> END to pass the turn.");
-								System.out.println("> UNDO to redo your turn: you will be thrown to select your pawn. If you have built something you have to UNDO your move before the 5-seconds timer ends or you will" +
+								System.out.println("> UNDO to redo your turn: you will be thxn to select your pawn. If you have built something you have to UNDO your move before the 5-seconds timer ends or you will" +
 										"pass the turn automatically.");
 								System.out.print("\n");
 								input = reader.nextLine();
