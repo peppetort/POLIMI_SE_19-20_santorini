@@ -33,9 +33,12 @@ public class Client extends Observable implements Observer<Object> {
 
 	private CLI cli;
 
-	public Client(String ip, int port) {
+	private final int mode;
+
+	public Client(String ip, int port, int mode) {
 		this.ip = ip;
 		this.port = port;
+		this.mode = mode;
 	}
 
 	public void startClient() throws IOException {
@@ -44,23 +47,25 @@ public class Client extends Observable implements Observer<Object> {
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 
-		mc = new MainController();
-		mc.addObserver(this);
-		this.addObserver(mc);
+		if (mode == 0) {
+			mc = new MainController();
+			mc.addObserver(this);
+			this.addObserver(mc);
 
-		mc.setClient(this);
+			mc.setClient(this);
 
-		JoinMenuController.setMainController(mc);
-		CreateMenuController.setMainController(mc);
-		PlayingStageController.setMainController(mc);
-		//WaitController.setMainController(mc);
-		AllCardsMenuController.setMainController(mc);
-		SelectCardMenuController.setMainController(mc);
-
-//		cli = new CLI(this);
-//		cli.addObserver(this);
-//		this.addObserver(cli);
-//		notify(0);
+			JoinMenuController.setMainController(mc);
+			CreateMenuController.setMainController(mc);
+			PlayingStageController.setMainController(mc);
+			//WaitController.setMainController(mc);
+			AllCardsMenuController.setMainController(mc);
+			SelectCardMenuController.setMainController(mc);
+		} else {
+			cli = new CLI(this);
+			cli.addObserver(this);
+			this.addObserver(cli);
+			notify(0);
+		}
 
 		try {
 			reader.start();
@@ -76,22 +81,26 @@ public class Client extends Observable implements Observer<Object> {
 			while (connected) {
 				try {
 					inputObject = in.readObject();
-					if (inputObject instanceof String || inputObject instanceof SuccessfulJoin|| inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof SuccessfulCreate) {
+					if (inputObject instanceof String || inputObject instanceof SuccessfulJoin || inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof SuccessfulCreate) {
 						notify(inputObject);
 					} else if (inputObject instanceof ClientInitMessage) {
-						notify(0);
 						String username = ((ClientInitMessage) inputObject).getUsername();
 						ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();
 						status = new ClientStatus(username, players.get(0), players.size());
 						board = new ClientBoard(players);
-//						cli.setClientBoard(board);
-//						cli.setClientStatus(status);
-//						status.addObserver(cli);
-//						board.addObserver(cli);
-						System.out.print("CLIENT INIT");
-						status.addObserver(mc);
-						board.addObserver(mc);
 
+						if (mode == 0) {
+							notify(0);
+							System.out.print("CLIENT INIT");
+							status.addObserver(mc);
+							board.addObserver(mc);
+						} else {
+							cli.setClientBoard(board);
+							cli.setClientStatus(status);
+							status.addObserver(cli);
+							board.addObserver(cli);
+
+						}
 
 
 					} else if (inputObject instanceof TurnUpdateMessage) {
@@ -118,9 +127,9 @@ public class Client extends Observable implements Observer<Object> {
 					} else if (inputObject instanceof WinMessage) {
 						String winUser = ((WinMessage) inputObject).getUsername();
 						status.setWinner(winUser);
-						if(this.getStatus().getUsername().equals(winUser)) {
+						if (this.getStatus().getUsername().equals(winUser)) {
 							notify(Status.WON);
-						}else{
+						} else {
 							notify(Status.LOST);
 						}
 					} else if (inputObject instanceof LostMessage) {
@@ -128,7 +137,7 @@ public class Client extends Observable implements Observer<Object> {
 						Color loserColor = ((LostMessage) inputObject).getColor();
 						status.lose(loser);
 						board.lose(loserColor);
-						if(this.getStatus().getUsername().equals(loser)) {
+						if (this.getStatus().getUsername().equals(loser)) {
 							notify(Status.LOST);
 						}
 					} else if (inputObject instanceof DeckUpdateMessage) {

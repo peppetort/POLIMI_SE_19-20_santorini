@@ -181,7 +181,7 @@ public class CLI extends Observable<Object> implements Observer {
 					if (isEmptyInput(input)) {
 						correct = false;
 					} else {
-						username = input.toUpperCase();
+						username = input;
 						correct = true;
 					}
 					break;
@@ -192,7 +192,7 @@ public class CLI extends Observable<Object> implements Observer {
 					if (isEmptyInput(input)) {
 						correct = false;
 					} else {
-						session = input.toUpperCase();
+						session = input;
 						correct = true;
 					}
 					break;
@@ -261,7 +261,7 @@ public class CLI extends Observable<Object> implements Observer {
 				String input = reader.nextLine();
 
 				if (!isEmptyInput(input)) {
-					username = input.toUpperCase();
+					username = input;
 					correct = true;
 				} else {
 					correct = false;
@@ -281,7 +281,7 @@ public class CLI extends Observable<Object> implements Observer {
 					input = reader.nextLine();
 
 					if (!isEmptyInput(input)) {
-						session = input.toUpperCase();
+						session = input;
 						if (participants.containsKey(session)) {
 							correct = true;
 							notify(new PlayerSelectSession(session, username));
