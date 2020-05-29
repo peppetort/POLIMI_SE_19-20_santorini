@@ -2,7 +2,6 @@ package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.Client.Status;
-import it.polimi.ingsw.ClientGUIApp;
 import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
 import it.polimi.ingsw.Messages.*;
@@ -10,12 +9,8 @@ import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class MainController extends Observable<Object> implements Observer<Object> {
 
@@ -61,7 +56,7 @@ public class MainController extends Observable<Object> implements Observer<Objec
             } else if (msg instanceof SuccessfulJoin) {
                 joinController.handleStart();
             } else if (msg instanceof InvalidUsernameException) {
-                joinController.handleException((Exception)msg);
+                joinController.handleException((InvalidUsernameException)msg);
             } else if (msg instanceof ChatUpdateMessage) {
                 PlayingStageController.handleChatUpdate((ChatUpdateMessage)msg);
             } else if (msg instanceof Integer){

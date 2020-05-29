@@ -88,19 +88,21 @@ public class JoinMenuController implements Initializable {
         });
     }
 
-    public void handleException(Exception e){
+    public static void handleException(Exception e){
         if(e instanceof InvalidUsernameException){
             System.out.println("Invalid username");
 //            SessionObject obj;
 //            obj = sessionsTable.getSelectionModel().getSelectedItem();
-            Platform.runLater(() -> {
-                try {
-                    String username = new UsernameDialog().display();
-                    mainController.notify(new PlayerSelectSession(session,username));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-            });
+                Platform.runLater(() -> {
+                    try {
+                        String username = new UsernameDialog().displayError();
+                        if(username.length() > 0) {
+                            mainController.notify(new PlayerSelectSession(session, username));
+                        }
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                });
         }
     }
 

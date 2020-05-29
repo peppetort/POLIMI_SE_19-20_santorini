@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.CLI.CLI;
+import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
+import it.polimi.ingsw.Exceptions.InvalidUsernameException;
 import it.polimi.ingsw.GUI.*;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Actions;
@@ -15,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-//TODO: BISOGNA FARE IL CONTROLLO CLI / GUI PER VEDERE QUALI OBSERVER FARE O MENO
+//TODO: CONTROLLARE CHE VENGANO CONTROLLATE TUTTE LE TIPOLOGIE DI MESAGGIO IN ENTRATA POSSIBILI
 
 public class Client extends Observable implements Observer<Object> {
 
@@ -152,6 +154,8 @@ public class Client extends Observable implements Observer<Object> {
 						// ristabilisce la visione della board all'inizio del turno
 						board.restore(x, y, player, worker, level);
 					} else if (inputObject instanceof ChatUpdateMessage) {
+						notify(inputObject);
+					} else if (inputObject instanceof InvalidUsernameException || inputObject instanceof AlreadyExistingSessionException){
 						notify(inputObject);
 					}
 				} catch (IOException | ClassNotFoundException e) {
