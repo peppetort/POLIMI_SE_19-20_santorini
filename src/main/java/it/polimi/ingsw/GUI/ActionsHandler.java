@@ -27,17 +27,21 @@ public class ActionsHandler {
        int x = playingStageController.x;
        int y = playingStageController.y;
 
-        switch(mainController.client.getStatus().getColor()){
-            case GREEN:
-                playingStageController.greenPawns[x][y].setOpacity(1);
-                break;
-            case RED:
-                playingStageController.redPawns[x][y].setOpacity(1);
-                break;
-            case BLUE:
-                playingStageController.bluePawns[x][y].setOpacity(1);
-                break;
-        }
+       if(mainController.client.getBoard().getBoard()[x][y].getPlayer() == null) {
+           switch (mainController.client.getStatus().getColor()) {
+               case GREEN:
+                   playingStageController.greenPawns[x][y].setOpacity(1);
+                   break;
+               case RED:
+                   playingStageController.redPawns[x][y].setOpacity(1);
+                   break;
+               case BLUE:
+                   playingStageController.bluePawns[x][y].setOpacity(1);
+                   break;
+           }
+       }else{
+           placeCounter = 0;
+       }
         if(placeCounter == 1){
             indexForPlace[0] = x; //x1
             indexForPlace[1] = y;    //y1
