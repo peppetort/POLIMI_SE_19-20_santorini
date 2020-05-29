@@ -70,16 +70,16 @@
     -fx-background-size: contain;
 }
 
-.toggle-button {
-    -fx-background-image: url("../img/om_btnInactive.png");
+.toggle-cards {
+    -fx-background-image: url("../img/Destroy.png");
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: contain;
 }
 
-.toggle-button:selected {
-    -fx-background-image: url("../img/om_btnActive.png");
+.toggle-cards:selected {
+    -fx-background-image: url("../img/Done.png");
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -197,4 +197,86 @@
 
 .obscure {
     -fx-background-color: rgba(54, 54, 54, 0.75);
+}
+
+
+.box > *:hover{
+/*    -fx-background-image: url("../img/Default-Particle.png  ");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;*/
+    -fx-background-color: yellow;
+}
+
+.undo-button {
+    -fx-background-image: url("../img/cm_btn_green.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.undo-button:pressed {
+    -fx-background-image: url("../img/cm_btn_green_pressed.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.end-button {
+    -fx-background-image: url("../img/cm_btn_coral.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.end-button:pressed {
+    -fx-background-image: url("../img/cm_btn_coral_pressed.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.send-button {
+    -fx-background-image: url("../img/SendLog.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.send-button:pressed {
+    -fx-background-image: url("../img/button-credits-down.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.chat {
+    -fx-background-color: transparent;
+}
+
+.chat .content {
+    -fx-background-color: text-area-background ;
+}
+
+.actionLabel {
+    -fx-background-color: transparent;
+    -fx-font-size: 18px;
+}
+
+.actionLabelSelected {
+    -fx-background-image: url("../img/featured_god_frame_blue.png");
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-color: #3378CA;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: stretch;
+    -fx-text-fill: whitesmoke;
 }

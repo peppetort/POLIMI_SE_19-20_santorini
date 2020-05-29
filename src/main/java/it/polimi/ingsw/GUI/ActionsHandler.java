@@ -11,7 +11,7 @@ public class ActionsHandler {
     PlayingStageController playingStageController;
 
     int placeCounter;
-    int indexForPlace[];
+    int[] indexForPlace;
 
     public ActionsHandler(MainController mc,PlayingStageController ps){
         mainController = mc;
@@ -24,8 +24,8 @@ public class ActionsHandler {
 
        placeCounter ++;
 
-       int x = playingStageController.x;
-       int y = playingStageController.y;
+       int x = PlayingStageController.x;
+       int y = PlayingStageController.y;
 
        if(mainController.client.getBoard().getBoard()[x][y].getPlayer() == null) {
            switch (mainController.client.getStatus().getColor()) {
@@ -55,7 +55,7 @@ public class ActionsHandler {
     }
 
     public void handleBuild(ActionEvent actionEvent){
-        mainController.notify(new PlayerBuildMessage(playingStageController.x,playingStageController.y));
+        mainController.notify(new PlayerBuildMessage(PlayingStageController.x, PlayingStageController.y));
     }
 
     public void handleSelect(ActionEvent actionEvent){
@@ -68,7 +68,7 @@ public class ActionsHandler {
     }
 
     public void handleMove(ActionEvent e){
-        mainController.notify(new PlayerMoveMessage(playingStageController.x,playingStageController.y));
+        mainController.notify(new PlayerMoveMessage(PlayingStageController.x, PlayingStageController.y));
         e.consume();
     }
 

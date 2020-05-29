@@ -15,12 +15,18 @@ public class ClientStatus extends Observable {
 	private ArrayList<Actions> actions;
 	private final ArrayList<String> messages = new ArrayList<>();
 	private ArrayList<God> deck;
+	private int playersNumber;
 
 
-	public ClientStatus(String username, Color color) {
+	public ClientStatus(String username, Color color, int playersNumber) {
 		this.username = username;
 		this.color = color;
 		this.actions = new ArrayList<>();
+		this.playersNumber = playersNumber;
+	}
+
+	public int getPlayersNumber(){
+		return playersNumber;
 	}
 
 	public String getCard() {

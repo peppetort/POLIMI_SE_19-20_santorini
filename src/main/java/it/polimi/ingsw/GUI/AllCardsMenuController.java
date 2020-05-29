@@ -52,8 +52,7 @@ public class AllCardsMenuController implements Initializable {
 
 	public God selected;
 	public ArrayList<God> added = new ArrayList<>();
-	//TODO: trovare modo per passare il numero di giocatori
-	public final int playersNumber = 2;
+	public final int playersNumber = mainController.client.getStatus().getPlayersNumber();
 
 	private static MainController mainController = new MainController();
 
@@ -61,6 +60,7 @@ public class AllCardsMenuController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+
 		JSONParser parser = new JSONParser();
 		try {
 			URL jsonURL = getClass().getClassLoader().getResource("gods.json");
@@ -157,7 +157,7 @@ public class AllCardsMenuController implements Initializable {
 
 	}
 
-	public void handleAdd(ActionEvent actionEvent) {
+	public void handleAdd() {
 		ToggleButton godButton;
 
 		switch (selected) {
@@ -214,14 +214,14 @@ public class AllCardsMenuController implements Initializable {
 	}
 
 
-	public void handleConfirm(ActionEvent actionEvent) {
+	public void handleConfirm() {
 		mainController.notify(new PlayerDeckMessage(added));
 		Platform.runLater(() -> {
 			try {
-				AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("PlayingStage.fxml"));
-				Scene scene = new Scene(pane,1280,720);
+				AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("PlayingStage.fxml")));
+				Scene scene = new Scene(pane, 1166, 778);
 				ClientGUIApp.window.setScene(scene);
-			}catch(IOException e){}
+			}catch(IOException ignored){}
 		});
 	}
 }

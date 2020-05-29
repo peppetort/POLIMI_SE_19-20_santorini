@@ -69,10 +69,6 @@ public class SelectCardMenuController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-//		godsChosen.put(God.APOLLO, true);
-//		godsChosen.put(God.PAN, false);
-//		godsChosen.put(God.ATHENA, false);
-
 
 		ArrayList<God> deck = mainController.client.getStatus().getDeck();
 		for(God g: deck){
@@ -312,12 +308,13 @@ public class SelectCardMenuController implements Initializable {
 
 	public void handleConfirm(ActionEvent actionEvent) {
 		mainController.notify(new PlayerCardChoiceMessage(selected));
+		mainController.setCard(selected);
 		Platform.runLater(() -> {
 			try{
-				AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("PlayingStage.fxml"));
-				Scene scene = new Scene(pane,1280,720);
+				AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("PlayingStage.fxml")));
+				Scene scene = new Scene(pane, 1166, 778);
 				ClientGUIApp.window.setScene(scene);
-			}catch (IOException e){}
+			}catch (IOException ignored){}
 		});
 	}
 }

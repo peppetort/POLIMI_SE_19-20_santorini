@@ -6,6 +6,7 @@ import it.polimi.ingsw.ClientGUIApp;
 import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
 import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
 import javafx.application.Platform;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainController extends Observable<Object> implements Observer<Object> {
 
@@ -34,6 +36,10 @@ public class MainController extends Observable<Object> implements Observer<Objec
         playingStageController = new PlayingStageController();
         waitController = new WaitController();
         playing = false;
+    }
+
+    public void setCard(God card){
+        playingStageController.handleCardChoice(card);
     }
 
     public void setClient(Client client) {
@@ -57,36 +63,34 @@ public class MainController extends Observable<Object> implements Observer<Objec
             } else if (msg instanceof InvalidUsernameException) {
                 joinController.handleException((Exception)msg);
             } else if (msg instanceof ChatUpdateMessage) {
-                playingStageController.handleChatUpdate((ChatUpdateMessage)msg);
+                PlayingStageController.handleChatUpdate((ChatUpdateMessage)msg);
             } else if (msg instanceof Integer){
                 if((int)msg == 0){
                     waitController.handleStart();
                 }
                 else if((int)msg == 2 ){
                     try {
-                        playingStageController.setActionLabel(client.getStatus().getActions());
-                    }catch(NullPointerException e){}
+                        PlayingStageController.setActionLabel(client.getStatus().getActions());
+                    }catch(NullPointerException ignored){}
                 }else if((int)msg == 1){
-                    playingStageController.updateBoard();
+                    PlayingStageController.updateBoard();
                 }
             } else if (msg instanceof InvalidChoiceMessage){
-                playingStageController.handleException((InvalidChoiceMessage)msg);
+                PlayingStageController.handleException((InvalidChoiceMessage)msg);
             }else if (msg instanceof Status){
                 if(msg.equals(Status.WON)){
                     Platform.runLater(() ->{
                         try{
-                            AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("Win.fxml"));
-                            Scene scene = new Scene(pane,1280,720);
-                            ClientGUIApp.window.setScene(scene);
-                        }catch (IOException e){}
+                            EndController dialog = new EndController();
+                            dialog.display(true);
+                        }catch (IOException ignored){}
                     });
                 } else{
                     Platform.runLater(() ->{
                         try{
-                            AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("Lose.fxml"));
-                            Scene scene = new Scene(pane,1280,720);
-                            ClientGUIApp.window.setScene(scene);
-                        }catch (IOException e){}
+                            EndController dialog = new EndController();
+                            dialog.display(false);
+                        }catch (IOException ignored){}
                     });
                 }
             }

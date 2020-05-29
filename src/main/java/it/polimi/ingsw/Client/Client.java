@@ -53,7 +53,7 @@ public class Client extends Observable implements Observer<Object> {
 		JoinMenuController.setMainController(mc);
 		CreateMenuController.setMainController(mc);
 		PlayingStageController.setMainController(mc);
-		WaitController.setMainController(mc);
+		//WaitController.setMainController(mc);
 		AllCardsMenuController.setMainController(mc);
 		SelectCardMenuController.setMainController(mc);
 
@@ -82,7 +82,7 @@ public class Client extends Observable implements Observer<Object> {
 						notify(0);
 						String username = ((ClientInitMessage) inputObject).getUsername();
 						ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();
-						status = new ClientStatus(username, players.get(0));
+						status = new ClientStatus(username, players.get(0), players.size());
 						board = new ClientBoard(players);
 //						cli.setClientBoard(board);
 //						cli.setClientStatus(status);

@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class JoinMenuController implements Initializable {
@@ -61,13 +62,13 @@ public class JoinMenuController implements Initializable {
     }
 
     public void handleBack() throws IOException{
-            AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("StartMenu.fxml"));
+            AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
         Scene scene = new Scene(pane, 715, 776);
             ClientGUIApp.window.setScene(scene);
     }
 
     public void handleJoin() throws IOException {
-        this.session = sessionsTable.getSelectionModel().getSelectedItem().name;
+        session = sessionsTable.getSelectionModel().getSelectedItem().name;
         UsernameDialog dialog = new UsernameDialog();
         String username = dialog.display();
         if(username != null && username.length() >= 1) {
@@ -79,11 +80,11 @@ public class JoinMenuController implements Initializable {
         Platform.runLater(() ->{
             try {
                 if(!mainController.isPlaying()) {
-                    AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("Wait.fxml"));
-                    Scene scene = new Scene(pane, 1280, 720);
+                    AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("Wait.fxml")));
+                    Scene scene = new Scene(pane, 953, 511);
                     ClientGUIApp.window.setScene(scene);
                 }
-            }catch (IOException e){}
+            }catch (IOException ignored){}
         });
     }
 

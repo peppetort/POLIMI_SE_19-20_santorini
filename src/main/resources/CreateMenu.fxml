@@ -50,6 +50,11 @@
       </ImageView>
       <AnchorPane layoutX="186.0" layoutY="126.0" prefHeight="499.0" prefWidth="346.0">
          <children>
+            <ImageView fitHeight="52.0" fitWidth="49.0" layoutX="195.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/om_btnActive.png" />
+               </image>
+            </ImageView>
             <Label layoutX="75.0" layoutY="64.0" text="Session name">
                <font>
                   <Font size="28.0" />
@@ -79,7 +84,7 @@
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Label layoutX="91.0" layoutY="252.0" text="Cards">
+            <Label layoutX="110.0" layoutY="260.0" text="Cards">
                <font>
                   <Font size="28.0" />
                </font>
@@ -89,7 +94,7 @@
                   <Font size="28.0" />
                </font>
             </Label>
-            <ToggleButton fx:id="cardBox" layoutX="197.0" layoutY="249.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="42.0" />
+            <ToggleButton fx:id="cardBox" layoutX="200.0" layoutY="260.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="39.0" styleClass="toggle-cards" />
             <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="161.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/Toggle_Background.png" />
@@ -115,8 +120,8 @@
             </RadioButton>
          </children>
       </AnchorPane>
-      <Button onAction="#handleBack" layoutX="46.0" layoutY="676.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="62.0" styleClass="back-button" />
-      <Button onAction="#handleCreate" layoutX="233.0" layoutY="676.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="249.0" styleClass="create-button" text="Create" textFill="WHITE">
+      <Button layoutX="46.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="62.0" prefWidth="62.0" styleClass="back-button" />
+      <Button layoutX="233.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="62.0" prefWidth="249.0" styleClass="create-button" text="Create" textFill="WHITE">
          <font>
             <Font size="22.0" />
          </font>

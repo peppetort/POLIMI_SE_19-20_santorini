@@ -7,34 +7,39 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="451.0" stylesheets="@css/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.EndController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.0" prefWidth="425.0" stylesheets="@css/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.EndController">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="265.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="463.0" fitWidth="491.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_sky.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="239.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/endgame_victorycloudleft.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-13.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/endgame_victorycloudright.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="381.0" fitWidth="292.0" layoutX="100.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="381.0" fitWidth="292.0" layoutX="59.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/endgame_victorywin.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="134.0" fitWidth="121.0" layoutX="305.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="134.0" fitWidth="121.0" layoutX="279.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/endgame_victorytrumpets.png" />
          </image>
       </ImageView>
-      <Label layoutX="177.0" layoutY="196.0" prefHeight="47.0" prefWidth="139.0" text="You Win">
+      <Label layoutX="136.0" layoutY="189.0" prefHeight="47.0" prefWidth="139.0" text="You Win">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <Button onAction="#handleEnd" layoutX="187.0" layoutY="269.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="119.0" styleClass="create-button" text="Main Menu" textFill="WHITE">
+      <Button layoutX="146.0" layoutY="252.0" mnemonicParsing="false" onAction="#handleEnd" prefHeight="34.0" prefWidth="119.0" styleClass="create-button" text="Main Menu" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font></Button>

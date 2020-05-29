@@ -3,10 +3,8 @@ package it.polimi.ingsw.GUI;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -23,7 +21,7 @@ public class UsernameDialog {
     public String display() throws IOException {
         AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("UsernameDialog.fxml")));
         Scene scene = new Scene(pane);
-        //dialog.setResizable(false);
+        dialog.setResizable(false);
         dialog.setScene(scene);
         dialog.initModality(Modality.APPLICATION_MODAL);
 

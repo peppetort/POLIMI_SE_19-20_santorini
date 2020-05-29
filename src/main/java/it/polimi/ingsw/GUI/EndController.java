@@ -4,30 +4,44 @@ package it.polimi.ingsw.GUI;
 import it.polimi.ingsw.ClientGUIApp;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Objects;
 
 
-public class EndController implements Initializable {
+public class EndController{
 
-	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle) {
+	Stage dialog = new Stage();
 
+	public void display(boolean win) throws IOException {
+
+		AnchorPane pane;
+
+		if(win){
+			pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("Win.fxml")));
+		}else {
+			pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("Lose.fxml")));
+		}
+		Scene scene = new Scene(pane);
+		dialog.setResizable(false);
+		dialog.setScene(scene);
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.showAndWait();
 	}
 
 	public void handleEnd(){
 		Platform.runLater(() -> {
 			try {
-				AnchorPane pane = FXMLLoader.load(getClass().getClassLoader().getResource("StartMenu.fxml"));
-				Scene scene = new Scene(pane, 1280, 720);
+				AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
+				Scene scene = new Scene(pane, 715, 776);
 				ClientGUIApp.window.setScene(scene);
-			}catch (IOException e){}
+			}catch (IOException ignored){}
 		});
+		dialog.close();
 	}
 
 }
