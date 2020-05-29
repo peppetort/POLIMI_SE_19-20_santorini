@@ -142,6 +142,8 @@ public class Client extends Observable implements Observer<Object> {
 						int level = ((BoardUndoMessage) inputObject).getLevel();
 						// ristabilisce la visione della board all'inizio del turno
 						board.restore(x, y, player, worker, level);
+					} else if (inputObject instanceof ChatUpdateMessage) {
+						notify(inputObject);
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					connected = false;

@@ -66,4 +66,9 @@ public abstract class View extends Observable<Message> implements Observer<Messa
         notify(message);
     }
 
+    public void handleChat(Message message) {
+        ((PlayerChatMessage)message).setPlayer(player);
+        notify(message);
+    }
+
 }

@@ -3,7 +3,6 @@ package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Color;
-import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Server.ClientConnection;
@@ -37,6 +36,8 @@ public class RemoteView extends View {
                     handleUndo(message);
                 }else if(message instanceof PlayerBuildDomeMessage){
                     handleBuildDome(message);
+                }else if(message instanceof PlayerChatMessage){
+                    handleChat(message);
                 }
 
 
@@ -101,7 +102,9 @@ public class RemoteView extends View {
             clientConnection.send(message);
         }else if(message instanceof InvalidChoiceMessage){
             clientConnection.send(message);
-        }else {
+        }else if(message instanceof ChatUpdateMessage){
+            clientConnection.send(message);
+        } else {
             System.err.println("Malformed message: " + message.toString());
         }
     }

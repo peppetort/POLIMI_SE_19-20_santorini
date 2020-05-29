@@ -3,13 +3,16 @@ package it.polimi.ingsw.GUI;
 import it.polimi.ingsw.Client.Box;
 import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.ClientGUIApp;
+import it.polimi.ingsw.Messages.ChatUpdateMessage;
 import it.polimi.ingsw.Messages.InvalidChoiceMessage;
+import it.polimi.ingsw.Messages.PlayerChatMessage;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -51,6 +54,8 @@ public class PlayingStageController implements Initializable {
     public Button undoButton;
 
     public TextArea chatField;
+    public TextField chatText;
+    public Button sendButton;
 
     private static MainController mainController;
 
@@ -90,7 +95,7 @@ public class PlayingStageController implements Initializable {
 
         messages.addListener((ListChangeListener.Change<? extends String> change) -> {
             if(change.next()){
-                chatField.appendText(change.toString());
+                chatField.appendText(change.getAddedSubList().get(0)+"\n");
             }
         });
 
@@ -433,6 +438,16 @@ public class PlayingStageController implements Initializable {
         }catch (NullPointerException e){
         }
 
+    }
+
+    @FXML
+    private void handleSend(){
+        mainController.notify(new PlayerChatMessage(chatText.getText()));
+        chatText.setText("");
+    }
+
+    public static void handleChatUpdate(ChatUpdateMessage msg){
+        messages.add(msg.getMessage());
     }
 
     public static void handleException(InvalidChoiceMessage message){

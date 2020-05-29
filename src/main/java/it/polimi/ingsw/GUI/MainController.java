@@ -56,6 +56,8 @@ public class MainController extends Observable<Object> implements Observer<Objec
                 joinController.handleStart();
             } else if (msg instanceof InvalidUsernameException) {
                 joinController.handleException((Exception)msg);
+            } else if (msg instanceof ChatUpdateMessage) {
+                playingStageController.handleChatUpdate((ChatUpdateMessage)msg);
             } else if (msg instanceof Integer){
                 if((int)msg == 0){
                     waitController.handleStart();

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model;
 
 
 import it.polimi.ingsw.Exceptions.SimpleGameException;
+import it.polimi.ingsw.Messages.ChatUpdateMessage;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Observer.Observable;
 
@@ -92,6 +93,10 @@ public class Game extends Observable<Message> {
         }catch (NullPointerException | IndexOutOfBoundsException ignored){}
 
         players.remove(player);
+    }
+
+    public void updateChat(Player player,String message){
+        notify(new ChatUpdateMessage(player,message));
     }
 
 

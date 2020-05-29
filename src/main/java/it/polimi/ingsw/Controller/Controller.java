@@ -462,6 +462,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		}
 	}
 
+	private void performChatUpdate(PlayerChatMessage message){
+		game.updateChat(message.getPlayer(),message.getMessage());
+	}
 
 	@Override
 	public void update(Message message) {
@@ -495,6 +498,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		}
 		if (message instanceof PlayerUndoMessage) {
 			performUndo((PlayerUndoMessage) message);
+		}
+		if (message instanceof PlayerChatMessage) {
+			performChatUpdate((PlayerChatMessage) message);
 		}
 	}
 }
