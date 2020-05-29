@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class EndController{
 
-	Stage dialog = new Stage();
+	static Stage dialog = new Stage();
 
 	public void display(boolean win) throws IOException {
 
@@ -34,6 +34,7 @@ public class EndController{
 	}
 
 	public void handleEnd(){
+		dialog.close();
 		Platform.runLater(() -> {
 			try {
 				AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
@@ -41,7 +42,6 @@ public class EndController{
 				ClientGUIApp.window.setScene(scene);
 			}catch (IOException ignored){}
 		});
-		dialog.close();
 	}
 
 }

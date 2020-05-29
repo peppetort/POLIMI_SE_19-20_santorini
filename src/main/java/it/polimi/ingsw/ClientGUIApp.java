@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class ClientGUIApp extends Application {
 
-    Client client = new Client("127.0.0.1", 12346);
+    Client client = new Client("127.0.0.1", 12346, 0);
     public static Stage window = new Stage();
 
     public static void main(String[] args){
