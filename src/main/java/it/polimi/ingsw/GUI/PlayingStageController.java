@@ -261,7 +261,7 @@ public class PlayingStageController implements Initializable {
 								undoLabel.getStyleClass().remove("actionLabel");
 								undoLabel.getStyleClass().add("actionLabelSelected");
 								break;
-							case BUILD_DOME:
+							case DOME:
 								buildDomeLabel.getStyleClass().remove("actionLabel");
 								buildDomeLabel.getStyleClass().add("actionLabelSelected");
 								break;
@@ -300,7 +300,7 @@ public class PlayingStageController implements Initializable {
 								undoLabel.getStyleClass().remove("actionLabelSelected");
 								undoLabel.getStyleClass().add("actionLabel");
 								break;
-							case BUILD_DOME:
+							case DOME:
 								buildDomeLabel.getStyleClass().remove("actionLabelSelected");
 								buildDomeLabel.getStyleClass().add("actionLabel");
 								break;

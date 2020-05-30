@@ -41,64 +41,63 @@ public class CLI extends Observable<Object> implements Observer {
 		return input.replaceAll("\\s+", "").equals("");
 	}
 
-	private Thread takeInput() {
-		return new Thread(() -> {
-				boolean valid;
-				do {
-					valid = true;
-					String input;
-					String[] data;
-					Actions action;
-					System.out.println("Insert action || type help for the list of commands:");
-					System.out.print("> ");
-					try {
-						input = reader.nextLine();
-						if(!isEmptyInput(input)) {
-							if (input.toUpperCase().equals("HELP")) {
-								System.out.print("\n");
-								System.out.println("> DECK GOD1 GOD2 [GOD33] to choose the available cards for the players (GOD3 only if this is a 3 players match).");
-								System.out.println("> CARD GOD to choose your card. (Choose from the available cards selected by player one).");
-								System.out.println("> PLACE x1 y1 x2 y2 to place your two pawns: pawn 1 will be placed in y number x1 and x y1 (same for the second pawn).");
-								System.out.println("> SELECT 1||2 to select the pawn that will act: you can only choose one pawn.");
-								System.out.println("> MOVE x y to move the selected pawn in the spot x (y) - y (x). It has to be a legal move or you will have to redo.");
-								System.out.println("> BUILD x y to build in the spot x (y) - y (x). It has to be a legal move or you will have to redo.");
-								System.out.println("> END to pass the turn.");
-								System.out.println("> UNDO to redo your turn: you will be thxn to select your pawn. If you have built something you have to UNDO your move before the 5-seconds timer ends or you will" +
-										"pass the turn automatically.");
-								System.out.print("\n");
-								input = reader.nextLine();
-								System.out.print("> ");
-							}
-							data = input.split(" ");
-							action = Actions.valueOf(data[0].toUpperCase());
-							switch (action) {
-								case UNDO:
-									notify(new PlayerUndoMessage());
-									break;
-								case BUILD:
-									notify(new PlayerBuildMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-									break;
-								case END:
-									notify(new PlayerEndMessage());
-									break;
-								case MOVE:
-									notify(new PlayerMoveMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
-									break;
-								case PLACE:
-									notify(new PlayerPlacePawnsMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])));
-									break;
-								case SELECT:
-									notify(new PlayerSelectMessage(Integer.parseInt(data[1])));
-									break;
-								case CARD:
-									notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
-									break;
-								case DECK:
-									ArrayList<God> deck = new ArrayList<>();
-									for (String s : data) {
-										if (!s.equals(data[0])) {
-											deck.add(God.valueOf(s.toUpperCase()));
-										}
+	private void takeInput() {
+		inputThread = new Thread(() -> {
+			boolean valid;
+			do {
+				valid = true;
+				String input;
+				String[] data;
+				Actions action;
+				System.out.println("Insert action || type help for the list of commands:");
+				System.out.print("> ");
+				try {
+					input = reader.nextLine();
+					if (!isEmptyInput(input)) {
+						if (input.toUpperCase().equals("HELP")) {
+							System.out.print("\n");
+							System.out.println("> DECK GOD1 GOD2 [GOD33] to choose the available cards for the players (GOD3 only if this is a 3 players match).");
+							System.out.println("> CARD GOD to choose your card. (Choose from the available cards selected by player one).");
+							System.out.println("> PLACE x1 y1 x2 y2 to place your two pawns: pawn 1 will be placed in y number x1 and x y1 (same for the second pawn).");
+							System.out.println("> SELECT 1||2 to select the pawn that will act: you can only choose one pawn.");
+							System.out.println("> MOVE x y to move the selected pawn in the spot x (y) - y (x). It has to be a legal move or you will have to redo.");
+							System.out.println("> BUILD x y to build in the spot x (y) - y (x). It has to be a legal move or you will have to redo.");
+							System.out.println("> END to pass the turn.");
+							System.out.println("> UNDO to redo your turn: you will be thxn to select your pawn. If you have built something you have to UNDO your move before the 5-seconds timer ends or you will" +
+									"pass the turn automatically.");
+							System.out.print("\n");
+							input = reader.nextLine();
+							System.out.print("> ");
+						}
+						data = input.split(" ");
+						action = Actions.valueOf(data[0].toUpperCase());
+						switch (action) {
+							case UNDO:
+								notify(new PlayerUndoMessage());
+								break;
+							case BUILD:
+								notify(new PlayerBuildMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+								break;
+							case END:
+								notify(new PlayerEndMessage());
+								break;
+							case MOVE:
+								notify(new PlayerMoveMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+								break;
+							case PLACE:
+								notify(new PlayerPlacePawnsMessage(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])));
+								break;
+							case SELECT:
+								notify(new PlayerSelectMessage(Integer.parseInt(data[1])));
+								break;
+							case CARD:
+								notify(new PlayerCardChoiceMessage(God.valueOf(data[1].toUpperCase())));
+								break;
+							case DECK:
+								ArrayList<God> deck = new ArrayList<>();
+								for (String s : data) {
+									if (!s.equals(data[0])) {
+										deck.add(God.valueOf(s.toUpperCase()));
 									}
 								}
 								notify(new PlayerDeckMessage(deck));
@@ -110,16 +109,16 @@ public class CLI extends Observable<Object> implements Observer {
 								valid = false;
 						}
 					}else{
-						valid = false;
-					}
-				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
 					valid = false;
-				} catch (IndexOutOfBoundsException ignored) {
 				}
-			} while (!threadStop && !valid);
-		});
+			} catch(ArrayIndexOutOfBoundsException | IllegalArgumentException e){
+				valid = false;
+			} catch(IndexOutOfBoundsException ignored){
+			}
+		} while (!threadStop && !valid) ;
+	});
 		inputThread.start();
-	}
+}
 
 	private void startMenu() {
 		try {
@@ -341,19 +340,19 @@ public class CLI extends Observable<Object> implements Observer {
 		} else if (message instanceof SessionListMessage) {
 			join((SessionListMessage) message);
 		} else if (message instanceof InvalidUsernameException) {
-			System.out.println("- " +((InvalidUsernameException) message).getMessage());
+			System.out.println("- " + ((InvalidUsernameException) message).getMessage());
 			notify(new PlayerRetrieveSessions());
 		} else if (message instanceof AlreadyExistingSessionException) {
-			System.out.println("- " +((AlreadyExistingSessionException) message).getMessage());
+			System.out.println("- " + ((AlreadyExistingSessionException) message).getMessage());
 			notify(new PlayerRetrieveSessions());
 		} else if (message instanceof SessionNotExistsException) {
-			System.out.println("- " +((SessionNotExistsException) message).getMessage());
+			System.out.println("- " + ((SessionNotExistsException) message).getMessage());
 			notify(new PlayerRetrieveSessions());
 		} else if (message instanceof InvalidPlayersNumberException) {
-			System.out.println("- " +((InvalidPlayersNumberException) message).getMessage());
+			System.out.println("- " + ((InvalidPlayersNumberException) message).getMessage());
 			create();
 		} else if (message instanceof InvalidChoiceMessage) {
-			System.out.println("- " +((InvalidChoiceMessage) message).getMessage());
+			System.out.println("- " + ((InvalidChoiceMessage) message).getMessage());
 			takeInput();
 		} else {
 			System.out.println(message);

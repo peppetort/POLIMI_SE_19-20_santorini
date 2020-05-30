@@ -9,7 +9,7 @@ public enum Actions {
     MOVE ("MOVE"),
     BUILD ("BUILD"),
     END ("END"),
-    BUILD_DOME ("BUILD_DOME");
+    DOME ("DOME");
 
     public final String value;
 
