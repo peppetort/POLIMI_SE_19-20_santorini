@@ -73,8 +73,6 @@ public class PlayingStageController implements Initializable {
 	public TextField chatText;
 	public Button sendButton;
 
-
-
 	private static MainController mainController;
 
 	static MenuButton[][] menu = new MenuButton[5][5];

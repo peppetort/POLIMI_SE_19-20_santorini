@@ -29,9 +29,9 @@ public class ClientGUIApp extends Application {
             window.setScene(scene);
             //window.setFullScreen(true);
             //window.setMaximized(true);
-            //window.setResizable(false);
             window.setTitle("Santorini");
             window.show();
+            //window.setResizable(false);
             window.setOnCloseRequest(e -> {
                 Platform.exit();
                 System.exit(0);

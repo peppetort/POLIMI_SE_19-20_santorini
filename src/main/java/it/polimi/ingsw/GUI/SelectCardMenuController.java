@@ -11,19 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -58,7 +51,6 @@ public class SelectCardMenuController implements Initializable {
 	public ImageView powerIcon;
 
 	public Scene scene;
-	private JSONObject jsonObject;
 	private God selected;
 	private God chosen;
 	private final HashMap<God, Boolean> godsChosen = new HashMap<>();
@@ -74,21 +66,6 @@ public class SelectCardMenuController implements Initializable {
 		for(God g: deck){
 			godsChosen.put(g, false);
 		}
-
-		JSONParser parser = new JSONParser();
-
-		try {
-			URL jsonURL = getClass().getClassLoader().getResource("gods.json");
-			assert jsonURL != null;
-			File file = new File(jsonURL.getFile());
-			String path = URLDecoder.decode(file.toString(), "UTF-8");
-
-			jsonObject = (JSONObject) parser.parse(new FileReader(path));
-
-		} catch (ParseException | IOException e) {
-			e.printStackTrace();
-		}
-
 
 		for (God god : godsChosen.keySet()) {
 			switch (god) {
@@ -171,57 +148,18 @@ public class SelectCardMenuController implements Initializable {
 
 
 	public void handleSelect(ActionEvent actionEvent) {
+
 		selected = God.valueOf(((ToggleButton) actionEvent.getSource()).getId().toUpperCase());
-		Image godImage;
-		Image powerIcon;
 
-		JSONObject actionType = (JSONObject) jsonObject.get(selected.toString());
-		JSONObject actionDescription = (JSONObject) jsonObject.get(selected.toString());
-
-		godName.setText(selected.toString());
-		this.actionType.setText(actionType.get("type").toString());
-		this.actionDescription.setText(actionDescription.get("description").toString());
-
-		switch (selected) {
-			case APOLLO:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0043_god_and_hero_cards_0013_apollo.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0044_god_and_hero_powers0014.png")).toExternalForm());
-				break;
-			case ARTEMIS:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0054_god_and_hero_cards_0002_Artemis.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0048_god_and_hero_powers0010.png")).toExternalForm());
-				break;
-			case ATHENA:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0052_god_and_hero_cards_0004_Athena.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0050_god_and_hero_powers0008.png")).toExternalForm());
-				break;
-			case ATLAS:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0053_god_and_hero_cards_0003_Atlas.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0049_god_and_hero_powers0009.png")).toExternalForm());
-				break;
-			case DEMETER:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0050_god_and_hero_cards_0006_Demeter.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0052_god_and_hero_powers0006.png")).toExternalForm());
-				break;
-			case HEPHAESTUS:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0009_god_and_hero_cards_0047_Hephaestus.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0052_god_and_hero_powers0006.png")).toExternalForm());
-				break;
-			case MINOTAUR:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0008_god_and_hero_cards_0048_Minotaur.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0009_god_and_hero_powers0049.png")).toExternalForm());
-				break;
-			case PAN:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0046_god_and_hero_cards_0010_Pan.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0056_god_and_hero_powers0002.png")).toExternalForm());
-				break;
-			case PROMETHEUS:
-				godImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/full_0000s_0004_god_and_hero_cards_0052_Prometheus.png")).toExternalForm());
-				powerIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("img/_0000s_0005_god_and_hero_powers0053.png")).toExternalForm());
-				break;
-			default:
-				godImage = null;
-				powerIcon = null;
+		try {
+			GodObject god = new GodObject(selected);
+			this.godImage.setImage(god.getCardGodImage());
+			this.powerIcon.setImage(god.getPowerIconImage());
+			this.actionType.setText(god.getActionTypeLabel());
+			this.actionDescription.setText(god.getActionDescriptionLabel());
+			this.godName.setText(god.getGodNameLabel());
+		}catch (NullPointerException e){
+			e.printStackTrace();
 		}
 
 		if(!godsChosen.get(selected)) {
@@ -243,9 +181,6 @@ public class SelectCardMenuController implements Initializable {
 		}else {
 			addRemoveButton.setVisible(false);
 		}
-
-		this.godImage.setImage(godImage);
-		this.powerIcon.setImage(powerIcon);
 
 	}
 
@@ -306,7 +241,7 @@ public class SelectCardMenuController implements Initializable {
 	}
 
 
-	public void handleConfirm(ActionEvent actionEvent) {
+	public void handleConfirm() {
 		mainController.notify(new PlayerCardChoiceMessage(selected));
 		mainController.setCard(selected);
 		Platform.runLater(() -> {
