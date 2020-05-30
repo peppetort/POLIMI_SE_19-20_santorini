@@ -26,6 +26,7 @@ public class DefaultBuildTest {
         assertEquals(3,board.getBox(1,0).getBlock().getValue());
         builder.build(worker,1,0);
         assertEquals(4,board.getBox(1,0).getBlock().getValue());
+        assertEquals(player.getColor().getValue(),1);
     }
     @Test (expected = RuntimeException.class)
     public void noBuildOverDome() {
@@ -69,11 +70,13 @@ public class DefaultBuildTest {
         Player player = new Player("Marco", game, Color.BLUE);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker1 = player.getWorker1();
-        Worker worker2 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
         board.placePawn(worker1,0,0);
-        board.placePawn(worker2,0,1);
-        builder.build(worker1,0,1);
+        board.placePawn(worker2,1,1);
+        builder.build(worker1,1,1);
     }
+
+
 
 
 

@@ -15,11 +15,18 @@ public class ClientStatus extends Observable {
 	private ArrayList<Actions> actions;
 	private final ArrayList<String> messages = new ArrayList<>();
 	private ArrayList<God> deck;
+	private int playersNumber;
 
 
-	public ClientStatus(String username, Color color) {
+	public ClientStatus(String username, Color color, int playersNumber) {
 		this.username = username;
 		this.color = color;
+		this.actions = new ArrayList<>();
+		this.playersNumber = playersNumber;
+	}
+
+	public int getPlayersNumber(){
+		return playersNumber;
 	}
 
 	public String getCard() {
@@ -64,10 +71,9 @@ public class ClientStatus extends Observable {
 
 	public synchronized void updateTurn(String player) {
 		this.turn = player;
-
 		if (!turn.equals(username)) {
 			messages.add("Wait your turn");
-			//print();
+			actions.clear();
 			notify(2);
             messages.clear();
 		}
@@ -107,25 +113,18 @@ public class ClientStatus extends Observable {
 	}
 
 	public synchronized void updateAction(ArrayList<Actions> actions) {
-		this.actions = actions;
 
-		if (actions.get(0).equals(Actions.DECK)) {
-			//  printAllCards();
-			notify(3);
-		} else if (actions.get(0).equals(Actions.CARD)) {
-			//  printDeck();
-			notify(4);
-		} else if (actions.get(0).equals(Actions.PLACE)) {
-			notify(1);
-		}else if(!actions.get(0).equals(Actions.SELECT)) {
-			messages.clear();
-		}
-		try {
-			if (turn.equals(username)) {
-				notify(2);
+			this.actions = actions;
+			if (actions.get(0).equals(Actions.DECK)) {
+				notify(3);
+			} else if (actions.get(0).equals(Actions.CARD)) {
+				notify(4);
+			} else if (actions.get(0).equals(Actions.PLACE)) {
+				notify(1);
+			} else if (!actions.get(0).equals(Actions.SELECT)) {
+				messages.clear();
 			}
-		}catch(NullPointerException e){notify(2);}
-
+		notify(2);
 	}
 
 

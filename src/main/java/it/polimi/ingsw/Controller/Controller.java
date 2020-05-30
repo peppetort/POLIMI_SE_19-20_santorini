@@ -282,7 +282,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 	private void performEnd(PlayerEndMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
-		task.cancel();
+		try {
+			task.cancel();
+		}catch(NullPointerException e){}
 
 		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.END)) {
@@ -411,7 +413,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
 						InvalidChoiceMessage invalidMessage = new InvalidChoiceMessage("Can't place pawns here! The positions chosen are already occupied");
 						player.notify(invalidMessage);
 					} else {
-
 						try {
 							board.initializePawn(worker1, worker2, worker1X, worker1Y, worker2X, worker2Y);
 							updateTurn();
@@ -467,6 +468,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		}
 	}
 
+	private void performChatUpdate(PlayerChatMessage message){
+		game.updateChat(message.getPlayer(),message.getMessage());
+	}
 
 	@Override
 	public void update(Message message) {
@@ -500,6 +504,9 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		}
 		if (message instanceof PlayerUndoMessage) {
 			performUndo((PlayerUndoMessage) message);
+		}
+		if (message instanceof PlayerChatMessage) {
+			performChatUpdate((PlayerChatMessage) message);
 		}
 	}
 }

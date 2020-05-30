@@ -6,8 +6,6 @@ import it.polimi.ingsw.Model.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -87,6 +85,46 @@ public class ControllerTest {
 
     }
 
+    @Test
+    public void DefaultTurnGodGameAtlasBuild() {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        ArrayList<God> god=new ArrayList<>();
+        god.add(God.ATLAS);
+        god.add(God.PAN);
+        message=new PlayerDeckMessage(player1,god);
+        controller.update(message);
+        message = new PlayerCardChoiceMessage(player2,God.ATLAS);
+        controller.update(message);
+        message = new PlayerCardChoiceMessage(player1,God.PAN);
+        controller.update(message);
+
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
+        controller.update(message);
+        message = new PlayerSelectMessage(player2, player2.getWorker1());
+        controller.update(message);
+        message = new PlayerBuildDomeMessage(player2, 1, 0);
+        controller.update(message);
+        assertEquals(board.getBox(0, 0).getBlock(), Block.TERRAIN);
+        message = new PlayerMoveMessage(player2, 1, 0);
+        controller.update(message);
+        message = new PlayerBuildDomeMessage(player2, 0, 0);
+        controller.update(message);
+
+        assertEquals(board.getBox(0, 0).getBlock(), Block.DOME);
+
+        message = new PlayerSelectMessage(player1, player1.getWorker1());
+        controller.update(message);
+        message = new PlayerBuildDomeMessage(player1, 4, 3);
+        controller.update(message);
+
+    }
 
     @Test
     public void DefaultTurnSimpleGameEnd() {
@@ -225,6 +263,233 @@ public class ControllerTest {
         controller.update(message);
 
     }
+
+    @Test
+    public void BuildDeckError3Card2Player() {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        ArrayList<God> god=new ArrayList<>();
+        god.add(God.ATLAS);
+        god.add(God.PAN);
+        god.add(God.APOLLO);
+        message=new PlayerDeckMessage(player1,god);
+        controller.update(message);
+        assertEquals(controller.getCards().size(),0);
+    }
+
+    @Test
+    public void BuildDeckErrorNoBuildDeckInAction() {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        ArrayList<God> god=new ArrayList<>();
+        god.add(God.ATLAS);
+        god.add(God.PAN);
+        message=new PlayerDeckMessage(player1,god);
+        controller.update(message);
+        message = new PlayerCardChoiceMessage(player2,God.ATLAS);
+        controller.update(message);
+        message=new PlayerDeckMessage(player1,god);
+        controller.update(message);
+    }
+
+    @Test
+    public void BuildDeckErrorIsSimple() {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        ArrayList<God> god=new ArrayList<>();
+        god.add(God.ATLAS);
+        god.add(God.PAN);
+        message=new PlayerDeckMessage(player1,god);
+        controller.update(message);
+        message = new PlayerCardChoiceMessage(player2,God.ATLAS);
+        controller.update(message);
+        message=new PlayerDeckMessage(player1,god);
+        controller.update(message);
+        assertEquals(controller.getCards().size(),0);
+    }
+
+    @Test
+    public void Undo()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+
+        message = new PlayerUndoMessage(player2);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
+        controller.update(message);
+        message = new PlayerSelectMessage(player2, player2.getWorker1());
+        controller.update(message);
+        message = new PlayerMoveMessage(player2, 1, 0);
+        controller.update(message);
+        message = new PlayerBuildMessage(player2, 0, 0);
+        controller.update(message);
+
+        assertEquals(board.getBox(0, 0).getBlock(), Block.LONE);
+        message = new PlayerUndoMessage(player2);
+        controller.update(message);
+        assertEquals(board.getBox(0, 0).getBlock(), Block.TERRAIN);
+        assertEquals(board.getBox(1, 0).getPawn(), null);
+        assertEquals(board.getBox(0, 0).getPawn(), player2.getWorker1());
+    }
+
+    @Test
+    public void CantEnd()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        message = new PlayerUndoMessage(player2);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
+        controller.update(message);
+        message = new PlayerSelectMessage(player2, player2.getWorker1());
+        controller.update(message);
+        message=new PlayerEndMessage(player2);
+        controller.update(message);
+    }
+
+    @Test
+    public void CantStart()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        message = new PlayerUndoMessage(player2);
+        controller.update(message);
+        message = new PlayerSelectMessage(player2, player2.getWorker1());
+        controller.update(message);
+
+    }
+    @Test
+    public void CantMove()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
+        controller.update(message);
+        message = new PlayerMoveMessage(player2,1,1);
+        controller.update(message);
+
+    }
+    @Test
+    public void WinAfterMove()
+    {
+        Board board = new Board();
+        board.build(0,0,Block.LTWO);
+        board.build(0,1,Block.LTHREE);
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
+        controller.update(message);
+        message = new PlayerSelectMessage(player2, player2.getWorker1());
+        controller.update(message);
+        message=new PlayerMoveMessage(player2,0,1);
+        controller.update(message);
+    }
+
+    @Test
+    public void CantBuild()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
+        controller.update(message);
+        message = new PlayerBuildMessage(player2,1,1);
+        controller.update(message);
+
+    }
+    @Test
+    public void CantPlace()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 0, 0, 4, 4);
+        controller.update(message);
+        assertEquals(board.getBox(0,0).getPawn(),player2.getWorker1());
+
+    }
+
+    @Test
+    public void TestTimeTask() {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
+        controller.update(message);
+        message = new PlayerSelectMessage(player2, player2.getWorker1());
+        controller.update(message);
+        message = new PlayerMoveMessage(player2, 1, 0);
+        controller.update(message);
+        message = new PlayerBuildMessage(player2, 0, 0);
+        controller.update(message);
+
+        assertEquals(board.getBox(0, 0).getBlock(), Block.LONE);
+        try {
+            synchronized (this){
+                this.wait(6000);
+            }
+            assertEquals(controller.getTurn().get(player2),false);
+        }catch(Exception e){}
+
+
+    }
+
 
 
 }

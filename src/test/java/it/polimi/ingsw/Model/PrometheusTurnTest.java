@@ -87,4 +87,118 @@ public class PrometheusTurnTest {
         turn.build(0, 0);
     }
 
+    @Test(expected = RuntimeException.class)
+    public void PrometheusCantBuildYouHaveToStart(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new PrometheusTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.build(0, 1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void prometheusTurnCantBuild(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new PrometheusTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.move(0, 1);
+        turn.build(0, 0);
+        turn.build(0, 2);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void prometheusTurnCantMove(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new PrometheusTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.move(0, 1);
+        turn.move(0, 0);
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void PrometheusCantMoveYouHaveToStart(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new PrometheusTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.move(0, 1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void PrometheusTurnDoubleStart(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new PrometheusTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker2);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+    }
+    @Test(expected = RuntimeException.class)
+    public void PrometheusTurnSelectedCantMakeAnyMove(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        board.build(0,1,Block.DOME);
+        board.build(1,1,Block.DOME);
+        board.build(1,0,Block.DOME);
+        Turn turn = new PrometheusTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void PrometheusTurnCantMakeAnyMove(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        board.build(0,1,Block.DOME);
+        board.build(1,1,Block.DOME);
+        board.build(1,0,Block.DOME);
+
+        board.build(3,3,Block.DOME);
+        board.build(4,3,Block.DOME);
+        board.build(3,4,Block.DOME);
+        Turn turn = new PrometheusTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+    }
 }

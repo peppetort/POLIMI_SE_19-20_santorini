@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="511.0" prefWidth="953.0" stylesheets="@css/standard.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.GUI.AllCardsMenuController">
+    <children>
+        <ImageView fitHeight="614.0" fitWidth="265.0" layoutX="-109.0" layoutY="-28.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/bg_panelEdgeRight.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="391.0" fitWidth="249.0" layoutX="183.0" layoutY="67.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/bg_panelMid.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="godImage" fitHeight="313.0" fitWidth="218.0" layoutX="412.0" layoutY="57.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0000_god_and_hero_cards_0057_Human.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="88.0" fitWidth="241.0" layoutX="178.0" layoutY="326.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/panel_heroPower.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="550.0" fitWidth="241.0" layoutX="156.0" layoutY="-28.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/fg_panel1.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="347.0" fitWidth="282.0" layoutX="634.0" layoutY="57.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/bg_panelMid.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="542.0" fitWidth="312.0" layoutX="397.0" layoutY="-28.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/fg_panel2.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="542.0" fitWidth="297.0" layoutX="638.0" layoutY="-28.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/fg_panel3.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="391.0" fitWidth="249.0" layoutX="897.0" layoutY="45.0" pickOnBounds="true"
+                   preserveRatio="true" AnchorPane.bottomAnchor="122.95623779296875" AnchorPane.leftAnchor="897.0"
+                   AnchorPane.rightAnchor="-193.0" AnchorPane.topAnchor="45.0">
+            <image>
+                <Image url="@img/bg_panelMid.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="583.0" fitWidth="249.0" layoutX="879.0" layoutY="-38.0" pickOnBounds="true"
+                   preserveRatio="true" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="879.0"
+                   AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="-44.0">
+            <image>
+                <Image url="@img/fg_panel2.png"/>
+            </image>
+        </ImageView>
+        <Label fx:id="godName" layoutX="244.0" layoutY="95.0">
+            <font>
+                <Font size="19.0"/>
+            </font>
+        </Label>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="649.0" layoutY="79.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0043_god_and_hero_cards_0013_apollo.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="apollo" layoutX="630.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleSelect"
+                      prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle">
+            <toggleGroup>
+                <ToggleGroup fx:id="god"/>
+            </toggleGroup>
+        </ToggleButton>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="724.0" layoutY="79.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0054_god_and_hero_cards_0002_Artemis.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="artemis" layoutX="705.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleSelect"
+                      prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle" toggleGroup="$god"/>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="799.0" layoutY="79.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0052_god_and_hero_cards_0004_Athena.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="athena" layoutX="780.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleSelect"
+                      prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle" toggleGroup="$god"/>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="649.0" layoutY="183.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0053_god_and_hero_cards_0003_Atlas.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="atlas" layoutX="630.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleSelect"
+                      prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle" toggleGroup="$god"/>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="724.0" layoutY="183.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0050_god_and_hero_cards_0006_Demeter.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="demeter" layoutX="705.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleSelect"
+                      prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle" toggleGroup="$god"/>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="799.0" layoutY="183.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0009_god_and_hero_cards_0047_Hephaestus.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="hephaestus" layoutX="780.0" layoutY="171.0" mnemonicParsing="false"
+                      onAction="#handleSelect" prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle"
+                      toggleGroup="$god"/>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="649.0" layoutY="290.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0008_god_and_hero_cards_0048_Minotaur.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="minotaur" layoutX="630.0" layoutY="278.0" mnemonicParsing="false" onAction="#handleSelect"
+                      prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle" toggleGroup="$god"/>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="724.0" layoutY="290.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0046_god_and_hero_cards_0010_Pan.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="pan" layoutX="705.0" layoutY="278.0" mnemonicParsing="false" onAction="#handleSelect"
+                      prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle" toggleGroup="$god"/>
+        <ImageView fitHeight="95.0" fitWidth="70.0" layoutX="799.0" layoutY="290.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@img/_0000s_0004_god_and_hero_cards_0052_Prometheus.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="prometheus" layoutX="780.0" layoutY="278.0" mnemonicParsing="false"
+                      onAction="#handleSelect" prefHeight="119.0" prefWidth="99.0" styleClass="god-toggle"
+                      toggleGroup="$god"/>
+        <Button fx:id="addRemoveButton" layoutX="456.0" layoutY="404.0" mnemonicParsing="false" onAction="#handleAdd"
+                prefHeight="37.0" prefWidth="122.0" styleClass="create-button" text="Add" textFill="WHITE">
+            <font>
+                <Font size="19.0"/>
+            </font>
+        </Button>
+        <Button fx:id="confirmButton" layoutX="689.0" layoutY="404.0" mnemonicParsing="false" onAction="#handleConfirm"
+                prefHeight="38.0" prefWidth="122.0" styleClass="confirm-button" text="Confirm" textFill="WHITE"
+                visible="false">
+            <font>
+                <Font size="19.0"/>
+            </font>
+        </Button>
+        <ScrollPane layoutX="193.0" layoutY="136.0" prefHeight="220.0" prefWidth="206.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="213.0" prefWidth="199.0">
+                    <children>
+                        <Label fx:id="actionType" layoutX="7.0" layoutY="6.0">
+                            <font>
+                                <Font name="System Bold" size="17.0"/>
+                            </font>
+                        </Label>
+                        <Text fx:id="actionDescription" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE"
+                              strokeWidth="0.0" wrappingWidth="173.7294921875">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+        <ImageView fx:id="powerIcon" fitHeight="53.0" fitWidth="155.0" layoutX="232.0" layoutY="344.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

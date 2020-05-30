@@ -58,4 +58,26 @@ public class BoardTest {
         board.placePawn(w,1,5);
     }
 
+    @Test (expected = RuntimeException.class)
+    public void initializePawnError() {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 =player.getWorker1();
+        Worker worker2 =player.getWorker2();
+        board.initializePawn(worker1,worker2,1,1,1,1);
+    }
+    @Test
+        public void initializePawn() {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 =player.getWorker1();
+        Worker worker2 =player.getWorker2();
+        board.initializePawn(worker1,worker2,1,1,2,2);
+        assertEquals((int)worker1.getXPos(),1);
+        assertEquals((int)worker1.getYPos(),1);
+        assertEquals((int)worker2.getXPos(),2);
+        assertEquals((int)worker2.getYPos(),2);
+    }
 }

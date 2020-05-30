@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.CLI.CLI;
+import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
+import it.polimi.ingsw.Exceptions.InvalidUsernameException;
+import it.polimi.ingsw.GUI.*;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
@@ -14,11 +17,15 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+//TODO: CONTROLLARE CHE VENGANO CONTROLLATE TUTTE LE TIPOLOGIE DI MESAGGIO IN ENTRATA POSSIBILI
+
 public class Client extends Observable implements Observer<Object> {
 
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+
+	MainController mc;
 
 	private final String ip;
 	private final int port;
@@ -28,9 +35,12 @@ public class Client extends Observable implements Observer<Object> {
 
 	private CLI cli;
 
-	public Client(String ip, int port) {
+	private final int mode;
+
+	public Client(String ip, int port, int mode) {
 		this.ip = ip;
 		this.port = port;
+		this.mode = mode;
 	}
 
 	public void startClient() throws IOException {
@@ -38,16 +48,32 @@ public class Client extends Observable implements Observer<Object> {
 		socket = new Socket(ip, port);
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
-		cli = new CLI(this);
-		cli.addObserver(this);
-		this.addObserver(cli);
-		notify(0);
+
+		if (mode == 0) {
+			mc = new MainController();
+			mc.addObserver(this);
+			this.addObserver(mc);
+
+			mc.setClient(this);
+
+			JoinMenuController.setMainController(mc);
+			CreateMenuController.setMainController(mc);
+			PlayingStageController.setMainController(mc);
+			//WaitController.setMainController(mc);
+			AllCardsMenuController.setMainController(mc);
+			SelectCardMenuController.setMainController(mc);
+		} else {
+			cli = new CLI(this);
+			cli.addObserver(this);
+			this.addObserver(cli);
+			notify(0);
+		}
+
 		try {
 			reader.start();
 		} catch (RuntimeException e) {
 			System.err.println(e.getMessage());
 		}
-
 	}
 
 	public Thread asyncReadFromSocket() {
@@ -57,19 +83,31 @@ public class Client extends Observable implements Observer<Object> {
 			while (connected) {
 				try {
 					inputObject = in.readObject();
-					if (inputObject instanceof String || inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof Exception) {
+					if (inputObject instanceof String || inputObject instanceof SuccessfulJoin || inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof SuccessfulCreate) {
 						notify(inputObject);
 					} else if (inputObject instanceof ClientInitMessage) {
 						String username = ((ClientInitMessage) inputObject).getUsername();
 						ArrayList<Color> players = ((ClientInitMessage) inputObject).getPlayers();
-						status = new ClientStatus(username, players.get(0));
+						status = new ClientStatus(username, players.get(0), players.size());
 						board = new ClientBoard(players);
-						cli.setClientBoard(board);
-						cli.setClientStatus(status);
-						status.addObserver(cli);
-						board.addObserver(cli);
+
+						if (mode == 0) {
+							notify(0);
+							System.out.print("CLIENT INIT");
+							status.addObserver(mc);
+							board.addObserver(mc);
+						} else {
+							cli.setClientBoard(board);
+							cli.setClientStatus(status);
+							status.addObserver(cli);
+							board.addObserver(cli);
+
+						}
+
+
 					} else if (inputObject instanceof TurnUpdateMessage) {
 						String username = ((TurnUpdateMessage) inputObject).getUsername();
+						System.out.print("turn update");
 						status.updateTurn(username);
 					} else if (inputObject instanceof ActionsUpdateMessage) {
 						ArrayList<Actions> actions = ((ActionsUpdateMessage) inputObject).getActions();
@@ -91,11 +129,19 @@ public class Client extends Observable implements Observer<Object> {
 					} else if (inputObject instanceof WinMessage) {
 						String winUser = ((WinMessage) inputObject).getUsername();
 						status.setWinner(winUser);
+						if (this.getStatus().getUsername().equals(winUser)) {
+							notify(Status.WON);
+						} else {
+							notify(Status.LOST);
+						}
 					} else if (inputObject instanceof LostMessage) {
 						String loser = ((LostMessage) inputObject).getUsername();
 						Color loserColor = ((LostMessage) inputObject).getColor();
 						status.lose(loser);
 						board.lose(loserColor);
+						if (this.getStatus().getUsername().equals(loser)) {
+							notify(Status.LOST);
+						}
 					} else if (inputObject instanceof DeckUpdateMessage) {
 						ArrayList<God> deck = ((DeckUpdateMessage) inputObject).getDeck();
 						status.updateDeck(deck);
@@ -107,6 +153,10 @@ public class Client extends Observable implements Observer<Object> {
 						int level = ((BoardUndoMessage) inputObject).getLevel();
 						// ristabilisce la visione della board all'inizio del turno
 						board.restore(x, y, player, worker, level);
+					} else if (inputObject instanceof ChatUpdateMessage) {
+						notify(inputObject);
+					} else if (inputObject instanceof InvalidUsernameException || inputObject instanceof AlreadyExistingSessionException){
+						notify(inputObject);
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					connected = false;

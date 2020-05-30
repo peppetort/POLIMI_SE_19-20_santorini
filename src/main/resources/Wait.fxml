@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="953.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.WaitController">
+   <children>
+      <ImageView fitHeight="760.0" fitWidth="964.0" layoutX="-11.0" layoutY="-124.0" pickOnBounds="true">
+         <image>
+            <Image url="@img/title_sky.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="672.0" fitWidth="968.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_water.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="364.0" fitWidth="965.0" layoutX="-2.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_FG_grass.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="167.0" fitWidth="249.0" layoutX="-11.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_FG_cloud2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="82.0" fitWidth="45.0" layoutX="285.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_boat_left.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bottomBoat" fitHeight="109.0" fitWidth="117.0" layoutX="471.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_boat_bottom.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="rightCloud" fitHeight="150.0" fitWidth="200.0" layoutX="666.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/title_cloud_back_right.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="hourGlass1" fitHeight="106.0" fitWidth="64.0" layoutX="41.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/hourglassEmpty_1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="hourGlass2" fitHeight="47.0" fitWidth="29.0" layoutX="59.0" layoutY="406.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/hourglassSand2_1.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

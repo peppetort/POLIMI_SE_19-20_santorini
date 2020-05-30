@@ -8,7 +8,7 @@ public class ClientTest {
 
     @Test
     public void prova(){
-        Client prova = new Client("127.0.0.1", 12346);
+        Client prova = new Client("127.0.0.1", 12346, 1);
     }
 
 }

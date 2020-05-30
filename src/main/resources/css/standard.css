@@ -1,0 +1,282 @@
+
+
+.main-button{
+    -fx-background-image: url("../img/btn_blue.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.main-button:pressed{
+    -fx-background-image: url("../img/btn_blue_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+
+.main-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.back-button {
+    -fx-background-image: url("../img/btn_back.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.back-button:pressed {
+    -fx-background-image: url("../img/btn_back_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.create-button {
+    -fx-background-image: url("../img/btn_green.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.create-button:pressed {
+    -fx-background-image: url("../img/btn_green_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.join-button {
+    -fx-background-image: url("../img/btn_coral.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.join-button:pressed {
+    -fx-background-image: url("../img/btn_coral_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.toggle-cards {
+    -fx-background-image: url("../img/Destroy.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.toggle-cards:selected {
+    -fx-background-image: url("../img/Done.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.def-radio-button .radio {
+    -fx-background-image: url("../img/toggle.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 20px;
+}
+
+.def-radio-button:selected .radio {
+    -fx-background-image: url("../img/toggle_on.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 20px;
+}
+
+
+.def-radio-button .dot{
+    -fx-mark-color: trasparent;
+}
+
+.scroll-pane{
+    -fx-background: trasparent;
+}
+
+.table-view{
+    -fx-background: transparent;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-image: url("../img/om_nameTagActive.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: auto;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane {
+    -fx-background-image: url("../img/bg_panelMid.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: cover;
+}
+
+.god-toggle{
+    -fx-background-image: url("../img/clp_frame_white.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 100%;
+}
+
+.god-toggle-chosen{
+    -fx-background-image: url("../img/frame_coral.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 75px;
+}
+
+.god-toggle:selected, .god-selected:selected, .god-toggle-chosen:selected{
+    -fx-background-image: url("../img/frame_blue.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 80px;
+}
+
+.god-toggle:disabled{
+    -fx-background-image: url("../img/clp_frame_white.png");
+    -fx-opacity: 1;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 100%;
+}
+
+.god-selected{
+    -fx-background-image: url("../img/frame_yellow.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 80px;
+}
+
+
+.confirm-button{
+    -fx-background-image: url("../img/btn_purple.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.confirm-button:pressed{
+    -fx-background-image: url("../img/btn_purple_pressed.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.obscure {
+    -fx-background-color: rgba(54, 54, 54, 0.75);
+}
+
+
+.box > *:hover{
+/*    -fx-background-image: url("../img/Default-Particle.png  ");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;*/
+    -fx-background-color: yellow;
+}
+
+.undo-button {
+    -fx-background-image: url("../img/cm_btn_green.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.undo-button:pressed {
+    -fx-background-image: url("../img/cm_btn_green_pressed.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.end-button {
+    -fx-background-image: url("../img/cm_btn_coral.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.end-button:pressed {
+    -fx-background-image: url("../img/cm_btn_coral_pressed.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.send-button {
+    -fx-background-image: url("../img/SendLog.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.send-button:pressed {
+    -fx-background-image: url("../img/button-credits-down.png" );
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+}
+
+.chat {
+    -fx-background-color: transparent;
+}
+
+.chat .content {
+    -fx-background-color: text-area-background ;
+}
+
+.actionLabel {
+    -fx-background-color: transparent;
+    -fx-font-size: 18px;
+}
+
+.actionLabelSelected {
+    -fx-background-image: url("../img/featured_god_frame_blue.png");
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-color: #3378CA;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: stretch;
+    -fx-text-fill: whitesmoke;
+}
