@@ -43,6 +43,42 @@ public class GameTest {
         assertEquals(false,game.isSimple());
     }
 
+    @Test
+    public void AddCardTest() {
+        Board board = new Board();
+        Game game = new Game("Marco","Giuseppe",board,false);
+        ArrayList<God> god=new ArrayList<>();
+        god.add(God.APOLLO);
+        god.add(God.PAN);
+        game.addCards(god);
+        assertEquals(game.getCards(),god);
+    }
+
+    @Test (expected = RuntimeException.class)
+    public void AddCardTestIsSimple() {
+        Board board = new Board();
+        Game game = new Game("Marco","Giuseppe",board,true);
+        ArrayList<God> god=new ArrayList<>();
+        god.add(God.APOLLO);
+        god.add(God.PAN);
+        game.addCards(god);
+        assertEquals(game.getCards(),god);
+    }
+
+    @Test
+    public void RemovePlayer() {
+        Board board = new Board();
+        Game game = new Game("Marco","Giuseppe",board,true);
+        Player player= game.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        game.removePlayer(player);
+        assertEquals(board.getBox(0,0).getPawn(),null);
+        assertEquals(board.getBox(4,4).getPawn(),null);
+    }
+
 
 
 

@@ -84,4 +84,63 @@ public class ArtemisTurnTest {
         turn.end();
     }
 
+    @Test(expected = RuntimeException.class)
+    public void artemisMoveTurnNotStarted1(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new ArtemisTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.move(0, 1);
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void artemisMoveTurnNotStarted2(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new ArtemisTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.end();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void artemisEndYouHaveToMove(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new ArtemisTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.end();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void artemisEndYouHaveToBuild(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new ArtemisTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.move(1,0);
+        turn.end();
+    }
 }

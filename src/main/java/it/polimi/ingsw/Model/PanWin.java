@@ -10,7 +10,7 @@ public class PanWin extends DefaultWin {
     /**
      * Constructor of the class {@link PanWin}
      *
-     * @param player {@link Player} that has the {@link Card} PAN
+     * @param player {@link Player} that has the {@link God} PAN
      */
     public PanWin(Player player) {
         super(player);

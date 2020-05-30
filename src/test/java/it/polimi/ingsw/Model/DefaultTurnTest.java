@@ -188,6 +188,11 @@ public class DefaultTurnTest {
         turn.move(0, 1);
         turn.build(0,0);
         turn.end();
+        assertEquals(board.getBox(0,1).getPawn(),worker1);
+        assertEquals(board.getBox(0,0).getBlock(),Block.LONE);
+        turn.undo();
+        assertEquals(board.getBox(0,0).getPawn(),worker1);
+        assertEquals(board.getBox(0,0).getBlock(),Block.TERRAIN);
     }
 
     @Test
@@ -234,4 +239,165 @@ public class DefaultTurnTest {
         assertEquals(player.getPlayerMenu().get(Actions.SELECT),true);
     }
 
+    @Test (expected =RuntimeException.class)
+    public void CantEndYouHaveToMove(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.end();
+    }
+
+    @Test (expected =RuntimeException.class)
+    public void CantEndYouHaveToBuild(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.move(0,1);
+        turn.end();
+    }
+
+    @Test
+    public void BuildDomeTest()
+    {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        player.setCard(God.ATLAS);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.move(0,1);
+        turn.buildDome(0,0);
+        turn.end();
+        assertEquals(board.getBox(0,1).getPawn(),worker1);
+        assertEquals(board.getBox(0,0).getBlock(),Block.DOME);
+    }
+
+
+    @Test (expected =RuntimeException.class)
+    public void BuildDomeTestYouHaveToMove()
+    {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        player.setCard(God.ATLAS);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.buildDome(0,0);
+    }
+
+    @Test (expected =RuntimeException.class)
+    public void BuildDomeTestYouHaveToStart()
+    {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        player.setCard(God.ATLAS);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.buildDome(0,0);
+    }
+
+    @Test (expected =RuntimeException.class)
+    public void TestYouHaveToMove()
+    {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        player.setCard(God.ATLAS);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.build(0,0);
+    }
+
+    @Test (expected =RuntimeException.class)
+    public void TestYouCantMove()
+    {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        player.setCard(God.ATLAS);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.move(1,0);
+        turn.move(2,0);
+        turn.build(0,0);
+    }
+
+    @Test (expected =RuntimeException.class)
+    public void DoubleStart()
+    {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        player.setCard(God.ATLAS);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+
+    }
+
+    @Test (expected =RuntimeException.class)
+    public void SelectedCantMove()
+    {
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player = session.getPlayers().get(0);
+        player.setCard(God.ATLAS);
+        Worker worker1 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker1, 0, 0);
+        board.placePawn(worker2,4,4);
+        board.build(0,1,Block.DOME);
+        board.build(1,0,Block.DOME);
+        board.build(1,1,Block.DOME);
+        Turn turn = new DefaultTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+
+
+    }
 }
