@@ -22,20 +22,21 @@ public class ActionsHandler {
 
     public void handlePlace(ActionEvent actionEvent) {
 
-       placeCounter ++;
+
 
        int x = PlayingStageController.x;
        int y = PlayingStageController.y;
 
        if(mainController.client.getBoard().getBoard()[x][y].getPlayer() == null) {
            PlayingStageController.pawns[x][y].setColor(mainController.client.getStatus().getColor());
-       }else{
-           placeCounter = 0;
+           placeCounter ++;
+
+           if(placeCounter == 1){
+               indexForPlace[0] = x; //x1
+               indexForPlace[1] = y;    //y1
+           }
        }
-        if(placeCounter == 1){
-            indexForPlace[0] = x; //x1
-            indexForPlace[1] = y;    //y1
-        }
+
         if(placeCounter == 2){
             placeCounter = 0;
             try {
