@@ -28,17 +28,7 @@ public class ActionsHandler {
        int y = PlayingStageController.y;
 
        if(mainController.client.getBoard().getBoard()[x][y].getPlayer() == null) {
-           switch (mainController.client.getStatus().getColor()) {
-               case GREEN:
-                   playingStageController.greenPawns[x][y].setOpacity(1);
-                   break;
-               case RED:
-                   playingStageController.redPawns[x][y].setOpacity(1);
-                   break;
-               case BLUE:
-                   playingStageController.bluePawns[x][y].setOpacity(1);
-                   break;
-           }
+           PlayingStageController.pawns[x][y].setColor(mainController.client.getStatus().getColor());
        }else{
            placeCounter = 0;
        }

@@ -78,18 +78,10 @@ public class PlayingStageController implements Initializable {
 	static MenuButton[][] menu = new MenuButton[5][5];
 
 	static Building[][] buildings;
-
-	static Pawn[][] greenPawns;
-	static Pawn[][] bluePawns;
-	static Pawn[][] redPawns;
-
-	static MenuItem[][] place;
-	static MenuItem[][] build;
-	static MenuItem[][] select;
-	static MenuItem[][] move;
+	static Pawn[][] pawns;
+	static MenuItem[][] actions;
 
 	protected static int x, y;
-
 
 	ActionsHandler actionsHandler = new ActionsHandler(mainController, this);
 
@@ -143,40 +135,14 @@ public class PlayingStageController implements Initializable {
 		undoButton.setOnAction(actionsHandler::handleUndo);
 		endButton.setOnAction(actionsHandler::handleEnd);
 
-		place = new MenuItem[5][5];
-		move = new MenuItem[5][5];
-		build = new MenuItem[5][5];
-		select = new MenuItem[5][5];
-
-		redPawns = new Pawn[5][5];
-		bluePawns = new Pawn[5][5];
-		greenPawns = new Pawn[5][5];
-
+		actions = new MenuItem[5][5];
+		pawns = new Pawn[5][5];
 		buildings = new Building[5][5];
 
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
-				place[i][j] = new MenuItem("Place");
-				place[i][j].setOnAction(actionsHandler::handlePlace);
-
-				build[i][j] = new MenuItem("Build");
-				build[i][j].setOnAction(actionsHandler::handleBuild);
-
-				select[i][j] = new MenuItem("Select");
-				select[i][j].setOnAction(actionsHandler::handleSelect);
-
-				move[i][j] = new MenuItem("Move");
-				move[i][j].setOnAction(actionsHandler::handleMove);
-
-				redPawns[i][j] = new Pawn(Color.RED);
-				redPawns[i][j].setOpacity(0);
-				greenPawns[i][j] = new Pawn(Color.GREEN);
-				greenPawns[i][j].setOpacity(0);
-				bluePawns[i][j] = new Pawn(Color.BLUE);
-				bluePawns[i][j].setOpacity(0);
-
+				pawns[i][j] = new Pawn();
 				buildings[i][j] = new Building();
-
 			}
 		}
 
@@ -195,17 +161,11 @@ public class PlayingStageController implements Initializable {
 					menu[i][j].setOnMouseClicked(this::handleAction);
 
 					GridPane.setConstraints(menu[i][j], j, i);
-
-					GridPane.setConstraints(redPawns[i][j], j, i);
-					GridPane.setConstraints(bluePawns[i][j], j, i);
-					GridPane.setConstraints(greenPawns[i][j], j, i);
-
+					GridPane.setConstraints(pawns[i][j], j, i);
 					GridPane.setConstraints(buildings[i][j], j, i);
 
 					actionPane.getChildren().add(menu[i][j]);
-
-					pawnPane.getChildren().addAll(redPawns[i][j], greenPawns[i][j], bluePawns[i][j]);
-
+					pawnPane.getChildren().add(pawns[i][j]);
 					boardPane.getChildren().add(buildings[i][j]);
 				}
 			}
@@ -229,7 +189,9 @@ public class PlayingStageController implements Initializable {
 
 								for (int i = 0; i < 5; i++) {
 									for (int j = 0; j < 5; j++) {
-										menu[i][j].getItems().add(place[i][j]);
+										actions[i][j] = new MenuItem("Place");
+										actions[i][j].setOnAction(actionsHandler::handlePlace);
+										menu[i][j].getItems().add(actions[i][j]);
 									}
 								}
 
@@ -239,7 +201,9 @@ public class PlayingStageController implements Initializable {
 								buildLabel.getStyleClass().add("actionLabelSelected");
 								for (int i = 0; i < 5; i++) {
 									for (int j = 0; j < 5; j++) {
-										menu[i][j].getItems().add(build[i][j]);
+										actions[i][j] = new MenuItem("Build");
+										actions[i][j].setOnAction(actionsHandler::handleBuild);
+										menu[i][j].getItems().add(actions[i][j]);
 									}
 								}
 								break;
@@ -248,7 +212,9 @@ public class PlayingStageController implements Initializable {
 								moveLabel.getStyleClass().add("actionLabelSelected");
 								for (int i = 0; i < 5; i++) {
 									for (int j = 0; j < 5; j++) {
-										menu[i][j].getItems().add(move[i][j]);
+										actions[i][j] = new MenuItem("Move");
+										actions[i][j].setOnAction(actionsHandler::handleMove);
+										menu[i][j].getItems().add(actions[i][j]);
 									}
 								}
 								break;
@@ -285,7 +251,9 @@ public class PlayingStageController implements Initializable {
 								selectLabel.getStyleClass().add("actionLabelSelected");
 								for (int i = 0; i < 5; i++) {
 									for (int j = 0; j < 5; j++) {
-										menu[i][j].getItems().add(select[i][j]);
+										actions[i][j] = new MenuItem("Select");
+										actions[i][j].setOnAction(actionsHandler::handleSelect);
+										menu[i][j].getItems().add(actions[i][j]);
 									}
 								}
 								break;
@@ -386,39 +354,8 @@ public class PlayingStageController implements Initializable {
 			Box[][] boardModel = client.getBoard().getBoard();
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 5; j++) {
-
-
 					buildings[i][j].build(boardModel[i][j].getLevel());
-
-					if (boardModel[i][j].getPlayer() != null) {
-						switch (boardModel[i][j].getPlayer()) {
-							case BLUE:
-								bluePawns[i][j].setOpacity(1);
-								redPawns[i][j].setOpacity(0);
-								greenPawns[i][j].setOpacity(0);
-								break;
-							case RED:
-								bluePawns[i][j].setOpacity(0);
-								redPawns[i][j].setOpacity(1);
-								greenPawns[i][j].setOpacity(0);
-								break;
-							case GREEN:
-								bluePawns[i][j].setOpacity(0);
-								redPawns[i][j].setOpacity(0);
-								greenPawns[i][j].setOpacity(1);
-								break;
-							default:
-								bluePawns[i][j].setOpacity(0);
-								redPawns[i][j].setOpacity(0);
-								greenPawns[i][j].setOpacity(0);
-								break;
-						}
-					} else {
-						bluePawns[i][j].setOpacity(0);
-						redPawns[i][j].setOpacity(0);
-						greenPawns[i][j].setOpacity(0);
-					}
-
+					pawns[i][j].setColor(boardModel[i][j].getPlayer());
 				}
 			}
 		} catch (NullPointerException ignored) {
