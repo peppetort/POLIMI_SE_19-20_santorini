@@ -4,7 +4,7 @@ import it.polimi.ingsw.Exceptions.InvalidBuildException;
 
 /**
  * Represents the build if the
- * {@link Player} has no {@link Card} / has a {@link Card} that doesn't modifies the build rules.
+ * {@link Player} has no {@link God} / has a {@link God} that doesn't modifies the build rules.
  */
 public class DefaultBuild implements Build {
 

@@ -70,11 +70,13 @@ public class DefaultBuildTest {
         Player player = new Player("Marco", game, Color.BLUE);
         DefaultBuild builder = new DefaultBuild(player);
         Worker worker1 = player.getWorker1();
-        Worker worker2 = player.getWorker1();
+        Worker worker2 = player.getWorker2();
         board.placePawn(worker1,0,0);
-        board.placePawn(worker2,0,1);
-        builder.build(worker1,0,1);
+        board.placePawn(worker2,1,1);
+        builder.build(worker1,1,1);
     }
+
+
 
 
 

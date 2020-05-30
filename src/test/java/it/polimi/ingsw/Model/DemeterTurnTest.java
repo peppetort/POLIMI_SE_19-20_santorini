@@ -60,4 +60,78 @@ public class DemeterTurnTest {
         turn.end();
     }
 
+    @Test(expected = RuntimeException.class)
+    public void demeterTurnCantEndYouHaveToMove(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new DemeterTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.end();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void demeterTurnCantEndYouHaveToStart(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new DemeterTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.end();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void demeterTurnCantEndYouHaveToBuild(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new DemeterTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.move(0, 1);
+        turn.end();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void demeterTurnCantBuildYouHaveToStart(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new DemeterTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.build(0, 1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void demeterTurnCantBuild(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, true);
+        Player player = session.getPlayers().get(0);
+        Worker worker1 = player.getWorker1();
+        board.placePawn(worker1, 0, 0);
+        Worker worker2 = player.getWorker2();
+        board.placePawn(worker2, 4, 4);
+        Turn turn = new DemeterTurn(player);
+        player.getPlayerMenu().replace(Actions.SELECT, true);
+        turn.start(worker1);
+        turn.build(0, 1);
+    }
+
 }
