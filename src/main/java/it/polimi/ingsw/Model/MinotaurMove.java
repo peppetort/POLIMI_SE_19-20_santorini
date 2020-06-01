@@ -54,7 +54,7 @@ public class MinotaurMove extends DefaultMove {
                 try {
                     if (!other.getId().equals(player.getWorker1().getId()) && !other.getId().equals(player.getWorker2().getId())) {
                         if (x == wX && y == wY + 1) {                       // Movimento Nord
-                            if (board.getBox(x, y + 1).isFree()) {
+                            if (board.getBox(x, y + 1).isFree() && nextBox.compare(board.getBox(x, y+1))) {
                                 //salvataggio stato celle
                                 board.addAction(worker,wX,wY,workerBox.getBlock());
                                 board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
@@ -69,7 +69,7 @@ public class MinotaurMove extends DefaultMove {
                                 throw new InvalidMoveException("Opponent's worker can't back away!");
                             }
                         } else if (x == wX && y == wY - 1) { // Movimento Sud
-                            if (board.getBox(x, y - 1).isFree()) {
+                            if (board.getBox(x, y - 1).isFree() && nextBox.compare(board.getBox(x, y-1))) {
 
                                 board.addAction(worker,wX,wY,workerBox.getBlock());
                                 board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
@@ -84,7 +84,7 @@ public class MinotaurMove extends DefaultMove {
                                 throw new InvalidMoveException("Opponent's worker can't back away!");
                             }
                         } else if (x == wX + 1 && y == wY) { // Movimento Est
-                            if (board.getBox(x + 1, y).isFree()) {
+                            if (board.getBox(x + 1, y).isFree() && nextBox.compare(board.getBox(x+1, y))) {
                                 board.addAction(worker,wX,wY,workerBox.getBlock());
                                 board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
                                 board.addAction(null,x+1,y,board.getBox(x+1,y).getBlock());
@@ -98,7 +98,7 @@ public class MinotaurMove extends DefaultMove {
                                 throw new InvalidMoveException("Opponent's worker can't back away!");
                             }
                         } else if (x == wX - 1 && y == wY) { // Movimento Ovest
-                            if (board.getBox(x - 1, y).isFree()) {
+                            if (board.getBox(x - 1, y).isFree() && nextBox.compare(board.getBox(x-1, y))) {
 
                                 board.addAction(worker,wX,wY,workerBox.getBlock());
                                 board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
@@ -113,7 +113,7 @@ public class MinotaurMove extends DefaultMove {
                                 throw new InvalidMoveException("Opponent's worker can't back away!");
                             }
                         } else if (x == wX + 1 && y == wY + 1) { // Movimento Nord-Est
-                            if (board.getBox(x + 1, y + 1).isFree()) {
+                            if (board.getBox(x + 1, y + 1).isFree() && nextBox.compare(board.getBox(x+1, y+1))) {
 
                                 board.addAction(worker,wX,wY,workerBox.getBlock());
                                 board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
@@ -128,7 +128,7 @@ public class MinotaurMove extends DefaultMove {
                                 throw new InvalidMoveException("Opponent's worker can't back away!");
                             }
                         } else if (x == wX + 1 && y == wY - 1) { // Movimento Sud-Est
-                            if (board.getBox(x + 1, y - 1).isFree()) {
+                            if (board.getBox(x + 1, y - 1).isFree() && nextBox.compare(board.getBox(x+1, y-1))) {
 
                                 board.addAction(worker,wX,wY,workerBox.getBlock());
                                 board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
@@ -143,7 +143,7 @@ public class MinotaurMove extends DefaultMove {
                                 throw new InvalidMoveException("Opponent's worker can't back away!");
                             }
                         } else if (x == wX - 1 && y == wY + 1) { // Movimento Nord-Ovest
-                            if (board.getBox(x - 1, y + 1).isFree()) {
+                            if (board.getBox(x - 1, y + 1).isFree() && nextBox.compare(board.getBox(x-1, y+1))) {
 
                                 board.addAction(worker,wX,wY,workerBox.getBlock());
                                 board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
@@ -158,7 +158,7 @@ public class MinotaurMove extends DefaultMove {
                                 throw new InvalidMoveException("Opponent's worker can't back away!");
                             }
                         } else if (x == wX - 1 && y == wY - 1) { // Movimento Sud-Ovest
-                            if (board.getBox(x - 1, y - 1).isFree()) {
+                            if (board.getBox(x - 1, y - 1).isFree() && nextBox.compare(board.getBox(x-1, y-1))) {
 
                                 board.addAction(worker,wX,wY,workerBox.getBlock());
                                 board.addAction(nextBox.getPawn(),x,y,nextBox.getBlock());
