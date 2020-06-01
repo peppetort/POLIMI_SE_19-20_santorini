@@ -15,7 +15,8 @@ public class ClientStatus extends Observable {
 	private ArrayList<Actions> actions = new ArrayList<>();;
 	private final ArrayList<String> messages = new ArrayList<>();
 	private ArrayList<God> deck;
-	private int playersNumber;
+	private final int playersNumber;
+	private int selected;
 
 
 	public ClientStatus(String username, Color color, int playersNumber) {
@@ -64,6 +65,14 @@ public class ClientStatus extends Observable {
 		}
 	}
 
+	public void setSelected(int worker){
+		selected = worker;
+	}
+
+	public int getSelected(){
+		return selected;
+	}
+
 	public void updateDeck(ArrayList<God> deck) {
 		this.deck = deck;
 	}
@@ -71,7 +80,6 @@ public class ClientStatus extends Observable {
 	public synchronized void updateTurn(String player) {
 		this.turn = player;
 		if (!turn.equals(username)) {
-			System.out.print("not my turn");
 			messages.add("Wait your turn");
 			actions.clear();
 			messages.clear();

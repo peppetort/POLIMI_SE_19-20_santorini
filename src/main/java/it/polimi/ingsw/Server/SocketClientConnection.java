@@ -7,6 +7,7 @@ import it.polimi.ingsw.Exceptions.SessionNotExistsException;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Observer.Observable;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -126,8 +127,10 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 				}
 
 			}
-		}catch (InterruptedException | ClassNotFoundException | IOException e) {
+		}catch (InterruptedException | ClassNotFoundException e) {
 			e.printStackTrace();
+		}catch (IOException ignored){
+
 		} finally {
 			closeConnection();
 		}

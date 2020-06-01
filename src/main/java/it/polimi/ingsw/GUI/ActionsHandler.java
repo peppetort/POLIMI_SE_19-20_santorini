@@ -54,6 +54,7 @@ public class ActionsHandler {
         int y = PlayingStageController.y;
         Box[][] board = mainController.client.getBoard().getBoard();
         if(board[x][y].getPlayer() != null && board[x][y].getPlayer() == mainController.client.getStatus().getColor()){
+            mainController.client.getStatus().setSelected(board[x][y].getWorker());
             mainController.notify(new PlayerSelectMessage(board[x][y].getWorker()));
         }
     }

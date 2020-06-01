@@ -93,7 +93,6 @@ public class Client extends Observable implements Observer<Object> {
 
 						if (mode == 0) {
 							notify(0);
-							System.out.print("CLIENT INIT");
 							status.addObserver(mc);
 							board.addObserver(mc);
 						} else {
@@ -107,7 +106,6 @@ public class Client extends Observable implements Observer<Object> {
 
 					} else if (inputObject instanceof TurnUpdateMessage) {
 						String username = ((TurnUpdateMessage) inputObject).getUsername();
-						System.out.print("turn update");
 						status.updateTurn(username);
 					} else if (inputObject instanceof ActionsUpdateMessage) {
 						ArrayList<Actions> actions = ((ActionsUpdateMessage) inputObject).getActions();

@@ -6,8 +6,12 @@ public class Box {
     private int level;
     private Color player;
     private Integer worker;
+    private final int x;
+    private final int y;
 
-    public Box() {
+    public Box(int x, int y) {
+        this.x = x;
+        this.y = y;
         level = 0;
         player = null;
         worker = null;
@@ -37,5 +41,13 @@ public class Box {
 
     public Integer getWorker() {
         return worker;
+    }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
     }
 }

@@ -34,7 +34,7 @@ public class MainController extends Observable<Object> implements Observer<Objec
     }
 
     public void setCard(God card){
-        playingStageController.handleCardChoice(card);
+        PlayingStageController.handleCardChoice(card);
     }
 
     public void setClient(Client client) {

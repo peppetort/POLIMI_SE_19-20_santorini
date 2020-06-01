@@ -17,7 +17,7 @@ public class ClientBoard extends Observable {
     public ClientBoard(ArrayList<Color> players) {
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                board[x][y] = new Box();
+                board[x][y] = new Box(x, y);
             }
         }
 
@@ -71,6 +71,10 @@ public class ClientBoard extends Observable {
 		if (worker != null) {
 			placePlayer(x, y, player, worker);
 		}
+    }
+
+    public HashMap<Color, Box[]> getPlayersLatestBox(){
+        return playersLatestBoxes;
     }
 
 }
