@@ -49,6 +49,10 @@ public class ActionsHandler {
         mainController.notify(new PlayerBuildMessage(PlayingStageController.x, PlayingStageController.y));
     }
 
+    public void handleBuildDome(ActionEvent actionEvent){
+        mainController.notify(new PlayerBuildDomeMessage(PlayingStageController.x, PlayingStageController.y));
+    }
+
     public void handleSelect(ActionEvent actionEvent){
         int x = PlayingStageController.x;
         int y = PlayingStageController.y;

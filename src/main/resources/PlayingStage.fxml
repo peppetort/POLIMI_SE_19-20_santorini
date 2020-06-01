@@ -210,7 +210,7 @@
                   <Image url="@img/gameGodFrameName1.png" />
                </image>
             </ImageView>
-            <Label fx:id="godName" layoutX="289.0" layoutY="245.0" prefHeight="26.0" prefWidth="111.0" text="God name">
+            <Label fx:id="godName" alignment="CENTER" layoutX="264.0" layoutY="245.0" prefHeight="26.0" prefWidth="156.0" text="God name" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

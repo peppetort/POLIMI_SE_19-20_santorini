@@ -115,7 +115,6 @@ public class ClientStatus extends Observable {
 			notify(0);
 		} else {
 		    messages.add(username + " lost");
-			//System.out.println(username + " lost");
 			notify(1);
 		}
 

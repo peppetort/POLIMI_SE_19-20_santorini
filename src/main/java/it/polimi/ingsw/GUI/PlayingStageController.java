@@ -326,6 +326,19 @@ public class PlayingStageController implements Initializable {
 							case DOME:
 								buildDomeLabel.getStyleClass().remove("actionLabel");
 								buildDomeLabel.getStyleClass().add("actionLabelSelected");
+
+								for(int i = selectedX-1; i<selectedX+2;i++){
+									for (int j = selectedY-1; j<selectedY+2; j++){
+										try {
+											if(i != selectedX || j!=selectedY){
+												actions[i][j] = new MenuItem("Dome");
+												actions[i][j].setOnAction(actionsHandler::handleBuildDome);
+												menu[i][j].getItems().add(actions[i][j]);
+											}
+										}catch (IndexOutOfBoundsException ignored){}
+									}
+								}
+
 								break;
 						}
 					} else if (change.wasRemoved() || !list.contains(a)) {
