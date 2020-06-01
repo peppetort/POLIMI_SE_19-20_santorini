@@ -38,6 +38,7 @@ import java.util.ResourceBundle;
 public class PlayingStageController implements Initializable {
 
 	public GridPane boardPane;
+	public GridPane domePane;
 	public GridPane actionPane;
 	public GridPane pawnPane;
 
@@ -78,6 +79,7 @@ public class PlayingStageController implements Initializable {
 	static MenuButton[][] menu = new MenuButton[5][5];
 
 	static Building[][] buildings;
+	static Building[][] domes;
 	static Pawn[][] pawns;
 	static MenuItem[][] actions;
 
@@ -138,11 +140,13 @@ public class PlayingStageController implements Initializable {
 		actions = new MenuItem[5][5];
 		pawns = new Pawn[5][5];
 		buildings = new Building[5][5];
+		domes = new Building[5][5];
 
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				pawns[i][j] = new Pawn();
 				buildings[i][j] = new Building();
+				domes[i][j] = new Building();
 			}
 		}
 
@@ -163,10 +167,12 @@ public class PlayingStageController implements Initializable {
 					GridPane.setConstraints(menu[i][j], j, i);
 					GridPane.setConstraints(pawns[i][j], j, i);
 					GridPane.setConstraints(buildings[i][j], j, i);
+					GridPane.setConstraints(domes[i][j], j, i);
 
 					actionPane.getChildren().add(menu[i][j]);
 					pawnPane.getChildren().add(pawns[i][j]);
 					boardPane.getChildren().add(buildings[i][j]);
+					domePane.getChildren().add(domes[i][j]);
 				}
 			}
 		} catch (Exception e) {
@@ -239,14 +245,6 @@ public class PlayingStageController implements Initializable {
 										}catch (IndexOutOfBoundsException ignored){}
 									}
 								}
-
-/*								for (int i = 0; i < 5; i++) {
-									for (int j = 0; j < 5; j++) {
-										actions[i][j] = new MenuItem("Build");
-										actions[i][j].setOnAction(actionsHandler::handleBuild);
-										menu[i][j].getItems().add(actions[i][j]);
-									}
-								}*/
 								break;
 							case MOVE:
 								moveLabel.getStyleClass().remove("actionLabel");
@@ -263,14 +261,6 @@ public class PlayingStageController implements Initializable {
 										}catch (IndexOutOfBoundsException ignored){}
 									}
 								}
-
-/*								for (int i = 0; i < 5; i++) {
-									for (int j = 0; j < 5; j++) {
-										actions[i][j] = new MenuItem("Move");
-										actions[i][j].setOnAction(actionsHandler::handleMove);
-										menu[i][j].getItems().add(actions[i][j]);
-									}
-								}*/
 								break;
 							case DECK:
 								deckLabel.getStyleClass().remove("actionLabel");
@@ -310,14 +300,6 @@ public class PlayingStageController implements Initializable {
 								actions[worker2X][worker2Y].setOnAction(actionsHandler::handleSelect);
 								menu[worker1X][worker1Y].getItems().add(actions[worker1X][worker1Y]);
 								menu[worker2X][worker2Y].getItems().add(actions[worker2X][worker2Y]);
-
-/*								for (int i = 0; i < 5; i++) {
-									for (int j = 0; j < 5; j++) {
-										actions[i][j] = new MenuItem("Select");
-										actions[i][j].setOnAction(actionsHandler::handleSelect);
-										menu[i][j].getItems().add(actions[i][j]);
-									}
-								}*/
 								break;
 							case UNDO:
 								undoLabel.getStyleClass().remove("actionLabel");
@@ -429,7 +411,11 @@ public class PlayingStageController implements Initializable {
 			Box[][] boardModel = client.getBoard().getBoard();
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 5; j++) {
-					buildings[i][j].build(boardModel[i][j].getLevel());
+					if(boardModel[i][j].getLevel()==4){
+						domes[i][j].buildDome();
+					}else {
+						buildings[i][j].build(boardModel[i][j].getLevel());
+					}
 					pawns[i][j].setColor(boardModel[i][j].getPlayer());
 				}
 			}

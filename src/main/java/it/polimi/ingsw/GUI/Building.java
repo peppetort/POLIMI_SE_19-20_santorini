@@ -30,9 +30,6 @@ public class Building extends ImageView {
 				case 3:
 					block = new Image(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("img/level3.png")));
 					break;
-				case 4:
-					block = new Image(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("img/level4.png")));
-					break;
 			}
 			this.setImage(block);
 			this.setVisible(true);
@@ -43,6 +40,7 @@ public class Building extends ImageView {
 
 	public void buildDome() {
 		block = new Image(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("img/levelDome.png")));
+		this.setImage(block);
 		this.setVisible(true);
 	}
 }
