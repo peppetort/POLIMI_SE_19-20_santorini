@@ -26,6 +26,10 @@ public class ClientGUIApp extends Application {
             client.startClient();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
             Scene scene = new Scene(root, 715, 776);
+            window.setMinWidth(715);
+            window.setMinHeight(776);
+            window.setMaxWidth(715);
+            window.setMaxHeight(776);
             window.setScene(scene);
             //window.setFullScreen(true);
             //window.setMaximized(true);

@@ -36,7 +36,10 @@ public class UsernameDialog implements Initializable {
         AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("UsernameDialog.fxml")));
         Scene scene = new Scene(pane);
         prompt.setValue("Insert an username:");
-        dialog.setResizable(false);
+        dialog.setMaxWidth(260);
+        dialog.setMaxHeight(360);
+        dialog.setMinHeight(360);
+        dialog.setMinWidth(260);
         dialog.setScene(scene);
 //        dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.showAndWait();

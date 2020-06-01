@@ -1,6 +1,7 @@
 package it.polimi.ingsw.GUI;
 
 
+import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.ClientGUIApp;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -64,8 +65,12 @@ public class WaitController implements Initializable {
 		Platform.runLater(() ->{
 			try {
 					AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("PlayingStage.fxml")));
-					Scene scene = new Scene(pane, 1166, 778);
-					ClientGUIApp.window.setScene(scene);
+				Scene scene = new Scene(pane, 1219, 789);
+				ClientGUIApp.window.setMaxHeight(2000);
+				ClientGUIApp.window.setMaxWidth(2000);
+				ClientGUIApp.window.setMinHeight(789);
+				ClientGUIApp.window.setMinWidth(1219);
+				ClientGUIApp.window.setScene(scene);
 			}catch (IOException ignored){}
 		});
 	}

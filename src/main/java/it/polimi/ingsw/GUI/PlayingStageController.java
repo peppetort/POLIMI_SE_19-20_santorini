@@ -275,6 +275,10 @@ public class PlayingStageController implements Initializable {
 									try {
 										AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("AllCardsMenu.fxml")));
 										Scene scene = new Scene(pane, 953, 511);
+										ClientGUIApp.window.setMinWidth(953);
+										ClientGUIApp.window.setMinHeight(511);
+										ClientGUIApp.window.setMaxWidth(953);
+										ClientGUIApp.window.setMaxHeight(511);
 										ClientGUIApp.window.setScene(scene);
 									} catch (IOException ignored) {
 									}
@@ -287,6 +291,11 @@ public class PlayingStageController implements Initializable {
 									try {
 										AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("SelectCardMenu.fxml")));
 										Scene scene = new Scene(pane, 953, 511);
+										ClientGUIApp.window.setMinWidth(953);
+										ClientGUIApp.window.setMinHeight(511);
+										ClientGUIApp.window.setMaxWidth(953);
+										ClientGUIApp.window.setMaxHeight(511);
+										ClientGUIApp.window.setScene(scene);
 										ClientGUIApp.window.setScene(scene);
 									} catch (IOException ignored) {
 									}

@@ -20,8 +20,8 @@ public class Pawn extends ImageView {
     public Pawn() {
         super();
         this.setVisible(false);
-        this.setFitHeight(30);
-        this.setFitWidth(30);
+        this.setFitHeight(35);
+        this.setFitWidth(35);
         this.setPreserveRatio(true);
         this.setSmooth(true);
     }

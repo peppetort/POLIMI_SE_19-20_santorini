@@ -199,16 +199,6 @@
     -fx-background-color: rgba(54, 54, 54, 0.75);
 }
 
-
-.box > *:hover{
-/*    -fx-background-image: url("../img/Default-Particle.png  ");
-    -fx-background-color: transparent;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-size: contain;*/
-    -fx-background-color: yellow;
-}
-
 .undo-button {
     -fx-background-image: url("../img/cm_btn_green.png" );
     -fx-background-color: transparent;
@@ -298,4 +288,12 @@
     -fx-background-position: center;
     -fx-background-size: stretch;
     -fx-text-fill: whitesmoke;
+}
+
+.background {
+    -fx-background-image: url("../img/Sea_v003.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: stretch;
 }

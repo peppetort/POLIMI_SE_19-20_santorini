@@ -22,6 +22,10 @@ public class StartMenuController implements Initializable {
         try {
             AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("CreateMenu.fxml")));
             Scene scene = new Scene(pane, 715, 776);
+            ClientGUIApp.window.setMinWidth(715);
+            ClientGUIApp.window.setMinHeight(776);
+            ClientGUIApp.window.setMaxWidth(715);
+            ClientGUIApp.window.setMaxHeight(776);
             ClientGUIApp.window.setScene(scene);
         }catch(IOException e){
             e.printStackTrace();
@@ -32,6 +36,10 @@ public class StartMenuController implements Initializable {
         try {
             AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("JoinMenu.fxml")));
             Scene scene = new Scene(pane, 715, 776);
+            ClientGUIApp.window.setMinWidth(715);
+            ClientGUIApp.window.setMinHeight(776);
+            ClientGUIApp.window.setMaxWidth(715);
+            ClientGUIApp.window.setMaxHeight(776);
             ClientGUIApp.window.setScene(scene);
         }catch (IOException ignored){}
     }

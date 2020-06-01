@@ -155,7 +155,11 @@ public class AllCardsMenuController implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("PlayingStage.fxml")));
-				Scene scene = new Scene(pane, 1166, 778);
+				Scene scene = new Scene(pane, 1219, 789);
+				ClientGUIApp.window.setMaxHeight(2000);
+				ClientGUIApp.window.setMaxWidth(2000);
+				ClientGUIApp.window.setMinHeight(789);
+				ClientGUIApp.window.setMinWidth(1219);
 				ClientGUIApp.window.setScene(scene);
 			}catch(IOException ignored){}
 		});

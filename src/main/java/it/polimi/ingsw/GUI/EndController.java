@@ -27,7 +27,10 @@ public class EndController{
 			pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("Lose.fxml")));
 		}
 		Scene scene = new Scene(pane);
-		dialog.setResizable(false);
+		dialog.setMaxWidth(425);
+		dialog.setMaxHeight(350);
+		dialog.setMinHeight(350);
+		dialog.setMinWidth(425);
 		dialog.setScene(scene);
 		dialog.initModality(Modality.APPLICATION_MODAL);
 		dialog.showAndWait();
@@ -39,6 +42,10 @@ public class EndController{
 			try {
 				AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
 				Scene scene = new Scene(pane, 715, 776);
+				ClientGUIApp.window.setMinWidth(715);
+				ClientGUIApp.window.setMinHeight(776);
+				ClientGUIApp.window.setMaxWidth(715);
+				ClientGUIApp.window.setMaxHeight(776);
 				ClientGUIApp.window.setScene(scene);
 			}catch (IOException ignored){}
 		});

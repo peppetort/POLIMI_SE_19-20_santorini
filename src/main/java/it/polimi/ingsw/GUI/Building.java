@@ -13,8 +13,8 @@ public class Building extends ImageView {
 		super();
 		this.setPreserveRatio(true);
 		this.setPickOnBounds(true);
-		this.setFitWidth(74);
-		this.setFitHeight(109);
+		this.setFitWidth(91);
+		this.setFitHeight(136);
 		this.setVisible(false);
 	}
 
