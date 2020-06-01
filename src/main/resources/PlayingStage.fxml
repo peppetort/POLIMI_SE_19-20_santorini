@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="778.0"
-            prefWidth="1166.0" stylesheets="@css/standard.css" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.PlayingStageController">
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="778.0" prefWidth="1166.0" stylesheets="@css/standard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.PlayingStageController">
+
     <children>
         <ImageView fitHeight="917.0" fitWidth="1201.0" layoutX="-10.0" layoutY="-113.0" pickOnBounds="true">
             <image>
@@ -100,85 +113,90 @@
                 </GridPane>
             </children>
         </AnchorPane>
-        <AnchorPane layoutX="14.0" layoutY="72.0" prefHeight="398.0" prefWidth="183.0">
-            <children>
-                <ImageView fitHeight="380.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@img/pause_back.png"/>
-                    </image>
-                </ImageView>
-                <VBox alignment="CENTER" layoutX="41.0" layoutY="56.0" prefHeight="286.0" prefWidth="111.0">
-                    <children>
-                        <Label fx:id="placeLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel"
-                               text="Place">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="selectLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel"
-                               text="Select">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="moveLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel"
-                               text="Move">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="buildLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel"
-                               text="Build">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="deckLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel"
-                               text="Deck">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="cardLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel"
-                               text="Card">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="buildDomeLabel" alignment="CENTER" prefHeight="26.0" prefWidth="98.0"
-                               styleClass="actionLabel" text="Dome">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="endLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel"
-                               text="End">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="undoLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel"
-                               text="Undo">
-                            <font>
-                                <Font size="21.0"/>
-                            </font>
-                        </Label>
-                    </children>
-                </VBox>
-                <ImageView fitHeight="83.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@img/gameGodFrameName2.png"/>
-                    </image>
-                </ImageView>
-                <Label layoutX="56.0" layoutY="14.0" text="Actions">
-                    <font>
-                        <Font name="System Bold" size="19.0"/>
-                    </font>
-                </Label>
-            </children>
-        </AnchorPane>
-        <Button fx:id="endButton" layoutX="600.0" layoutY="634.0" mnemonicParsing="false" prefHeight="55.0"
-                prefWidth="98.0" styleClass="end-button" text="End">
+
+
+      <AnchorPane layoutX="14.0" layoutY="72.0" prefHeight="398.0" prefWidth="183.0">
+         <children>
+              <ImageView fitHeight="380.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@img/pause_back.png" />
+                  </image>
+              </ImageView>
+              <VBox alignment="CENTER" layoutX="41.0" layoutY="56.0" prefHeight="286.0" prefWidth="111.0">
+                  <children>
+                      <Label fx:id="placeLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel" text="Place">
+                          <font>
+                              <Font size="21.0" />
+                          </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                      </Label>
+                      <Label fx:id="selectLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel" text="Select">
+                          <font>
+                              <Font size="21.0" />
+                          </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                      </Label>
+                      <Label fx:id="moveLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel" text="Move">
+                          <font>
+                              <Font size="21.0" />
+                          </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                      </Label>
+                      <Label fx:id="buildLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel" text="Build">
+                          <font>
+                              <Font size="21.0" />
+                          </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                      </Label>
+<!--                      <Label fx:id="deckLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel" text="Deck">-->
+<!--                          <font>-->
+<!--                              <Font size="21.0" />-->
+<!--                          </font>-->
+<!--                      </Label>-->
+<!--                      <Label fx:id="cardLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel" text="Card">-->
+<!--                          <font>-->
+<!--                              <Font size="21.0" />-->
+<!--                          </font>-->
+<!--                      </Label>-->
+<!--                      <Label fx:id="buildDomeLabel" alignment="CENTER" prefHeight="26.0" prefWidth="98.0" styleClass="actionLabel" text="Dome">-->
+<!--                          <font>-->
+<!--                              <Font size="21.0" />-->
+<!--                          </font>-->
+<!--                      </Label>-->
+<!--                      <Label fx:id="endLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel" text="End">-->
+<!--                          <font>-->
+<!--                              <Font size="21.0" />-->
+<!--                          </font>-->
+<!--                      </Label>-->
+<!--                      <Label fx:id="undoLabel" alignment="CENTER" prefWidth="200.0" styleClass="actionLabel" text="Undo">-->
+<!--                          <font>-->
+<!--                              <Font size="21.0" />-->
+<!--                          </font>-->
+<!--                      </Label>-->
+                  </children>
+              </VBox>
+              <ImageView fitHeight="83.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@img/gameGodFrameName2.png" />
+                  </image>
+              </ImageView>
+              <Label layoutX="56.0" layoutY="14.0" text="Actions">
+                  <font>
+                      <Font name="System Bold" size="19.0" />
+                  </font>
+              </Label>
+         </children>
+      </AnchorPane>
+        <Button fx:id="endButton" layoutX="600.0" layoutY="634.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="98.0" styleClass="end-button" text="End">
+
             <font>
                 <Font name="System Bold" size="21.0"/>
             </font>

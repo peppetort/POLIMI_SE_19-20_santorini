@@ -97,6 +97,9 @@ public class PlayingStageController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 
+		endButton.setDisable(true);
+		undoButton.setDisable(true);
+
 		if (godNameLabel != null) {
 			godName.setText(godNameLabel);
 			actionType.setText(actionTypeLabel);
@@ -266,8 +269,8 @@ public class PlayingStageController implements Initializable {
 								}
 								break;
 							case DECK:
-								deckLabel.getStyleClass().remove("actionLabel");
-								deckLabel.getStyleClass().add("actionLabelSelected");
+//								deckLabel.getStyleClass().remove("actionLabel");
+//								deckLabel.getStyleClass().add("actionLabelSelected");
 								Platform.runLater(() -> {
 									try {
 										AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("AllCardsMenu.fxml")));
@@ -278,8 +281,8 @@ public class PlayingStageController implements Initializable {
 								});
 								break;
 							case CARD:
-								cardLabel.getStyleClass().remove("actionLabel");
-								cardLabel.getStyleClass().add("actionLabelSelected");
+//								cardLabel.getStyleClass().remove("actionLabel");
+//								cardLabel.getStyleClass().add("actionLabelSelected");
 								Platform.runLater(() -> {
 									try {
 										AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("SelectCardMenu.fxml")));
@@ -290,8 +293,9 @@ public class PlayingStageController implements Initializable {
 								});
 								break;
 							case END:
-								endLabel.getStyleClass().remove("actionLabel");
-								endLabel.getStyleClass().add("actionLabelSelected");
+//								endLabel.getStyleClass().remove("actionLabel");
+//								endLabel.getStyleClass().add("actionLabelSelected");
+								endButton.setDisable(false);
 								break;
 							case SELECT:
 								selectLabel.getStyleClass().remove("actionLabel");
@@ -307,12 +311,13 @@ public class PlayingStageController implements Initializable {
 								menu[worker2X][worker2Y].getItems().add(actions[worker2X][worker2Y]);
 								break;
 							case UNDO:
-								undoLabel.getStyleClass().remove("actionLabel");
-								undoLabel.getStyleClass().add("actionLabelSelected");
+//								undoLabel.getStyleClass().remove("actionLabel");
+//								undoLabel.getStyleClass().add("actionLabelSelected");
+								undoButton.setDisable(false);
 								break;
 							case DOME:
-								buildDomeLabel.getStyleClass().remove("actionLabel");
-								buildDomeLabel.getStyleClass().add("actionLabelSelected");
+//								buildDomeLabel.getStyleClass().remove("actionLabel");
+//								buildDomeLabel.getStyleClass().add("actionLabelSelected");
 
 								for(int i = selectedX-1; i<selectedX+2;i++){
 									for (int j = selectedY-1; j<selectedY+2; j++){
@@ -344,28 +349,30 @@ public class PlayingStageController implements Initializable {
 								moveLabel.getStyleClass().add("actionLabel");
 								break;
 							case DECK:
-								deckLabel.getStyleClass().remove("actionLabelSelected");
-								deckLabel.getStyleClass().add("actionLabel");
+//								deckLabel.getStyleClass().remove("actionLabelSelected");
+//								deckLabel.getStyleClass().add("actionLabel");
 								break;
 							case CARD:
-								cardLabel.getStyleClass().remove("actionLabelSelected");
-								cardLabel.getStyleClass().add("actionLabel");
+//								cardLabel.getStyleClass().remove("actionLabelSelected");
+//								cardLabel.getStyleClass().add("actionLabel");
 								break;
 							case END:
-								endLabel.getStyleClass().remove("actionLabelSelected");
-								endLabel.getStyleClass().add("actionLabel");
+//								endLabel.getStyleClass().remove("actionLabelSelected");
+//								endLabel.getStyleClass().add("actionLabel");
+								endButton.setDisable(true);
 								break;
 							case SELECT:
 								selectLabel.getStyleClass().remove("actionLabelSelected");
 								selectLabel.getStyleClass().add("actionLabel");
 								break;
 							case UNDO:
-								undoLabel.getStyleClass().remove("actionLabelSelected");
-								undoLabel.getStyleClass().add("actionLabel");
+//								undoLabel.getStyleClass().remove("actionLabelSelected");
+//								undoLabel.getStyleClass().add("actionLabel");
+								undoButton.setDisable(true);
 								break;
 							case DOME:
-								buildDomeLabel.getStyleClass().remove("actionLabelSelected");
-								buildDomeLabel.getStyleClass().add("actionLabel");
+//								buildDomeLabel.getStyleClass().remove("actionLabelSelected");
+//								buildDomeLabel.getStyleClass().add("actionLabel");
 								break;
 						}
 
