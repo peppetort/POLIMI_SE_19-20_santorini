@@ -4,15 +4,17 @@ import it.polimi.ingsw.ClientGUIApp;
 import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PlayerCreateSessionMessage;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,6 +30,10 @@ public class CreateMenuController implements Initializable {
 	public ToggleButton cardBox;
 	public RadioButton playerButton2;
 	public RadioButton playerButton3;
+	public Button backButton;
+	public Button createButton;
+	public ImageView hourGlass1;
+	public ImageView hourGlass2;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,21 +55,47 @@ public class CreateMenuController implements Initializable {
 		ClientGUIApp.window.setScene(scene);
 	}
 
-	public void handleCreate(){
-		boolean simple;
-		int playersNumber;
+	public void handleCreate() {
+		new Thread(() -> {
+			boolean simple;
+			int playersNumber;
 
-		simple = !cardBox.isSelected();
+			simple = !cardBox.isSelected();
 
-		if (playerButton2.isSelected()) {
-			playersNumber = 2;
-		} else {
-			playersNumber = 3;
-		}
+			if (playerButton2.isSelected()) {
+				playersNumber = 2;
+			} else {
+				playersNumber = 3;
+			}
 
 
-		Message msg = new PlayerCreateSessionMessage(username.getText(), sessionName.getText(), playersNumber, simple);
-		mainController.notify(msg);
+			Message msg = new PlayerCreateSessionMessage(username.getText(), sessionName.getText(), playersNumber, simple);
+			mainController.notify(msg);
+		}).start();
+
+		hourGlass1.setVisible(true);
+		hourGlass2.setVisible(true);
+
+		backButton.setDisable(true);
+		createButton.setDisable(true);
+
+		RotateTransition rt1 = new RotateTransition(Duration.millis(2000), hourGlass1);
+		RotateTransition rt2 = new RotateTransition(Duration.millis(2000), hourGlass2);
+
+		rt1.setByAngle(360);
+		rt1.setCycleCount(Animation.INDEFINITE);
+		rt1.setInterpolator(Interpolator.LINEAR);
+
+
+		rt2.setByAngle(360);
+		rt2.setCycleCount(Animation.INDEFINITE);
+		rt2.setInterpolator(Interpolator.LINEAR);
+
+
+		rt1.play();
+		rt2.play();
+
+
 	}
 
 	public static void handleException(Exception msg) {

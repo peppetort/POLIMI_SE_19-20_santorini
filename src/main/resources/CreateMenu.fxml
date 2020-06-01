@@ -120,11 +120,21 @@
             </RadioButton>
          </children>
       </AnchorPane>
-      <Button layoutX="46.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="62.0" prefWidth="62.0" styleClass="back-button" />
-      <Button layoutX="233.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="62.0" prefWidth="249.0" styleClass="create-button" text="Create" textFill="WHITE">
+      <Button fx:id="backButton" layoutX="46.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="62.0" prefWidth="62.0" styleClass="back-button" />
+      <Button fx:id="createButton" layoutX="233.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="62.0" prefWidth="249.0" styleClass="create-button" text="Create" textFill="WHITE">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
+      <ImageView visible="false" fx:id="hourGlass1" fitHeight="106.0" fitWidth="64.0" layoutX="597.0" layoutY="640.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/hourglassEmpty_1.png" />
+         </image>
+      </ImageView>
+      <ImageView visible="false"  fx:id="hourGlass2" fitHeight="47.0" fitWidth="29.0" layoutX="615.0" layoutY="659.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/hourglassSand2_1.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

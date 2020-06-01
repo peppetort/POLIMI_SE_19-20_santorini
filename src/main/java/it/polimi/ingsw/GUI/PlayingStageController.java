@@ -179,6 +179,34 @@ public class PlayingStageController implements Initializable {
 					menu[i][j].getItems().clear();
 				}
 			}
+
+
+				Color player;
+				int selected;
+				int worker1X = -1;
+				int	worker1Y = -1;
+				int	worker2X = -1;
+				int worker2Y = -1;
+				int selectedX = -1;
+				int selectedY = -1;
+
+				try {
+					player = mainController.client.getStatus().getColor();
+					selected = mainController.client.getStatus().getSelected();
+					worker1X = mainController.client.getBoard().getPlayersLatestBox().get(player)[0].getX();
+					worker1Y = mainController.client.getBoard().getPlayersLatestBox().get(player)[0].getY();
+					worker2X = mainController.client.getBoard().getPlayersLatestBox().get(player)[1].getX();
+					worker2Y = mainController.client.getBoard().getPlayersLatestBox().get(player)[1].getY();
+
+					if(selected == 1){
+						selectedX = worker1X;
+						selectedY = worker1Y;
+					}else {
+						selectedX = worker2X;
+						selectedY = worker2Y;
+					}
+				}catch (NullPointerException ignored){}
+
 			if (change.next()) {
 				for (Actions a : Actions.values()) {
 					if (list.contains(a) && change.wasAdded()) {
@@ -199,24 +227,50 @@ public class PlayingStageController implements Initializable {
 							case BUILD:
 								buildLabel.getStyleClass().remove("actionLabel");
 								buildLabel.getStyleClass().add("actionLabelSelected");
-								for (int i = 0; i < 5; i++) {
+
+								for(int i = selectedX-1; i<selectedX+2;i++){
+									for (int j = selectedY-1; j<selectedY+2; j++){
+										try {
+											if(i != selectedX || j!=selectedY){
+												actions[i][j] = new MenuItem("Build");
+												actions[i][j].setOnAction(actionsHandler::handleBuild);
+												menu[i][j].getItems().add(actions[i][j]);
+											}
+										}catch (IndexOutOfBoundsException ignored){}
+									}
+								}
+
+/*								for (int i = 0; i < 5; i++) {
 									for (int j = 0; j < 5; j++) {
 										actions[i][j] = new MenuItem("Build");
 										actions[i][j].setOnAction(actionsHandler::handleBuild);
 										menu[i][j].getItems().add(actions[i][j]);
 									}
-								}
+								}*/
 								break;
 							case MOVE:
 								moveLabel.getStyleClass().remove("actionLabel");
 								moveLabel.getStyleClass().add("actionLabelSelected");
-								for (int i = 0; i < 5; i++) {
+
+								for(int i = selectedX-1; i<selectedX+2;i++){
+									for (int j = selectedY-1; j<selectedY+2; j++){
+										try {
+											if(i != selectedX || j!=selectedY){
+												actions[i][j] = new MenuItem("Move");
+												actions[i][j].setOnAction(actionsHandler::handleMove);
+												menu[i][j].getItems().add(actions[i][j]);
+											}
+										}catch (IndexOutOfBoundsException ignored){}
+									}
+								}
+
+/*								for (int i = 0; i < 5; i++) {
 									for (int j = 0; j < 5; j++) {
 										actions[i][j] = new MenuItem("Move");
 										actions[i][j].setOnAction(actionsHandler::handleMove);
 										menu[i][j].getItems().add(actions[i][j]);
 									}
-								}
+								}*/
 								break;
 							case DECK:
 								deckLabel.getStyleClass().remove("actionLabel");
@@ -249,13 +303,21 @@ public class PlayingStageController implements Initializable {
 							case SELECT:
 								selectLabel.getStyleClass().remove("actionLabel");
 								selectLabel.getStyleClass().add("actionLabelSelected");
-								for (int i = 0; i < 5; i++) {
+
+								actions[worker1X][worker1Y] = new MenuItem("Select");
+								actions[worker2X][worker2Y] = new MenuItem("Select");
+								actions[worker1X][worker1Y].setOnAction(actionsHandler::handleSelect);
+								actions[worker2X][worker2Y].setOnAction(actionsHandler::handleSelect);
+								menu[worker1X][worker1Y].getItems().add(actions[worker1X][worker1Y]);
+								menu[worker2X][worker2Y].getItems().add(actions[worker2X][worker2Y]);
+
+/*								for (int i = 0; i < 5; i++) {
 									for (int j = 0; j < 5; j++) {
 										actions[i][j] = new MenuItem("Select");
 										actions[i][j].setOnAction(actionsHandler::handleSelect);
 										menu[i][j].getItems().add(actions[i][j]);
 									}
-								}
+								}*/
 								break;
 							case UNDO:
 								undoLabel.getStyleClass().remove("actionLabel");
