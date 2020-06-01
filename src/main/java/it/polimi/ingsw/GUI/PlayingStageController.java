@@ -224,6 +224,7 @@ public class PlayingStageController implements Initializable {
 								for (int i = 0; i < 5; i++) {
 									for (int j = 0; j < 5; j++) {
 										actions[i][j] = new MenuItem("Place");
+										actions[i][j].getStyleClass().add("menuLabel");
 										actions[i][j].setOnAction(actionsHandler::handlePlace);
 										menu[i][j].getItems().add(actions[i][j]);
 									}
@@ -239,6 +240,7 @@ public class PlayingStageController implements Initializable {
 										try {
 											if(i != selectedX || j!=selectedY){
 												actions[i][j] = new MenuItem("Build");
+												actions[i][j].getStyleClass().add("menuLabel");
 												actions[i][j].setOnAction(actionsHandler::handleBuild);
 												menu[i][j].getItems().add(actions[i][j]);
 											}
@@ -255,6 +257,7 @@ public class PlayingStageController implements Initializable {
 										try {
 											if(i != selectedX || j!=selectedY){
 												actions[i][j] = new MenuItem("Move");
+												actions[i][j].getStyleClass().add("menuLabel");
 												actions[i][j].setOnAction(actionsHandler::handleMove);
 												menu[i][j].getItems().add(actions[i][j]);
 											}
@@ -296,6 +299,8 @@ public class PlayingStageController implements Initializable {
 
 								actions[worker1X][worker1Y] = new MenuItem("Select");
 								actions[worker2X][worker2Y] = new MenuItem("Select");
+								actions[worker1X][worker1Y].getStyleClass().add("menuLabel");
+								actions[worker2X][worker2Y].getStyleClass().add("menuLabel");
 								actions[worker1X][worker1Y].setOnAction(actionsHandler::handleSelect);
 								actions[worker2X][worker2Y].setOnAction(actionsHandler::handleSelect);
 								menu[worker1X][worker1Y].getItems().add(actions[worker1X][worker1Y]);
@@ -314,6 +319,7 @@ public class PlayingStageController implements Initializable {
 										try {
 											if(i != selectedX || j!=selectedY){
 												actions[i][j] = new MenuItem("Dome");
+												actions[i][j].getStyleClass().add("menuLabel");
 												actions[i][j].setOnAction(actionsHandler::handleBuildDome);
 												menu[i][j].getItems().add(actions[i][j]);
 											}

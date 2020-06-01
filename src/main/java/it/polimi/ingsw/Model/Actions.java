@@ -13,7 +13,7 @@ public enum Actions {
 
     public final String value;
 
-    private Actions(String label) {
+    Actions(String label) {
         this.value = label;
     }
 }

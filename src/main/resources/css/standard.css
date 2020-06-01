@@ -280,3 +280,22 @@
     -fx-background-size: stretch;
     -fx-text-fill: whitesmoke;
 }
+
+.menuLabel:focused{
+    -fx-background-image: url("../img/featured_god_frame_blue.png");
+    -fx-background-color: #3378CA;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: stretch;
+    -fx-text-fill: whitesmoke;
+}
+
+.menuLabel:hover{
+    -fx-background-image: url("../img/featured_god_frame_blue.png");
+    -fx-font-weight: bold;
+    -fx-background-color: #3378CA;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: stretch;
+    -fx-text-fill: whitesmoke;
+}
