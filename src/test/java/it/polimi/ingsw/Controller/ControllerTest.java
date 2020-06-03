@@ -631,6 +631,68 @@ public class ControllerTest {
         controller.update(message);
     }
 
+    @Test
+    public void performPlayerRemoval()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto","Dog", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Player player3 = game.getPlayers().get(2);
+        Controller controller = new Controller(game);
+        Message message;
+        message = new PlayerRemoveMessage("Pippo");
+        controller.update(message);
+
+    }
+
+    @Test
+    public void performPlayerRemovalThreePlayerNoDeck()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto","Dog", board, false);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Player player3 = game.getPlayers().get(2);
+        Controller controller = new Controller(game);
+        Message message;
+
+        ArrayList<God> god = new ArrayList<>();
+        god.add(God.ATLAS);
+        god.add(God.PAN);
+        god.add(God.APOLLO);
+        message = new PlayerDeckMessage(player1, god);
+        controller.update(message);
+        message = new PlayerCardChoiceMessage(player2, God.ATLAS);
+        controller.update(message);
+        message = new PlayerCardChoiceMessage(player1, God.ATHENA);
+        controller.update(message);
+        message = new PlayerCardChoiceMessage(player3, God.PAN);
+        controller.update(message);
+        message = new PlayerRemoveMessage("Pippo");
+        controller.update(message);
+
+    }
+
+    @Test
+    public void PerformChatUpdateTest()
+    {
+        Board board = new Board();
+        Game game = new Game("Pippo", "Pluto", board, true);
+        Player player1 = game.getPlayers().get(0);
+        Player player2 = game.getPlayers().get(1);
+        Controller controller = new Controller(game);
+        Message message;
+
+        message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
+        controller.update(message);
+        message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
+        controller.update(message);
+        message =new PlayerChatMessage("Hello World");
+        ((PlayerChatMessage)message).setPlayer(player1);
+        controller.update(message);
+        //TODO: non so come verificare che sia avvenuta la notify ai client dei messaggi della chat
+    }
 
 
 }
