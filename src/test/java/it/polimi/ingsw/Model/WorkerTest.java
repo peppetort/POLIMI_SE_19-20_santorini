@@ -148,6 +148,25 @@ public class WorkerTest {
     }
 
     @Test
+    public void canMoveApolloTrueCanGoUpFalse(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player1 = session.getPlayers().get(0);
+        Player player2 = session.getPlayers().get(1);
+        God apollo = God.APOLLO;
+        player1.setCard(apollo);
+        player2.setCard(God.ATHENA);
+        Worker wp1 = player1.getWorker1();
+        Worker wp2 = player2.getWorker2();
+        board.placePawn(wp1, 0, 0);
+
+        board.placePawn(wp2, 1,1);
+        board.build(0,1, Block.LTWO);
+        board.build(1,0, Block.LTWO);
+        assertTrue(wp1.canMove(false));
+    }
+
+    @Test
     public void canMoveApolloCantBuild(){
         Board board = new Board();
         Game session = new Game("Pippo", "Pluto", board, false);
@@ -184,6 +203,23 @@ public class WorkerTest {
         board.build(0,1,Block.LTWO);
         board.build(1,0,Block.LTWO);
         assertTrue(wp1.canMove(true));
+    }
+
+    @Test
+    public void canMoveMinotaurTrueCanGoUpFalse(){
+        Board board = new Board();
+        Game session = new Game("Pippo", "Pluto", board, false);
+        Player player1 = session.getPlayers().get(0);
+        Player player2 = session.getPlayers().get(1);
+        God minotaur = God.MINOTAUR;
+        player1.setCard(minotaur);
+        Worker wp1 = player1.getWorker1();
+        Worker wp2 = player2.getWorker1();
+        board.placePawn(wp1, 0, 0);
+        board.placePawn(wp2, 1,1);
+        board.build(0,1,Block.LTWO);
+        board.build(1,0,Block.LTWO);
+        assertTrue(wp1.canMove(false));
     }
 
     @Test
