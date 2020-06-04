@@ -128,7 +128,7 @@ public class Session extends Observable<Message> implements Serializable {
 
 
             if(model.isSimple()){
-                TurnUpdateMessage turnMessage = new TurnUpdateMessage(player2.getUsername());
+                TurnUpdateMessage turnMessage = new TurnUpdateMessage(player2.getUsername(), player2.getColor());
 
                 player1Connection.send(turnMessage);
                 player2Connection.send(turnMessage);
@@ -138,7 +138,7 @@ public class Session extends Observable<Message> implements Serializable {
                 player2Connection.send(actionMessage);
 
             }else{
-                TurnUpdateMessage turnMessage = new TurnUpdateMessage(player1.getUsername());
+                TurnUpdateMessage turnMessage = new TurnUpdateMessage(player1.getUsername(), player1.getColor());
 
                 player1Connection.send(turnMessage);
                 player2Connection.send(turnMessage);
@@ -194,7 +194,7 @@ public class Session extends Observable<Message> implements Serializable {
 
 
             if(model.isSimple()){
-                TurnUpdateMessage turnMessage = new TurnUpdateMessage(player2.getUsername());
+                TurnUpdateMessage turnMessage = new TurnUpdateMessage(player2.getUsername(), player2.getColor());
 
                 player1Connection.send(turnMessage);
                 player2Connection.send(turnMessage);
@@ -205,7 +205,7 @@ public class Session extends Observable<Message> implements Serializable {
                 player2Connection.send(actionMessage);
 
             }else{
-                TurnUpdateMessage turnMessage = new TurnUpdateMessage(player1.getUsername());
+                TurnUpdateMessage turnMessage = new TurnUpdateMessage(player1.getUsername(), player1.getColor());
 
                 player1Connection.send(turnMessage);
                 player2Connection.send(turnMessage);

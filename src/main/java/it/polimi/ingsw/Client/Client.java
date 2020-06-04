@@ -106,7 +106,9 @@ public class Client extends Observable implements Observer<Object> {
 
 					} else if (inputObject instanceof TurnUpdateMessage) {
 						String username = ((TurnUpdateMessage) inputObject).getUsername();
-						status.updateTurn(username);
+						Color color = ((TurnUpdateMessage) inputObject).getColor();
+						God god = ((TurnUpdateMessage) inputObject).getGod();
+						status.updateTurn(username, color, god);
 					} else if (inputObject instanceof ActionsUpdateMessage) {
 						ArrayList<Actions> actions = ((ActionsUpdateMessage) inputObject).getActions();
 						status.updateAction(actions);

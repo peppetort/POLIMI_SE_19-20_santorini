@@ -11,7 +11,9 @@ public class ClientStatus extends Observable {
 	private final String username;
 	private String card;
 	private final Color color;
-	private String turn;
+	private String turnName;
+	private Color turnColor;
+	private God turnGod;
 	private ArrayList<Actions> actions = new ArrayList<>();;
 	private final ArrayList<String> messages = new ArrayList<>();
 	private ArrayList<God> deck;
@@ -37,6 +39,12 @@ public class ClientStatus extends Observable {
 		return color;
 	}
 
+	public Color getTurnColor(){return turnColor;}
+
+	public God getTurnGod(){
+		return this.turnGod;
+	}
+
 	public ArrayList<Actions> getActions() {
 		return actions;
 	}
@@ -51,7 +59,7 @@ public class ClientStatus extends Observable {
 
 
 	public String getTurn() {
-		return this.turn;
+		return this.turnName;
 	}
 
 	public String getUsername() {
@@ -77,19 +85,24 @@ public class ClientStatus extends Observable {
 		this.deck = deck;
 	}
 
-	public synchronized void updateTurn(String player) {
-		this.turn = player;
-		if (!turn.equals(username)) {
+	public synchronized void updateTurn(String player, Color color, God god) {
+		this.turnName = player;
+		this.turnColor = color;
+
+		if(god != null){
+			this.turnGod = god;
+		}
+
+		if (!turnName.equals(username)) {
 			messages.add("Wait your turn");
 			actions.clear();
 			messages.clear();
-
-			notify(2);
 		}
+		notify(2);
 	}
 
 	public synchronized void setWinner(String username) {
-		this.turn = null;
+		this.turnName = null;
 		this.actions = null;
 
 		if (username.equals(this.username)) {
@@ -106,7 +119,7 @@ public class ClientStatus extends Observable {
 	public synchronized void lose(String username) {
 		if (username.equals(this.username)) {
 			this.actions = null;
-			this.turn = null;
+			this.turnName = null;
 
 			messages.add("YOU LOSE :(");
 			//print();
@@ -121,7 +134,7 @@ public class ClientStatus extends Observable {
 	}
 
 	public synchronized void updateAction(ArrayList<Actions> actions) {
-			if(turn.equals(username)) {
+			if(turnName.equals(username)) {
 				this.actions = actions;
 			}
 			if (actions.get(0).equals(Actions.DECK)) {
@@ -139,7 +152,7 @@ public class ClientStatus extends Observable {
 
 	public boolean myTurn() {
 		try {
-			return turn.equals(username);
+			return turnName.equals(username);
 		} catch (NullPointerException e) {
 			return false;
 		}

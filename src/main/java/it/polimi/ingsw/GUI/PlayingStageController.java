@@ -8,6 +8,7 @@ import it.polimi.ingsw.Messages.PlayerChatMessage;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
+import it.polimi.ingsw.Observer.Observable;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -42,14 +43,9 @@ public class PlayingStageController implements Initializable {
 	public GridPane pawnPane;
 
 	public Label placeLabel;
-	public Label endLabel;
-	public Label deckLabel;
-	public Label cardLabel;
 	public Label moveLabel;
 	public Label buildLabel;
-	public Label buildDomeLabel;
 	public Label selectLabel;
-	public Label undoLabel;
 
 	public Button endButton;
 	public Button undoButton;
@@ -66,6 +62,11 @@ public class PlayingStageController implements Initializable {
 	private static Image powerIconImage;
 	private static String actionTypeLabel;
 	private static String actionDescriptionLabel;
+
+
+	public ImageView turnPlayerColor;
+	public Text turnPlayerName;
+	public ImageView turnPlayerGod;
 
 	private boolean open = false;
 
@@ -89,12 +90,34 @@ public class PlayingStageController implements Initializable {
 	static ObservableList<Actions> list = FXCollections.observableArrayList();
 	static ObservableList<String> messages = FXCollections.observableArrayList();
 
+	static ObservableList<String> turnName = FXCollections.observableArrayList();
+	static ObservableList<Color> turnColor = FXCollections.observableArrayList();
+	static ObservableList<God> turnGod = FXCollections.observableArrayList();
+
 	public static void setMainController(MainController mc) {
 		mainController = mc;
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+
+		if(turnName != null){
+			turnPlayerName.setText(turnName.get(0));
+		}
+
+		if(turnColor != null){
+			Image color1 = switch (turnColor.get(0)) {
+				case RED -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_coral_pressed.png")).toExternalForm());
+				case BLUE -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_blue_pressed.png")).toExternalForm());
+				case GREEN -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_purple_pressed.png")).toExternalForm());
+			};
+			turnPlayerColor.setImage(color1);
+		}
+
+		try{
+			GodObject podium = new GodObject(turnGod.get(0));
+			turnPlayerGod.setImage(podium.getPodiumGodImage());
+		}catch (IndexOutOfBoundsException | NullPointerException ignored){};
 
 		endButton.setDisable(true);
 		undoButton.setDisable(true);
@@ -129,6 +152,33 @@ public class PlayingStageController implements Initializable {
 		});
 
 		mainController.setPlaying(true);
+
+		turnName.addListener((ListChangeListener.Change<? extends String> change) -> {
+			if(change.next()){
+				turnPlayerName.setText(change.getAddedSubList().get(0));
+			}
+		});
+
+		turnColor.addListener((ListChangeListener.Change<? extends Color> change) -> {
+			if(change.next()){
+				Image color = switch ((Color) change.getAddedSubList().get(0)) {
+					case RED -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_coral_pressed.png")).toExternalForm());
+					case BLUE -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_blue_pressed.png")).toExternalForm());
+					case GREEN -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_purple_pressed.png")).toExternalForm());
+				};
+				turnPlayerColor.setImage(color);
+			}
+		});
+
+		turnGod.addListener((ListChangeListener.Change<? extends God> change) -> {
+			if(change.next()){
+				God god = change.getAddedSubList().get(0);
+				if(god != null){
+					GodObject podium = new GodObject(god);
+					turnPlayerGod.setImage(podium.getPodiumGodImage());
+				}
+			}
+		});
 
 		messages.addListener((ListChangeListener.Change<? extends String> change) -> {
 			if (change.next()) {
@@ -189,31 +239,32 @@ public class PlayingStageController implements Initializable {
 			}
 
 
-				Color player;
-				int selected;
-				int worker1X = -1;
-				int	worker1Y = -1;
-				int	worker2X = -1;
-				int worker2Y = -1;
-				int selectedX = -1;
-				int selectedY = -1;
+			Color player;
+			int selected;
+			int worker1X = -1;
+			int worker1Y = -1;
+			int worker2X = -1;
+			int worker2Y = -1;
+			int selectedX = -1;
+			int selectedY = -1;
 
-				try {
-					player = mainController.client.getStatus().getColor();
-					selected = mainController.client.getStatus().getSelected();
-					worker1X = mainController.client.getBoard().getPlayersLatestBox().get(player)[0].getX();
-					worker1Y = mainController.client.getBoard().getPlayersLatestBox().get(player)[0].getY();
-					worker2X = mainController.client.getBoard().getPlayersLatestBox().get(player)[1].getX();
-					worker2Y = mainController.client.getBoard().getPlayersLatestBox().get(player)[1].getY();
+			try {
+				player = mainController.client.getStatus().getColor();
+				selected = mainController.client.getStatus().getSelected();
+				worker1X = mainController.client.getBoard().getPlayersLatestBox().get(player)[0].getX();
+				worker1Y = mainController.client.getBoard().getPlayersLatestBox().get(player)[0].getY();
+				worker2X = mainController.client.getBoard().getPlayersLatestBox().get(player)[1].getX();
+				worker2Y = mainController.client.getBoard().getPlayersLatestBox().get(player)[1].getY();
 
-					if(selected == 1){
-						selectedX = worker1X;
-						selectedY = worker1Y;
-					}else {
-						selectedX = worker2X;
-						selectedY = worker2Y;
-					}
-				}catch (NullPointerException ignored){}
+				if (selected == 1) {
+					selectedX = worker1X;
+					selectedY = worker1Y;
+				} else {
+					selectedX = worker2X;
+					selectedY = worker2Y;
+				}
+			} catch (NullPointerException ignored) {
+			}
 
 			if (change.next()) {
 				for (Actions a : Actions.values()) {
@@ -237,16 +288,17 @@ public class PlayingStageController implements Initializable {
 								buildLabel.getStyleClass().remove("actionLabel");
 								buildLabel.getStyleClass().add("actionLabelSelected");
 
-								for(int i = selectedX-1; i<selectedX+2;i++){
-									for (int j = selectedY-1; j<selectedY+2; j++){
+								for (int i = selectedX - 1; i < selectedX + 2; i++) {
+									for (int j = selectedY - 1; j < selectedY + 2; j++) {
 										try {
-											if(i != selectedX || j!=selectedY){
+											if (i != selectedX || j != selectedY) {
 												actions[i][j] = new MenuItem("Build");
 												actions[i][j].getStyleClass().add("menuLabel");
 												actions[i][j].setOnAction(actionsHandler::handleBuild);
 												menu[i][j].getItems().add(actions[i][j]);
 											}
-										}catch (IndexOutOfBoundsException ignored){}
+										} catch (IndexOutOfBoundsException ignored) {
+										}
 									}
 								}
 								break;
@@ -254,16 +306,17 @@ public class PlayingStageController implements Initializable {
 								moveLabel.getStyleClass().remove("actionLabel");
 								moveLabel.getStyleClass().add("actionLabelSelected");
 
-								for(int i = selectedX-1; i<selectedX+2;i++){
-									for (int j = selectedY-1; j<selectedY+2; j++){
+								for (int i = selectedX - 1; i < selectedX + 2; i++) {
+									for (int j = selectedY - 1; j < selectedY + 2; j++) {
 										try {
-											if(i != selectedX || j!=selectedY){
+											if (i != selectedX || j != selectedY) {
 												actions[i][j] = new MenuItem("Move");
 												actions[i][j].getStyleClass().add("menuLabel");
 												actions[i][j].setOnAction(actionsHandler::handleMove);
 												menu[i][j].getItems().add(actions[i][j]);
 											}
-										}catch (IndexOutOfBoundsException ignored){}
+										} catch (IndexOutOfBoundsException ignored) {
+										}
 									}
 								}
 								break;
@@ -327,16 +380,17 @@ public class PlayingStageController implements Initializable {
 //								buildDomeLabel.getStyleClass().remove("actionLabel");
 //								buildDomeLabel.getStyleClass().add("actionLabelSelected");
 
-								for(int i = selectedX-1; i<selectedX+2;i++){
-									for (int j = selectedY-1; j<selectedY+2; j++){
+								for (int i = selectedX - 1; i < selectedX + 2; i++) {
+									for (int j = selectedY - 1; j < selectedY + 2; j++) {
 										try {
-											if(i != selectedX || j!=selectedY){
+											if (i != selectedX || j != selectedY) {
 												actions[i][j] = new MenuItem("Dome");
 												actions[i][j].getStyleClass().add("menuLabel");
 												actions[i][j].setOnAction(actionsHandler::handleBuildDome);
 												menu[i][j].getItems().add(actions[i][j]);
 											}
-										}catch (IndexOutOfBoundsException ignored){}
+										} catch (IndexOutOfBoundsException ignored) {
+										}
 									}
 								}
 
@@ -391,6 +445,28 @@ public class PlayingStageController implements Initializable {
 
 	}
 
+	public static void setTurnPlayer(String name, Color player, God god) {
+		if(turnName.isEmpty()){
+			turnName.add(name);
+		}else {
+			turnName.set(0 ,name);
+		}
+
+		if(turnColor.isEmpty()){
+			turnColor.add(player);
+		}else {
+			turnColor.set(0 ,player);
+		}
+
+		if(god != null){
+			if(turnGod.isEmpty()){
+				turnGod.add(god);
+			}else {
+				turnGod.set(0, god);
+			}
+		}
+	}
+
 
 	public static void setActionLabel(ArrayList<Actions> act) {
 		Platform.runLater(() -> {
@@ -432,9 +508,9 @@ public class PlayingStageController implements Initializable {
 			Box[][] boardModel = client.getBoard().getBoard();
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 5; j++) {
-					if(boardModel[i][j].getLevel()==4){
+					if (boardModel[i][j].getLevel() == 4) {
 						domes[i][j].buildDome();
-					}else {
+					} else {
 						buildings[i][j].build(boardModel[i][j].getLevel());
 					}
 					pawns[i][j].setColor(boardModel[i][j].getPlayer());

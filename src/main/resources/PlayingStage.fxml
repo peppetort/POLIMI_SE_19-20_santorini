@@ -86,6 +86,30 @@
          <children>
                 <VBox alignment="CENTER" prefHeight="789.0" prefWidth="518.0">
                     <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="turnPlayerColor" fitHeight="61.0" fitWidth="200.0" layoutX="274.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.519229888916016" AnchorPane.leftAnchor="274.0" AnchorPane.rightAnchor="213.0" AnchorPane.topAnchor="20.0">
+                           <image>
+                              <Image url="@img/btn_blue_pressed.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="turnPlayerName" fill="WHITE" layoutX="303.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player name" textAlignment="CENTER" wrappingWidth="141.00003242492676">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="34.0" fitWidth="70.0" layoutX="206.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/podium.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="turnPlayerGod" fitHeight="60.0" fitWidth="61.0" layoutX="206.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/podium-characters-Mortal.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                         <AnchorPane prefHeight="511.0" prefWidth="566.0">
                             <children>
                                 <ImageView fitHeight="659.0" fitWidth="688.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">

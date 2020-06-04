@@ -66,8 +66,17 @@ public class Controller extends Observable<Message> implements Observer<Message>
 				nextPlayer = playersList.get(nextPlayerIndex);
 				nextPlayerMenu = nextPlayer.getPlayerMenu();
 
+				String nextUsername = nextPlayer.getUsername();
+				Color nextColor = nextPlayer.getColor();
+				God nextGod;
 
-				TurnUpdateMessage turnMessage = new TurnUpdateMessage(nextPlayer.getUsername());
+				try{
+					nextGod = nextPlayer.getCard();
+				}catch (SimpleGameException e){
+					nextGod = null;
+				}
+
+				TurnUpdateMessage turnMessage = new TurnUpdateMessage(nextUsername, nextColor, nextGod);
 				notify(turnMessage);
 
 				//Finito il giro
@@ -284,7 +293,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		Turn playerTurn = player.getTurn();
 		try {
 			task.cancel();
-		}catch(NullPointerException e){}
+		}catch(NullPointerException ignored){}
 
 		if (turn.get(player)) {
 			if (player.getPlayerMenu().get(Actions.END)) {

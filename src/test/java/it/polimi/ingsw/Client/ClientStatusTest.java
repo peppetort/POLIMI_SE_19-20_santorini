@@ -11,20 +11,20 @@ public class ClientStatusTest {
     @Test
     public void printMenuNoTurn() throws InterruptedException {
         ClientStatus status = new ClientStatus("PIPPO", Color.BLUE, 2);
-        status.updateTurn("PLUTO");
+        status.updateTurn("PLUTO", Color.GREEN, null);
     }
 
 
     @Test
     public void printMenuMyTurnNoActions() throws InterruptedException {
         ClientStatus status = new ClientStatus("PIPPO", Color.BLUE, 2);
-        status.updateTurn("PIPPO");
+        status.updateTurn("PIPPO", Color.GREEN, null);
     }
 
     @Test
     public void printMenuMyTurnActions() throws InterruptedException {
         ClientStatus status = new ClientStatus("PIPPO", Color.BLUE, 2);
-        status.updateTurn("PIPPO");
+        status.updateTurn("PIPPO", Color.GREEN, null);
         ArrayList<Actions> actions = new ArrayList<>();
         actions.add(Actions.PLACE);
         status.updateAction(actions);
@@ -33,7 +33,7 @@ public class ClientStatusTest {
     @Test
     public void printMenuMyTurnNoneActions() throws InterruptedException {
         ClientStatus status = new ClientStatus("PIPPO", Color.BLUE, 2);
-        status.updateTurn("PIPPO");
+        status.updateTurn("PIPPO", Color.GREEN, null);
         ArrayList<Actions> actions = new ArrayList<>();
         actions.add(Actions.MOVE);
         status.updateAction(actions);
