@@ -4,6 +4,7 @@ import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.Client.Status;
 import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
+import it.polimi.ingsw.Exceptions.SessionNotExistsException;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Observer.Observable;
@@ -55,8 +56,8 @@ public class MainController extends Observable<Object> implements Observer<Objec
                 createController.handleStart();
             } else if (msg instanceof SuccessfulJoin) {
                 joinController.handleStart();
-            } else if (msg instanceof InvalidUsernameException) {
-                JoinMenuController.handleException((InvalidUsernameException)msg);
+            } else if (msg instanceof InvalidUsernameException || msg instanceof SessionNotExistsException) {
+                joinController.handleException((Exception) msg);
             } else if (msg instanceof ChatUpdateMessage) {
                 PlayingStageController.handleChatUpdate((ChatUpdateMessage)msg);
             } else if (msg instanceof Integer){

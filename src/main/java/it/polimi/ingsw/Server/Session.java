@@ -56,9 +56,8 @@ public class Session extends Observable<Message> implements Serializable {
     }
 
     public synchronized void addParticipant(ClientConnection player){
-        if (waitingConnection.size() < participant) {
+        if (waitingConnection.size() < participant && playingConnection.size() == 0) {
             waitingConnection.put(player.getUsername(), player);
-
             if (waitingConnection.size() == participant) {
                 server.availableSessions.remove(name);
                 this.start();

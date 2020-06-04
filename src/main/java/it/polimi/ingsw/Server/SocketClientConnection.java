@@ -1,13 +1,9 @@
 package it.polimi.ingsw.Server;
 
-import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
-import it.polimi.ingsw.Exceptions.InvalidPlayersNumberException;
-import it.polimi.ingsw.Exceptions.InvalidUsernameException;
-import it.polimi.ingsw.Exceptions.SessionNotExistsException;
+import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Observer.Observable;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -103,24 +99,31 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 
 				} else if (inputObject instanceof PlayerSelectSession) {
 
+					try{
+
 					this.username = ((PlayerSelectSession) inputObject).getUsername();
 					String sessionID = ((PlayerSelectSession) inputObject).getSessionID();
 
-					if (server.availableSessions.get(sessionID).getWaitingConnection().containsKey(username)) {
-						send(new InvalidUsernameException("This username is already in use, please insert another username."));
-					} else {
-						try {
-							Session selectedSession = server.availableSessions.get(sessionID);
-							if (selectedSession.getWaitingConnection().containsKey(username)) {
-								send(new InvalidUsernameException("The chosen name already exists in the selected session"));
-							} else {
-								this.session = selectedSession;
-								server.availableSessions.get(sessionID).addParticipant(this);
-								send(new SuccessfulJoin());
-							}
-						} catch (NullPointerException e) {
+						if (server.availableSessions.get(sessionID).getWaitingConnection().containsKey(username)) {
+							send(new InvalidUsernameException("This username is already in use, please insert another username."));
+						} else if(!server.availableSessions.containsKey(sessionID)){
 							send(new SessionNotExistsException("No session found"));
+						}else {
+								Session selectedSession = server.availableSessions.get(sessionID);
+								if (selectedSession.getWaitingConnection().containsKey(username)) {
+									send(new InvalidUsernameException("The chosen name already exists in the selected session"));
+								} else {
+									try {
+										this.session = selectedSession;
+										server.availableSessions.get(sessionID).addParticipant(this);
+										send(new SuccessfulJoin());
+									}catch(FullSessionException e){
+										send(new UnsuccesfulJoinMessage());
+									}
+								}
 						}
+					} catch (NullPointerException e) {
+						send(new SessionNotExistsException("No session found"));
 					}
 				} else if (inputObject instanceof Message) {
 						notify((Message) inputObject);
