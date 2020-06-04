@@ -28,10 +28,12 @@ public class ClientBoard extends Observable {
     }
 
     public void lose(Color player) {
-        Box[] workers = playersLatestBoxes.get(player);
-        workers[0].clear();
-        workers[1].clear();
-        playersLatestBoxes.remove(player);
+        try {
+            Box[] workers = playersLatestBoxes.get(player);
+            workers[0].clear();
+            workers[1].clear();
+            playersLatestBoxes.remove(player);
+        }catch(NullPointerException ignored){}
         notify(1);
     }
 

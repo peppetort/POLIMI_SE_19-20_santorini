@@ -4,6 +4,7 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
 import it.polimi.ingsw.Messages.ChatUpdateMessage;
 import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.RemovedMessage;
 import it.polimi.ingsw.Observer.Observable;
 
 import java.util.ArrayList;
@@ -91,8 +92,8 @@ public class Game extends Observable<Message> {
             board.getBox(worker1.getXPos(), worker1.getYPos()).removePawn();
             board.getBox(worker2.getXPos(), worker2.getYPos()).removePawn();
         }catch (NullPointerException | IndexOutOfBoundsException ignored){}
-
         players.remove(player);
+        notify(new RemovedMessage(player.getColor()));
     }
 
     public void updateChat(Player player,String message){

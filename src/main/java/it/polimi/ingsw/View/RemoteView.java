@@ -81,32 +81,7 @@ public class RemoteView extends View {
 
     @Override
     public void update(Message message) {
-
-        if (message instanceof ActionsUpdateMessage) {
-            clientConnection.send(message);
-        } else if (message instanceof TurnUpdateMessage) {
-            clientConnection.send(message);
-        } else if (message instanceof BoardUpdatePlaceMessage) {
-            clientConnection.send(message);
-        } else if (message instanceof BoardUpdateBuildMessage) {
-            clientConnection.send(message);
-        } else if (message instanceof WinMessage) {
-            clientConnection.send(message);
-        } else if (message instanceof CardUpdateMessage) {
-            clientConnection.send(message);
-        } else if (message instanceof DeckUpdateMessage) {
-            clientConnection.send(message);
-        }else if(message instanceof LostMessage){
-            clientConnection.send(message);
-        } else if(message instanceof BoardUndoMessage) {
-            clientConnection.send(message);
-        }else if(message instanceof InvalidChoiceMessage){
-            clientConnection.send(message);
-        }else if(message instanceof ChatUpdateMessage){
-            clientConnection.send(message);
-        } else {
-            System.err.println("Malformed message: " + message.toString());
-        }
+        clientConnection.send(message);
     }
 
 }

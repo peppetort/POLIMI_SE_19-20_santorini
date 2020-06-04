@@ -136,7 +136,6 @@ public class Client extends Observable implements Observer<Object> {
 						String loser = ((LostMessage) inputObject).getUsername();
 						Color loserColor = ((LostMessage) inputObject).getColor();
 						status.lose(loser);
-						board.lose(loserColor);
 						if (this.getStatus().getUsername().equals(loser)) {
 							notify(Status.LOST);
 						}
@@ -155,6 +154,8 @@ public class Client extends Observable implements Observer<Object> {
 						notify(inputObject);
 					} else if (inputObject instanceof InvalidUsernameException || inputObject instanceof AlreadyExistingSessionException){
 						notify(inputObject);
+					} else if (inputObject instanceof RemovedMessage){
+						this.board.lose(((RemovedMessage) inputObject).getPlayer());
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					connected = false;
