@@ -1,6 +1,5 @@
 package it.polimi.ingsw.GUI;
 
-import it.polimi.ingsw.ClientGUIApp;
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PlayerRetrieveSessions;
@@ -74,11 +73,11 @@ public class JoinMenuController implements Initializable {
 	public void handleBack() throws IOException {
 		AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
 		Scene scene = new Scene(pane, 715, 776);
-		ClientGUIApp.window.setMinWidth(715);
-		ClientGUIApp.window.setMinHeight(776);
-		ClientGUIApp.window.setMaxWidth(715);
-		ClientGUIApp.window.setMaxHeight(776);
-		ClientGUIApp.window.setScene(scene);
+		AppMain.window.setMinWidth(715);
+		AppMain.window.setMinHeight(776);
+		AppMain.window.setMaxWidth(715);
+		AppMain.window.setMaxHeight(776);
+		AppMain.window.setScene(scene);
 	}
 
 	public void handleJoin() throws IOException {
@@ -122,11 +121,11 @@ public class JoinMenuController implements Initializable {
 				if (!mainController.isPlaying()) {
 					AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("Wait.fxml")));
 					Scene scene = new Scene(pane, 953, 511);
-					ClientGUIApp.window.setMinWidth(953);
-					ClientGUIApp.window.setMinHeight(511);
-					ClientGUIApp.window.setMaxWidth(953);
-					ClientGUIApp.window.setMaxHeight(511);
-					ClientGUIApp.window.setScene(scene);
+					AppMain.window.setMinWidth(953);
+					AppMain.window.setMinHeight(511);
+					AppMain.window.setMaxWidth(953);
+					AppMain.window.setMaxHeight(511);
+					AppMain.window.setScene(scene);
 				}
 			} catch (IOException ignored) {
 			}
