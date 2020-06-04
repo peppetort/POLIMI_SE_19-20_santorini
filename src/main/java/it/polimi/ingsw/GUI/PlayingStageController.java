@@ -8,7 +8,6 @@ import it.polimi.ingsw.Messages.PlayerChatMessage;
 import it.polimi.ingsw.Model.Actions;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.God;
-import it.polimi.ingsw.Observer.Observable;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -135,6 +134,7 @@ public class PlayingStageController implements Initializable {
 		}
 
 		chatField.setWrapText(true);
+		chatField.setEditable(false);
 
 		podiumGod.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 			TranslateTransition transition = new TranslateTransition(Duration.millis(500), godInfo);
@@ -321,8 +321,6 @@ public class PlayingStageController implements Initializable {
 								}
 								break;
 							case DECK:
-//								deckLabel.getStyleClass().remove("actionLabel");
-//								deckLabel.getStyleClass().add("actionLabelSelected");
 								Platform.runLater(() -> {
 									try {
 										AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("AllCardsMenu.fxml")));
@@ -337,8 +335,6 @@ public class PlayingStageController implements Initializable {
 								});
 								break;
 							case CARD:
-//								cardLabel.getStyleClass().remove("actionLabel");
-//								cardLabel.getStyleClass().add("actionLabelSelected");
 								Platform.runLater(() -> {
 									try {
 										AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("SelectCardMenu.fxml")));
@@ -354,8 +350,6 @@ public class PlayingStageController implements Initializable {
 								});
 								break;
 							case END:
-//								endLabel.getStyleClass().remove("actionLabel");
-//								endLabel.getStyleClass().add("actionLabelSelected");
 								endButton.setDisable(false);
 								break;
 							case SELECT:
@@ -398,44 +392,24 @@ public class PlayingStageController implements Initializable {
 						}
 					} else if (change.wasRemoved() || !list.contains(a)) {
 						switch (a) {
-							case PLACE:
+							case PLACE -> {
 								placeLabel.getStyleClass().remove("actionLabelSelected");
 								placeLabel.getStyleClass().add("actionLabel");
-								break;
-							case BUILD:
+							}
+							case BUILD -> {
 								buildLabel.getStyleClass().remove("actionLabelSelected");
 								buildLabel.getStyleClass().add("actionLabel");
-								break;
-							case MOVE:
+							}
+							case MOVE -> {
 								moveLabel.getStyleClass().remove("actionLabelSelected");
 								moveLabel.getStyleClass().add("actionLabel");
-								break;
-							case DECK:
-//								deckLabel.getStyleClass().remove("actionLabelSelected");
-//								deckLabel.getStyleClass().add("actionLabel");
-								break;
-							case CARD:
-//								cardLabel.getStyleClass().remove("actionLabelSelected");
-//								cardLabel.getStyleClass().add("actionLabel");
-								break;
-							case END:
-//								endLabel.getStyleClass().remove("actionLabelSelected");
-//								endLabel.getStyleClass().add("actionLabel");
-								endButton.setDisable(true);
-								break;
-							case SELECT:
+							}
+							case END -> endButton.setDisable(true);
+							case SELECT -> {
 								selectLabel.getStyleClass().remove("actionLabelSelected");
 								selectLabel.getStyleClass().add("actionLabel");
-								break;
-							case UNDO:
-//								undoLabel.getStyleClass().remove("actionLabelSelected");
-//								undoLabel.getStyleClass().add("actionLabel");
-								undoButton.setDisable(true);
-								break;
-							case DOME:
-//								buildDomeLabel.getStyleClass().remove("actionLabelSelected");
-//								buildDomeLabel.getStyleClass().add("actionLabel");
-								break;
+							}
+							case UNDO -> undoButton.setDisable(true);
 						}
 
 					}

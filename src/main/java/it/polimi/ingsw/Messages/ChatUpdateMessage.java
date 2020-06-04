@@ -4,6 +4,7 @@ import it.polimi.ingsw.Model.Player;
 
 public class ChatUpdateMessage implements Message{
 
+
     String message;
 
     public ChatUpdateMessage(Player player,String text){
