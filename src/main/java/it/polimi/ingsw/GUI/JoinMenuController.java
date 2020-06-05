@@ -2,7 +2,10 @@ package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
 import it.polimi.ingsw.Exceptions.SessionNotExistsException;
-import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.PlayerRetrieveSessions;
+import it.polimi.ingsw.Messages.PlayerSelectSession;
+import it.polimi.ingsw.Messages.SessionListMessage;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -14,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,9 +27,13 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class JoinMenuController implements Initializable {
 
@@ -41,6 +49,8 @@ public class JoinMenuController implements Initializable {
 	public ImageView hourGlass2;
 	public Button backButton;
 	public Button joinButton;
+
+	ScheduledExecutorService executor;
 
 	public static ObservableList<SessionObject> list = FXCollections.observableArrayList();
 
@@ -61,14 +71,27 @@ public class JoinMenuController implements Initializable {
         players.setStyle( "-fx-alignment: CENTER;");
         cards.setStyle( "-fx-alignment: CENTER;");*/
 
+		sessionsTable.setPlaceholder(new Label("No sessions available"));
+
+		sessionsTable.getItems().addAll(list);
+
 		list.addListener((ListChangeListener<SessionObject>) change -> {
-			while (change.next()) {
-				sessionsTable.getItems().add(change.getAddedSubList().get(0));
-			}
+			System.out.println(list);
+				while (change.next()) {
+					if(change.wasAdded()){
+						sessionsTable.getItems().addAll(change.getAddedSubList());
+					}else if(change.wasRemoved()){
+						sessionsTable.getItems().removeAll(change.getRemoved());
+					}
+				}
 		});
+
+		executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(() -> handleRefresh(), 0, 1, TimeUnit.SECONDS);
 	}
 
 	public void handleBack() throws IOException {
+		executor.shutdownNow();
 		AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
 		Scene scene = new Scene(pane, 715, 776);
 		AppMain.window.setMinWidth(715);
@@ -114,6 +137,7 @@ public class JoinMenuController implements Initializable {
 	}
 
 	public void handleStart() {
+		executor.shutdownNow();
 		Platform.runLater(() -> {
 			try {
 				if (!mainController.isPlaying()) {
@@ -168,11 +192,41 @@ public class JoinMenuController implements Initializable {
 	public static void display(SessionListMessage msg) {
 		HashMap<String, Integer> players = msg.getParticipants();
 		HashMap<String, Boolean> cards = msg.getCards();
+		ArrayList<String> names = getSessionNames();
 
-		for (String s : players.keySet()) {
-			System.out.println("Session added to list");
-			list.add(new SessionObject(s, players.get(s), cards.get(s)));
+		if(players.keySet().size() == 0){
+			list.clear();
+			System.out.println("Clearing list");
 		}
+		try {
+			//deleting not-joinable sessions
+			for (SessionObject o : list) {
+				if (!players.containsKey(o.getName())) {
+					list.remove(o);
+				}
+			}
+			//adding new sessions
+			for (String s : players.keySet()) {
+				if (!names.contains(s)) {
+					list.add(new SessionObject(s, players.get(s), cards.get(s)));
+				}
+			}
+		}catch (Exception ign){}
+	}
+
+	private static ArrayList<String> getSessionNames(){
+		ArrayList<String> names = new ArrayList<>();
+		try {
+			for (SessionObject o : list) {
+				names.add(o.getName());
+			}
+		}catch(Exception e){}
+		return names;
+	}
+
+	private void handleRefresh(){
+		Message msg = new PlayerRetrieveSessions();
+		mainController.notify(msg);
 	}
 
 }
