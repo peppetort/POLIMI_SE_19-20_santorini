@@ -105,11 +105,20 @@ public class PlayingStageController implements Initializable {
 		}
 
 		if(turnColor != null){
-			Image color1 = switch (turnColor.get(0)) {
-				case RED -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_coral_pressed.png")).toExternalForm());
-				case BLUE -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_blue_pressed.png")).toExternalForm());
-				case GREEN -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_purple_pressed.png")).toExternalForm());
-			};
+			Image color1;
+			switch (turnColor.get(0)) {
+				case RED:
+					color1 = new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_coral_pressed.png")).toExternalForm());
+					break;
+				case BLUE:
+					color1 = new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_blue_pressed.png")).toExternalForm());
+					break;
+				case GREEN:
+					color1 = new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_purple_pressed.png")).toExternalForm());
+					break;
+				default:
+					throw new IllegalArgumentException();
+			}
 			turnPlayerColor.setImage(color1);
 		}
 
