@@ -71,6 +71,11 @@ public class MainController extends Observable<Object> implements Observer<Objec
                 }
                 else if((int)msg == 2 ){
                     try {
+                    	String username = client.getStatus().getTurn();
+                    	Color player = client.getStatus().getTurnColor();
+                    	God god = client.getStatus().getTurnGod();
+
+                    	PlayingStageController.setTurnPlayer(username, player, god);
                         PlayingStageController.setActionLabel(client.getStatus().getActions());
                     }catch(NullPointerException ignored){}
                 }else if((int)msg == 1){
@@ -96,37 +101,4 @@ public class MainController extends Observable<Object> implements Observer<Objec
                 }
             }
     }
-
-                    PlayingStageController.setTurnPlayer(username, player, god);
-
-					PlayingStageController.setActionLabel(client.getStatus().getActions());
-				} catch (NullPointerException ignored) {
-				}
-			} else if ((int) msg == 1) {
-				PlayingStageController.updateBoard();
-			}
-		} else if (msg instanceof InvalidChoiceMessage) {
-			PlayingStageController.handleException((InvalidChoiceMessage) msg);
-		} else if (msg instanceof Status) {
-			if (msg.equals(Status.WON)) {
-				Platform.runLater(() -> {
-					try {
-						EndController dialog = new EndController();
-						dialog.display(true);
-					} catch (IOException ignored) {
-					}
-				});
-			} else {
-				Platform.runLater(() -> {
-					try {
-						EndController dialog = new EndController();
-						dialog.display(false);
-					} catch (IOException ignored) {
-					}
-				});
-			}
-		}
-	}
-
-
 }

@@ -118,7 +118,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 										server.availableSessions.get(sessionID).addParticipant(this);
 										send(new SuccessfulJoin());
 									}catch(FullSessionException e){
-										send(new UnsuccesfulJoinMessage());
+										throw new FullSessionException(e.getMessage());
 									}
 								}
 						}
