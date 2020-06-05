@@ -161,11 +161,20 @@ public class PlayingStageController implements Initializable {
 
 		turnColor.addListener((ListChangeListener.Change<? extends Color> change) -> {
 			if(change.next()){
-				Image color = switch ((Color) change.getAddedSubList().get(0)) {
-					case RED -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_coral_pressed.png")).toExternalForm());
-					case BLUE -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_blue_pressed.png")).toExternalForm());
-					case GREEN -> new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_purple_pressed.png")).toExternalForm());
-				};
+				Image color;
+				switch ((Color) change.getAddedSubList().get(0)) {
+					case RED:
+						color = new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_coral_pressed.png")).toExternalForm());
+						break;
+					case BLUE:
+						color = new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_blue_pressed.png")).toExternalForm());
+						break;
+					case GREEN:
+						color = new Image(Objects.requireNonNull(PlayingStageController.class.getClassLoader().getResource("img/btn_purple_pressed.png")).toExternalForm());
+						break;
+					default:
+						throw new IllegalArgumentException();
+				}
 				turnPlayerColor.setImage(color);
 			}
 		});
@@ -392,24 +401,24 @@ public class PlayingStageController implements Initializable {
 						}
 					} else if (change.wasRemoved() || !list.contains(a)) {
 						switch (a) {
-							case PLACE -> {
+							case PLACE :
 								placeLabel.getStyleClass().remove("actionLabelSelected");
 								placeLabel.getStyleClass().add("actionLabel");
-							}
-							case BUILD -> {
+								break;
+							case BUILD :
 								buildLabel.getStyleClass().remove("actionLabelSelected");
 								buildLabel.getStyleClass().add("actionLabel");
-							}
-							case MOVE -> {
+								break;
+							case MOVE :
 								moveLabel.getStyleClass().remove("actionLabelSelected");
 								moveLabel.getStyleClass().add("actionLabel");
-							}
-							case END -> endButton.setDisable(true);
-							case SELECT -> {
+								break;
+							case END : endButton.setDisable(true);
+							case SELECT:
 								selectLabel.getStyleClass().remove("actionLabelSelected");
 								selectLabel.getStyleClass().add("actionLabel");
-							}
-							case UNDO -> undoButton.setDisable(true);
+								break;
+							case UNDO : undoButton.setDisable(true);
 						}
 
 					}
