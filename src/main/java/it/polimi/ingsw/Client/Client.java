@@ -3,6 +3,7 @@ package it.polimi.ingsw.Client;
 import it.polimi.ingsw.CLI.CLI;
 import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
+import it.polimi.ingsw.Exceptions.SessionNotExistsException;
 import it.polimi.ingsw.GUI.*;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.Actions;
@@ -83,7 +84,7 @@ public class Client extends Observable implements Observer<Object> {
 			while (connected) {
 				try {
 					inputObject = in.readObject();
-					if (inputObject instanceof String || inputObject instanceof SuccessfulJoin || inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof SuccessfulCreate) {
+					if (inputObject instanceof String || inputObject instanceof SessionNotExistsException || inputObject instanceof SuccessfulJoin || inputObject instanceof SessionListMessage || inputObject instanceof InvalidChoiceMessage || inputObject instanceof SuccessfulCreate) {
 						notify(inputObject);
 					} else if (inputObject instanceof ClientInitMessage) {
 						String username = ((ClientInitMessage) inputObject).getUsername();

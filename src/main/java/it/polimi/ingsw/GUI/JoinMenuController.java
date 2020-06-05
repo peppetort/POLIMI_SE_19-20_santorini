@@ -1,10 +1,8 @@
 package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.Exceptions.InvalidUsernameException;
-import it.polimi.ingsw.Messages.Message;
-import it.polimi.ingsw.Messages.PlayerRetrieveSessions;
-import it.polimi.ingsw.Messages.PlayerSelectSession;
-import it.polimi.ingsw.Messages.SessionListMessage;
+import it.polimi.ingsw.Exceptions.SessionNotExistsException;
+import it.polimi.ingsw.Messages.*;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -132,9 +130,8 @@ public class JoinMenuController implements Initializable {
 		});
 	}
 
-	public static void handleException(Exception e) {
+	public void handleException(Exception e) {
 		if (e instanceof InvalidUsernameException) {
-			System.out.println("Invalid username");
 //            SessionObject obj;
 //            obj = sessionsTable.getSelectionModel().getSelectedItem();
 			Platform.runLater(() -> {
@@ -147,9 +144,26 @@ public class JoinMenuController implements Initializable {
 					ioException.printStackTrace();
 				}
 			});
+		}else if(e instanceof SessionNotExistsException){
+			reload();
 		}
 	}
 
+	private void reload(){
+		Platform.runLater(() ->{
+			AnchorPane pane = null;
+			try {
+				pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("JoinMenu.fxml")));
+				Scene scene = new Scene(pane, 715, 776);
+				AppMain.window.setMinWidth(715);
+				AppMain.window.setMinHeight(776);
+				AppMain.window.setMaxWidth(715);
+				AppMain.window.setMaxHeight(776);
+				AppMain.window.setScene(scene);
+			} catch (IOException ignored) {
+			}
+		});
+	}
 
 	public static void display(SessionListMessage msg) {
 		HashMap<String, Integer> players = msg.getParticipants();
