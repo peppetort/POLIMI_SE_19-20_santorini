@@ -50,7 +50,7 @@ public class JoinMenuController implements Initializable {
 	public Button backButton;
 	public Button joinButton;
 
-	ScheduledExecutorService executor;
+	private static ScheduledExecutorService executor;
 
 	public static ObservableList<SessionObject> list = FXCollections.observableArrayList();
 
@@ -91,17 +91,24 @@ public class JoinMenuController implements Initializable {
 	}
 
 	public void handleBack() throws IOException {
-		executor.shutdownNow();
-		AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
-		Scene scene = new Scene(pane, 715, 776);
-		AppMain.window.setMinWidth(715);
-		AppMain.window.setMinHeight(776);
-		AppMain.window.setMaxWidth(715);
-		AppMain.window.setMaxHeight(776);
-		AppMain.window.setScene(scene);
+		Platform.runLater(() -> {
+			try {
+				executor.shutdownNow();
+				AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
+				Scene scene = new Scene(pane, 715, 776);
+				AppMain.window.setMinWidth(715);
+				AppMain.window.setMinHeight(776);
+				AppMain.window.setMaxWidth(715);
+				AppMain.window.setMaxHeight(776);
+				AppMain.window.setScene(scene);
+			}catch(Exception e){}
+		});
 	}
 
 	public void handleJoin() throws IOException {
+
+		executor.shutdownNow();
+
         String username = null;
         session = sessionsTable.getSelectionModel().getSelectedItem().name;
         UsernameDialog dialog = new UsernameDialog();
@@ -137,10 +144,12 @@ public class JoinMenuController implements Initializable {
 	}
 
 	public void handleStart() {
-		executor.shutdownNow();
 		Platform.runLater(() -> {
 			try {
 				if (!mainController.isPlaying()) {
+
+					executor.shutdownNow();
+
 					AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("Wait.fxml")));
 					Scene scene = new Scene(pane, 953, 511);
 					AppMain.window.setMinWidth(953);
