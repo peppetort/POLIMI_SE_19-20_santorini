@@ -6,13 +6,12 @@ import it.polimi.ingsw.Exceptions.PlayerLostException;
 import it.polimi.ingsw.Exceptions.SimpleGameException;
 import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Model.*;
-import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Observer.Observer;
 
 import java.util.*;
 
 
-public class Controller extends Observable<Message> implements Observer<Message> {
+public class Controller implements Observer<Message> {
 
 	private final Game game;
 	private final ArrayList<Player> playersList;
@@ -56,6 +55,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 		HashMap<Actions, Boolean> playerMenu;
 		HashMap<Actions, Boolean> nextPlayerMenu;
 
+		game.turnUpdate();
 
 		ActionsUpdateMessage message = new ActionsUpdateMessage();
 
@@ -77,7 +77,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 				}
 
 				TurnUpdateMessage turnMessage = new TurnUpdateMessage(nextUsername, nextColor, nextGod);
-				notify(turnMessage);
+				game.notify(turnMessage);
 
 				//Finito il giro
 				if (nextPlayerIndex == 1) {
@@ -87,26 +87,26 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
 						message.addAction(Actions.CARD);
 						//nextPlayer.notify(message);
-						notify(message);
+						game.notify(message);
 					} else if (playerMenu.get(Actions.CARD)) {
 						playerMenu.replace(Actions.CARD, false);
 						nextPlayerMenu.replace(Actions.PLACE, true);
 						message.addAction(Actions.PLACE);
 						//nextPlayer.notify(message);
-						notify(message);
+						game.notify(message);
 					} else if (playerMenu.get(Actions.PLACE)) {
 						playerMenu.replace(Actions.PLACE, false);
 						nextPlayerMenu.replace(Actions.SELECT, true);
 
 						message.addAction(Actions.SELECT);
 						//nextPlayer.notify(message);
-						notify(message);
+						game.notify(message);
 					} else {
 						nextPlayerMenu.replace(Actions.SELECT, true);
 
 						message.addAction(Actions.SELECT);
 						//nextPlayer.notify(message);
-						notify(message);
+						game.notify(message);
 					}
 				} else {
 					if (playerMenu.get(Actions.CARD)) {
@@ -115,20 +115,20 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
 						message.addAction(Actions.CARD);
 						//nextPlayer.notify(message);
-						notify(message);
+						game.notify(message);
 					} else if (playerMenu.get(Actions.PLACE)) {
 						playerMenu.replace(Actions.PLACE, false);
 						nextPlayerMenu.replace(Actions.PLACE, true);
 
 						message.addAction(Actions.PLACE);
 						//nextPlayer.notify(message);
-						notify(message);
+						game.notify(message);
 					} else {
 						nextPlayerMenu.replace(Actions.SELECT, true);
 
 						message.addAction(Actions.SELECT);
 						//nextPlayer.notify(message);
-						notify(message);
+						game.notify(message);
 					}
 				}
 
@@ -158,14 +158,14 @@ public class Controller extends Observable<Message> implements Observer<Message>
 					player.getTurn().start(worker);
 				} catch (PlayerLostException e1) {
 					LostMessage lostMessage = new LostMessage(player.getUsername(), player.getColor());
-					notify(lostMessage);
+					game.notify(lostMessage);
 					updateTurn();
 					removePlayer(player);
 
 					if (playersList.size() == 1) {
 						Player winner = playersList.get(0);
 						WinMessage winMessage = new WinMessage(winner.getUsername());
-						notify(winMessage);
+						game.notify(winMessage);
 						removePlayer(winner);
 					}
 
@@ -195,7 +195,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
 					if (playerTurn.won()) {
 						WinMessage winMessage = new WinMessage(player.getUsername());
-						notify(winMessage);
+						game.notify(winMessage);
 
 						while (!playersList.isEmpty()) {
 							removePlayer(playersList.get(0));
@@ -352,7 +352,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 						}
 						game.addCards(deck);
 						DeckUpdateMessage deckMessage = new DeckUpdateMessage(gods);
-						notify(deckMessage);
+						game.notify(deckMessage);
 						updateTurn();
 					} catch (SimpleGameException e1) {
 						e1.printStackTrace();
@@ -390,7 +390,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 					cards.remove(card);
 					ArrayList<God> deck = new ArrayList<>(cards);
 					DeckUpdateMessage deckMessage = new DeckUpdateMessage(deck);
-					notify(deckMessage);
+					game.notify(deckMessage);
 
 					updateTurn();
 				} catch (NullPointerException | IllegalArgumentException | SimpleGameException | CardAlreadySetException e) {
@@ -471,7 +471,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 			} else {
 				removePlayer(player);
 				WinMessage winMessage = new WinMessage(playersList.get(0).getUsername());
-				notify(winMessage);
+				game.notify(winMessage);
 				removePlayer(playersList.get(0));
 			}
 		}

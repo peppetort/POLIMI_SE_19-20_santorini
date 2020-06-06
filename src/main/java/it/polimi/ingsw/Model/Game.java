@@ -100,5 +100,8 @@ public class Game extends Observable<Message> {
         notify(new ChatUpdateMessage(player,message));
     }
 
+    public void turnUpdate(){
+        board.removeAction();
+    }
 
 }
