@@ -56,7 +56,7 @@ public class MainController extends Observable<Object> implements Observer<Objec
             if (msg instanceof SessionListMessage) {
                 JoinMenuController.display((SessionListMessage) msg);
             } else if (msg instanceof AlreadyExistingSessionException) {
-                CreateMenuController.handleException((Exception) msg);
+                createController.handleException();
             } else if (msg instanceof SuccessfulCreate) {
                 createController.handleStart();
             } else if (msg instanceof SuccessfulJoin) {

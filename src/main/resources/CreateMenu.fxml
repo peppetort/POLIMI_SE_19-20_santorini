@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="715.0" stylesheets="@css/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.CreateMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="715.0" stylesheets="@css/standard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.CreateMenuController">
    <children>
       <ImageView fitHeight="758.0" fitWidth="715.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -118,6 +118,11 @@
                   <Font size="20.0" />
                </font>
             </RadioButton>
+            <Label fx:id="errorLabel" alignment="CENTER" layoutX="76.0" layoutY="438.0" prefWidth="200.0" text="Label" textFill="#bc0000" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Button fx:id="backButton" layoutX="46.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="62.0" prefWidth="62.0" styleClass="back-button" />
@@ -126,12 +131,12 @@
             <Font size="22.0" />
          </font>
       </Button>
-      <ImageView visible="false" fx:id="hourGlass1" fitHeight="106.0" fitWidth="64.0" layoutX="597.0" layoutY="640.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="hourGlass1" fitHeight="106.0" fitWidth="64.0" layoutX="597.0" layoutY="640.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@img/hourglassEmpty_1.png" />
          </image>
       </ImageView>
-      <ImageView visible="false"  fx:id="hourGlass2" fitHeight="47.0" fitWidth="29.0" layoutX="615.0" layoutY="659.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="hourGlass2" fitHeight="47.0" fitWidth="29.0" layoutX="615.0" layoutY="659.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@img/hourglassSand2_1.png" />
          </image>

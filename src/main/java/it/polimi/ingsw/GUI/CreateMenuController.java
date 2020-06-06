@@ -1,6 +1,5 @@
 package it.polimi.ingsw.GUI;
 
-import it.polimi.ingsw.Exceptions.AlreadyExistingSessionException;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PlayerCreateSessionMessage;
 import javafx.animation.Animation;
@@ -17,6 +16,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -33,6 +33,11 @@ public class CreateMenuController implements Initializable {
 	public Button createButton;
 	public ImageView hourGlass1;
 	public ImageView hourGlass2;
+	public Label errorLabel;
+
+	private static ArrayList<ImageView> images = new ArrayList<>();
+	private static ArrayList<Button> buttons = new ArrayList<>();
+	private static Label erLabel = new Label();
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,6 +46,13 @@ public class CreateMenuController implements Initializable {
 		//cardBox.getSelectionModel().selectFirst();
 		//playerBox.getItems().addAll(2,3);
 		//playerBox.getSelectionModel().selectFirst();
+		images.add(hourGlass1);
+		images.add(hourGlass2);
+		buttons.add(createButton);
+		buttons.add(backButton);
+
+		errorLabel.setVisible(false);
+		erLabel = errorLabel;
 
 	}
 
@@ -76,6 +88,8 @@ public class CreateMenuController implements Initializable {
 			mainController.notify(msg);
 		}).start();
 
+		errorLabel.setVisible(false);
+
 		hourGlass1.setVisible(true);
 		hourGlass2.setVisible(true);
 
@@ -99,20 +113,20 @@ public class CreateMenuController implements Initializable {
 		rt2.play();
 
 
+
 	}
 
-	public static void handleException(Exception msg) {
-
-		if (msg instanceof AlreadyExistingSessionException) {
-
-			Platform.runLater(() -> {
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Error Dialog");
-				alert.setHeaderText("Look, an Error Dialog");
-				alert.setContentText("Ooops, there was an error!");
-				alert.showAndWait();
-			});
-		}
+	public void handleException() {
+		Platform.runLater(() -> {
+			for(ImageView i: images){
+				i.setVisible(false);
+			}
+			for(Button b: buttons){
+				b.setDisable(false);
+			}
+			erLabel.setText("Session's name already existing");
+			erLabel.setVisible(true);
+		});
 	}
 
 	public void handleStart() {
