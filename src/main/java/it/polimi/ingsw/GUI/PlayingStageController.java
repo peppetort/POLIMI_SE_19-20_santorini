@@ -100,11 +100,11 @@ public class PlayingStageController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 
-		if(turnName != null){
+		if (turnName != null) {
 			turnPlayerName.setText(turnName.get(0));
 		}
 
-		if(turnColor != null){
+		if (turnColor != null) {
 			Image color1;
 			switch (turnColor.get(0)) {
 				case RED:
@@ -122,10 +122,12 @@ public class PlayingStageController implements Initializable {
 			turnPlayerColor.setImage(color1);
 		}
 
-		try{
+		try {
 			GodObject podium = new GodObject(turnGod.get(0));
 			turnPlayerGod.setImage(podium.getPodiumGodImage());
-		}catch (IndexOutOfBoundsException | NullPointerException ignored){};
+		} catch (IndexOutOfBoundsException | NullPointerException ignored) {
+		}
+		;
 
 		endButton.setDisable(true);
 		undoButton.setDisable(true);
@@ -163,13 +165,13 @@ public class PlayingStageController implements Initializable {
 		mainController.setPlaying(true);
 
 		turnName.addListener((ListChangeListener.Change<? extends String> change) -> {
-			if(change.next()){
+			if (change.next()) {
 				turnPlayerName.setText(change.getAddedSubList().get(0));
 			}
 		});
 
 		turnColor.addListener((ListChangeListener.Change<? extends Color> change) -> {
-			if(change.next()){
+			if (change.next()) {
 				Image color;
 				switch ((Color) change.getAddedSubList().get(0)) {
 					case RED:
@@ -189,9 +191,9 @@ public class PlayingStageController implements Initializable {
 		});
 
 		turnGod.addListener((ListChangeListener.Change<? extends God> change) -> {
-			if(change.next()){
+			if (change.next()) {
 				God god = change.getAddedSubList().get(0);
-				if(god != null){
+				if (god != null) {
 					GodObject podium = new GodObject(god);
 					turnPlayerGod.setImage(podium.getPodiumGodImage());
 				}
@@ -410,24 +412,28 @@ public class PlayingStageController implements Initializable {
 						}
 					} else if (change.wasRemoved() || !list.contains(a)) {
 						switch (a) {
-							case PLACE :
+							case PLACE:
 								placeLabel.getStyleClass().remove("actionLabelSelected");
 								placeLabel.getStyleClass().add("actionLabel");
 								break;
-							case BUILD :
+							case BUILD:
 								buildLabel.getStyleClass().remove("actionLabelSelected");
 								buildLabel.getStyleClass().add("actionLabel");
 								break;
-							case MOVE :
+							case MOVE:
 								moveLabel.getStyleClass().remove("actionLabelSelected");
 								moveLabel.getStyleClass().add("actionLabel");
 								break;
-							case END : endButton.setDisable(true);
+							case END:
+								endButton.setDisable(true);
+								break;
 							case SELECT:
 								selectLabel.getStyleClass().remove("actionLabelSelected");
 								selectLabel.getStyleClass().add("actionLabel");
 								break;
-							case UNDO : undoButton.setDisable(true);
+							case UNDO:
+								undoButton.setDisable(true);
+								break;
 						}
 
 					}
@@ -438,22 +444,22 @@ public class PlayingStageController implements Initializable {
 	}
 
 	public static void setTurnPlayer(String name, Color player, God god) {
-		if(turnName.isEmpty()){
+		if (turnName.isEmpty()) {
 			turnName.add(name);
-		}else {
-			turnName.set(0 ,name);
+		} else {
+			turnName.set(0, name);
 		}
 
-		if(turnColor.isEmpty()){
+		if (turnColor.isEmpty()) {
 			turnColor.add(player);
-		}else {
-			turnColor.set(0 ,player);
+		} else {
+			turnColor.set(0, player);
 		}
 
-		if(god != null){
-			if(turnGod.isEmpty()){
+		if (god != null) {
+			if (turnGod.isEmpty()) {
 				turnGod.add(god);
-			}else {
+			} else {
 				turnGod.set(0, god);
 			}
 		}
