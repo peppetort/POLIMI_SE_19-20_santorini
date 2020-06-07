@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 public class DefaultTurn implements Turn  {
 
-    static boolean canGoUp = true;
     final Move moveAction;
     final Build buildAction;
     final Win winAction;
@@ -49,6 +48,8 @@ public class DefaultTurn implements Turn  {
         if (running) { // controlla che il turno non è stato già iniziato
             throw new RuntimeException("Already start!");
         }
+        boolean canGoUp = player.getSession().getCanGoUp();
+
         boolean canMoveSelected = worker.canMove(canGoUp);
         boolean canMoveOther = otherWorker.canMove(canGoUp);
 
@@ -69,7 +70,6 @@ public class DefaultTurn implements Turn  {
             message.addAction(Actions.MOVE);
             message.addAction(Actions.UNDO);
 
-            //player.notify(message);
             player.getSession().notify(message);
 
         }
@@ -84,7 +84,7 @@ public class DefaultTurn implements Turn  {
         if (!canMove) {
             throw new RuntimeException("You can't move!");
         }
-        if (!canGoUp) { // se è true un giocatore avversario ha usato ATHENA
+        if (!player.getSession().getCanGoUp()) { // se è true un giocatore avversario ha usato ATHENA
             try {
                 moveAction.moveNoGoUp(worker, x, y);
             }catch (CantGoUpException e){
@@ -110,7 +110,6 @@ public class DefaultTurn implements Turn  {
 
             message.addAction(Actions.UNDO);
 
-            //player.notify(message);
             player.getSession().notify(message);
         }
 
@@ -133,7 +132,6 @@ public class DefaultTurn implements Turn  {
         message.addAction(Actions.END);
         message.addAction(Actions.UNDO);
 
-        //player.notify(message);
         player.getSession().notify(message);
 
     }
@@ -155,7 +153,6 @@ public class DefaultTurn implements Turn  {
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.END);
         message.addAction(Actions.UNDO);
-       // player.notify(message);
         player.getSession().notify(message);
     }
 
@@ -195,13 +192,12 @@ public class DefaultTurn implements Turn  {
 
         try {
             if (player.getCard().equals(God.ATHENA)) {
-                canGoUp = true;
+                player.getSession().updateCanGoUp(true);
             }
         }catch (SimpleGameException ignored){}
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
         message.addAction(Actions.SELECT);
-        //player.notify(message);
         player.getSession().notify(message);
     }
     //TODO: gestione undo per le classi che ereditano da questa (solo alcune che non sono ancora state testate)

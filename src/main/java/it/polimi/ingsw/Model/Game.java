@@ -18,6 +18,8 @@ public class Game extends Observable<Message> {
     private final Board board;
     private final boolean simpleGame;
 
+    private boolean canGoUp;
+
 
     /**
      * Constructor of the class {@link Game} if it's a 2-Player's match
@@ -29,6 +31,7 @@ public class Game extends Observable<Message> {
      */
 
     public Game(String player1, String player2, Board board, boolean simpleGame) {
+        this.canGoUp = true;
         this.board = board;
         this.simpleGame = simpleGame;
         players.add(new Player(player1, this, Color.BLUE));
@@ -45,6 +48,7 @@ public class Game extends Observable<Message> {
      * @param simpleGame true if the game is without any {@link God}, false if each {@link Player} has a {@link God}
      */
     public Game(String player1, String player2, String player3, Board board, boolean simpleGame) {
+        this.canGoUp = true;
         this.board = board;
         this.simpleGame = simpleGame;
         players.add(new Player(player1, this, Color.BLUE));
@@ -102,6 +106,14 @@ public class Game extends Observable<Message> {
 
     public void turnUpdate(){
         board.removeAction();
+    }
+
+    public void updateCanGoUp(boolean value){
+        this.canGoUp = value;
+    }
+
+    public boolean getCanGoUp(){
+        return this.canGoUp;
     }
 
 }

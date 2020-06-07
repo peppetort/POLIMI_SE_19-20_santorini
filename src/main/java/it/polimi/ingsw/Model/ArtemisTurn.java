@@ -35,7 +35,7 @@ public class ArtemisTurn extends DefaultTurn {
             if (startX == x && startY == y) {
                 throw new InvalidMoveException("Can't move worker on this box! It's the starting box");
             }
-            if(!canGoUp){
+            if(!player.getSession().getCanGoUp()){
                 try {
                     moveAction.moveNoGoUp(worker, x, y);
                 }catch (CantGoUpException e){
@@ -53,14 +53,13 @@ public class ArtemisTurn extends DefaultTurn {
                 ActionsUpdateMessage message = new ActionsUpdateMessage();
                 message.addAction(Actions.BUILD);
                 message.addAction(Actions.UNDO);
-                //player.notify(message);
                 player.getSession().notify(message);
             }
 
         } catch (NullPointerException e) {
             startX = worker.getXPos();
             startY = worker.getYPos();
-            if(!canGoUp){
+            if(!player.getSession().getCanGoUp()){
                 try {
                     moveAction.moveNoGoUp(worker, x, y);
                 }catch (CantGoUpException e1){
@@ -80,7 +79,6 @@ public class ArtemisTurn extends DefaultTurn {
                 message.addAction(Actions.MOVE);
                 message.addAction(Actions.BUILD);
                 message.addAction(Actions.UNDO);
-                //player.notify(message);
                 player.getSession().notify(message);
             }
         }

@@ -26,6 +26,8 @@ public class PrometheusTurn extends DefaultTurn {
         if (running) { // controlla che il turno non è stato già iniziato
             throw new RuntimeException("Already start!");
         }
+        boolean canGoUp = player.getSession().getCanGoUp();
+
         boolean canMoveSelected = worker.canMove(canGoUp);
         boolean canMoveOther = otherWorker.canMove(canGoUp);
 
@@ -80,7 +82,7 @@ public class PrometheusTurn extends DefaultTurn {
         }else {
             startBuild = true;
 
-            if (!canGoUp) { // se è true un giocatore avversario ha usato ATHENA
+            if (!player.getSession().getCanGoUp()) { // se è true un giocatore avversario ha usato ATHENA
                 try {
                     moveAction.moveNoGoUp(worker, x, y);
                 }catch (CantGoUpException e){
@@ -101,7 +103,6 @@ public class PrometheusTurn extends DefaultTurn {
 
         if(!win) {
             message.addAction(Actions.UNDO);
-           // player.notify(message);
             player.getSession().notify(message);
         }
     }
@@ -130,7 +131,6 @@ public class PrometheusTurn extends DefaultTurn {
         }
 
         message.addAction(Actions.UNDO);
-        //player.notify(message);
         player.getSession().notify(message);
 
     }

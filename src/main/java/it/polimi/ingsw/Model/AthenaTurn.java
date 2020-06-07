@@ -13,7 +13,7 @@ public class AthenaTurn extends DefaultTurn {
 
     @Override
     public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidMoveException {
-        canGoUp = true; //di default tutti possono salire
+        player.getSession().updateCanGoUp(true); //di default tutti possono salire
         Box workerBox = board.getBox(worker.getXPos(), worker.getYPos()); //box iniziale della pedina
         if (!running) {
             throw new TurnNotStartedException("Turn not started!");
@@ -40,7 +40,7 @@ public class AthenaTurn extends DefaultTurn {
         //quella da cui sono partito, la differenza è > 0.
         //Quindi vuol dire che sono salito di livello
         if (board.getBox(x, y).getDifference(workerBox) > 0) {
-            canGoUp = false;
+            player.getSession().updateCanGoUp(false);
         }
     }
 }

@@ -161,15 +161,12 @@ public class DefaultTurnTest {
         board.placePawn(worker1, 0, 0);
         board.placePawn(worker2,4,4);
 
+
         Turn turn = new DefaultTurn(player);
-        TurnUtils util = new TurnUtils(player);
-        boolean tmp = util.getCanGoUp();
-        util.setCanGoUp(true);
 
         player.getPlayerMenu().replace(Actions.SELECT, true);
         turn.start(worker1);
         turn.move( 0,1);
-        util.setCanGoUp(tmp);
         assertTrue(turn.won());
     }
 
