@@ -26,6 +26,7 @@ public class EndController{
 			pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("Lose.fxml")));
 		}
 		Scene scene = new Scene(pane);
+		dialog.setOnCloseRequest(e -> handleEnd());
 		dialog.setMaxWidth(425);
 		dialog.setMaxHeight(350);
 		dialog.setMinHeight(350);

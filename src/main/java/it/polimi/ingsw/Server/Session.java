@@ -55,6 +55,10 @@ public class Session extends Observable<Message> implements Serializable {
         return this.waitingConnection;
     }
 
+    /**
+     *
+     * @param player
+     */
     public synchronized void addParticipant(ClientConnection player){
         if (waitingConnection.size() < participant && playingConnection.size() == 0) {
             waitingConnection.put(player.getUsername(), player);
@@ -70,6 +74,10 @@ public class Session extends Observable<Message> implements Serializable {
 
     }
 
+    /**
+     *
+     * @param username
+     */
     public synchronized void deregisterConnection(String username) {
         if (playingConnection.isEmpty()) {
             waitingConnection.remove(username);
@@ -82,6 +90,7 @@ public class Session extends Observable<Message> implements Serializable {
             playingConnection.remove(username);
         }
     }
+
 
 
     private void start(){

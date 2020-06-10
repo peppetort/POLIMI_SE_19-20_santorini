@@ -1,5 +1,6 @@
 package it.polimi.ingsw.GUI;
 
+import it.polimi.ingsw.Client.Client;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PlayerCreateSessionMessage;
 import javafx.animation.Animation;
@@ -20,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the create match menu.
+ */
 public class CreateMenuController implements Initializable {
 
 	public static MainController mainController;
@@ -39,6 +43,11 @@ public class CreateMenuController implements Initializable {
 	private static ArrayList<Button> buttons = new ArrayList<>();
 	private static Label erLabel = new Label();
 
+	/**
+	 * Method for scene initialization.
+	 * @param url
+	 * @param resourceBundle
+	 */
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		playerButton2.setSelected(true);
@@ -56,10 +65,20 @@ public class CreateMenuController implements Initializable {
 
 	}
 
+	/**
+	 *
+	 * @param mc
+	 */
 	public static void setMainController(MainController mc) {
 		mainController = mc;
 	}
 
+	/**
+	 * Method used to handle a mouseClick over {@link Button} "BACK" (backButton).
+	 * It loads a different FXML resource and create a new stage that will replace
+	 * the current one.
+	 * @throws IOException
+	 */
 	public void handleBack() throws IOException {
 		AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("StartMenu.fxml")));
 		Scene scene = new Scene(pane, 715, 776);
@@ -70,6 +89,11 @@ public class CreateMenuController implements Initializable {
 		AppMain.window.setScene(scene);
 	}
 
+	/**
+	 * Method used to handle the MouseClick over create {@link Button}. It notifies
+	 * a {@link PlayerCreateSessionMessage}  to the {@link MainController} attribute
+	 * "mainController".
+	 */
 	public void handleCreate() {
 		new Thread(() -> {
 			boolean simple;
@@ -82,8 +106,6 @@ public class CreateMenuController implements Initializable {
 			} else {
 				playersNumber = 3;
 			}
-
-
 			Message msg = new PlayerCreateSessionMessage(username.getText(), sessionName.getText(), playersNumber, simple);
 			mainController.notify(msg);
 		}).start();
@@ -103,19 +125,19 @@ public class CreateMenuController implements Initializable {
 		rt1.setCycleCount(Animation.INDEFINITE);
 		rt1.setInterpolator(Interpolator.LINEAR);
 
-
 		rt2.setByAngle(360);
 		rt2.setCycleCount(Animation.INDEFINITE);
 		rt2.setInterpolator(Interpolator.LINEAR);
 
-
 		rt1.play();
 		rt2.play();
-
-
-
 	}
 
+	/**
+	 * Method that handle an exception. The {@link Exception} {@link it.polimi.ingsw.Exceptions.AlreadyExistingSessionException}
+	 * read by {@link Client} socket is notified to {@link MainController} that
+	 * uses this method to tell the player to choose another Name for the session.
+	 */
 	public void handleException() {
 		Platform.runLater(() -> {
 			for(ImageView i: images){
@@ -129,6 +151,12 @@ public class CreateMenuController implements Initializable {
 		});
 	}
 
+	/**
+	 * When the {@link Client} receive a {@link it.polimi.ingsw.Messages.SuccessfulCreate}
+	 * the player will enter in a waiting room, handled by {@link WaitController}.
+	 * Method loads a different FXML resource and create a new stage that will replace
+	 * the current one.
+	 */
 	public void handleStart() {
 		Platform.runLater(() -> {
 			try {

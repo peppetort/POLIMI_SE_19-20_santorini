@@ -5,10 +5,16 @@ import javafx.scene.image.ImageView;
 
 import java.util.Objects;
 
+/**
+ * Class used to represent buildings in the {@link PlayingStageController}
+ */
 public class Building extends ImageView {
 
 	Image block;
 
+	/**
+	 * Constructor of the class.
+	 */
 	public Building() {
 		super();
 		this.setPreserveRatio(true);
@@ -18,6 +24,11 @@ public class Building extends ImageView {
 		this.setVisible(false);
 	}
 
+	/**
+	 * Set the {@link Image} attribute of the class (block) with the correct image
+	 * url (no dome).
+	 * @param level
+	 */
 	public void build(int level) {
 		if(level > 0) {
 			switch (level) {
@@ -38,6 +49,10 @@ public class Building extends ImageView {
 		}
 	}
 
+	/**
+	 * Used to build a dome. Handled in a different way than other buildings because
+	 * Atlas can build over terrain.
+	 */
 	public void buildDome() {
 		block = new Image(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("img/levelDome.png")));
 		this.setImage(block);
