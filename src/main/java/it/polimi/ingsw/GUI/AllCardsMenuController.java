@@ -21,7 +21,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-
+/**
+ * Controller class for the AllCards stage that will be diplayed when the challenger has to choose the available cards for
+ * each players.
+ */
 public class AllCardsMenuController implements Initializable {
 	public ImageView godImage;
 	public Label godName;

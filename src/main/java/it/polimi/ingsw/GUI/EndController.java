@@ -11,11 +11,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-
+/**
+ * Class which represent the end match dialog.
+ */
 public class EndController{
 
 	static Stage dialog = new Stage();
 
+	/**
+	 * If the parameter is true the dialog will display a Win message, a lost message will be displayed otherwise.
+	 * @param win
+	 * @throws IOException
+	 */
 	public void display(boolean win) throws IOException {
 
 		AnchorPane pane;
@@ -36,6 +43,10 @@ public class EndController{
 		dialog.showAndWait();
 	}
 
+	/**
+	 * Method triggered by clicking on "return to main menu". It loads a different FXML resource and create a new stage that will replace
+	 * 	 * the current one.
+	 */
 	public void handleEnd(){
 		dialog.close();
 		Platform.runLater(() -> {

@@ -12,6 +12,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+/**
+ * Class used to encapsulate images and label for the god choosen that will be displayed in the playing stage on the
+ * left-bottom corner.
+ */
 public class GodObject {
 
 	private final String godNameLabel;
@@ -23,6 +27,10 @@ public class GodObject {
 
 	private JSONObject jsonObject;
 
+	/**
+	 * Constructor that takes the selected god as parameter. It loads the resources based on the god.
+	 * @param selected
+	 */
 	public GodObject(God selected) {
 		JSONParser parser = new JSONParser();
 
