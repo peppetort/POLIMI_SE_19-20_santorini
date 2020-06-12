@@ -6,5 +6,6 @@
 !src/
 !javadoc/
 !UML/
+!JAR/
 src/main/java/META-INF
 src/main/java/META-INF/*
