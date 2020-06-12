@@ -4,6 +4,9 @@ package it.polimi.ingsw.Server;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Observer.Observer;
 
+/**
+ * Interface used to create a {@link SocketClientConnection}
+ */
 public interface ClientConnection  {
 
     String getUsername();

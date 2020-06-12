@@ -10,6 +10,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 
+/**
+ * A {@link SocketClientConnection} is used by {@link Server} to handle the {@link it.polimi.ingsw.Client.Client}
+ * connection.
+ */
 public class SocketClientConnection extends Observable<Message> implements ClientConnection, Runnable {
 
 	private final Socket socket;
@@ -23,6 +27,12 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 
 	private boolean active = true;
 
+	/**
+	 * Constructor where socket is the {@link it.polimi.ingsw.Client.Client} {@link Socket} accepted.
+	 * @param socket
+	 * @param server
+	 * @throws IOException
+	 */
 	public SocketClientConnection(Socket socket, Server server) throws IOException {
 		this.socket = socket;
 		this.server = server;
@@ -30,10 +40,18 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 		in = new ObjectInputStream(socket.getInputStream());
 	}
 
+	/**
+	 * If returns true the socket is active and can be used to communicate.
+	 * @return
+	 */
 	private synchronized boolean isActive() {
 		return active;
 	}
 
+	/**
+	 * Used to deregister connection from {@link Session} and to close {@link Socket} (if the {@link it.polimi.ingsw.Model.Game}
+	 * ends and/or the {@link it.polimi.ingsw.Client.Client} has a network error)
+	 */
 	@Override
 	public synchronized void closeConnection() {
 		send("Connection closed!");
@@ -51,6 +69,11 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 		return this.username;
 	}
 
+	/**
+	 * Used to send an {@link Object} on the outpuStream of the {@link Server} socket, linked to an unique
+	 * {@link it.polimi.ingsw.Client.Client} because each {@link SocketClientConnection} has a private ObjectOutputStream.
+	 * @param message
+	 */
 	@Override
 	public synchronized void send(final Object message) {
 		try {
@@ -60,7 +83,13 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 		} catch (IOException ignored) {}
 	}
 
-
+	/**
+	 * used to receive messages asynchronously on a ObjectInputStream. Each {@link SocketClientConnection} has a private
+	 * ObjectInputStream which communicate with an OutputStream of a {@link it.polimi.ingsw.Client.Client}.
+	 * This method acts differently based on the {@link Message} read. If there are connection errors the {@link Socket}
+	 * will be closed. Can receive {@link PlayerRetrieveSessions}, {@link PlayerCreateSessionMessage}, {@link PlayerSelectSession}
+	 * and messages that handle player moves.
+	 */
 	@Override
 	public void run() {
 		Object inputObject;

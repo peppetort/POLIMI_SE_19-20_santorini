@@ -21,6 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A {@link Session} is used to handle the pre-match. A "challenger" creates a {@link Session} where other {@link it.polimi.ingsw.Client.Client}
+ * may join via {@link it.polimi.ingsw.Messages.PlayerSelectSession} message.
+ */
 public class Session extends Observable<Message> implements Serializable {
     private final String name;
     private final int participant;
@@ -30,7 +34,15 @@ public class Session extends Observable<Message> implements Serializable {
     private transient final Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private transient final Map<String, ClientConnection> playingConnection = new HashMap<>();
 
-
+    /**
+     * Constructor which takes the settings for the {@link Game}.
+     * @param creatorConnection
+     * @param p
+     * @param simple
+     * @param server
+     * @param sessionName
+     * @throws InterruptedException
+     */
     public Session(ClientConnection creatorConnection, int p, boolean simple, Server server, String sessionName) throws InterruptedException {
         this.participant = p;
         this.simple = simple;
@@ -56,7 +68,10 @@ public class Session extends Observable<Message> implements Serializable {
     }
 
     /**
-     *
+     * When a {@link it.polimi.ingsw.Client.Client} succesful join a {@link Session} it will be added in the
+     * waitingConnection map which will be cleared after its size reach the number of players selected for the
+     * {@link Game} in the constructor. When this occurs a start method will be used to create the real {@link Game} on
+     * the server and the match will start.
      * @param player
      */
     public synchronized void addParticipant(ClientConnection player){
@@ -75,7 +90,8 @@ public class Session extends Observable<Message> implements Serializable {
     }
 
     /**
-     *
+     * When someone disconnects from the {@link Server} it will be removed from the {@link Game} and each {@link it.polimi.ingsw.Client.Client}
+     * which partecipate to the interested {@link Session} / {@link Game} will be notified with a {@link PlayerRemoveMessage}.
      * @param username
      */
     public synchronized void deregisterConnection(String username) {
@@ -92,7 +108,9 @@ public class Session extends Observable<Message> implements Serializable {
     }
 
 
-
+    /**
+     * When the waitingConnection's size will reach the choosen player's number the game itself will start.
+     */
     private void start(){
 
         List<String> keys = new ArrayList<>(waitingConnection.keySet());
