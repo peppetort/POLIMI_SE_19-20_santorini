@@ -10,7 +10,9 @@ import it.polimi.ingsw.Observer.Observer;
 
 import java.util.*;
 
-
+/**
+ * Controller class for MVC pattern implementation.
+ */
 public class Controller implements Observer<Message> {
 
 	private final Game game;
@@ -22,6 +24,10 @@ public class Controller implements Observer<Message> {
 	private final Timer timer = new Timer();
 	private TimerTask task;
 
+	/**
+	 * Constructor, takes {@link Game} which is the Model itself.
+	 * @param game
+	 */
 	public Controller(Game game) {
 		this.game = game;
 		playersList = game.getPlayers();
@@ -43,12 +49,20 @@ public class Controller implements Observer<Message> {
 
 	}
 
+	/**
+	 * Used to remove a {@link Player} from the turn list and from {@link Game}.
+	 * @param player
+	 */
 	private void removePlayer(Player player) {
 		playersList.remove(player);
 		turn.remove(player);
 		game.removePlayer(player);
 	}
 
+	/**
+	 * Method used to update the turn. The {@link Game} will notify each {@link it.polimi.ingsw.View.RemoteView} with a
+	 * {@link TurnUpdateMessage}.
+	 */
 	private void updateTurn() {
 		int nextPlayerIndex;
 		Player nextPlayer;
@@ -147,7 +161,11 @@ public class Controller implements Observer<Message> {
 		return cards;
 	}
 
-	//Actions
+	/**
+	 * Method used to perform a selection (the {@link it.polimi.ingsw.Client.Client} select one of his worker and sends
+	 * a {@link PlayerSelectMessage}).
+	 * @param message
+	 */
 	private void performStart(PlayerSelectMessage message) {
 		Player player = message.getPlayer();
 		Worker worker = message.getWorker();
@@ -181,6 +199,14 @@ public class Controller implements Observer<Message> {
 
 	}
 
+	/**
+	 * Method used to perform a move if the {@link it.polimi.ingsw.Client.Client} has the turn.
+	 * the {@link it.polimi.ingsw.Client.Client} select where to move and sends a {@link PlayerMoveMessage}. If it's an
+	 * illegal move the {@link Player} will notify his own {@link it.polimi.ingsw.View.RemoteView} an
+	 * {@link InvalidChoiceMessage}. If the {@link Player} moves to a level 3 building the {@link Game} will notify
+	 * each {@link it.polimi.ingsw.View.RemoteView} with a {@link WinMessage} which contains the username of the winner.
+	 * @param message
+	 */
 	private void performMove(PlayerMoveMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
@@ -212,6 +238,14 @@ public class Controller implements Observer<Message> {
 		}
 	}
 
+	/**
+	 * Method used to perform a build if the {@link it.polimi.ingsw.Client.Client} has the turn.
+	 * the {@link it.polimi.ingsw.Client.Client} select where to build and sends a {@link PlayerBuildMessage}. If it's an
+	 * illegal move the {@link Player} will notify his own {@link it.polimi.ingsw.View.RemoteView} an {@link InvalidChoiceMessage}.
+	 * After a "successful" build a timer will start letting the {@link it.polimi.ingsw.Client.Client} a time window
+	 * of 5 seconds to perform an undo and return to the select phase.
+	 * @param message
+	 */
 	private void performBuild(PlayerBuildMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
@@ -223,10 +257,8 @@ public class Controller implements Observer<Message> {
 				try {
 					playerTurn.build(x, y);
 					task = new TimerTask() {
-
 						@Override
 						public void run() {
-
 							performEnd(new PlayerEndMessage(player));
 						}
 					};
@@ -247,6 +279,14 @@ public class Controller implements Observer<Message> {
 		}
 	}
 
+	/**
+	 * Method used by {@link God} Atlas to perform a build-dome if the {@link it.polimi.ingsw.Client.Client} has the turn.
+	 * the {@link it.polimi.ingsw.Client.Client} select where to build a dome and sends a {@link PlayerBuildDomeMessage}. If it's an
+	 * illegal move the {@link Player} will notify his own {@link it.polimi.ingsw.View.RemoteView} an {@link InvalidChoiceMessage}.
+	 * After a "successful" build a timer will start letting the {@link it.polimi.ingsw.Client.Client} a time window
+	 * of 5 seconds to perform an undo and return to the select phase.
+	 * @param message
+	 */
 	private void performBuildDome(PlayerBuildDomeMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
@@ -287,7 +327,12 @@ public class Controller implements Observer<Message> {
 
 	}
 
-
+	/**
+	 * Method used to pass the turn (finished each phase) if the {@link it.polimi.ingsw.Client.Client} has the turn.
+	 * the {@link it.polimi.ingsw.Client.Client} sends a {@link PlayerEndMessage}. If it's an
+	 * illegal message the {@link Player} will notify his own {@link it.polimi.ingsw.View.RemoteView} an {@link InvalidChoiceMessage}.
+	 * @param message
+	 */
 	private void performEnd(PlayerEndMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
@@ -311,6 +356,12 @@ public class Controller implements Observer<Message> {
 		}
 	}
 
+	/**
+	 * Method used to perform an Undo if the {@link it.polimi.ingsw.Client.Client} has the turn and its in the correct
+	 * phase. The {@link it.polimi.ingsw.Client.Client} sends a {@link PlayerEndMessage}. If it cannot be performed
+	 * the {@link Player} will notify his own {@link it.polimi.ingsw.View.RemoteView} an {@link InvalidChoiceMessage}.
+	 * @param message
+	 */
 	private void performUndo(PlayerUndoMessage message) {
 		Player player = message.getPlayer();
 		Turn playerTurn = player.getTurn();
@@ -333,8 +384,15 @@ public class Controller implements Observer<Message> {
 		}
 	}
 
+	/**
+	 * When the {@link it.polimi.ingsw.Client.Client} is "challenger" he has to choose each card and sends a
+	 * {@link PlayerDeckMessage} which contains each card name. If an {@link IllegalArgumentException} will be catched
+	 * the {@link Player} will notify his {@link it.polimi.ingsw.View.RemoteView} with a {@link InvalidChoiceMessage}.
+	 * The number of cards & others exceptions (not your turn or {@link SimpleGameException}) will be catched and
+	 * the {@link Player} will notify his {@link it.polimi.ingsw.View.RemoteView} with a {@link InvalidChoiceMessage}.
+	 * @param message
+	 */
 	private void performDeckBuilding(PlayerDeckMessage message) {
-		//todo: sistemare le strutture dati e metodi
 
 		Player player = message.getPlayer();
 		Set<God> sCards = message.getDeck();
@@ -373,6 +431,13 @@ public class Controller implements Observer<Message> {
 		}
 	}
 
+	/**
+	 * When a {@link it.polimi.ingsw.Client.Client} select a card sends a {@link PlayerCardChoiceMessage}. If the turn is
+	 * correct and the card is in deck list the {@link Player} will have the selected card. If exceptions
+	 * {@link NullPointerException}/{@link IllegalArgumentException} / {@link SimpleGameException} / {@link CardAlreadySetException}
+	 * the {@link Player} will notify his own {@link it.polimi.ingsw.View.RemoteView}.
+	 * @param message
+	 */
 	private void performCardChoice(PlayerCardChoiceMessage message) {
 		Player player = message.getPlayer();
 		God cardName = message.getCard();
@@ -404,6 +469,13 @@ public class Controller implements Observer<Message> {
 		}
 	}
 
+	/**
+	 * Method used to perform a Pawn positioning on the {@link Board} of the {@link Game}. The {@link PlayerPlacePawnsMessage}
+	 * contains two set of coordinates for the two {@link Worker}. The coordinates have to be correct and the {@link Player}
+	 * have to have the turn or the {@link Player} will notify his {@link it.polimi.ingsw.View.RemoteView} with a
+	 * {@link InvalidChoiceMessage}.
+	 * @param message
+	 */
 	private void performPawnPositioning(PlayerPlacePawnsMessage message) {
 		Player player = message.getPlayer();
 		int worker1X = message.getX1();
@@ -442,6 +514,11 @@ public class Controller implements Observer<Message> {
 	}
 
 
+	/**
+	 * Method used to remove a {@link Player} from the {@link Game}. The turn will be updated. If there are only one
+	 * {@link Player} remaining it will be notified with a {@link WinMessage}.
+	 * @param message
+	 */
 	private void performPlayerRemoval(PlayerRemoveMessage message) {
 		String playerName = message.getPlayer();
 		Player player = null;
@@ -477,10 +554,19 @@ public class Controller implements Observer<Message> {
 		}
 	}
 
+	/**
+	 * The {@link Game} will notify each {@link it.polimi.ingsw.View.RemoteView} with a {@link ChatUpdateMessage}.
+	 * @param message
+	 */
 	private void performChatUpdate(PlayerChatMessage message){
 		game.updateChat(message.getPlayer(),message.getMessage());
 	}
 
+	/**
+	 * The {@link it.polimi.ingsw.Server.SocketClientConnection} notifies his {@link Controller} with the {@link Message}
+	 * read on his ObjectInpuStream.
+	 * @param message
+	 */
 	@Override
 	public void update(Message message) {
 
