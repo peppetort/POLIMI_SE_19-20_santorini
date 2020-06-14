@@ -17,6 +17,9 @@ public class Player extends Observable<Message> {
     private final Worker worker1;
     private final Worker worker2;
 
+    /**
+     * Represents the set of possible actions that the player can perform at a given moment
+     */
     private final HashMap<Actions, Boolean> playerMenu = new HashMap<>();
     private Game session;
     private final Color color;

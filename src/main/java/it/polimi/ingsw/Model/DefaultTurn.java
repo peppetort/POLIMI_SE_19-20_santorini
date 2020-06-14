@@ -7,10 +7,24 @@ import it.polimi.ingsw.Observer.Observable;
 
 import java.util.HashMap;
 
+/**
+ * Represents Player's turn in case the game is without cards
+ */
 public class DefaultTurn implements Turn  {
 
+    /**
+     * Reference to the {@link Move} type object owned by the {@link Player}
+     */
     final Move moveAction;
+
+    /**
+     * Reference to the {@link Build} type object owned by the {@link Player}
+     */
     final Build buildAction;
+
+    /**
+     * Reference to the {@link Win} type object owned by the {@link Player}
+     */
     final Win winAction;
     final Board board;
     boolean running;
@@ -22,6 +36,11 @@ public class DefaultTurn implements Turn  {
     Player player;
     HashMap<Actions, Boolean> playerMenu;
 
+    /**
+     * Constructor of the class {@link DefaultTurn}
+     *
+     * @param player
+     */
     public DefaultTurn(Player player)  {
         this.player = player;
         this.running = false;
@@ -33,6 +52,12 @@ public class DefaultTurn implements Turn  {
         this.playerMenu = player.getPlayerMenu();
     }
 
+    /**
+     * Start the turn by setting the {@link Worker} you want to play with.
+     * It's the first method to be invoked to perform any other action within the turn.
+     *
+     * @param worker you want to play with
+     */
     @Override
     public void start(Worker worker) {
 
@@ -76,6 +101,18 @@ public class DefaultTurn implements Turn  {
 
     }
 
+    /**
+     * Move the chosen {@link Worker} into the specified coordinates.
+     * It calls {@link Move#move(Worker, int x, int y)} or {@link Move#moveNoGoUp(Worker, int x, int y)} using
+     * {@link DefaultTurn#moveAction}
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws CantGoUpException if you try to level up but you can't
+     * @throws InvalidMoveException if chosen coordinates are already occupied by another player
+     */
     @Override
     public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, CantGoUpException, InvalidMoveException {
         if (!running) {
@@ -115,6 +152,17 @@ public class DefaultTurn implements Turn  {
 
     }
 
+    /**
+     * Build into the specified coordinates.
+     * It calls {@link Build#build(Worker, int x, int y)} using
+     * {@link DefaultTurn#buildAction}
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws InvalidBuildException if you try to build too far from {@link Worker} position or into a box containing a DOME
+     */
     @Override
     public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         if (!running) {
@@ -136,6 +184,17 @@ public class DefaultTurn implements Turn  {
 
     }
 
+    /**
+     * Builds a dome into the specified coordinates.
+     * It calls {@link AtlasBuild#buildDome(Worker, int x, int y)} using
+     * {@link DefaultTurn#buildAction}
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws InvalidBuildException if you try to build too far from {@link Worker} position or into a box containing a DOME
+     */
     @Override
     public void buildDome(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         if (!running) {
@@ -157,11 +216,17 @@ public class DefaultTurn implements Turn  {
     }
 
 
+    /**
+     * @return true if the player won otherwise false
+     */
     @Override
     public boolean won() {
         return win;
     }
 
+    /**
+     * Ends turn
+     */
     @Override
     public void end() {
         //Controllo che tutte le azioni che dovevano essere fatte, sono state fatte
@@ -178,6 +243,10 @@ public class DefaultTurn implements Turn  {
 
     //azione che ristabilisce la condizione all'inizio del turno della board
     //inizializzazione del turno a start, il turno ricomincia
+
+    /**
+     *Restore conditions at the beginning of the turn calling {@link Board#restore()}
+     */
     public void undo() {
         board.restore();
         playerMenu.replace(Actions.DECK, false);

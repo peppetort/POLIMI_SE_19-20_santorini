@@ -4,19 +4,33 @@ import it.polimi.ingsw.Exceptions.InvalidBuildException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
+/**
+ * Represents the turn in case the
+ * {@link Player} has the card DEMETER
+ */
 public class DemeterTurn extends DefaultTurn {
 
     Integer lastX;
     Integer lastY;
     boolean oneBuild;
 
-
+    /**
+     * Constructor of the class {@link DemeterTurn}
+     *
+     * @param player
+     */
     public DemeterTurn(Player player) {
         super(player);
         lastX = null;
         lastY = null;
     }
 
+    /**
+     * Start the turn by setting the {@link Worker} you want to play with.
+     * It's the first method to be invoked to perform any other action within the turn.
+     *
+     * @param worker you want to play with
+     */
     @Override
     public void start(Worker worker) {
         super.start(worker);
@@ -25,6 +39,15 @@ public class DemeterTurn extends DefaultTurn {
         oneBuild = false;
     }
 
+    /**
+     * Build into the specified coordinates making checks for DEMETER' power
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws InvalidBuildException if you try to build too far from {@link Worker} position or into a box containing a DOME
+     */
     @Override
     public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         if (!running) {
@@ -68,6 +91,9 @@ public class DemeterTurn extends DefaultTurn {
         playerMenu.replace(Actions.END ,true);
     }
 
+    /**
+     * End making DEMETER checks in addition to the defaults one
+     */
     @Override
     public void end() {
         if (!running) {

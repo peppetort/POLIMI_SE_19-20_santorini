@@ -1,35 +1,23 @@
 package it.polimi.ingsw.CLI;
 
 
-
 import it.polimi.ingsw.Client.Box;
-
 import it.polimi.ingsw.Client.ClientBoard;
-
 import it.polimi.ingsw.Client.ClientStatus;
-
 import it.polimi.ingsw.Model.Actions;
-
 import it.polimi.ingsw.Model.Color;
-
 import it.polimi.ingsw.Model.God;
 
-
-
 import java.util.ArrayList;
-
 import java.util.HashMap;
-
 
 
 class Printer {
 
 
-
 	private ClientBoard clientBoard;
 
 	private ClientStatus clientStatus;
-
 
 
 	private final String ANSI_RESET = "\u001B[0m";
@@ -45,13 +33,11 @@ class Printer {
 	private final String widthMarker = "+";
 
 
-
 	public void setClientBoard(ClientBoard board) {
 
 		this.clientBoard = board;
 
 	}
-
 
 
 	public void setClientStatus(ClientStatus status) {
@@ -61,9 +47,7 @@ class Printer {
 	}
 
 
-
 	public void printBoard() {
-
 
 
 		String title = "BOARD";
@@ -73,17 +57,14 @@ class Printer {
 		String bodyFormat;
 
 
-
 		String lengthMarker = "-";
 
 		String widthMarker = "+";
 
 
-
 		int maxLength = 18;
 
 		Box[][] board = clientBoard.getBoard();
-
 
 
 		menuFormat = "%-";
@@ -97,15 +78,12 @@ class Printer {
 		menuFormat += "s%n";
 
 
-
 		int row = 0;
-
 
 
 		int length = 2 * maxLength + 6;
 
 
-
 		System.out.print(widthMarker + " ");
 
 		for (int i = 0; i < length; i++) {
@@ -117,13 +95,11 @@ class Printer {
 		System.out.print(" " + widthMarker);
 
 		System.out.print("\n");
-
 
 
 		System.out.printf(menuFormat, widthMarker, title, widthMarker);
 
 
-
 		System.out.print(widthMarker + " ");
 
 		for (int i = 0; i < length; i++) {
@@ -137,11 +113,7 @@ class Printer {
 		System.out.print("\n");
 
 
-
 		System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
-
-
-
 
 
 		bodyFormat = "%-" + (maxLength - 12) + "s%6s%6s%6s%6s%6s%" + (maxLength - 8) + "s";
@@ -151,11 +123,7 @@ class Printer {
 		System.out.print("\n");
 
 
-
 		System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
-
-
-
 
 
 		for (int x = 0; x < 5; x++) {
@@ -163,7 +131,6 @@ class Printer {
 			StringBuilder sRow = new StringBuilder(String.format("%-" + (maxLength - 12) + "s%s", widthMarker, row));
 
 			for (int y = 0; y < 5; y++) {
-
 
 
 				try {
@@ -211,9 +178,7 @@ class Printer {
 		}
 
 
-
 		System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
-
 
 
 		System.out.print(widthMarker + " ");
@@ -231,19 +196,15 @@ class Printer {
 		System.out.print("\n");
 
 
-
 	}
-
 
 
 	public void printTitle(String title) {
 
 
-
 		int maxLength = title.length();
 
 		int length = maxLength / 2 + maxLength / 2 + title.length() + 6;
-
 
 
 		String menuFormat = "%-";
@@ -257,7 +218,6 @@ class Printer {
 		menuFormat += "s%n";
 
 
-
 		System.out.print(widthMarker + " ");
 
 		for (int i = 0; i < length; i++) {
@@ -271,9 +231,7 @@ class Printer {
 		System.out.print("\n");
 
 
-
 		System.out.printf(menuFormat, widthMarker, title, widthMarker);
-
 
 
 		System.out.print(widthMarker + " ");
@@ -291,7 +249,6 @@ class Printer {
 		System.out.print("\n");
 
 	}
-
 
 
 	public void printAvailableSession(HashMap<String, Integer> participants, HashMap<String, Boolean> cards) {
@@ -305,9 +262,7 @@ class Printer {
 		int length;
 
 
-
 		if (participants.size() != 0) {
-
 
 
 			for (String name : participants.keySet()) {
@@ -319,15 +274,12 @@ class Printer {
 				StringBuilder cardsLabel = new StringBuilder("CARDS: ");
 
 
-
 				sessionNameLabel.append(name);
 
 				participantsLabel.append(participants.get(name));
 
 
-
 				boolean card = cards.get(name);
-
 
 
 				if (card) {
@@ -341,7 +293,6 @@ class Printer {
 				}
 
 
-
 				maxLength = sessionNameLabel.length();
 
 				if (participantsLabel.length() > maxLength) {
@@ -351,9 +302,7 @@ class Printer {
 				}
 
 
-
 				length = maxLength / 2 + maxLength / 2 + sessionNameLabel.length() + 6;
-
 
 
 				menuFormat = "%-";
@@ -367,7 +316,6 @@ class Printer {
 				menuFormat += "s%n";
 
 
-
 				System.out.print(widthMarker + " ");
 
 				for (int i = 0; i < length; i++) {
@@ -379,13 +327,11 @@ class Printer {
 				System.out.print(" " + widthMarker);
 
 				System.out.print("\n");
-
 
 
 				System.out.printf(menuFormat, widthMarker, sessionNameLabel, widthMarker);
 
 
-
 				System.out.print(widthMarker + " ");
 
 				for (int i = 0; i < length; i++) {
@@ -397,7 +343,6 @@ class Printer {
 				System.out.print(" " + widthMarker);
 
 				System.out.print("\n");
-
 
 
 				bodyFormat = "%-3s%s%" + (maxLength / 2 + maxLength / 2 + 7 + sessionNameLabel.length() - participantsLabel.length()) + "s%n";
@@ -409,7 +354,6 @@ class Printer {
 				System.out.printf(bodyFormat, widthMarker, cardsLabel, widthMarker);
 
 
-
 				System.out.print(widthMarker + " ");
 
 				for (int i = 0; i < length; i++) {
@@ -423,7 +367,6 @@ class Printer {
 				System.out.print("\n");
 
 				System.out.print("\n");
-
 
 
 			}
@@ -437,7 +380,6 @@ class Printer {
 			length = maxLength / 2 + maxLength / 2 + noSessionLabel.length() + 6;
 
 
-
 			menuFormat = "%-";
 
 			menuFormat += Integer.toString(5 + maxLength / 2);
@@ -447,7 +389,6 @@ class Printer {
 			menuFormat += Integer.toString(5 + maxLength / 2);
 
 			menuFormat += "s%n";
-
 
 
 			System.out.print(widthMarker + " ");
@@ -463,9 +404,7 @@ class Printer {
 			System.out.print("\n");
 
 
-
 			System.out.printf(menuFormat, widthMarker, noSessionLabel, widthMarker);
-
 
 
 			System.out.print(widthMarker + " ");
@@ -487,9 +426,6 @@ class Printer {
 	}
 
 
-
-
-
 	public void printAllCards() {
 
 		String title = "ALL CARDS";
@@ -499,9 +435,7 @@ class Printer {
 		String bodyFormat;
 
 
-
 		int maxLength = 8;
-
 
 
 		menuFormat = "%-";
@@ -515,9 +449,7 @@ class Printer {
 		menuFormat += "s%n";
 
 
-
 		int length = maxLength / 2 + maxLength / 2 + title.length() + 6;
-
 
 
 		System.out.print(widthMarker + " ");
@@ -531,13 +463,11 @@ class Printer {
 		System.out.print(" " + widthMarker);
 
 		System.out.print("\n");
-
 
 
 		System.out.printf(menuFormat, widthMarker, title, widthMarker);
 
 
-
 		System.out.print(widthMarker + " ");
 
 		for (int i = 0; i < length; i++) {
@@ -549,7 +479,6 @@ class Printer {
 		System.out.print(" " + widthMarker);
 
 		System.out.print("\n");
-
 
 
 		for (God g : God.values()) {
@@ -563,7 +492,6 @@ class Printer {
 		}
 
 
-
 		System.out.print(widthMarker + " ");
 
 		for (int i = 0; i < length; i++) {
@@ -579,7 +507,6 @@ class Printer {
 	}
 
 
-
 	public void printDeck() {
 
 		String title = "AVAILABLE CARDS";
@@ -589,13 +516,10 @@ class Printer {
 		String bodyFormat;
 
 
-
 		ArrayList<God> deck = clientStatus.getDeck();
 
 
-
 		int maxLength = 8;
-
 
 
 		menuFormat = "%-";
@@ -609,9 +533,7 @@ class Printer {
 		menuFormat += "s%n";
 
 
-
 		int length = maxLength / 2 + maxLength / 2 + title.length() + 6;
-
 
 
 		System.out.print(widthMarker + " ");
@@ -625,13 +547,11 @@ class Printer {
 		System.out.print(" " + widthMarker);
 
 		System.out.print("\n");
-
 
 
 		System.out.printf(menuFormat, widthMarker, title, widthMarker);
 
 
-
 		System.out.print(widthMarker + " ");
 
 		for (int i = 0; i < length; i++) {
@@ -643,7 +563,6 @@ class Printer {
 		System.out.print(" " + widthMarker);
 
 		System.out.print("\n");
-
 
 
 		for (God name : deck) {
@@ -653,7 +572,6 @@ class Printer {
 			System.out.printf(bodyFormat, widthMarker, name, widthMarker);
 
 		}
-
 
 
 		System.out.print(widthMarker + " ");
@@ -671,7 +589,6 @@ class Printer {
 	}
 
 
-
 	public void printStatus() {
 
 		String title = "STATUS";
@@ -679,7 +596,6 @@ class Printer {
 		String menuFormat;
 
 		String bodyFormat;
-
 
 
 		String username = clientStatus.getUsername();
@@ -695,13 +611,9 @@ class Printer {
 		ArrayList<String> messages = clientStatus.getMessages();
 
 
-
-
-
 		StringBuilder usernameLabel = new StringBuilder("Username: ").append(username);
 
 		StringBuilder colorLabel = new StringBuilder("Color: ").append(color);
-
 
 
 		StringBuilder cardLabel = null;
@@ -713,9 +625,7 @@ class Printer {
 		}
 
 
-
 		StringBuilder turnLabel = null;
-
 
 
 		if (turn != null) {
@@ -725,11 +635,7 @@ class Printer {
 		}
 
 
-
-
-
 		int maxLength = title.length();
-
 
 
 		if (usernameLabel.length() > maxLength) {
@@ -757,7 +663,6 @@ class Printer {
 		}
 
 
-
 		if (actions != null) {
 
 			for (Actions act : actions) {
@@ -773,7 +678,6 @@ class Printer {
 		}
 
 
-
 		menuFormat = "%-";
 
 		menuFormat += Integer.toString(5 + maxLength / 2);
@@ -785,9 +689,7 @@ class Printer {
 		menuFormat += "s%n";
 
 
-
 		int length = maxLength / 2 + maxLength / 2 + title.length() + 6;
-
 
 
 		System.out.print("\n");
@@ -803,13 +705,11 @@ class Printer {
 		System.out.print(" " + widthMarker);
 
 		System.out.print("\n");
-
 
 
 		System.out.printf(menuFormat, widthMarker, title, widthMarker);
 
 
-
 		System.out.print(widthMarker + " ");
 
 		for (int i = 0; i < length; i++) {
@@ -821,7 +721,6 @@ class Printer {
 		System.out.print(" " + widthMarker);
 
 		System.out.print("\n");
-
 
 
 		bodyFormat = "%-3s%s%" + (maxLength / 2 + maxLength / 2 + 7 + title.length() - usernameLabel.length()) + "s%n";
@@ -833,7 +732,6 @@ class Printer {
 		System.out.printf(bodyFormat, widthMarker, colorLabel, widthMarker);
 
 
-
 		if (cardLabel != null) {
 
 			bodyFormat = "%-3s%s%" + (maxLength / 2 + maxLength / 2 + 7 + title.length() - cardLabel.length()) + "s%n";
@@ -841,7 +739,6 @@ class Printer {
 			System.out.printf(bodyFormat, widthMarker, cardLabel, widthMarker);
 
 		}
-
 
 
 		if (turnLabel != null) {
@@ -855,7 +752,6 @@ class Printer {
 		System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
 
 
-
 		if (turn != null && turn.equals(username) && actions != null) {
 
 			printActions(length);
@@ -863,13 +759,11 @@ class Printer {
 		}
 
 
-
 		if (messages.size() != 0) {
 
 			printMessages(length);
 
 		}
-
 
 
 		System.out.print(widthMarker + " ");
@@ -887,15 +781,10 @@ class Printer {
 		System.out.print("\n");
 
 
-
-
-
 	}
 
 
-
 	private void printActions(int length) {
-
 
 
 		String actionsLabel = "ACTION";
@@ -905,103 +794,63 @@ class Printer {
 		ArrayList<Actions> actions = clientStatus.getActions();
 
 
-
 		int actionsLength = (length - actionsLabel.length()) / 2 - 1;
-
-
 
 		System.out.print(widthMarker + " ");
 
 		for (int i = 0; i < actionsLength; i++) {
-
 			System.out.print(lengthMarker);
-
 		}
 
 		System.out.print(" " + actionsLabel + " ");
-
 		for (int i = 0; i < actionsLength; i++) {
-
 			System.out.print(lengthMarker);
-
 		}
 
 		System.out.print(" " + widthMarker);
-
 		System.out.print("\n");
 
 
-
 		for (Actions act : actions) {
-
 			bodyFormat = "%-3s%s%" + (length + 1 - String.valueOf(act).length() - 2) + "s%n";
-
 			System.out.printf(bodyFormat, widthMarker, "> " + String.valueOf(act).toUpperCase(), widthMarker);
-
 		}
 
-
-
 		System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
-
 
 
 	}
 
 
-
 	private void printMessages(int length) {
-
 		String messagesLabel = "MESSAGES";
-
 		String bodyFormat;
-
-
 
 		ArrayList<String> messages = clientStatus.getMessages();
 
 
-
 		int messagesLength = (length - messagesLabel.length()) / 2 - 1;
 
-
-
 		System.out.print(widthMarker + " ");
-
 		for (int i = 0; i < messagesLength; i++) {
-
 			System.out.print(lengthMarker);
-
 		}
-
 		System.out.print(" " + messagesLabel + " ");
-
 		for (int i = 0; i < messagesLength; i++) {
-
 			System.out.print(lengthMarker);
-
 		}
-
 		System.out.print(" " + widthMarker);
-
 		System.out.print("\n");
 
 
-
 		for (String message : messages) {
-
 			bodyFormat = "%-3s%s%" + (length + 3 - message.length() - 2) + "s%n";
-
 			System.out.printf(bodyFormat, widthMarker, message, widthMarker);
 
 		}
-
-
-
 		System.out.printf(("%s%" + (length + 3) + "s%n"), widthMarker, widthMarker);
 
 	}
-
 
 
 }

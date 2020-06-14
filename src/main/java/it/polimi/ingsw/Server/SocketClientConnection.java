@@ -114,7 +114,11 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 					int players = ((PlayerCreateSessionMessage) inputObject).getPlayers();
 					boolean cards = ((PlayerCreateSessionMessage) inputObject).isSimple();
 
-					if (server.getAvailableSessions().get(sessionID) != null) {
+					if(sessionID.isEmpty()) {
+						send(new InvalidChoiceMessage("Session name can't be null"));
+					}else if(username.isEmpty()){
+						send(new InvalidUsernameException("Username can't be empty"));
+					}if (server.getAvailableSessions().get(sessionID) != null) {
 						send(new AlreadyExistingSessionException("A session with this name already exists"));
 					} else if (players != 2 && players != 3) {
 						send(new InvalidPlayersNumberException("It can be played in 2 or 3"));
@@ -133,7 +137,9 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 					this.username = ((PlayerSelectSession) inputObject).getUsername();
 					String sessionID = ((PlayerSelectSession) inputObject).getSessionID();
 
-						if (server.availableSessions.get(sessionID).getWaitingConnection().containsKey(username)) {
+						if(username.isEmpty()) {
+							send(new InvalidUsernameException("Username can't be null"));
+						}else if (server.availableSessions.get(sessionID).getWaitingConnection().containsKey(username)) {
 							send(new InvalidUsernameException("This username is already in use, please insert another username."));
 						} else if(!server.availableSessions.containsKey(sessionID)){
 							send(new SessionNotExistsException("No session found"));
@@ -166,6 +172,10 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 		} finally {
 			closeConnection();
 		}
+	}
+
+	private boolean isEmptyInput(String input) {
+		return input.replaceAll("\\s+", "").equals("");
 	}
 }
 

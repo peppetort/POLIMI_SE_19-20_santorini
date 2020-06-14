@@ -3,14 +3,29 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
+/**
+ * Represents the turn in case the
+ * {@link Player} has the card PROMETHEUS
+ */
 public class PrometheusTurn extends DefaultTurn {
 
     boolean startBuild;
 
+    /**
+     * Constructor of the class {@link PrometheusTurn}
+     *
+     * @param player
+     */
     public PrometheusTurn(Player player) {
         super(player);
     }
 
+    /**
+     * Start the turn by setting the {@link Worker} you want to play with.
+     * It's the first method to be invoked to perform any other action within the turn.
+     *
+     * @param worker you want to play with
+     */
     @Override
     public void start(Worker worker) {
 
@@ -59,6 +74,16 @@ public class PrometheusTurn extends DefaultTurn {
         }
     }
 
+    /**
+     * Move the chosen {@link Worker} into the specified coordinates making checks for PROMETHEUS' power
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws CantGoUpException if you try to level up but you can't
+     * @throws InvalidMoveException if chosen coordinates are already occupied by another player
+     */
     @Override
     public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, CantGoUpException, InvalidMoveException {
         if (!running) {
@@ -107,6 +132,15 @@ public class PrometheusTurn extends DefaultTurn {
         }
     }
 
+    /**
+     * Build into the specified coordinates making checks for PROMETHEUS' power
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws InvalidBuildException if you try to build too far from {@link Worker} position or into a box containing a DOME
+     */
     @Override
     public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         if (!running) {

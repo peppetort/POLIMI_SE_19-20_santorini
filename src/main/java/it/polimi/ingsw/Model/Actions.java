@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Model;
 
+/**
+ * All possible actions that a player can perform
+ */
 public enum Actions {
     DECK ("DECK"),
     CARD ("CARD"),

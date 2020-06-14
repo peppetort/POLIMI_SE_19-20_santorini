@@ -37,8 +37,8 @@ public class Session extends Observable<Message> implements Serializable {
     /**
      * Constructor which takes the settings for the {@link Game}.
      * @param creatorConnection
-     * @param p
-     * @param simple
+     * @param p number of competitors
+     * @param simple true if game is without card otherwise false
      * @param server
      * @param sessionName
      * @throws InterruptedException

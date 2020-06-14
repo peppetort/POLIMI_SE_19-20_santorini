@@ -9,13 +9,17 @@ import it.polimi.ingsw.Observer.Observable;
 import java.util.ArrayList;
 
 public class Board extends Observable<Message> {
-    //classe privata per salvare le mosse avvenute
-    private class boxChanged
+
+    /**
+     * Represents class to keep track of the changes on the board
+     */
+    private static class boxChanged
     {
         int x;
         int y;
         Worker worker;
         Block building;
+
         public boxChanged(int x,int y,Block b,Worker w)
         {
             this.building=b;
@@ -29,7 +33,10 @@ public class Board extends Observable<Message> {
      * Matrix 5 x 5 that represents the field.
      */
     private final Box[][] board = new Box[5][5];
-    //arraylist che tiene in memoria lo stato delle celle che vengono cabiate durante la mossa
+
+    /**
+     * List that contains changes that take place on the board
+     */
     private final ArrayList<boxChanged> action = new ArrayList<>();
 
     /**
@@ -54,6 +61,14 @@ public class Board extends Observable<Message> {
         return board[x][y];
     }
 
+    /**
+     *Build specified block into specified coordinates and notify massage with changes
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @param b block to build
+     * @throws ArrayIndexOutOfBoundsException if chosen coordinates go outside the board limits
+     */
     public void build(int x, int y, Block b) throws  ArrayIndexOutOfBoundsException{
         board[x][y].setBlock(b);
 
@@ -81,6 +96,18 @@ public class Board extends Observable<Message> {
         notify(message);
     }
 
+    /**
+     * Place specified workers into specified boxes.
+     * It's used at the beginning of the game.
+     *
+     * @param worker1 first {@link Worker} owned by the {@link Player}
+     * @param worker2 second {@link Worker} owned by the {@link Player}
+     * @param x1 first {@link Worker} coordinate
+     * @param y1 first {@link Worker} coordinate
+     * @param x2 second {@link Worker} coordinate
+     * @param y2 second {@link Worker} coordinate
+     * @throws IndexOutOfBoundsException if x or y is/are out of board boundaries.
+     */
     public void initializePawn(Worker worker1,Worker worker2, int x1, int y1,int x2,int y2) throws IndexOutOfBoundsException {
 
         if(x1 == x2 && y1 == y2){
@@ -103,16 +130,28 @@ public class Board extends Observable<Message> {
         notify(message2);
     }
 
+    /**
+     * Create a new {@link boxChanged} object and adds it to the list of changes.
+     *
+     * @param w {@link Worker} responsible of the change
+     * @param x changed coordinate
+     * @param y changed coordinate
+     * @param b changed {@link Block}
+     */
     public void addAction(Worker w,int x,int y,Block b) {
         action.add(0, new boxChanged(x, y, b, w));
     }
 
+    /**
+     * Clears the list of changes
+     */
     public void removeAction() {
         action.clear();
     }
 
-    //metodo che fa ritornare la board all'inizio del turno
-    //notify per aggiornare il client
+    /**
+     * Restores the board to following the list of changes until the first recorded change and notify all restored one by one.
+     */
     public void restore() {
            for (boxChanged b : action) {
                Integer workerId=null;

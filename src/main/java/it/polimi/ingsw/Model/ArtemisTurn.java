@@ -3,16 +3,31 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
+/**
+ * Represents the turn in case the
+ * {@link Player} has the card ARTEMIS
+ */
 public class ArtemisTurn extends DefaultTurn {
 
     Integer startX;
     Integer startY;
     boolean oneMove;
 
+    /**
+     * Constructor of the class {@link ArtemisTurn}
+     *
+     * @param player
+     */
     public ArtemisTurn(Player player) {
         super(player);
     }
 
+    /**
+     * Start the turn by setting the {@link Worker} you want to play with.
+     * It's the first method to be invoked to perform any other action within the turn.
+     *
+     * @param worker you want to play with
+     */
     @Override
     public void start(Worker worker) {
         super.start(worker);
@@ -21,6 +36,16 @@ public class ArtemisTurn extends DefaultTurn {
         oneMove = false;
     }
 
+    /**
+     * Move the chosen {@link Worker} into the specified coordinates making checks for ARTEMIS' power
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws CantGoUpException if you try to level up but you can't
+     * @throws InvalidMoveException if chosen coordinates are already occupied by another player
+     */
     @Override
     public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, CantGoUpException, InvalidMoveException {
         if (!running) {
@@ -87,6 +112,15 @@ public class ArtemisTurn extends DefaultTurn {
         playerMenu.replace(Actions.BUILD, true);
     }
 
+    /**
+     * Build into the specified coordinates making checks for ARTEMIS' power
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws InvalidBuildException if you try to build too far from {@link Worker} position or into a box containing a DOME
+     */
     @Override
     public void build(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidBuildException {
         canMove = false; //una volta costruito non posso più muovere
@@ -94,6 +128,9 @@ public class ArtemisTurn extends DefaultTurn {
         super.build(x, y);
     }
 
+    /**
+     * End making ARTEMIS checks in addition to the defaults one
+     */
     @Override
     public void end() {
         if (!running) {

@@ -12,7 +12,7 @@ public class DefaultWin implements Win {
     /**
      * Constructor of the class {@link DefaultWin}.
      *
-     * @param player {@link Player} that has no {@link Card}.
+     * @param player {@link Player} that has no card.
      */
     public DefaultWin(Player player) {
         this.board = player.getSession().getBoard();

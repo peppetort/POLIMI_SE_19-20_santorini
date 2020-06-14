@@ -4,13 +4,31 @@ import it.polimi.ingsw.Exceptions.InvalidMoveException;
 import it.polimi.ingsw.Exceptions.TurnNotStartedException;
 import it.polimi.ingsw.Messages.ActionsUpdateMessage;
 
+/**
+ * Represents the turn in case the
+ * {@link Player} has the card ATHENA
+ */
 public class AthenaTurn extends DefaultTurn {
 
-
+    /**
+     * Constructor of the class {@link AthenaTurn}
+     *
+     * @param player
+     */
     public AthenaTurn(Player player) {
         super(player);
     }
 
+    /**
+     * Move the chosen {@link Worker} into the specified coordinates.
+     * It set a variable into {@link Game} that controls the possibility of leveling up or not
+     *
+     * @param x coordinate for the board
+     * @param y coordinate for the board
+     * @throws IndexOutOfBoundsException if chosen coordinates go outside the board limits
+     * @throws NullPointerException if you try to move a worker that has null reference
+     * @throws InvalidMoveException if chosen coordinates are already occupied by another player
+     */
     @Override
     public void move(int x, int y) throws IndexOutOfBoundsException, NullPointerException, InvalidMoveException {
         player.getSession().updateCanGoUp(true); //di default tutti possono salire

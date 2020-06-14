@@ -88,6 +88,7 @@ public class Worker {
     /**
      *Update the last position of the {@link Worker}. This method has to be called before doing the move because
      * it takes the {@link Worker} reference from the parameter.
+     *
      * @param box last box where the {@link Worker} was.
      */
     public void updateLastBox(Box box) {
@@ -210,10 +211,24 @@ public class Worker {
         return false;
     }
 
+    /**
+     * Iterates over all {@link Box} adjacent to the worker {@link Worker#x} {@link Worker#y} and
+     * check if the {@link Worker} can make at least one move.
+     * Evaluates both Player's {@link God} and canGoUp value
+     *
+     *
+     * @return true if there is at least one possibility otherwise false
+     */
     public boolean canMove(boolean canGoUp) {
         return canMove(canGoUp, true);
     }
 
+    /**
+     * Iterates over all {@link Box} adjacent to the worker {@link Worker#x} {@link Worker#y} and
+     * verify that it can be built on at least one cell
+     *
+     * @return true if there is at least one possibility otherwise false
+     */
     public boolean canBuild() {
         Board board = player.getSession().getBoard();
         Box otherBox;

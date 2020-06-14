@@ -5,7 +5,7 @@ import it.polimi.ingsw.Exceptions.InvalidMoveException;
 
 /**
  * Represents the move if the
- * {@link Player} has no {@link Card} / has a {@link Card} that doesn't modifies the move rules.
+ * {@link Player} has no card / has a card that doesn't modifies the move rules.
  */
 
 public class DefaultMove implements Move {
@@ -13,7 +13,7 @@ public class DefaultMove implements Move {
     final Board board;
 
     /**
-     * Rappresenta constructor method.
+     * Represents constructor method.
      *
      * @param player represents the {@link Player} that will move his pawns with default rules.
      */
@@ -62,6 +62,16 @@ public class DefaultMove implements Move {
         }
     }
 
+    /**
+     * Moves the selected {@link Worker} calling {@link DefaultMove#move(Worker, int x, int y) } but checking
+     * that the chosen {@link Box} does not contain a higher level than the {@link Worker} is on
+     *
+     * @param worker {@link Worker} that you want to move
+     * @param x board coordinate
+     * @param y board coordinate
+     * @throws IndexOutOfBoundsException if chosen coordinates are already occupied by another player
+     * @throws NullPointerException if you try to move a worker that has null reference
+     */
     @Override
     public void moveNoGoUp(Worker worker, int x, int y) throws IndexOutOfBoundsException, NullPointerException{
         int wX = worker.getXPos();

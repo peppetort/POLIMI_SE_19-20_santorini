@@ -18,6 +18,9 @@ public class Game extends Observable<Message> {
     private final Board board;
     private final boolean simpleGame;
 
+    /**
+     * Indicates whether players can level up or not
+     */
     private boolean canGoUp;
 
 
@@ -56,6 +59,11 @@ public class Game extends Observable<Message> {
         players.add(new Player(player3, this, Color.GREEN));
     }
 
+    /**
+     * Create the deck by checking that it is not a game without cards
+     *
+     * @param cards list of {@link God} chosen by player
+     */
     public void addCards(ArrayList<God> cards) {
         if (simpleGame) {
             throw new SimpleGameException("Game mode: no cards!");
@@ -64,16 +72,25 @@ public class Game extends Observable<Message> {
     }
 
 
+    /**
+     * @return deck
+     */
     public ArrayList<God> getCards() {
         ArrayList<God> clonedCards = new ArrayList<>(cards.size());
         clonedCards.addAll(cards);
         return clonedCards;
     }
 
+    /**
+     * @return players list
+     */
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * @return true if the game is without card otherwise false
+     */
     public boolean isSimple() {
         return this.simpleGame;
     }
@@ -100,10 +117,19 @@ public class Game extends Observable<Message> {
         notify(new RemovedMessage(player.getColor()));
     }
 
+    /**
+     * Notify according to MVC pattern the chat message
+     *
+     * @param player that sends message
+     * @param message content
+     */
     public void updateChat(Player player,String message){
         notify(new ChatUpdateMessage(player,message));
     }
 
+    /**
+     * Update turn calling {@link Board#removeAction()}
+     */
     public void turnUpdate(){
         board.removeAction();
     }
