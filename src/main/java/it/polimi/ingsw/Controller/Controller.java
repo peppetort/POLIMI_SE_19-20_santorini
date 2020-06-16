@@ -474,7 +474,7 @@ public class Controller implements Observer<Message> {
 	 * contains two set of coordinates for the two {@link Worker}. The coordinates have to be correct and the {@link Player}
 	 * have to have the turn or the {@link Player} will notify his {@link it.polimi.ingsw.View.RemoteView} with a
 	 * {@link InvalidChoiceMessage}.
-	 * @param message
+	 * @param message {@link Message}
 	 */
 	private void performPawnPositioning(PlayerPlacePawnsMessage message) {
 		Player player = message.getPlayer();
