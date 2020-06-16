@@ -56,7 +56,7 @@ public class CLI extends Observable<Object> implements Observer {
 					if (!isEmptyInput(input)) {
 						if (input.toUpperCase().equals("HELP")) {
 							System.out.print("\n");
-							System.out.println("> DECK GOD1 GOD2 [GOD33] to choose the available cards for the players (GOD3 only if this is a 3 players match).");
+							System.out.println("> DECK GOD1 GOD2 [GOD3] to choose the available cards for the players (GOD3 only if this is a 3 players match).");
 							System.out.println("> CARD GOD to choose your card. (Choose from the available cards selected by player one).");
 							System.out.println("> PLACE x1 y1 x2 y2 to place your two pawns: pawn 1 will be placed in y number x1 and x y1 (same for the second pawn).");
 							System.out.println("> SELECT 1||2 to select the pawn that will act: you can only choose one pawn.");
@@ -328,6 +328,7 @@ public class CLI extends Observable<Object> implements Observer {
 			} else if ((Integer) message == 1) {
 				printer.printBoard();
 			} else if ((Integer) message == 2) {
+				printer.printBoard();
 				printer.printStatus();
 				if (client.getStatus().myTurn()) {
 					takeInput();
@@ -354,8 +355,10 @@ public class CLI extends Observable<Object> implements Observer {
 		} else if (message instanceof InvalidChoiceMessage) {
 			System.out.println("- " + ((InvalidChoiceMessage) message).getMessage());
 			takeInput();
-		} else {
-			System.out.println(message);
+		} else if (message instanceof SuccessfulJoin){
+			System.out.println("Session joined");
+		} else if (message instanceof SuccessfulCreate){
+			System.out.println("Session created");
 		}
 	}
 }
