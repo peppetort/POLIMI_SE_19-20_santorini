@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw.Server</OriginalElement>
+  <nodes>
+    <node x="102.12830687830686" y="196.0">it.polimi.ingsw.Server.Session</node>
+    <node x="0.0" y="566.0">it.polimi.ingsw.Server.SocketClientConnection</node>
+    <node x="50.69113756613754" y="0.0">it.polimi.ingsw.Server.ClientConnection</node>
+    <node x="90.82473544973544" y="1017.0">it.polimi.ingsw.Server.Server</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.Server.Session" target="it.polimi.ingsw.Server.Server">
+      <point x="180.8571428571429" y="155.0" />
+      <point x="493.9854497354497" y="546.0" />
+      <point x="364.5" y="546.0" />
+      <point x="364.5" y="987.0" />
+      <point x="410.51223544973544" y="987.0" />
+      <point x="149.1875" y="-101.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Server.SocketClientConnection" target="it.polimi.ingsw.Server.ClientConnection">
+      <point x="-120.37500000000003" y="-195.5" />
+      <point x="40.125" y="171.0" />
+      <point x="104.85780423280423" y="171.0" />
+      <point x="-108.33333333333331" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Server.SocketClientConnection" target="it.polimi.ingsw.Server.Server">
+      <point x="40.12499999999997" y="195.5" />
+      <point x="200.62499999999997" y="997.0" />
+      <point x="197.38723544973544" y="997.0" />
+      <point x="-63.9375" y="-101.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Server.Session" target="it.polimi.ingsw.Server.ClientConnection">
+      <point x="-105.5" y="-155.0" />
+      <point x="207.62830687830686" y="171.0" />
+      <point x="213.19113756613754" y="171.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Server.SocketClientConnection" target="it.polimi.ingsw.Server.Session">
+      <point x="40.12499999999997" y="-195.5" />
+      <point x="200.62499999999997" y="546.0" />
+      <point x="192.5568783068783" y="546.0" />
+      <point x="-120.57142857142856" y="155.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Server.Server" target="it.polimi.ingsw.Server.SocketClientConnection">
+      <point x="-149.1875" y="-101.0" />
+      <point x="112.13723544973544" y="997.0" />
+      <point x="40.125" y="997.0" />
+      <point x="-120.375" y="195.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.Server.Server" target="it.polimi.ingsw.Server.Session">
+      <point x="21.3125" y="-101.0" />
+      <point x="282.63723544973544" y="987.0" />
+      <point x="331.5" y="987.0" />
+      <point x="331.5" y="546.0" />
+      <point x="313.12830687830694" y="546.0" />
+      <point x="5.6843418860808015E-14" y="155.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="166.0436507936504" y="229.0119047619046" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.Server.Session</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw.GUI</OriginalElement>
+  <nodes>
+    <node x="444.0" y="94.5">it.polimi.ingsw.GUI.Pawn</node>
+    <node x="0.0" y="54.0">it.polimi.ingsw.GUI.GodObject</node>
+    <node x="1019.1199744699742" y="1171.5">it.polimi.ingsw.GUI.EndController</node>
+    <node x="1259.6859709734708" y="1131.0">it.polimi.ingsw.GUI.WaitController</node>
+    <node x="2255.248470973471" y="915.0">it.polimi.ingsw.GUI.JoinMenuController</node>
+    <node x="2577.1056138306135" y="27.5">it.polimi.ingsw.GUI.UsernameDialog</node>
+    <node x="1916.6859709734708" y="1172.0">it.polimi.ingsw.GUI.StartMenuController</node>
+    <node x="1385.3125" y="2119.0">it.polimi.ingsw.GUI.MainController</node>
+    <node x="2267.1056138306135" y="108.5">it.polimi.ingsw.GUI.SessionObject</node>
+    <node x="1436.76093004218" y="108.5">it.polimi.ingsw.GUI.AppMain</node>
+    <node x="600.0" y="0.0">it.polimi.ingsw.GUI.ActionsHandler</node>
+    <node x="427.8249590687094" y="483.0">it.polimi.ingsw.GUI.PlayingStageController</node>
+    <node x="255.0" y="108.0">it.polimi.ingsw.GUI.Building</node>
+    <node x="918.6041666666667" y="2509.0">it.polimi.ingsw.GUI.SelectCardMenuController</node>
+    <node x="1470.6458333333333" y="2630.5">it.polimi.ingsw.GUI.AllCardsMenuController</node>
+    <node x="1576.6859709734708" y="942.0">it.polimi.ingsw.GUI.CreateMenuController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.GUI.SelectCardMenuController" target="it.polimi.ingsw.GUI.AppMain">
+      <point x="-26.666666666666742" y="-491.5" />
+      <point x="1051.9375" y="2469.0" />
+      <point x="970.5177017427014" y="2469.0" />
+      <point x="970.5177017427014" y="443.0" />
+      <point x="1470.13593004218" y="443.0" />
+      <point x="-55.625" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.PlayingStageController" target="it.polimi.ingsw.GUI.Building">
+      <point x="-83.53846153846155" y="-748.0" />
+      <point x="525.2864975302479" y="433.0" />
+      <point x="339.5" y="433.0" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.MainController" target="it.polimi.ingsw.GUI.JoinMenuController">
+      <point x="108.72727272727275" y="-155.0" />
+      <point x="1678.0397727272727" y="2059.0" />
+      <point x="2291.8484709734707" y="2059.0" />
+      <point x="-146.4000000000001" y="316.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.JoinMenuController" target="it.polimi.ingsw.GUI.MainController">
+      <point x="73.19999999999982" y="316.0" />
+      <point x="2511.4484709734706" y="2089.0" />
+      <point x="1728.221590909091" y="2089.0" />
+      <point x="158.909090909091" y="-155.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.PlayingStageController" target="it.polimi.ingsw.GUI.ActionsHandler">
+      <point x="83.53846153846155" y="-748.0" />
+      <point x="692.363420607171" y="463.0" />
+      <point x="709.5" y="463.0" />
+      <point x="-109.5" y="181.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.PlayingStageController" target="it.polimi.ingsw.GUI.MainController">
+      <point x="144.79999999999995" y="748.0" />
+      <point x="753.6249590687094" y="2059.0" />
+      <point x="1460.5852272727273" y="2059.0" />
+      <point x="-108.72727272727275" y="-155.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.MainController" target="it.polimi.ingsw.GUI.WaitController">
+      <point x="-8.36363636363626" y="-155.0" />
+      <point x="1560.9488636363637" y="1999.0" />
+      <point x="1482.4359709734708" y="1999.0" />
+      <point x="74.25" y="100.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.AllCardsMenuController" target="it.polimi.ingsw.GUI.AppMain">
+      <point x="133.33333333333326" y="-370.0" />
+      <point x="1763.9791666666665" y="2489.0" />
+      <point x="2243.802596708847" y="2489.0" />
+      <point x="2243.802596708847" y="443.0" />
+      <point x="1581.38593004218" y="443.0" />
+      <point x="55.625" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.JoinMenuController" target="it.polimi.ingsw.GUI.AppMain">
+      <point x="-156.85714285714312" y="-316.0" />
+      <point x="2281.3913281163277" y="433.0" />
+      <point x="1603.63593004218" y="433.0" />
+      <point x="77.875" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.WaitController" target="it.polimi.ingsw.GUI.AppMain">
+      <point x="0.0" y="-100.0" />
+      <point x="1408.1859709734708" y="463.0" />
+      <point x="1514.63593004218" y="463.0" />
+      <point x="-11.125" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.EndController" target="it.polimi.ingsw.GUI.AppMain">
+      <point x="0.0" y="-59.5" />
+      <point x="1117.6199744699743" y="453.0" />
+      <point x="1492.38593004218" y="453.0" />
+      <point x="-33.375" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.MainController" target="it.polimi.ingsw.GUI.CreateMenuController">
+      <point x="8.363636363636488" y="-155.0" />
+      <point x="1577.6761363636365" y="1999.0" />
+      <point x="1616.6859709734708" y="1999.0" />
+      <point x="-120.0" y="289.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.StartMenuController" target="it.polimi.ingsw.GUI.AppMain">
+      <point x="0.0" y="-59.0" />
+      <point x="2065.185970973471" y="453.0" />
+      <point x="1559.13593004218" y="453.0" />
+      <point x="33.375" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.AllCardsMenuController" target="it.polimi.ingsw.GUI.MainController">
+      <point x="80.0" y="-370.0" />
+      <point x="1710.6458333333333" y="2489.0" />
+      <point x="1722.6458333333335" y="2489.0" />
+      <point x="153.33333333333348" y="155.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.MainController" target="it.polimi.ingsw.GUI.PlayingStageController">
+      <point x="-142.18181818181824" y="-155.0" />
+      <point x="1427.1306818181818" y="2079.0" />
+      <point x="608.8249590687094" y="2079.0" />
+      <point x="0.0" y="748.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.MainController" target="it.polimi.ingsw.GUI.EndController">
+      <point x="-41.818181818181756" y="-155.0" />
+      <point x="1527.4943181818182" y="2019.0" />
+      <point x="1166.8699744699743" y="2019.0" />
+      <point x="49.25" y="59.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.SelectCardMenuController" target="it.polimi.ingsw.GUI.GodObject">
+      <point x="-133.33333333333326" y="-491.5" />
+      <point x="945.2708333333335" y="2489.0" />
+      <point x="71.68881465756488" y="2489.0" />
+      <point x="71.68881465756488" y="463.0" />
+      <point x="19.583333333333258" y="463.0" />
+      <point x="-97.91666666666674" y="127.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.JoinMenuController" target="it.polimi.ingsw.GUI.SessionObject">
+      <point x="52.28571428571422" y="-316.0" />
+      <point x="2490.534185259185" y="463.0" />
+      <point x="2520.8556138306135" y="463.0" />
+      <point x="108.75" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.ActionsHandler" target="it.polimi.ingsw.GUI.MainController">
+      <point x="109.5" y="181.5" />
+      <point x="928.5" y="423.0" />
+      <point x="935.2517926517928" y="423.0" />
+      <point x="935.2517926517928" y="2049.0" />
+      <point x="1477.3125" y="2049.0" />
+      <point x="-92.0" y="-155.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.PlayingStageController" target="it.polimi.ingsw.GUI.AppMain">
+      <point x="167.0769230769231" y="-748.0" />
+      <point x="775.9018821456325" y="433.0" />
+      <point x="1447.88593004218" y="433.0" />
+      <point x="-77.875" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.MainController" target="it.polimi.ingsw.GUI.StartMenuController">
+      <point x="75.27272727272725" y="-155.0" />
+      <point x="1644.5852272727273" y="2039.0" />
+      <point x="1990.9359709734708" y="2039.0" />
+      <point x="-74.25" y="59.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.SelectCardMenuController" target="it.polimi.ingsw.GUI.MainController">
+      <point x="26.666666666666742" y="-491.5" />
+      <point x="1105.2708333333335" y="2469.0" />
+      <point x="1415.9791666666667" y="2469.0" />
+      <point x="-153.33333333333326" y="155.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.CreateMenuController" target="it.polimi.ingsw.GUI.AppMain">
+      <point x="0.0" y="-289.0" />
+      <point x="1736.6859709734708" y="463.0" />
+      <point x="1536.88593004218" y="463.0" />
+      <point x="11.125" y="73.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.JoinMenuController" target="it.polimi.ingsw.GUI.UsernameDialog">
+      <point x="156.85714285714266" y="-316.0" />
+      <point x="2595.1056138306135" y="463.0" />
+      <point x="2799.8556138306135" y="463.0" />
+      <point x="74.25" y="154.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.PlayingStageController" target="it.polimi.ingsw.GUI.Pawn">
+      <point x="0.0" y="-748.0" />
+      <point x="608.8249590687094" y="403.0" />
+      <point x="512.0" y="403.0" />
+      <point x="0.0" y="87.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.AllCardsMenuController" target="it.polimi.ingsw.GUI.GodObject">
+      <point x="-133.33333333333337" y="-370.0" />
+      <point x="1497.3125" y="2459.0" />
+      <point x="103.03958610833627" y="2459.0" />
+      <point x="103.03958610833627" y="463.0" />
+      <point x="97.91666666666663" y="463.0" />
+      <point x="-19.58333333333337" y="127.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.ActionsHandler" target="it.polimi.ingsw.GUI.PlayingStageController">
+      <point x="-36.5" y="181.5" />
+      <point x="782.5" y="413.0" />
+      <point x="720.2095744533248" y="413.0" />
+      <point x="111.38461538461536" y="-748.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.PlayingStageController" target="it.polimi.ingsw.GUI.GodObject">
+      <point x="-167.07692307692315" y="-748.0" />
+      <point x="441.7480359917863" y="463.0" />
+      <point x="176.25" y="463.0" />
+      <point x="58.75" y="127.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.GUI.CreateMenuController" target="it.polimi.ingsw.GUI.MainController">
+      <point x="40.0" y="289.0" />
+      <point x="1776.6859709734708" y="2019.0" />
+      <point x="1611.1306818181818" y="2019.0" />
+      <point x="41.818181818181756" y="-155.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9" x="1397.22222222222" y="362.0000000000001" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
