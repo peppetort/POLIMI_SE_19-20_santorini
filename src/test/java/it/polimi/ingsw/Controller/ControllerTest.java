@@ -22,7 +22,6 @@ public class ControllerTest {
 
         assertTrue(controller.getTurn().get(player2));
         assertFalse(controller.getTurn().get(player1));
-        //TODO: SISTEMARE
 
         message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
         controller.update(message);

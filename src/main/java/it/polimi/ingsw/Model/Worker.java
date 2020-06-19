@@ -156,7 +156,6 @@ public class Worker {
         }
     }
 
-    //TODO: rivedere (getCard() lancia simpleGameException)
     private boolean canMove(boolean canGoUp, boolean card) {
         Board board = player.getSession().getBoard();
         Box myBox = board.getBox(x, y);
