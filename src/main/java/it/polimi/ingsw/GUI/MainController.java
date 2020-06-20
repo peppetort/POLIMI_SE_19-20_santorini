@@ -14,6 +14,10 @@ import javafx.application.Platform;
 
 import java.io.IOException;
 
+/**
+ * Class used to handle each stage based on the {@link Message} received by the {@link Client}.
+ * {@link MainController} is used to observe {@link Client} and it's observed by {@link Client}.
+ */
 public class MainController extends Observable<Object> implements Observer<Object> {
 
 	StartMenuController startController;
@@ -26,6 +30,9 @@ public class MainController extends Observable<Object> implements Observer<Objec
 
 	private boolean playing;
 
+    /**
+     * Constructor.
+     */
 	public MainController() {
 		startController = new StartMenuController();
 		joinController = new JoinMenuController();
@@ -51,10 +58,15 @@ public class MainController extends Observable<Object> implements Observer<Objec
 		return playing;
 	}
 
+    /**
+     * Based on the instance of the {@link Object} msg the {@link MainController} trigger different methods from the
+     * correct javaFX controller.
+     * @param msg
+     */
     @Override
     public void update(Object msg) {
             if (msg instanceof SessionListMessage) {
-                JoinMenuController.display((SessionListMessage) msg);
+                joinController.display((SessionListMessage) msg);
             } else if (msg instanceof AlreadyExistingSessionException) {
                 createController.handleException();
             } else if (msg instanceof SuccessfulCreate) {

@@ -35,6 +35,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Controller for the JoinMenu.fxml stage. The {@link it.polimi.ingsw.Client.Client} in this stage has the chance to
+ * choose a {@link it.polimi.ingsw.Server.Session} to join.
+ */
 public class JoinMenuController implements Initializable {
 
 	private static MainController mainController;
@@ -58,6 +62,13 @@ public class JoinMenuController implements Initializable {
 		mainController = mc;
 	}
 
+	/**
+	 * {@link MainController} notifies a {@link PlayerRetrieveSessions} and an {@link java.util.concurrent.ExecutorService}
+	 * will be used to updates every seconds the {@link it.polimi.ingsw.Server.Session} list so a {@link it.polimi.ingsw.Model.Player}
+	 * cannpt join an already started {@link it.polimi.ingsw.Model.Game}.
+	 * @param url
+	 * @param resourceBundle
+	 */
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		Message msg = new PlayerRetrieveSessions();
@@ -90,6 +101,11 @@ public class JoinMenuController implements Initializable {
 		executor.scheduleAtFixedRate(() -> handleRefresh(), 0, 1, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * Method loads a different FXML resource and create a new stage that will replace the current one, the
+	 * {@link it.polimi.ingsw.Model.Player} will return to the Start Menu stage.
+	 * @throws IOException
+	 */
 	public void handleBack() throws IOException {
 		Platform.runLater(() -> {
 			try {
@@ -105,6 +121,11 @@ public class JoinMenuController implements Initializable {
 		});
 	}
 
+	/**
+	 * Method used to join a {@link it.polimi.ingsw.Server.Session}. The {@link MainController} notifies a {@link PlayerSelectSession}
+	 * {@link Message}.
+	 * @throws IOException
+	 */
 	public void handleJoin() throws IOException {
 
 		executor.shutdownNow();
@@ -143,6 +164,10 @@ public class JoinMenuController implements Initializable {
 		rt2.play();
 	}
 
+	/**
+	 * When the {@link MainController} receives a {@link it.polimi.ingsw.Messages.SuccessfulJoin} {@link Message} the
+	 * {@link it.polimi.ingsw.Model.Player} will be redirected to a {@link WaitController} stage.
+	 */
 	public void handleStart() {
 		Platform.runLater(() -> {
 			try {
@@ -163,10 +188,15 @@ public class JoinMenuController implements Initializable {
 		});
 	}
 
+	/**
+	 * If {@link MainController} receives a {@link InvalidUsernameException} this method will handle the exception asking
+	 * the {@link it.polimi.ingsw.Model.Player} to re-insert a valid username.
+	 * If {@link MainController} receives a {@link SessionNotExistsException} the stage will be reloaded via 'reload'
+	 * method. This exception can occur in case the {@link it.polimi.ingsw.Model.Player} tries to join a {@link it.polimi.ingsw.Server.Session}.
+	 * @param e
+	 */
 	public void handleException(Exception e) {
 		if (e instanceof InvalidUsernameException) {
-//            SessionObject obj;
-//            obj = sessionsTable.getSelectionModel().getSelectedItem();
 			Platform.runLater(() -> {
 				try {
 					String username = new UsernameDialog().displayError();
@@ -182,6 +212,9 @@ public class JoinMenuController implements Initializable {
 		}
 	}
 
+	/**
+	 * Reloads the stage.
+	 */
 	private void reload(){
 		Platform.runLater(() ->{
 			AnchorPane pane = null;
@@ -198,6 +231,11 @@ public class JoinMenuController implements Initializable {
 		});
 	}
 
+	/**
+	 * When {@link MainController} receives a {@link SessionListMessage} this method will parse the data and fill the
+	 * {@link it.polimi.ingsw.Server.Session} table.
+	 * @param msg
+	 */
 	public static void display(SessionListMessage msg) {
 		HashMap<String, Integer> players = msg.getParticipants();
 		HashMap<String, Boolean> cards = msg.getCards();
@@ -223,6 +261,10 @@ public class JoinMenuController implements Initializable {
 		}catch (Exception ign){}
 	}
 
+	/**
+	 * Method to retrieve {@link it.polimi.ingsw.Server.Session} names retrieved by {@link SessionListMessage}.
+	 * @return names
+	 */
 	private static ArrayList<String> getSessionNames(){
 		ArrayList<String> names = new ArrayList<>();
 		try {
@@ -233,6 +275,10 @@ public class JoinMenuController implements Initializable {
 		return names;
 	}
 
+	/**
+	 * Method used by the {@link java.util.concurrent.ExecutorService} executor. The {@link MainController} notifies
+	 * a {@link PlayerRetrieveSessions}.
+	 */
 	private void handleRefresh(){
 		Message msg = new PlayerRetrieveSessions();
 		mainController.notify(msg);

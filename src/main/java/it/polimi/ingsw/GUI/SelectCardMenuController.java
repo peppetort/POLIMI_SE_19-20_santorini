@@ -22,6 +22,10 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
+/**
+ * Controller for the SelectCard.fxml stage. The {@link it.polimi.ingsw.Client.Client} in this stage is selecting a
+ * card to use during the game.
+ */
 public class SelectCardMenuController implements Initializable {
 	public ImageView godImage;
 	public Label godName;
@@ -58,6 +62,12 @@ public class SelectCardMenuController implements Initializable {
 
 	public static void setMainController(MainController mc){mainController = mc;}
 
+	/**
+	 * Shows each card but only the available (choosen by the challenger) are clear visible. The not-available cards are
+	 * darkened.
+	 * @param url
+	 * @param resourceBundle
+	 */
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -146,6 +156,11 @@ public class SelectCardMenuController implements Initializable {
 	}
 
 
+	/**
+	 * Method triggered by a {@link java.awt.event.MouseEvent} (Mouse click) over a card. It shows a button 'add' that
+	 * let the player choose the selected {@link God}.
+	 * @param actionEvent
+	 */
 	public void handleSelect(ActionEvent actionEvent) {
 
 		selected = God.valueOf(((ToggleButton) actionEvent.getSource()).getId().toUpperCase());
@@ -183,6 +198,11 @@ public class SelectCardMenuController implements Initializable {
 
 	}
 
+	/**
+	 * When the player press the add {@link Button} it updates the selected {@link God}. The {@link PlayerCardChoiceMessage}
+	 * will be sent only after a confirm that will be possible after the add (double check).
+	 * @param actionEvent
+	 */
 	public void handleAdd(ActionEvent actionEvent) {
 		ToggleButton godButton;
 
@@ -240,6 +260,10 @@ public class SelectCardMenuController implements Initializable {
 	}
 
 
+	/**
+	 * When the confirm {@link Button} is pressed the server will be notified of a {@link PlayerCardChoiceMessage} that
+	 * report the choice of the {@link it.polimi.ingsw.Model.Player}.
+	 */
 	public void handleConfirm() {
 		mainController.notify(new PlayerCardChoiceMessage(selected));
 		mainController.setCard(selected);

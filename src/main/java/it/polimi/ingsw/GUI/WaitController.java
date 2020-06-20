@@ -16,13 +16,21 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-
+/**
+ * When a player is waiting for other players to join the session it will be placed in a waiting stage until the {@link it.polimi.ingsw.Model.Game}
+ * starts. This is the controller for the Wait.fxml.
+ */
 public class WaitController implements Initializable {
 	public ImageView bottomBoat;
 	public ImageView rightCloud;
 	public ImageView hourGlass1;
 	public ImageView hourGlass2;
 
+	/**
+	 * Loads the animations.
+	 * @param url
+	 * @param resourceBundle
+	 */
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -59,6 +67,11 @@ public class WaitController implements Initializable {
 
 	}
 
+	/**
+	 * When the {@link it.polimi.ingsw.Model.Game} starts and the {@link it.polimi.ingsw.Client.Client} receives a
+	 * {@link it.polimi.ingsw.Messages.ClientInitMessage} this method will load PlayingStage.fxml scene handled by
+	 * {@link PlayingStageController}.
+	 */
 	public void handleStart(){
 		Platform.runLater(() ->{
 			try {

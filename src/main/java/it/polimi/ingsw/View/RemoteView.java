@@ -9,9 +9,18 @@ import it.polimi.ingsw.Server.ClientConnection;
 
 import java.util.ArrayList;
 
+/**
+ * {@link RemoteView} extends the abstract class {@link View}. The {@link it.polimi.ingsw.Server.Session} instantiate
+ * a {@link RemoteView} for each {@link Player}.
+ * It observs {@link it.polimi.ingsw.Model.Game} (the model for the MVC pattern).
+ */
 public class RemoteView extends View {
 
 
+    /**
+     * Private class used to handle each {@link Message} notified by the {@link it.polimi.ingsw.Server.SocketClientConnection}.
+     * Observs the {@link it.polimi.ingsw.Server.SocketClientConnection}.
+     */
     private class MessageReceiver implements Observer<Message> {
 
         @Override
@@ -39,8 +48,6 @@ public class RemoteView extends View {
                 }else if(message instanceof PlayerChatMessage){
                     handleChat(message);
                 }
-
-
             } catch (Exception e) {
                 clientConnection.send(e.getMessage());
             }
@@ -49,6 +56,12 @@ public class RemoteView extends View {
 
     private final ClientConnection clientConnection;
 
+    /**
+     * Constructor of the class. An object {@link MessageReceiver} is used to observ a {@link it.polimi.ingsw.Server.SocketClientConnection}.
+     * While this class is an {@link Observer} of the {@link it.polimi.ingsw.Model.Game}.
+     * @param player
+     * @param c
+     */
     public RemoteView(Player player, ClientConnection c) {
         super(player);
         this.clientConnection = c;
@@ -79,6 +92,10 @@ public class RemoteView extends View {
 
     }
 
+    /**
+     * The message is sent to the {@link it.polimi.ingsw.Client.Client} via {@link it.polimi.ingsw.Server.SocketClientConnection}.
+     * @param message
+     */
     @Override
     public void update(Message message) {
         clientConnection.send(message);

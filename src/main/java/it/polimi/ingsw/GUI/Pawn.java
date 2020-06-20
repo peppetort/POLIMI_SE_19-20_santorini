@@ -6,7 +6,10 @@ import javafx.scene.image.ImageView;
 
 import java.util.Objects;
 
-
+/**
+ * Class that inherits the proprieties from {@link ImageView}. Used to represent pawns in the playing stage based on the
+ * {@link Color}.
+ */
 public class Pawn extends ImageView {
 
     Image green  = new Image(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("img/purplePawn.png")));
@@ -14,8 +17,7 @@ public class Pawn extends ImageView {
     Image blue  = new Image(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("img/bluePawn.png")));
 
     /**
-     * Creates a new view that represents an IMG element.
-     *
+     * Constructor.
      */
     public Pawn() {
         super();
@@ -27,6 +29,10 @@ public class Pawn extends ImageView {
     }
 
 
+    /**
+     * The image attribute becomes the .png that represents the pawn of the {@link Color} color.
+     * @param color
+     */
     public void setColor(Color color){
         if(color != null) {
             switch (color) {

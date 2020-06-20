@@ -10,6 +10,10 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the StartMenu.fxml stage that is the first stage loaded. There are two options: create or join a match
+ * that can be selected by pressing the choosen {@link javafx.scene.control.Button}.
+ */
 public class StartMenuController implements Initializable {
 
     @Override
@@ -17,6 +21,9 @@ public class StartMenuController implements Initializable {
 
     }
 
+    /**
+     * Loads CreateMenu.fxml in the current stage that will be handled by {@link CreateMenuController}.
+     */
     public void handleCreate() {
         try {
             AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("CreateMenu.fxml")));
@@ -31,6 +38,9 @@ public class StartMenuController implements Initializable {
         }
     }
 
+    /**
+     * Loads JoinMenu.fxml in the current stage that will be handled by {@link JoinMenuController}.
+     */
     public void handleJoin() {
         try {
             AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("JoinMenu.fxml")));

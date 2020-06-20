@@ -1,11 +1,21 @@
 package it.polimi.ingsw.GUI;
 
+/**
+ * A {@link SessionObject} is used in the {@link JoinMenuController} to represent each {@link it.polimi.ingsw.Server.Session}
+ * in the session's {@link javafx.scene.control.TableView}.
+ */
 public class SessionObject {
 
     String name;
     int players;
     boolean cards;
 
+    /**
+     * Constructor.
+     * @param name
+     * @param players
+     * @param cards
+     */
     public SessionObject(String name, int players, boolean cards) {
         this.name = name;
         this.players = players;

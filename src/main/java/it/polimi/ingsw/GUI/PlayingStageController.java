@@ -34,6 +34,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the PlayingStage.fxml stage. The {@link it.polimi.ingsw.Client.Client} in this stage is playing a
+ * {@link it.polimi.ingsw.Model.Game}.
+ */
 public class PlayingStageController implements Initializable {
 
 	public GridPane boardPane;
@@ -97,6 +101,13 @@ public class PlayingStageController implements Initializable {
 		mainController = mc;
 	}
 
+	/**
+	 * Initialize various components of the graphical interface. The board is a 5x5 {@link GridPane} which each cell
+	 * contains {@link ImageView} fro buildings or domes and pawns. Each cell has a {@link MenuButton} that is filled
+	 * with {@link MenuItem} of the possible actions for the {@link it.polimi.ingsw.Model.Player}.
+	 * @param url
+	 * @param resourceBundle
+	 */
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -443,6 +454,13 @@ public class PlayingStageController implements Initializable {
 
 	}
 
+	/**
+	 * Method that set the top Image that represents the {@link it.polimi.ingsw.Model.Player} that has the current turn.
+	 * It change the name, the color and the god image.
+	 * @param name
+	 * @param player
+	 * @param god
+	 */
 	public static void setTurnPlayer(String name, Color player, God god) {
 		if (turnName.isEmpty()) {
 			turnName.add(name);
@@ -465,7 +483,11 @@ public class PlayingStageController implements Initializable {
 		}
 	}
 
-
+	/**
+	 * The {@link ObservableList} list will be cleared and it will be filled with the possible {@link Actions} for the
+	 * {@link it.polimi.ingsw.Model.Player}.
+	 * @param act
+	 */
 	public static void setActionLabel(ArrayList<Actions> act) {
 		Platform.runLater(() -> {
 			try {
@@ -477,6 +499,11 @@ public class PlayingStageController implements Initializable {
 		});
 	}
 
+	/**
+	 * When the {@link it.polimi.ingsw.Model.Player} click over a {@link MenuButton} of the {@link GridPane} this method
+	 * will 'save' the coordinates where x is the row and y the column (according to the conventions used by {@link it.polimi.ingsw.Model.Board}).
+	 * @param e
+	 */
 	public void handleAction(javafx.scene.input.MouseEvent e) {
 
 		//NEL MODEL LA X E' LA RIGA E Y LA COLONNA
@@ -487,16 +514,27 @@ public class PlayingStageController implements Initializable {
 		e.consume();
 	}
 
-
+	/**
+	 * Increase the opacity of the {@link MenuButton} to let the player knows where is the cursor over the board pane.
+	 * @param e
+	 */
 	public void handleMouseOver(javafx.scene.input.MouseEvent e) {
 		((MenuButton) e.getSource()).setOpacity(0.4);
 	}
 
-
+	/**
+	 * Dual of the handleMouseOver method. When the cursor exit the cell the opacity will be re-setted to the default
+	 * value which is zero.
+	 * @param e
+	 */
 	public void handleMouseExit(javafx.scene.input.MouseEvent e) {
 		((MenuButton) e.getSource()).setOpacity(0);
 	}
 
+	/**
+	 * When the {@link it.polimi.ingsw.Client.ClientBoard} the {@link MainController} is notified and this method will
+	 * update the board view.
+	 */
 	public static void updateBoard() {
 		Client client = mainController.client;
 
@@ -519,21 +557,38 @@ public class PlayingStageController implements Initializable {
 
 	}
 
+	/**
+	 * Used to notify a new {@link PlayerChatMessage}. Triggered by a {@link MouseEvent} over the send message {@link Button}
+	 * near the chatText {@link TextField}.
+	 */
 	@FXML
 	private void handleSend() {
 		mainController.notify(new PlayerChatMessage(chatText.getText()));
 		chatText.setText("");
 	}
 
+	/**
+	 * Updates the chat {@link TextArea} adding a new {@link String} to the {@link ObservableList} list messages.
+ 	 * @param msg
+	 */
 	public static void handleChatUpdate(ChatUpdateMessage msg) {
 		messages.add(msg.getMessage());
 	}
 
+	/**
+	 * Updates the chat {@link TextArea} adding a new red {@link String} to the {@link ObservableList} list messages which
+	 * is the {@link InvalidChoiceMessage} message.
+	 */
 	public static void handleException(InvalidChoiceMessage message) {
 		updateBoard();
-		messages.add("Error: " + message.getMessage() + "\n");
+		messages.add("\u001B[31m"+"Error: " + message.getMessage() + "\u001B[0m"+"\n");
+		//messages.add("Error: " + message.getMessage() + "\n");
 	}
 
+	/**
+	 * Based on the player's {@link God} it handle the {@link GodObject} (bottom left).
+	 * @param selected
+	 */
 	public static void handleCardChoice(God selected) {
 
 		GodObject god = new GodObject(selected);

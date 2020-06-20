@@ -16,6 +16,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Dialog used to insert the player's username.
+ */
 public class UsernameDialog implements Initializable {
 
     static Stage dialog = new Stage();
@@ -32,6 +35,11 @@ public class UsernameDialog implements Initializable {
         promptedText.textProperty().bind(prompt);
     }
 
+    /**
+     * Display the dialog and returns the inserted value.
+     * @return
+     * @throws IOException
+     */
     public String display() throws IOException {
         AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("UsernameDialog.fxml")));
         Scene scene = new Scene(pane);
@@ -46,6 +54,11 @@ public class UsernameDialog implements Initializable {
         return text;
     }
 
+    /**
+     * Display the dialog in case of an {@link it.polimi.ingsw.Exceptions.InvalidUsernameException} and returns the inserted value.
+     * @return
+     * @throws IOException
+     */
     public String displayError() throws IOException {
         AnchorPane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("UsernameDialog.fxml")));
         Scene scene = new Scene(pane);
@@ -57,6 +70,9 @@ public class UsernameDialog implements Initializable {
         return text;
     }
 
+    /**
+     * When you press the confirm {@link Button} the dialog close itself.
+     */
     @FXML
     private void handleConfirm(){
             text = username.getText();

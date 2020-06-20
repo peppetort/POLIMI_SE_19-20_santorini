@@ -60,7 +60,11 @@ public class AllCardsMenuController implements Initializable {
 		mainController = mc;
 	}
 
-
+	/**
+	 * Method triggered by a MouseClick over a card. The "selected" attribute becomes the {@link God} value and then two
+	 * buttons (Add or Remove) will be displayed to add the card or remove from deck.
+	 * @param actionEvent
+	 */
 	public void handleSelect(ActionEvent actionEvent) {
 		selected = God.valueOf(((ToggleButton) actionEvent.getSource()).getId().toUpperCase());
 
@@ -95,6 +99,11 @@ public class AllCardsMenuController implements Initializable {
 
 	}
 
+	/**
+	 * Triggered by a MouseClick over 'Add' button. Adds the selected {@link God} to 'added' {@link ArrayList}. When
+	 * the size of such list becomes equal to the number of players the stage will show a confirm button to send the
+	 * choosen deck.
+	 */
 	public void handleAdd() {
 		ToggleButton godButton;
 
@@ -151,7 +160,9 @@ public class AllCardsMenuController implements Initializable {
 		confirmButton.setVisible(added.size() == playersNumber);
 	}
 
-
+	/**
+	 * {@link MainController} will notify a {@link PlayerDeckMessage} where the deck represents the choosen cards.
+	 */
 	public void handleConfirm() {
 		mainController.notify(new PlayerDeckMessage(added));
 		Platform.runLater(() -> {
