@@ -269,5 +269,4 @@ public class DefaultTurn implements Turn  {
         message.addAction(Actions.SELECT);
         player.getSession().notify(message);
     }
-    //TODO: gestione undo per le classi che ereditano da questa (solo alcune che non sono ancora state testate)
 }

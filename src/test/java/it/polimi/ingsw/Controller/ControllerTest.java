@@ -43,7 +43,6 @@ public class ControllerTest {
         Player player2 = game.getPlayers().get(1);
         Controller controller = new Controller(game);
         Message message;
-        //TODO: SISTEMARE
         message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
         controller.update(message);
         message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
@@ -67,8 +66,6 @@ public class ControllerTest {
         Player player2 = game.getPlayers().get(1);
         Controller controller = new Controller(game);
         Message message;
-
-        //TODO: SISTEMARE
         message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
         controller.update(message);
         message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
@@ -133,8 +130,6 @@ public class ControllerTest {
         Player player2 = game.getPlayers().get(1);
         Controller controller = new Controller(game);
         Message message;
-
-        //TODO: SISTEMARE
         message = new PlayerPlacePawnsMessage(player2, 0, 0, 3, 1);
         controller.update(message);
         message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
@@ -201,8 +196,6 @@ public class ControllerTest {
         Player player2 = game.getPlayers().get(1);
         Controller controller = new Controller(game);
 
-        //TODO: SISTEMARE
-
         Message message = new PlayerPlacePawnsMessage(player2, 0, 0, 1, 1);
         controller.update(message);
         message = new PlayerPlacePawnsMessage(player1, 3,4, 4, 4);
@@ -224,8 +217,6 @@ public class ControllerTest {
         Player player2 = game.getPlayers().get(1);
         Controller controller = new Controller(game);
         Message message;
-
-        //TODO: SISTEMARE
         message = new PlayerPlacePawnsMessage(player2, 0, 0, 0, 1);
         controller.update(message);
         message = new PlayerPlacePawnsMessage(player1, 1, 3, 4, 4);
@@ -690,7 +681,6 @@ public class ControllerTest {
         message =new PlayerChatMessage("Hello World");
         ((PlayerChatMessage)message).setPlayer(player1);
         controller.update(message);
-        //TODO: non so come verificare che sia avvenuta la notify ai client dei messaggi della chat
     }
 
 

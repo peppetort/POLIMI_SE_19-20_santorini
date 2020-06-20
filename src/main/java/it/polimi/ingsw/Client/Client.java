@@ -18,8 +18,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-//TODO: CONTROLLARE CHE VENGANO CONTROLLATE TUTTE LE TIPOLOGIE DI MESAGGIO IN ENTRATA POSSIBILI
-
 /**
  * It represents the client and takes care of receiving
  * and sending messages to the server and updating the client-side status

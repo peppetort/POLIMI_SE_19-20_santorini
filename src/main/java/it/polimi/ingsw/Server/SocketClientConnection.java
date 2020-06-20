@@ -123,7 +123,6 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 					} else if (players != 2 && players != 3) {
 						send(new InvalidPlayersNumberException("It can be played in 2 or 3"));
 					} else {
-						//TODO DISCUTERE
 						send(new SuccessfulCreate());
 						this.username = username;
 						session = new Session(this, players, cards, server, sessionID);

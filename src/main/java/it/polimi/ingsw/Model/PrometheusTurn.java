@@ -61,7 +61,6 @@ public class PrometheusTurn extends DefaultTurn {
             playerMenu.replace(Actions.MOVE, true);
             playerMenu.replace(Actions.UNDO, true);
 
-            //TODO: da verificare
 
             playerMenu.replace(Actions.BUILD, true);
 
@@ -96,7 +95,6 @@ public class PrometheusTurn extends DefaultTurn {
 
         ActionsUpdateMessage message = new ActionsUpdateMessage();
 
-        //TODO: da verificare
 
         if(startBuild){
             try {
