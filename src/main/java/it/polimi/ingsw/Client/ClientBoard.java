@@ -6,6 +6,9 @@ import it.polimi.ingsw.Observer.Observable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * It keeps the status of the client side board
+ */
 public class ClientBoard extends Observable {
 
     private final Box[][] board = new Box[5][5];
@@ -27,6 +30,11 @@ public class ClientBoard extends Observable {
         notify(1);
     }
 
+    /**
+     * Remove the pawns of the player who has lost from the board
+     *
+     * @param player color of the player who lost
+     */
     public void lose(Color player) {
         try {
             Box[] workers = playersLatestBoxes.get(player);
@@ -37,6 +45,14 @@ public class ClientBoard extends Observable {
         notify(1);
     }
 
+    /**
+     * Place the checkers on the board in the position specified with the color associated with the player
+     *
+     * @param x board position
+     * @param y board position
+     * @param player color of the player who wants to place the pawn
+     * @param worker pawn number
+     */
     public void placePlayer(int x, int y, Color player, int worker) {
         board[x][y].setPlayer(player, worker);
 
@@ -62,17 +78,16 @@ public class ClientBoard extends Observable {
         notify(1);
     }
 
+    /**
+     * Constructs the specified level in the specified position
+     *
+     * @param x board position
+     * @param y board position
+     * @param level building level
+     */
     public void setLevel(int x, int y, int level) {
         board[x][y].setLevel(level);
        notify(1);
-    }
-
-    public void restore(int x,int y,Color player, Integer worker, int level) {
-        //ristabilisce il livello della costruzione a quello dell'inizio del turno
-        board[x][y].setLevel(level);
-		if (worker != null) {
-			placePlayer(x, y, player, worker);
-		}
     }
 
     public HashMap<Color, Box[]> getPlayersLatestBox(){

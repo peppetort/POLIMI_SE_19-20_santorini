@@ -3,40 +3,15 @@
   <ID>JAVA</ID>
   <OriginalElement>it.polimi.ingsw.Client</OriginalElement>
   <nodes>
-    <node x="386.0" y="0.0">it.polimi.ingsw.Client.Box</node>
-    <node x="255.83333333333337" y="918.0">it.polimi.ingsw.Client.Client</node>
-    <node x="0.0" y="305.0">it.polimi.ingsw.Client.ClientStatus</node>
-    <node x="675.0" y="508.5">it.polimi.ingsw.Client.Status</node>
-    <node x="335.0" y="467.5">it.polimi.ingsw.Client.ClientBoard</node>
+    <node x="0.0" y="598.0">it.polimi.ingsw.Client.Box</node>
+    <node x="360.0" y="0.0">it.polimi.ingsw.Client.Client</node>
+    <node x="0.0" y="0.0">it.polimi.ingsw.Client.ClientStatus</node>
+    <node x="628.0" y="598.0">it.polimi.ingsw.Client.Status</node>
+    <node x="263.0" y="598.0">it.polimi.ingsw.Client.ClientBoard</node>
   </nodes>
   <notes />
-  <edges>
-    <edge source="it.polimi.ingsw.Client.Client" target="it.polimi.ingsw.Client.ClientStatus">
-      <point x="-37.85714285714295" y="-222.5" />
-      <point x="350.4761904761904" y="878.0" />
-      <point x="262.5" y="878.0" />
-      <point x="105.0" y="276.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Client.ClientBoard" target="it.polimi.ingsw.Client.Box">
-      <point x="-106.66666666666669" y="-114.0" />
-      <point x="388.3333333333333" y="280.0" />
-      <point x="422.3333333333333" y="280.0" />
-      <point x="-72.66666666666669" y="127.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Client.Client" target="it.polimi.ingsw.Client.Status">
-      <point x="113.5714285714285" y="-222.5" />
-      <point x="501.90476190476187" y="898.0" />
-      <point x="772.5" y="898.0" />
-      <point x="0.0" y="73.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Client.Client" target="it.polimi.ingsw.Client.ClientBoard">
-      <point x="75.71428571428561" y="-222.5" />
-      <point x="464.047619047619" y="888.0" />
-      <point x="601.6666666666667" y="888.0" />
-      <point x="106.66666666666669" y="114.0" />
-    </edge>
-  </edges>
-  <settings layout="Hierarchic Group" zoom="0.9999999999999999" x="695.0000000000001" y="403.50000000000006" />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.775994215473608" x="489.32579500343235" y="570.6146637224228" />
   <SelectedNodes />
   <Categories>
     <Category>Fields</Category>

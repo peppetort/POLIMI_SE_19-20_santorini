@@ -7,16 +7,11 @@
     <node x="0.0" y="0.0">it.polimi.ingsw.CLI.Printer</node>
   </nodes>
   <notes />
-  <edges>
-    <edge source="it.polimi.ingsw.CLI.CLI" target="it.polimi.ingsw.CLI.Printer">
-      <point x="63.75" y="-209.0" />
-      <point x="374.25" y="496.0" />
-      <point x="465.75" y="496.0" />
-      <point x="155.25" y="235.5" />
-    </edge>
-  </edges>
-  <settings layout="Hierarchic Group" zoom="0.9" x="222.66666666666674" y="516.5555555555555" />
-  <SelectedNodes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.8832116788321168" x="310.5" y="469.5" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.CLI.CLI</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
     <Category>Constructors</Category>

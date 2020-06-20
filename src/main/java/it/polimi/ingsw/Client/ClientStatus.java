@@ -7,6 +7,9 @@ import it.polimi.ingsw.Observer.Observable;
 
 import java.util.ArrayList;
 
+/**
+ * It keeps information about the turn, the color, the card and the actions
+ */
 public class ClientStatus extends Observable {
 	private final String username;
 	private String card;
@@ -85,6 +88,13 @@ public class ClientStatus extends Observable {
 		this.deck = deck;
 	}
 
+	/**
+	 * Update turn information
+	 *
+	 * @param player name of the player whose turn it is
+	 * @param color color of the player whose turn it is
+	 * @param god card of the player whose turn it is
+	 */
 	public synchronized void updateTurn(String player, Color color, God god) {
 		this.turnName = player;
 		this.turnColor = color;
@@ -101,6 +111,11 @@ public class ClientStatus extends Observable {
 		notify(2);
 	}
 
+	/**
+	 * Set the winner's name
+	 *
+	 * @param username name of the player who won
+	 */
 	public synchronized void setWinner(String username) {
 		this.turnName = null;
 		this.actions = null;
@@ -116,6 +131,11 @@ public class ClientStatus extends Observable {
 		// print();
 	}
 
+	/**
+	 * If he has lost, update the status and notify otherwise notify the player who has lost
+	 *
+	 * @param username name of the player who lost
+	 */
 	public synchronized void lose(String username) {
 		if (username.equals(this.username)) {
 			this.actions = null;
@@ -133,6 +153,11 @@ public class ClientStatus extends Observable {
 
 	}
 
+	/**
+	 * Update the actions the player can perform
+	 *
+	 * @param actions actions available to the player
+	 */
 	public synchronized void updateAction(ArrayList<Actions> actions) {
 			if(turnName.equals(username)) {
 				this.actions = actions;

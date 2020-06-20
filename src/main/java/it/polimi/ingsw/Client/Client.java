@@ -20,6 +20,10 @@ import java.util.ArrayList;
 
 //TODO: CONTROLLARE CHE VENGANO CONTROLLATE TUTTE LE TIPOLOGIE DI MESAGGIO IN ENTRATA POSSIBILI
 
+/**
+ * It represents the client and takes care of receiving
+ * and sending messages to the server and updating the client-side status
+ */
 public class Client extends Observable implements Observer<Object> {
 
 	private Socket socket;
@@ -44,6 +48,12 @@ public class Client extends Observable implements Observer<Object> {
 		this.mode = mode;
 	}
 
+	/**
+	 * Instantiates useful objects and create {@link CLI} or {@link MainController} for GUI
+	 * depending on the mode
+	 *
+	 * @throws IOException
+	 */
 	public void startClient() throws IOException {
 		Thread reader = asyncReadFromSocket();
 		socket = new Socket(ip, port);
@@ -77,6 +87,11 @@ public class Client extends Observable implements Observer<Object> {
 		}
 	}
 
+	/**
+	 * Reads messages sent via sockets and changes the status of {@link ClientStatus} and update {@link ClientBoard}
+	 *
+	 * @return the thread that takes care of reading socket objects asynchronously
+	 */
 	public Thread asyncReadFromSocket() {
 		return new Thread(() -> {
 			Object inputObject;
@@ -152,7 +167,10 @@ public class Client extends Observable implements Observer<Object> {
 						Integer worker = ((BoardUndoMessage) inputObject).getWorker();
 						int level = ((BoardUndoMessage) inputObject).getLevel();
 						// ristabilisce la visione della board all'inizio del turno
-						board.restore(x, y, player, worker, level);
+						board.setLevel(x, y, level);
+						if (worker != null) {
+							board.placePlayer(x, y, player, worker);
+						}
 					} else if (inputObject instanceof ChatUpdateMessage) {
 						notify(inputObject);
 					} else if (inputObject instanceof InvalidUsernameException || inputObject instanceof AlreadyExistingSessionException){
@@ -167,6 +185,11 @@ public class Client extends Observable implements Observer<Object> {
 		});
 	}
 
+	/**
+	 * Sends messages via sockets to the server
+	 *
+	 * @param message to send
+	 */
 	public void send(Object message) {
 		try {
 			out.reset();

@@ -11,54 +11,41 @@ import it.polimi.ingsw.Model.God;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * Represents the class that takes care of formatting the outputs
+ */
 class Printer {
 
-
 	private ClientBoard clientBoard;
-
 	private ClientStatus clientStatus;
 
-
 	private final String ANSI_RESET = "\u001B[0m";
-
 	private final String ANSI_RED = "\u001B[31m";
-
 	private final String ANSI_GREEN = "\u001B[32m";
-
 	private final String ANSI_BLUE = "\u001B[34m";
-
 	private final String lengthMarker = "-";
-
 	private final String widthMarker = "+";
 
 
 	public void setClientBoard(ClientBoard board) {
-
 		this.clientBoard = board;
-
 	}
 
 
 	public void setClientStatus(ClientStatus status) {
-
 		this.clientStatus = status;
-
 	}
 
 
+	/**
+	 * Print the game board, inserting the pawns with the respective color and levels
+	 */
 	public void printBoard() {
-
-
 		String title = "BOARD";
-
 		String menuFormat;
-
 		String bodyFormat;
 
-
 		String lengthMarker = "-";
-
 		String widthMarker = "+";
 
 
@@ -199,6 +186,11 @@ class Printer {
 	}
 
 
+	/**
+	 * Format the specified text to be a title
+	 *
+	 * @param title text to print
+	 */
 	public void printTitle(String title) {
 
 
@@ -250,7 +242,12 @@ class Printer {
 
 	}
 
-
+	/**
+	 * Print all available sessions
+	 *
+	 * @param participants number of participants per session
+	 * @param cards        cards per session
+	 */
 	public void printAvailableSession(HashMap<String, Integer> participants, HashMap<String, Boolean> cards) {
 
 		String menuFormat;
@@ -426,6 +423,9 @@ class Printer {
 	}
 
 
+	/**
+	 * Print the name of all selectable gods
+	 */
 	public void printAllCards() {
 
 		String title = "ALL CARDS";
@@ -507,6 +507,9 @@ class Printer {
 	}
 
 
+	/**
+	 * Print the name of the gods selected for the current game
+	 */
 	public void printDeck() {
 
 		String title = "AVAILABLE CARDS";
@@ -589,6 +592,10 @@ class Printer {
 	}
 
 
+	/**
+	 * Print a summary table of the player containing the name, color,
+	 * possibly the card and the name of the player whose turn it is
+	 */
 	public void printStatus() {
 
 		String title = "STATUS";
@@ -784,6 +791,12 @@ class Printer {
 	}
 
 
+	/**
+	 * It's called by {@link Printer#printStatus()}.
+	 * Print the actions that the player can take
+	 *
+	 * @param length maximum length of formatting
+	 */
 	private void printActions(int length) {
 
 
@@ -822,6 +835,12 @@ class Printer {
 	}
 
 
+	/**
+	 * It's called by {@link Printer#printStatus()}.
+	 * Print useful messages
+	 *
+	 * @param length maximum length of formatting
+	 */
 	private void printMessages(int length) {
 		String messagesLabel = "MESSAGES";
 		String bodyFormat;

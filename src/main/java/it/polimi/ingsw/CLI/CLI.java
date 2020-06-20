@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Represents the game interface via command line
+ */
 public class CLI extends Observable<Object> implements Observer {
 	private final Printer printer;
 	private final Client client;
@@ -41,6 +44,10 @@ public class CLI extends Observable<Object> implements Observer {
 		return input.replaceAll("\\s+", "").equals("");
 	}
 
+	/**
+	 * Take user input through {@link CLI#reader}, recognizes the action, its parameters and creates a new {@link Message} object
+	 * that is notified to observers
+	 */
 	private void takeInput() {
 		inputThread = new Thread(() -> {
 			boolean valid;
@@ -108,18 +115,22 @@ public class CLI extends Observable<Object> implements Observer {
 							default:
 								valid = false;
 						}
-					}else{
+					} else {
+						valid = false;
+					}
+				} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
 					valid = false;
+				} catch (IndexOutOfBoundsException ignored) {
 				}
-			} catch(ArrayIndexOutOfBoundsException | IllegalArgumentException e){
-				valid = false;
-			} catch(IndexOutOfBoundsException ignored){
-			}
-		} while (!threadStop && !valid) ;
-	});
+			} while (!threadStop && !valid);
+		});
 		inputThread.start();
-}
+	}
 
+	/**
+	 *It's the menu you get at the beginning of the game.
+	 * You can choose to create a game or join an existing one
+	 */
 	private void startMenu() {
 		try {
 			reader = new Scanner(System.in);
@@ -162,6 +173,10 @@ public class CLI extends Observable<Object> implements Observer {
 		}
 	}
 
+	/**
+	 * It's called by {@link CLI#startMenu()}.
+	 * It requires the user all the parameters to create a new game, then create a {@link PlayerCreateSessionMessage} and notify.
+	 */
 	private void create() {
 
 		String input;
@@ -244,6 +259,13 @@ public class CLI extends Observable<Object> implements Observer {
 	}
 
 
+	/**
+	 * It's called by {@link CLI#startMenu()}.
+	 * First it shows the user all available sessions then takes the necessary parameters,
+	 * creates a {@link PlayerSelectSession} and notify
+	 *
+	 * @param message list of open sessions on the server
+	 */
 	private void join(SessionListMessage message) {
 		HashMap<String, Integer> participants = message.getParticipants();
 		HashMap<String, Boolean> cards = message.getCards();
@@ -355,9 +377,9 @@ public class CLI extends Observable<Object> implements Observer {
 		} else if (message instanceof InvalidChoiceMessage) {
 			System.out.println("- " + ((InvalidChoiceMessage) message).getMessage());
 			takeInput();
-		} else if (message instanceof SuccessfulJoin){
+		} else if (message instanceof SuccessfulJoin) {
 			System.out.println("Session joined");
-		} else if (message instanceof SuccessfulCreate){
+		} else if (message instanceof SuccessfulCreate) {
 			System.out.println("Session created");
 		}
 	}
