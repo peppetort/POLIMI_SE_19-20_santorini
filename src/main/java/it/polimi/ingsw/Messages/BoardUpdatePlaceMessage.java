@@ -2,6 +2,15 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Color;
 
+
+/**
+ * message from server to client used for
+ * update the position of the worker on the
+ * client board
+ *
+ */
+
+
 public class BoardUpdatePlaceMessage implements Message{
     private final Color player;
     private final int worker;

@@ -4,6 +4,11 @@ import it.polimi.ingsw.Model.Color;
 
 import java.util.ArrayList;
 
+/**
+ * message from server to client used to
+ * initialize the game when the session is full
+ *
+ */
 public class ClientInitMessage implements Message{
 
     private final String username;

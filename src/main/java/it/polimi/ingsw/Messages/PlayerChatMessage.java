@@ -1,6 +1,12 @@
 package it.polimi.ingsw.Messages;
 
+import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Model.Player;
+
+/**
+ * message from client to server used to send a message in the chat
+ *
+ */
 
 public class PlayerChatMessage implements Message{
 

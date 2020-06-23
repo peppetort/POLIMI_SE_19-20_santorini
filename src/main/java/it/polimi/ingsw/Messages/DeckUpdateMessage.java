@@ -4,6 +4,11 @@ import it.polimi.ingsw.Model.God;
 
 import java.util.ArrayList;
 
+/**
+ * message from server to client used for
+ * update the deck of the game
+ *
+ */
 public class DeckUpdateMessage implements Message{
     ArrayList<God> deck;
 

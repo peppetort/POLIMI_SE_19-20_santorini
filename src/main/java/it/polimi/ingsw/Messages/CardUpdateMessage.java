@@ -2,6 +2,11 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.God;
 
+/**
+ * message from server to client used for
+ * update the god of the client chosen
+ *
+ */
 public class CardUpdateMessage implements Message{
     private final God card;
 

@@ -1,5 +1,11 @@
 package it.polimi.ingsw.Messages;
 
+/**
+ * message from server to client used for
+ * update the building on the client board
+ *
+ */
+
 public class BoardUpdateBuildMessage implements Message{
 
     private final int level;

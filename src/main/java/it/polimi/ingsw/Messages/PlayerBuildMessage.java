@@ -2,6 +2,12 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
 
+
+/**
+ * message from client to server used to build
+ *
+ */
+
 public class PlayerBuildMessage implements Message{
 
     private Player player;

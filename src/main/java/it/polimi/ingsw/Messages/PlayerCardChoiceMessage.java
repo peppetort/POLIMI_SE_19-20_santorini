@@ -3,6 +3,12 @@ package it.polimi.ingsw.Messages;
 import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Model.Player;
 
+
+/**
+ * message from client to server used to chose a {@link God}
+ *
+ */
+
 public class PlayerCardChoiceMessage implements Message {
 
     private God card;

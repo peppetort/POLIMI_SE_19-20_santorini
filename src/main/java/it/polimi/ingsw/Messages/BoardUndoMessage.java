@@ -2,6 +2,13 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Color;
 
+/**
+ * message from server to client used for
+ * return to the beginning of the turn
+ * cancelling the move just made
+ *
+ */
+
 public class BoardUndoMessage implements Message{
 
     private final Color player;

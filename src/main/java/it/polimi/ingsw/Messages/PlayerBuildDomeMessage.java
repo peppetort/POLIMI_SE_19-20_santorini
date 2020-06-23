@@ -2,6 +2,11 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
 
+/**
+ * message from client to server used to build a dome
+ * it's valid message if only you have the {@link it.polimi.ingsw.Model.God} equals to Atlas
+ *
+ */
 public class PlayerBuildDomeMessage implements Message{
 
     private Player player;

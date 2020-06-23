@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * message from client to server used to chose the {@link God}
+ * that will be used in the game
+ *
+ */
 public class PlayerDeckMessage implements Message{
 
     private Player player;

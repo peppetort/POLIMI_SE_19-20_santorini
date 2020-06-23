@@ -1,6 +1,14 @@
 package it.polimi.ingsw.Messages;
 
+import it.polimi.ingsw.Model.God;
 import it.polimi.ingsw.Model.Player;
+
+
+/**
+ * message from client to server used to place its own {@link it.polimi.ingsw.Model.Worker}
+ * on the board at the beginning of the game
+ *
+ */
 
 public class PlayerPlacePawnsMessage implements Message {
     private int x1, y1;

@@ -1,5 +1,13 @@
 package it.polimi.ingsw.Messages;
 
+
+import it.polimi.ingsw.Model.God;
+
+/**
+ * message from client to server used to create a new session
+ *
+ */
+
 public class PlayerCreateSessionMessage implements Message{
     private int players;
     private boolean simple;

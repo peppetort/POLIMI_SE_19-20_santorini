@@ -4,6 +4,13 @@ import it.polimi.ingsw.Model.Actions;
 
 import java.util.ArrayList;
 
+/**
+ * message sent from server to client to
+ * tell the client which actions in-game
+ * are allowed
+ *
+ */
+
 public class ActionsUpdateMessage implements Message{
 
     ArrayList<Actions> actions = new ArrayList<>();

@@ -2,6 +2,11 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Model.Player;
 
+/**
+ * message from server to client used for
+ * update the chat
+ *
+ */
 public class ChatUpdateMessage implements Message{
 
 

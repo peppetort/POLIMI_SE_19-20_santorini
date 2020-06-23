@@ -3,6 +3,11 @@ package it.polimi.ingsw.Messages;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.Worker;
 
+/**
+ * message from client to server used to select the {@link Worker}
+ *
+ */
+
 public class PlayerSelectMessage implements Message {
     private Player player;
     private Worker worker;
