@@ -1,0 +1,11 @@
+it.polimi.ingsw
+it.polimi.ingsw.CLI
+it.polimi.ingsw.Client
+it.polimi.ingsw.Controller
+it.polimi.ingsw.Exceptions
+it.polimi.ingsw.GUI
+it.polimi.ingsw.Messages
+it.polimi.ingsw.Model
+it.polimi.ingsw.Observer
+it.polimi.ingsw.Server
+it.polimi.ingsw.View
