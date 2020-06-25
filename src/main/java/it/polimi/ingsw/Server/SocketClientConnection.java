@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 
 /**
@@ -165,7 +166,7 @@ public class SocketClientConnection extends Observable<Message> implements Clien
 				}
 
 			}
-		}catch (InterruptedException | SocketException |ClassNotFoundException e) {
+		}catch (InterruptedException | SocketException | SocketTimeoutException |ClassNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException ignored){
 
