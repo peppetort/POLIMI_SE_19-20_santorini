@@ -53,11 +53,11 @@ If all the mandatory moves have taken place, you have 5 seconds to apply the UND
 
 The requirements to run the program are:
 
-- Java JDK 14 
+- Java JRE 8 
 
-(you can download the right version for your OS at this URL: https://www.oracle.com/java/technologies/javase/jdk14-archive-downloads.html)
+(you can download the right version for your OS at this URL: https://www.oracle.com/java/technologies/javase-jre8-downloads.html)
 
-If your OS is Window, once downloaded java 14, remember to set the global java path
+If your OS is Window, once downloaded java, remember to set the global java path
 
 ### CLI
 
