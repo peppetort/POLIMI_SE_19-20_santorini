@@ -138,3 +138,8 @@ Observer | 100% | 37%
 Server | 0% | 0%
 View | 0% | 0%
 
+## Documentation
+
+To open the JavaDoc webpage open the following link: https://github.com/peppetort/ing-sw-2020-Tome-Tortorelli-Verze/blob/master/deliverables/JavaDoc/index.html.
+The folder used to contains the generated javadoc in the master repo is ./deliverables/JavaDoc.
+
