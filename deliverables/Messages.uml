@@ -7,8 +7,8 @@
     <node x="2008.0" y="306.0">it.polimi.ingsw.Messages.PlayerEndMessage</node>
     <node x="7838.0" y="319.5">it.polimi.ingsw.Messages.PlayerRemoveMessage</node>
     <node x="7209.0" y="292.5">it.polimi.ingsw.Messages.BoardUpdateBuildMessage</node>
-    <node x="316.0" y="279.0">it.polimi.ingsw.Messages.PlayerSelectMessage</node>
     <node x="2263.0" y="306.0">it.polimi.ingsw.Messages.SessionListMessage</node>
+    <node x="316.0" y="279.0">it.polimi.ingsw.Messages.PlayerSelectMessage</node>
     <node x="2584.0" y="319.5">it.polimi.ingsw.Messages.DeckUpdateMessage</node>
     <node x="3334.0" y="333.5">it.polimi.ingsw.Messages.PlayerRetrieveSessions</node>
     <node x="3644.0" y="306.0">it.polimi.ingsw.Messages.PlayerChatMessage</node>
@@ -16,17 +16,17 @@
     <node x="4522.5" y="0.0">it.polimi.ingsw.Messages.Message</node>
     <node x="951.0" y="319.5">it.polimi.ingsw.Messages.ActionsUpdateMessage</node>
     <node x="5527.0" y="279.0">it.polimi.ingsw.Messages.PlayerBuildMessage</node>
-    <node x="8469.0" y="279.0">it.polimi.ingsw.Messages.PlayerMoveMessage</node>
     <node x="5305.0" y="333.5">it.polimi.ingsw.Messages.SuccessfulJoin</node>
+    <node x="8469.0" y="279.0">it.polimi.ingsw.Messages.PlayerMoveMessage</node>
     <node x="644.0" y="306.0">it.polimi.ingsw.Messages.PlayerSelectSession</node>
     <node x="8789.0" y="319.5">it.polimi.ingsw.Messages.RemovedMessage</node>
     <node x="6865.0" y="292.5">it.polimi.ingsw.Messages.PlayerCardChoiceMessage</node>
     <node x="4843.0" y="279.0">it.polimi.ingsw.Messages.PlayerCreateSessionMessage</node>
-    <node x="7550.0" y="319.5">it.polimi.ingsw.Messages.InvalidChoiceMessage</node>
     <node x="4632.0" y="319.5">it.polimi.ingsw.Messages.WinMessage</node>
+    <node x="7550.0" y="319.5">it.polimi.ingsw.Messages.InvalidChoiceMessage</node>
     <node x="9034.0" y="265.5">it.polimi.ingsw.Messages.BoardUndoMessage</node>
-    <node x="1497.0" y="333.5">it.polimi.ingsw.Messages.SuccessfulCreate</node>
     <node x="6230.0" y="292.5">it.polimi.ingsw.Messages.PlayerDeckMessage</node>
+    <node x="1497.0" y="333.5">it.polimi.ingsw.Messages.SuccessfulCreate</node>
     <node x="5844.0" y="279.0">it.polimi.ingsw.Messages.BoardUpdatePlaceMessage</node>
     <node x="1239.0" y="306.0">it.polimi.ingsw.Messages.LostMessage</node>
     <node x="1741.0" y="306.0">it.polimi.ingsw.Messages.PlayerUndoMessage</node>
@@ -37,17 +37,17 @@
   </nodes>
   <notes />
   <edges>
-    <edge source="it.polimi.ingsw.Messages.PlayerMoveMessage" target="it.polimi.ingsw.Messages.Message">
-      <point x="0.0" y="-86.5" />
-      <point x="8619.0" y="102.0" />
-      <point x="4637.083333333333" y="102.0" />
-      <point x="52.08333333333303" y="31.0" />
-    </edge>
     <edge source="it.polimi.ingsw.Messages.PlayerChatMessage" target="it.polimi.ingsw.Messages.Message">
       <point x="0.0" y="-59.5" />
       <point x="3763.0" y="212.0" />
       <point x="4574.583333333333" y="212.0" />
       <point x="-10.41666666666697" y="31.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Messages.PlayerMoveMessage" target="it.polimi.ingsw.Messages.Message">
+      <point x="0.0" y="-86.5" />
+      <point x="8619.0" y="102.0" />
+      <point x="4637.083333333333" y="102.0" />
+      <point x="52.08333333333303" y="31.0" />
     </edge>
     <edge source="it.polimi.ingsw.Messages.WinMessage" target="it.polimi.ingsw.Messages.Message">
       <point x="0.0" y="-46.0" />
@@ -115,17 +115,17 @@
       <point x="4549.583333333333" y="152.0" />
       <point x="-35.41666666666697" y="31.0" />
     </edge>
-    <edge source="it.polimi.ingsw.Messages.PlayerBuildDomeMessage" target="it.polimi.ingsw.Messages.Message">
-      <point x="0.0" y="-86.5" />
-      <point x="4442.5" y="232.0" />
-      <point x="4582.916666666667" y="232.0" />
-      <point x="-2.08333333333303" y="31.0" />
-    </edge>
     <edge source="it.polimi.ingsw.Messages.PlayerDeckMessage" target="it.polimi.ingsw.Messages.Message">
       <point x="0.0" y="-73.0" />
       <point x="6410.0" y="172.0" />
       <point x="4607.916666666667" y="172.0" />
       <point x="22.91666666666697" y="31.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Messages.PlayerBuildDomeMessage" target="it.polimi.ingsw.Messages.Message">
+      <point x="0.0" y="-86.5" />
+      <point x="4442.5" y="232.0" />
+      <point x="4582.916666666667" y="232.0" />
+      <point x="-2.08333333333303" y="31.0" />
     </edge>
     <edge source="it.polimi.ingsw.Messages.PlayerCreateSessionMessage" target="it.polimi.ingsw.Messages.Message">
       <point x="0.0" y="-86.5" />
@@ -175,12 +175,6 @@
       <point x="4570.416666666667" y="202.0" />
       <point x="-14.58333333333303" y="31.0" />
     </edge>
-    <edge source="it.polimi.ingsw.Messages.InvalidChoiceMessage" target="it.polimi.ingsw.Messages.Message">
-      <point x="0.0" y="-46.0" />
-      <point x="7684.0" y="132.0" />
-      <point x="4624.583333333333" y="132.0" />
-      <point x="39.58333333333303" y="31.0" />
-    </edge>
     <edge source="it.polimi.ingsw.Messages.ChatUpdateMessage" target="it.polimi.ingsw.Messages.Message">
       <point x="0.0" y="-46.0" />
       <point x="148.0" y="92.0" />
@@ -198,6 +192,12 @@
       <point x="9222.0" y="82.0" />
       <point x="4645.416666666667" y="82.0" />
       <point x="60.41666666666697" y="31.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Messages.InvalidChoiceMessage" target="it.polimi.ingsw.Messages.Message">
+      <point x="0.0" y="-46.0" />
+      <point x="7684.0" y="132.0" />
+      <point x="4624.583333333333" y="132.0" />
+      <point x="39.58333333333303" y="31.0" />
     </edge>
     <edge source="it.polimi.ingsw.Messages.ClientInitMessage" target="it.polimi.ingsw.Messages.Message">
       <point x="0.0" y="-59.5" />
@@ -218,8 +218,10 @@
       <point x="31.25" y="31.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6" x="4866.452075702083" y="206.43481518481542" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="0.1424294268605646" x="4666.0" y="228.5" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.Messages.ChatUpdateMessage</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
     <Category>Constructors</Category>

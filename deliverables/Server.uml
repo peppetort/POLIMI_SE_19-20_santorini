@@ -10,54 +10,14 @@
   </nodes>
   <notes />
   <edges>
-    <edge source="it.polimi.ingsw.Server.Session" target="it.polimi.ingsw.Server.Server">
-      <point x="180.8571428571429" y="155.0" />
-      <point x="493.9854497354497" y="546.0" />
-      <point x="364.5" y="546.0" />
-      <point x="364.5" y="987.0" />
-      <point x="410.51223544973544" y="987.0" />
-      <point x="149.1875" y="-101.0" />
-    </edge>
     <edge source="it.polimi.ingsw.Server.SocketClientConnection" target="it.polimi.ingsw.Server.ClientConnection">
       <point x="-120.37500000000003" y="-195.5" />
       <point x="40.125" y="171.0" />
       <point x="104.85780423280423" y="171.0" />
       <point x="-108.33333333333331" y="73.0" />
     </edge>
-    <edge source="it.polimi.ingsw.Server.SocketClientConnection" target="it.polimi.ingsw.Server.Server">
-      <point x="40.12499999999997" y="195.5" />
-      <point x="200.62499999999997" y="997.0" />
-      <point x="197.38723544973544" y="997.0" />
-      <point x="-63.9375" y="-101.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Server.Session" target="it.polimi.ingsw.Server.ClientConnection">
-      <point x="-105.5" y="-155.0" />
-      <point x="207.62830687830686" y="171.0" />
-      <point x="213.19113756613754" y="171.0" />
-      <point x="0.0" y="73.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Server.SocketClientConnection" target="it.polimi.ingsw.Server.Session">
-      <point x="40.12499999999997" y="-195.5" />
-      <point x="200.62499999999997" y="546.0" />
-      <point x="192.5568783068783" y="546.0" />
-      <point x="-120.57142857142856" y="155.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Server.Server" target="it.polimi.ingsw.Server.SocketClientConnection">
-      <point x="-149.1875" y="-101.0" />
-      <point x="112.13723544973544" y="997.0" />
-      <point x="40.125" y="997.0" />
-      <point x="-120.375" y="195.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Server.Server" target="it.polimi.ingsw.Server.Session">
-      <point x="21.3125" y="-101.0" />
-      <point x="282.63723544973544" y="987.0" />
-      <point x="331.5" y="987.0" />
-      <point x="331.5" y="546.0" />
-      <point x="313.12830687830694" y="546.0" />
-      <point x="5.6843418860808015E-14" y="155.0" />
-    </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="166.0436507936504" y="229.0119047619046" />
+  <settings layout="Hierarchic Group" zoom="0.6515873015873015" x="219.5" y="620.0000000000001" />
   <SelectedNodes>
     <node>it.polimi.ingsw.Server.Session</node>
   </SelectedNodes>

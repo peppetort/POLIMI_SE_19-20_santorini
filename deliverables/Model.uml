@@ -4,23 +4,23 @@
   <OriginalElement>it.polimi.ingsw.Model</OriginalElement>
   <nodes>
     <node x="2219.0650882827476" y="2434.0">it.polimi.ingsw.Model.DefaultTurn</node>
+    <node x="1333.5" y="2043.5">it.polimi.ingsw.Model.Move</node>
     <node x="2319.602347325953" y="1107.0">it.polimi.ingsw.Model.Worker</node>
     <node x="3319.8729964460126" y="2043.0">it.polimi.ingsw.Model.AtlasBuild</node>
-    <node x="1333.5" y="2043.5">it.polimi.ingsw.Model.Move</node>
     <node x="911.7500000000001" y="3180.5">it.polimi.ingsw.Model.MinotaurMove</node>
     <node x="211.0" y="705.0">it.polimi.ingsw.Model.Board</node>
     <node x="2659.26279236438" y="3126.5">it.polimi.ingsw.Model.HephaestusTurn</node>
     <node x="2079.5204081632655" y="3126.5">it.polimi.ingsw.Model.DemeterTurn</node>
     <node x="3072.7983152290813" y="1610.0">it.polimi.ingsw.Model.Build</node>
-    <node x="0.0" y="353.0">it.polimi.ingsw.Model.Color</node>
     <node x="1165.75" y="3180.5">it.polimi.ingsw.Model.ApolloMove</node>
+    <node x="0.0" y="353.0">it.polimi.ingsw.Model.Color</node>
     <node x="2418.26279236438" y="3153.5">it.polimi.ingsw.Model.PrometheusTurn</node>
     <node x="1661.5204081632655" y="3194.5">it.polimi.ingsw.Model.AthenaTurn</node>
     <node x="1973.6633647377755" y="0.0">it.polimi.ingsw.Model.Block</node>
     <node x="1868.5204081632655" y="3113.0">it.polimi.ingsw.Model.ArtemisTurn</node>
     <node x="3544.47518597738" y="692.0">it.polimi.ingsw.Model.God</node>
-    <node x="1587.6841980711088" y="353.5">it.polimi.ingsw.Model.Box</node>
     <node x="2832.2881111474485" y="1976.0">it.polimi.ingsw.Model.Turn</node>
+    <node x="1587.6841980711088" y="353.5">it.polimi.ingsw.Model.Box</node>
     <node x="773.8335417267901" y="2650.0">it.polimi.ingsw.Model.DefaultMove</node>
     <node x="3219.2479964460126" y="1724.0">it.polimi.ingsw.Model.DefaultBuild</node>
     <node x="1929.5414498900554" y="1894.0">it.polimi.ingsw.Model.Actions</node>
@@ -32,137 +32,11 @@
   </nodes>
   <notes />
   <edges>
-    <edge source="it.polimi.ingsw.Model.DefaultBuild" target="it.polimi.ingsw.Model.Box">
-      <point x="46.0" y="-60.0" />
-      <point x="3380.2479964460126" y="1704.0" />
-      <point x="3354.612343014129" y="1704.0" />
-      <point x="3354.612343014129" y="612.0" />
-      <point x="1773.0841980711089" y="612.0" />
-      <point x="82.39999999999995" y="114.0" />
-    </edge>
     <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.Turn">
       <point x="121.81818181818176" y="-289.5" />
       <point x="2508.383270100929" y="2404.0" />
       <point x="2867.7881111474485" y="2404.0" />
       <point x="-71.0" y="113.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.AtlasBuild" target="it.polimi.ingsw.Model.Worker">
-      <point x="0.0" y="-46.0" />
-      <point x="3455.8729964460126" y="1874.0" />
-      <point x="3467.2983152290813" y="1874.0" />
-      <point x="3467.2983152290813" y="1520.0" />
-      <point x="2599.102347325953" y="1520.0" />
-      <point x="129.0" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.AthenaTurn">
-      <point x="-13.020408163265074" y="-209.0" />
-      <point x="1865.3335417267901" y="3408.0" />
-      <point x="1708.0204081632655" y="3408.0" />
-      <point x="-46.5" y="46.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.HephaestusTurn" target="it.polimi.ingsw.Model.Block">
-      <point x="87.20000000000005" y="-114.0" />
-      <point x="2855.46279236438" y="3093.0" />
-      <point x="2821.7881111474485" y="3093.0" />
-      <point x="2821.7881111474485" y="323.0" />
-      <point x="2104.9758647377757" y="323.0" />
-      <point x="35.8125" y="141.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.ApolloMove" target="it.polimi.ingsw.Model.Player">
-      <point x="78.0" y="60.0" />
-      <point x="1360.75" y="3468.0" />
-      <point x="1826.2723172369942" y="3468.0" />
-      <point x="-52.08163265306098" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.Board">
-      <point x="-30.454545454545496" y="-289.5" />
-      <point x="2356.1105428282017" y="2334.0" />
-      <point x="2272.083116556722" y="2334.0" />
-      <point x="2272.083116556722" y="1077.0" />
-      <point x="456.05555555555566" y="1077.0" />
-      <point x="44.55555555555566" y="154.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultMove" target="it.polimi.ingsw.Model.Player">
-      <point x="-122.5" y="73.5" />
-      <point x="798.3335417267901" y="3093.0" />
-      <point x="804.8235912354844" y="3093.0" />
-      <point x="804.8235912354844" y="3538.0" />
-      <point x="1780.7008886655658" y="3538.0" />
-      <point x="-97.65306122448942" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.Worker">
-      <point x="0.0" y="-289.5" />
-      <point x="2386.5650882827476" y="2324.0" />
-      <point x="2361.083116556722" y="2324.0" />
-      <point x="2361.083116556722" y="1590.0" />
-      <point x="2470.102347325953" y="1590.0" />
-      <point x="0.0" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.Win">
-      <point x="-152.27272727272725" y="-289.5" />
-      <point x="2234.29236101002" y="2374.0" />
-      <point x="806.25" y="2374.0" />
-      <point x="74.25" y="32.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.Game">
-      <point x="63.799999999999955" y="209.0" />
-      <point x="1942.1539498900552" y="4096.0" />
-      <point x="1879.2812226173278" y="4096.0" />
-      <point x="64.72727272727252" y="-195.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultBuild" target="it.polimi.ingsw.Model.Board">
-      <point x="0.0" y="-60.0" />
-      <point x="3334.2479964460126" y="1704.0" />
-      <point x="3324.2983152290813" y="1704.0" />
-      <point x="3324.2983152290813" y="1047.0" />
-      <point x="589.7222222222222" y="1047.0" />
-      <point x="178.22222222222217" y="154.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.Move">
-      <point x="-45.571428571428214" y="-209.0" />
-      <point x="1832.782521318627" y="3458.0" />
-      <point x="1481.6985912354844" y="3458.0" />
-      <point x="1481.6985912354844" y="2414.0" />
-      <point x="1443.75" y="2414.0" />
-      <point x="-36.75" y="45.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Build" target="it.polimi.ingsw.Model.Worker">
-      <point x="0.0" y="-32.0" />
-      <point x="3187.7983152290813" y="1540.0" />
-      <point x="2570.4356806592864" y="1540.0" />
-      <point x="100.33333333333348" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.DemeterTurn">
-      <point x="19.530612244898293" y="-209.0" />
-      <point x="1897.8845621349535" y="3418.0" />
-      <point x="2128.7704081632655" y="3418.0" />
-      <point x="-49.25" y="114.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.HephaestusTurn">
-      <point x="65.10204081632673" y="-209.0" />
-      <point x="1943.455990706382" y="3488.0" />
-      <point x="2713.76279236438" y="3488.0" />
-      <point x="-54.5" y="114.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.PrometheusTurn">
-      <point x="52.08163265306143" y="-209.0" />
-      <point x="1930.4355825431167" y="3468.0" />
-      <point x="2473.51279236438" y="3468.0" />
-      <point x="-55.25" y="87.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Board" target="it.polimi.ingsw.Model.Color">
-      <point x="-160.4000000000001" y="-154.5" />
-      <point x="251.0999999999999" y="672.0" />
-      <point x="166.25" y="672.0" />
-      <point x="71.25" y="114.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.DefaultBuild">
-      <point x="123.69387755102048" y="-209.0" />
-      <point x="2002.0478274410757" y="3578.0" />
-      <point x="3280.003098486829" y="3578.0" />
-      <point x="3280.003098486829" y="1874.0" />
-      <point x="3305.4979964460126" y="1874.0" />
-      <point x="-28.75" y="60.0" />
     </edge>
     <edge source="it.polimi.ingsw.Model.DefaultMove" target="it.polimi.ingsw.Model.Move">
       <point x="110.25" y="-73.5" />
@@ -182,171 +56,11 @@
       <point x="2257.7189344365934" y="3053.0" />
       <point x="-128.8461538461538" y="289.5" />
     </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.God">
-      <point x="156.24489795918385" y="-209.0" />
-      <point x="2034.598847849239" y="3628.0" />
-      <point x="3626.8187233923463" y="3628.0" />
-      <point x="3626.8187233923463" y="1067.0" />
-      <point x="3650.6418526440466" y="1067.0" />
-      <point x="15.166666666666515" y="167.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Worker" target="it.polimi.ingsw.Model.Board">
-      <point x="-133.77777777777783" y="-181.5" />
-      <point x="2336.324569548175" y="1067.0" />
-      <point x="500.6111111111113" y="1067.0" />
-      <point x="89.11111111111131" y="154.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.HephaestusTurn" target="it.polimi.ingsw.Model.Player">
-      <point x="54.5" y="114.0" />
-      <point x="2822.76279236438" y="3498.0" />
-      <point x="1949.9661947880147" y="3498.0" />
-      <point x="71.6122448979595" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.PrometheusTurn" target="it.polimi.ingsw.Model.Player">
-      <point x="55.25" y="87.0" />
-      <point x="2584.01279236438" y="3478.0" />
-      <point x="1936.9457866247494" y="3478.0" />
-      <point x="58.5918367346942" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.ArtemisTurn">
-      <point x="6.510204081632992" y="-209.0" />
-      <point x="1884.8641539716882" y="3398.0" />
-      <point x="1916.2704081632655" y="3398.0" />
-      <point x="-47.75" y="127.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Game" target="it.polimi.ingsw.Model.Color">
-      <point x="-161.81818181818198" y="-195.5" />
-      <point x="1652.7357680718733" y="4126.0" />
-      <point x="46.36734693877543" y="4126.0" />
-      <point x="46.36734693877543" y="672.0" />
-      <point x="23.75" y="672.0" />
-      <point x="-71.25" y="114.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Board" target="it.polimi.ingsw.Model.Player">
-      <point x="-89.11111111111131" y="154.5" />
-      <point x="322.3888888888887" y="1087.0" />
-      <point x="142.38253571626615" y="1087.0" />
-      <point x="142.38253571626615" y="3608.0" />
-      <point x="1735.1294600941371" y="3608.0" />
-      <point x="-143.2244897959181" y="-209.0" />
-    </edge>
     <edge source="it.polimi.ingsw.Model.ApolloMove" target="it.polimi.ingsw.Model.DefaultMove">
       <point x="-87.75" y="-60.0" />
       <point x="1195.0" y="3073.0" />
       <point x="994.3335417267901" y="3073.0" />
       <point x="73.5" y="73.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Board" target="it.polimi.ingsw.Model.Worker">
-      <point x="133.66666666666652" y="154.5" />
-      <point x="545.1666666666665" y="1057.0" />
-      <point x="2369.7690139926194" y="1057.0" />
-      <point x="-100.33333333333337" y="-181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.ArtemisTurn" target="it.polimi.ingsw.Model.Worker">
-      <point x="-71.625" y="-127.5" />
-      <point x="1892.3954081632655" y="3033.0" />
-      <point x="1910.3954081632655" y="3033.0" />
-      <point x="1910.3954081632655" y="1570.0" />
-      <point x="2441.4356806592864" y="1570.0" />
-      <point x="-28.666666666666515" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.PanWin" target="it.polimi.ingsw.Model.Box">
-      <point x="66.0" y="-46.0" />
-      <point x="595.4358659898287" y="3093.0" />
-      <point x="622.5" y="3093.0" />
-      <point x="622.5" y="642.0" />
-      <point x="1635.7508647377756" y="642.0" />
-      <point x="-54.93333333333334" y="114.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.DefaultMove">
-      <point x="-91.14285714285688" y="-209.0" />
-      <point x="1787.2110927471983" y="3528.0" />
-      <point x="811.3337953171172" y="3528.0" />
-      <point x="811.3337953171172" y="3093.0" />
-      <point x="847.3335417267901" y="3093.0" />
-      <point x="-73.5" y="73.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.ApolloMove">
-      <point x="-65.10204081632628" y="-209.0" />
-      <point x="1813.251909073729" y="3488.0" />
-      <point x="1204.75" y="3488.0" />
-      <point x="-78.0" y="60.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.AtlasBuild" target="it.polimi.ingsw.Model.Box">
-      <point x="54.40000000000009" y="-46.0" />
-      <point x="3510.272996446013" y="1874.0" />
-      <point x="3478.2983152290813" y="1874.0" />
-      <point x="3478.2983152290813" y="602.0" />
-      <point x="1786.8175314044422" y="602.0" />
-      <point x="96.13333333333327" y="114.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.Actions">
-      <point x="-91.36363636363626" y="-289.5" />
-      <point x="2295.201451919111" y="2354.0" />
-      <point x="2054.2081165567224" y="2354.0" />
-      <point x="22.666666666666742" y="195.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Worker" target="it.polimi.ingsw.Model.Box">
-      <point x="0.0" y="-181.5" />
-      <point x="2470.102347325953" y="1087.0" />
-      <point x="2452.741393975731" y="1087.0" />
-      <point x="2452.741393975731" y="642.0" />
-      <point x="1731.8841980711088" y="642.0" />
-      <point x="41.19999999999999" y="114.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.AtlasBuild">
-      <point x="152.27272727272725" y="-289.5" />
-      <point x="2538.8378155554747" y="2414.0" />
-      <point x="3365.2063297793466" y="2414.0" />
-      <point x="-90.66666666666652" y="46.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.ArtemisTurn" target="it.polimi.ingsw.Model.Actions">
-      <point x="-23.875" y="-127.5" />
-      <point x="1940.1454081632655" y="3033.0" />
-      <point x="1921.7704081632655" y="3033.0" />
-      <point x="1921.7704081632655" y="2414.0" />
-      <point x="2008.8747832233887" y="2414.0" />
-      <point x="-22.666666666666742" y="195.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.AtlasBuild" target="it.polimi.ingsw.Model.Block">
-      <point x="108.80000000000018" y="-46.0" />
-      <point x="3564.672996446013" y="1864.0" />
-      <point x="3489.2983152290813" y="1864.0" />
-      <point x="3489.2983152290813" y="303.0" />
-      <point x="2152.7258647377757" y="303.0" />
-      <point x="83.5625" y="141.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultWin" target="it.polimi.ingsw.Model.Worker">
-      <point x="24.75" y="-87.0" />
-      <point x="463.7195538568558" y="2414.0" />
-      <point x="444.4695538568558" y="2414.0" />
-      <point x="444.4695538568558" y="1500.0" />
-      <point x="2341.102347325953" y="1500.0" />
-      <point x="-129.0" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Worker" target="it.polimi.ingsw.Model.Block">
-      <point x="100.33333333333326" y="-181.5" />
-      <point x="2570.435680659286" y="1057.0" />
-      <point x="2485.741393975731" y="1057.0" />
-      <point x="2485.741393975731" y="333.0" />
-      <point x="2081.1008647377757" y="333.0" />
-      <point x="11.9375" y="141.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultWin" target="it.polimi.ingsw.Model.Player">
-      <point x="-24.75" y="87.0" />
-      <point x="414.2195538568558" y="3093.0" />
-      <point x="392.72465589767216" y="3093.0" />
-      <point x="392.72465589767216" y="3588.0" />
-      <point x="1748.1498682574024" y="3588.0" />
-      <point x="-130.2040816326528" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.AthenaTurn" target="it.polimi.ingsw.Model.Box">
-      <point x="-69.75" y="-46.0" />
-      <point x="1684.7704081632655" y="3093.0" />
-      <point x="1702.5204081632655" y="3093.0" />
-      <point x="1702.5204081632655" y="672.0" />
-      <point x="1690.6841980711088" y="672.0" />
-      <point x="0.0" y="114.0" />
     </edge>
     <edge source="it.polimi.ingsw.Model.DefaultWin" target="it.polimi.ingsw.Model.Win">
       <point x="74.25" y="-87.0" />
@@ -354,215 +68,11 @@
       <point x="657.75" y="2414.0" />
       <point x="-74.25" y="32.0" />
     </edge>
-    <edge source="it.polimi.ingsw.Model.MinotaurMove" target="it.polimi.ingsw.Model.Player">
-      <point x="78.0" y="60.0" />
-      <point x="1106.75" y="3498.0" />
-      <point x="1806.7417049920964" y="3498.0" />
-      <point x="-71.61224489795882" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.Move">
-      <point x="-121.81818181818176" y="-289.5" />
-      <point x="2264.7469064645657" y="2364.0" />
-      <point x="1590.75" y="2364.0" />
-      <point x="110.25" y="45.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Board" target="it.polimi.ingsw.Model.Box">
-      <point x="160.4000000000001" y="-154.5" />
-      <point x="571.9000000000001" y="632.0" />
-      <point x="1622.0175314044423" y="632.0" />
-      <point x="-68.66666666666666" y="114.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.MinotaurMove">
-      <point x="-84.63265306122412" y="-209.0" />
-      <point x="1793.721296828831" y="3518.0" />
-      <point x="950.7500000000001" y="3518.0" />
-      <point x="-78.0" y="60.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.AthenaTurn" target="it.polimi.ingsw.Model.Actions">
-      <point x="-23.25" y="-46.0" />
-      <point x="1731.2704081632655" y="3093.0" />
-      <point x="1713.5204081632655" y="3093.0" />
-      <point x="1713.5204081632655" y="2394.0" />
-      <point x="1963.5414498900554" y="2394.0" />
-      <point x="-68.0" y="195.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Turn" target="it.polimi.ingsw.Model.Worker">
-      <point x="0.0" y="-113.0" />
-      <point x="2938.7881111474485" y="1570.0" />
-      <point x="2527.4356806592864" y="1570.0" />
-      <point x="57.333333333333485" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.AthenaTurn" target="it.polimi.ingsw.Model.Player">
-      <point x="46.5" y="46.0" />
-      <point x="1801.0204081632655" y="3398.0" />
-      <point x="1871.843745808423" y="3398.0" />
-      <point x="-6.51020408163231" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.Turn">
-      <point x="84.6326530612248" y="-209.0" />
-      <point x="1962.98660295128" y="3518.0" />
-      <point x="2945.2983152290813" y="3518.0" />
-      <point x="2945.2983152290813" y="2404.0" />
-      <point x="3009.7881111474485" y="2404.0" />
-      <point x="71.0" y="113.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Game" target="it.polimi.ingsw.Model.God">
-      <point x="161.81818181818198" y="-195.5" />
-      <point x="1976.3721317082372" y="4126.0" />
-      <point x="3648.8187233923463" y="4126.0" />
-      <point x="3648.8187233923463" y="1087.0" />
-      <point x="3711.3085193107136" y="1087.0" />
-      <point x="75.83333333333348" y="167.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.AtlasBuild" target="it.polimi.ingsw.Model.Player">
-      <point x="0.0" y="46.0" />
-      <point x="3455.8729964460126" y="2414.0" />
-      <point x="3471.0152555235773" y="2414.0" />
-      <point x="3471.0152555235773" y="3588.0" />
-      <point x="2008.5580315227085" y="3588.0" />
-      <point x="130.20408163265324" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultMove" target="it.polimi.ingsw.Model.Board">
-      <point x="-110.25" y="-73.5" />
-      <point x="810.5835417267901" y="2404.0" />
-      <point x="886.208795317117" y="2404.0" />
-      <point x="886.208795317117" y="1087.0" />
-      <point x="411.5" y="1087.0" />
-      <point x="0.0" y="154.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Box" target="it.polimi.ingsw.Model.Block">
-      <point x="51.5" y="-114.0" />
-      <point x="1742.1841980711088" y="333.0" />
-      <point x="2057.2258647377757" y="333.0" />
-      <point x="-11.9375" y="141.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.DefaultWin">
-      <point x="-136.71428571428555" y="-209.0" />
-      <point x="1741.6396641757697" y="3598.0" />
-      <point x="386.2144518160394" y="3598.0" />
-      <point x="386.2144518160394" y="3093.0" />
-      <point x="364.7195538568558" y="3093.0" />
-      <point x="-74.25" y="87.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.Win">
-      <point x="-104.16326530612218" y="-209.0" />
-      <point x="1774.190684583933" y="3548.0" />
-      <point x="735.2551020408164" y="3548.0" />
-      <point x="735.2551020408164" y="2414.0" />
-      <point x="756.75" y="2414.0" />
-      <point x="24.75" y="32.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Board" target="it.polimi.ingsw.Model.Block">
-      <point x="-80.19999999999982" y="-154.5" />
-      <point x="331.3000000000002" y="672.0" />
-      <point x="321.43853631751654" y="672.0" />
-      <point x="321.43853631751654" y="313.0" />
-      <point x="2009.4758647377755" y="313.0" />
-      <point x="-59.6875" y="141.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultMove" target="it.polimi.ingsw.Model.Worker">
-      <point x="36.75" y="-73.5" />
-      <point x="957.5835417267901" y="2414.0" />
-      <point x="908.208795317117" y="2414.0" />
-      <point x="908.208795317117" y="1510.0" />
-      <point x="2355.4356806592864" y="1510.0" />
-      <point x="-114.66666666666663" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.Player">
-      <point x="0.0" y="289.5" />
-      <point x="2386.5650882827476" y="3438.0" />
-      <point x="1910.9049702982188" y="3438.0" />
-      <point x="32.551020408163595" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.PanWin">
-      <point x="-123.69387755102002" y="-209.0" />
-      <point x="1754.6600723390352" y="3578.0" />
-      <point x="479.9358659898287" y="3578.0" />
-      <point x="-49.5" y="46.0" />
-    </edge>
     <edge source="it.polimi.ingsw.Model.DefaultBuild" target="it.polimi.ingsw.Model.Build">
       <point x="-92.0" y="-60.0" />
       <point x="3242.2479964460126" y="1704.0" />
       <point x="3274.0483152290813" y="1704.0" />
       <point x="86.25" y="32.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DemeterTurn" target="it.polimi.ingsw.Model.Worker">
-      <point x="-24.625" y="-114.0" />
-      <point x="2153.3954081632655" y="3033.0" />
-      <point x="2183.083116556722" y="3033.0" />
-      <point x="2183.083116556722" y="1580.0" />
-      <point x="2455.76901399262" y="1580.0" />
-      <point x="-14.333333333333258" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.DefaultTurn">
-      <point x="39.06122448979613" y="-209.0" />
-      <point x="1917.4151743798514" y="3448.0" />
-      <point x="2393.07529236438" y="3448.0" />
-      <point x="2393.07529236438" y="3083.0" />
-      <point x="2412.334319051978" y="3083.0" />
-      <point x="25.769230769230717" y="289.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultBuild" target="it.polimi.ingsw.Model.Player">
-      <point x="-86.25" y="60.0" />
-      <point x="3247.9979964460126" y="1874.0" />
-      <point x="3234.6699493667693" y="1874.0" />
-      <point x="3234.6699493667693" y="3568.0" />
-      <point x="1995.5376233594432" y="3568.0" />
-      <point x="117.18367346938794" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Worker" target="it.polimi.ingsw.Model.Player">
-      <point x="-57.33333333333326" y="181.5" />
-      <point x="2412.76901399262" y="1550.0" />
-      <point x="1638.0" y="1550.0" />
-      <point x="1638.0" y="3438.0" />
-      <point x="1845.8029294818923" y="3438.0" />
-      <point x="-32.55102040816291" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.MinotaurMove" target="it.polimi.ingsw.Model.Worker">
-      <point x="87.75" y="-60.0" />
-      <point x="1116.5" y="3093.0" />
-      <point x="1139.0385363175164" y="3093.0" />
-      <point x="1139.0385363175164" y="1520.0" />
-      <point x="2369.7690139926194" y="1520.0" />
-      <point x="-100.33333333333337" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultWin" target="it.polimi.ingsw.Model.Board">
-      <point x="-24.75" y="-87.0" />
-      <point x="414.2195538568558" y="2414.0" />
-      <point x="383.43101753933934" y="2414.0" />
-      <point x="383.43101753933934" y="1087.0" />
-      <point x="366.94444444444434" y="1087.0" />
-      <point x="-44.55555555555566" y="154.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultWin" target="it.polimi.ingsw.Model.Block">
-      <point x="-74.25" y="-87.0" />
-      <point x="364.7195538568558" y="2414.0" />
-      <point x="200.5" y="2414.0" />
-      <point x="200.5" y="303.0" />
-      <point x="1985.6008647377755" y="303.0" />
-      <point x="-83.5625" y="141.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.Build">
-      <point x="91.36363636363626" y="-289.5" />
-      <point x="2477.9287246463837" y="2394.0" />
-      <point x="2642.102347325953" y="2394.0" />
-      <point x="2642.102347325953" y="1704.0" />
-      <point x="3101.5483152290813" y="1704.0" />
-      <point x="-86.25" y="32.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Game" target="it.polimi.ingsw.Model.Board">
-      <point x="-97.09090909090901" y="-195.5" />
-      <point x="1717.4630407991463" y="4106.0" />
-      <point x="68.36734693877543" y="4106.0" />
-      <point x="68.36734693877543" y="1077.0" />
-      <point x="277.8333333333335" y="1077.0" />
-      <point x="-133.66666666666652" y="154.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Move" target="it.polimi.ingsw.Model.Worker">
-      <point x="0.0" y="-45.5" />
-      <point x="1480.5" y="1540.0" />
-      <point x="2398.4356806592864" y="1540.0" />
-      <point x="-71.66666666666663" y="181.5" />
     </edge>
     <edge source="it.polimi.ingsw.Model.HephaestusTurn" target="it.polimi.ingsw.Model.DefaultTurn">
       <point x="-43.59999999999991" y="-114.0" />
@@ -576,33 +86,11 @@
       <point x="2463.87278059044" y="3093.0" />
       <point x="77.30769230769238" y="289.5" />
     </edge>
-    <edge source="it.polimi.ingsw.Model.MinotaurMove" target="it.polimi.ingsw.Model.Box">
-      <point x="29.25" y="-60.0" />
-      <point x="1058.0" y="3093.0" />
-      <point x="1078.3335417267901" y="3093.0" />
-      <point x="1078.3335417267901" y="662.0" />
-      <point x="1663.2175314044423" y="662.0" />
-      <point x="-27.46666666666664" y="114.0" />
-    </edge>
     <edge source="it.polimi.ingsw.Model.ArtemisTurn" target="it.polimi.ingsw.Model.DefaultTurn">
       <point x="23.875" y="-127.5" />
       <point x="1987.8954081632655" y="3063.0" />
       <point x="2283.4881652058243" y="3063.0" />
       <point x="-103.0769230769231" y="289.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.ArtemisTurn" target="it.polimi.ingsw.Model.Player">
-      <point x="47.75" y="127.5" />
-      <point x="2011.7704081632655" y="3408.0" />
-      <point x="1891.3743580533207" y="3408.0" />
-      <point x="13.020408163265529" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.HephaestusTurn" target="it.polimi.ingsw.Model.Actions">
-      <point x="0.0" y="-114.0" />
-      <point x="2768.26279236438" y="3093.0" />
-      <point x="2799.7881111474485" y="3093.0" />
-      <point x="2799.7881111474485" y="2304.0" />
-      <point x="2122.2081165567224" y="2304.0" />
-      <point x="90.66666666666674" y="195.0" />
     </edge>
     <edge source="it.polimi.ingsw.Model.PanWin" target="it.polimi.ingsw.Model.DefaultWin">
       <point x="0.0" y="-46.0" />
@@ -610,79 +98,11 @@
       <point x="513.2195538568558" y="3093.0" />
       <point x="74.25" y="87.0" />
     </edge>
-    <edge source="it.polimi.ingsw.Model.Game" target="it.polimi.ingsw.Model.Worker">
-      <point x="-64.72727272727298" y="-195.5" />
-      <point x="1749.8266771627823" y="4096.0" />
-      <point x="79.36734693877543" y="4096.0" />
-      <point x="79.36734693877543" y="1490.0" />
-      <point x="2326.7690139926194" y="1490.0" />
-      <point x="-143.33333333333337" y="181.5" />
-    </edge>
     <edge source="it.polimi.ingsw.Model.AtlasBuild" target="it.polimi.ingsw.Model.DefaultBuild">
       <point x="-54.40000000000009" y="-46.0" />
       <point x="3401.472996446013" y="1874.0" />
       <point x="3420.4979964460126" y="1874.0" />
       <point x="86.25" y="60.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.Actions">
-      <point x="2.2737367544323206E-13" y="-209.0" />
-      <point x="1878.3539498900554" y="3388.0" />
-      <point x="1858.0204081632655" y="3388.0" />
-      <point x="1858.0204081632655" y="2404.0" />
-      <point x="1986.2081165567222" y="2404.0" />
-      <point x="-45.33333333333326" y="195.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Game" target="it.polimi.ingsw.Model.Player">
-      <point x="-32.36363636363649" y="-195.5" />
-      <point x="1782.1903135264188" y="4086.0" />
-      <point x="1750.7539498900553" y="4086.0" />
-      <point x="-127.59999999999991" y="209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Box" target="it.polimi.ingsw.Model.Worker">
-      <point x="27.46666666666667" y="114.0" />
-      <point x="1718.1508647377755" y="652.0" />
-      <point x="2413.6791475660584" y="652.0" />
-      <point x="2413.6791475660584" y="1087.0" />
-      <point x="2436.6579028815086" y="1087.0" />
-      <point x="-33.44444444444434" y="-181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.PanWin" target="it.polimi.ingsw.Model.Player">
-      <point x="49.5" y="46.0" />
-      <point x="578.9358659898287" y="3568.0" />
-      <point x="1761.1702764206677" y="3568.0" />
-      <point x="-117.18367346938749" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.AtlasBuild">
-      <point x="136.714285714286" y="-209.0" />
-      <point x="2015.0682356043412" y="3598.0" />
-      <point x="3488.9507783882786" y="3598.0" />
-      <point x="3488.9507783882786" y="2414.0" />
-      <point x="3546.5396631126796" y="2414.0" />
-      <point x="90.66666666666652" y="46.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DemeterTurn" target="it.polimi.ingsw.Model.Actions">
-      <point x="-73.875" y="-114.0" />
-      <point x="2104.1454081632655" y="3033.0" />
-      <point x="2025.708116556722" y="3033.0" />
-      <point x="2025.708116556722" y="2414.0" />
-      <point x="2031.5414498900554" y="2414.0" />
-      <point x="0.0" y="195.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.Worker">
-      <point x="97.6530612244901" y="-209.0" />
-      <point x="1976.0070111145453" y="3538.0" />
-      <point x="3062.2983152290813" y="3538.0" />
-      <point x="3062.2983152290813" y="1550.0" />
-      <point x="2556.102347325953" y="1550.0" />
-      <point x="86.0" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.PrometheusTurn" target="it.polimi.ingsw.Model.Actions">
-      <point x="27.625" y="-87.0" />
-      <point x="2556.38779236438" y="3093.0" />
-      <point x="2578.51279236438" y="3093.0" />
-      <point x="2578.51279236438" y="2314.0" />
-      <point x="2099.5414498900554" y="2314.0" />
-      <point x="68.0" y="195.0" />
     </edge>
     <edge source="it.polimi.ingsw.Model.DemeterTurn" target="it.polimi.ingsw.Model.DefaultTurn">
       <point x="24.625" y="-114.0" />
@@ -690,99 +110,11 @@
       <point x="2335.0266267442857" y="3083.0" />
       <point x="-51.53846153846143" y="289.5" />
     </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultMove" target="it.polimi.ingsw.Model.Box">
-      <point x="-36.75" y="-73.5" />
-      <point x="884.0835417267901" y="2414.0" />
-      <point x="897.208795317117" y="2414.0" />
-      <point x="897.208795317117" y="652.0" />
-      <point x="1649.484198071109" y="652.0" />
-      <point x="-41.19999999999999" y="114.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultBuild" target="it.polimi.ingsw.Model.Worker">
-      <point x="-46.0" y="-60.0" />
-      <point x="3288.2479964460126" y="1704.0" />
-      <point x="3313.2983152290813" y="1704.0" />
-      <point x="3313.2983152290813" y="1530.0" />
-      <point x="2584.76901399262" y="1530.0" />
-      <point x="114.66666666666674" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.ApolloMove" target="it.polimi.ingsw.Model.Worker">
-      <point x="87.75" y="-60.0" />
-      <point x="1370.5" y="3093.0" />
-      <point x="1323.0" y="3093.0" />
-      <point x="1323.0" y="1530.0" />
-      <point x="2384.102347325953" y="1530.0" />
-      <point x="-86.0" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DemeterTurn" target="it.polimi.ingsw.Model.Player">
-      <point x="49.25" y="114.0" />
-      <point x="2227.2704081632655" y="3428.0" />
-      <point x="1904.394766216586" y="3428.0" />
-      <point x="26.04081632653083" y="-209.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Worker" target="it.polimi.ingsw.Model.God">
-      <point x="133.77777777777783" y="-181.5" />
-      <point x="2603.8801251037307" y="1077.0" />
-      <point x="3559.6418526440466" y="1077.0" />
-      <point x="-75.83333333333348" y="167.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.Build">
-      <point x="110.6734693877554" y="-209.0" />
-      <point x="1989.0274192778106" y="3558.0" />
-      <point x="3165.558519310714" y="3558.0" />
-      <point x="3165.558519310714" y="1704.0" />
-      <point x="3216.5483152290813" y="1704.0" />
-      <point x="28.75" y="32.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.Player" target="it.polimi.ingsw.Model.Color">
-      <point x="-149.73469387755063" y="-209.0" />
-      <point x="1728.6192560125046" y="3618.0" />
-      <point x="98.25510204081638" y="3618.0" />
-      <point x="98.25510204081638" y="672.0" />
-      <point x="118.75" y="672.0" />
-      <point x="23.75" y="114.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.PrometheusTurn" target="it.polimi.ingsw.Model.Worker">
-      <point x="82.875" y="-87.0" />
-      <point x="2611.63779236438" y="3093.0" />
-      <point x="2656.102347325953" y="3093.0" />
-      <point x="2656.102347325953" y="1590.0" />
-      <point x="2498.76901399262" y="1590.0" />
-      <point x="28.666666666666742" y="181.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.ApolloMove" target="it.polimi.ingsw.Model.Box">
-      <point x="29.25" y="-60.0" />
-      <point x="1312.0" y="672.0" />
-      <point x="1676.9508647377756" y="672.0" />
-      <point x="-13.73333333333332" y="114.0" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultBuild" target="it.polimi.ingsw.Model.Block">
-      <point x="92.0" y="-60.0" />
-      <point x="3426.2479964460126" y="1694.0" />
-      <point x="3365.612343014129" y="1694.0" />
-      <point x="3365.612343014129" y="313.0" />
-      <point x="2128.8508647377757" y="313.0" />
-      <point x="59.6875" y="141.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.DefaultTurn" target="it.polimi.ingsw.Model.God">
-      <point x="60.90909090909099" y="-289.5" />
-      <point x="2447.4741791918386" y="2384.0" />
-      <point x="2631.102347325953" y="2384.0" />
-      <point x="2631.102347325953" y="1087.0" />
-      <point x="3589.97518597738" y="1087.0" />
-      <point x="-45.5" y="167.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.Model.HephaestusTurn" target="it.polimi.ingsw.Model.Worker">
-      <point x="43.59999999999991" y="-114.0" />
-      <point x="2811.86279236438" y="3093.0" />
-      <point x="2810.7881111474485" y="3093.0" />
-      <point x="2810.7881111474485" y="1580.0" />
-      <point x="2513.102347325953" y="1580.0" />
-      <point x="43.0" y="181.5" />
-    </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6" x="2118.3777780297946" y="1835.0" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="0.18071758749724853" x="1819.0" y="2261.4999999999995" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.Model.DefaultTurn</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
     <Category>Constructors</Category>
